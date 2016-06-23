@@ -1,0 +1,85 @@
+// main: http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ten00108.tsv.gz
+
+interface DataCalc {
+    Stream read()
+}
+
+interface Stream {
+    Stream transform(Function transformation)
+    DataStream split(Function splitter)
+}
+
+interface DataStream {
+    DataStream filter(Function filter)
+    DataStream map(Function mapper)
+    DataStream reduce(Function reducer)
+}
+
+/// --------- Live Mailing Clicks for Admins ----------
+
+dc.init()
+
+    .read(
+        dc.http.get("")
+    )
+
+        .transform(
+            dc.pack.gunzip()
+        )
+
+        .split(
+            dc.text.lines({"eol": /\r?\n/})
+        )
+
+        .map(
+            dc.text.tsv({columns: ["ts", "click_id", "response_time"]})
+        )
+
+        .map(
+            (item) => {
+                let click_id = item.click_id.split(":");
+                return {
+                    ts: +(new Date(item.ts)),
+                    customer_id: click_id[0],
+                    mailing_id: click_id[1],
+                    link_id: click_id[2],
+                    latency: +item.response_time
+                };
+            }
+        )
+
+        .filter(
+            (item) => !isNaN(+item.time)
+        )
+
+        .reduce(
+            (acc, item) => {
+
+                const tid = Math.floor(item.ts % 5000);
+                if (acc.ctime !== tid) {
+                    if (acc.items)
+                        this.emit(acc.items);
+                    acc.items = [];
+                    acc.ctime = tid;
+                }
+
+                acc.items.push(items);
+
+            }, {}
+        )
+
+        .reduce(
+            (items) => {
+                const data = items.reduce((acc, item) => {
+                    (acc[item.mailing_id] = acc[item.mailing_id] || {
+                        customer_id: item.customer_id,
+                    }).latency.push(item.latency);
+                }, {});
+
+                Object.keys(data).map(
+                    // here's some code to count avg, std-dev, sums etc.
+                );
+            }
+        )
+
+        .expose("ws:", "/click_latency");

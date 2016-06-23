@@ -1,0 +1,14 @@
+{
+  "name": "Scramjet",
+  "version": "0.9.0",
+  "description": "Simple yet powerful live data computation framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": {
+      "type": "GPL-3.0",
+      "url": "https://www.gnu.org/licenses/gpl-3.0.md"
+  }
+}
