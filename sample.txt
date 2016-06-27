@@ -1,14 +1,5 @@
 // main: http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ten00108.tsv.gz
 
-interface DataCalc {
-    Stream read()
-}
-
-interface Stream {
-    Stream transform(Function transformation)
-    DataStream split(Function splitter)
-}
-
 interface DataStream {
     DataStream filter(Function filter)
     DataStream map(Function mapper)
@@ -20,7 +11,7 @@ interface DataStream {
 dc.init()
 
     .read(
-        dc.http.get("")
+        dc.http.get("https://some-server.org/some-url")
     )
 
         .transform(
