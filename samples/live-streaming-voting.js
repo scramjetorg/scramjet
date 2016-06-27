@@ -50,57 +50,60 @@ class Vote {
 }
 Vote.invalid = new Vote();
 
-const hash = new ConsistentHash(cfg.number.servers, cfg.number.duplicates);
-const hash2 = new ConsistentHash(cfg.contestant.servers, cfg.contestant.duplicates);
-
 dc.init()
     .read(dc.http.readPostData(handler, "/api/vote"))
         .map(
             (data) => new Vote(data)
-        )
-        .filter(
+        ).filter(
             (vote) => vote !== Vote.invalid
-        )
-        .nagle()
-        .group(
-            (vote) => hash.getNodeList(vote.phoneNumber)
-        )
-        .reduce(
-            (cache, vote) => cache.replace(vote),
+        ).group(
+            (vote) => vote.phoneNumber
+        ).nagle().reduce(
+            (cache, votes) => votes.forEach((vote) => cache.replace(vote)),
             dc.hashCache((vote) => vote.phoneNumber)
         )
 
-        .use((cache) => cache.diffStream())
-            .map(
-                (diff) => ({
-                    contestant: diff.key,
-                    add: diff.add.length,
-                    remove: diff.remove.length
-                })
-            )
-            .nagle()
-            .group(
-                (diff) =>  diff.contestant
-            )
-            .reduce(
-                (cache, diff) => cache.modify(
-                    (oldData, newData, key) => {
-                        oldData = oldData || {
-                            contestant: key,
-                            votes: 0
-                        };
-                        oldData.votes += newData.add;
-                        oldData.votes -= newData.remove;
+        .use((cache) => cache.changeStream())
+            .nagle().reduce(
+                (emitter, changes) => {
+                    const acc = {};
+                    changes.forEach((change) => {
+                        if (change.oldData) acc[change.oldData.contestant]--;
+                        acc[change.newData.contestant]++;
+                    });
+                    emitter.emit(acc);
+                }, dc.dataEmitter()
+            ).reduce(
+                (emitter, diff) => {
+                    for (var id in diff) {
+                        emitter.emit({
+                            contestant: id,
+                            votes: diff[id]
+                        });
+                    }
+                },
+                dc.dataEmitter()
+            ).nagle().group(
+                (subtotal) =>  subtotal.contestant
+            ).reduce(
+                (cache, subtotals) => cache.modify(subtotal[0].contestant,
+                    (oldData) => {
+
+                        if (!oldData)
+                            oldData = subtotal.shift();
+
+                        oldData.votes += subtotal.votes;
+
                         return oldData;
                     }
                 ),
-                dc.hashCache((diff) =>  diff.contestant)
+                dc.hashCache((subtotal) =>  subtotal.contestant)
             )
 
             .use((cache) => cache.rawData())
                 .expose(dc.http.exposeData(handler, "/api/voteResults"))
                 .up()
-                
+
             .use((cache) => cache.changeStream())
                 .expose(dc.http.exposeWebsocket(handler, "/ws/voteResults"))
 ;
