@@ -11,13 +11,11 @@
 
 const dc = require("dc");
 const http = require("http");
-const ConsistentHash = require("ch");
 
 let handler = dc.http.requestHandler();
 http.createServer(handler).listen(8080);
 
-
-class Vote {
+class Vote extends dc.http.PostData {
 
     constructor(data) {
 
@@ -51,7 +49,7 @@ class Vote {
 Vote.invalid = new Vote();
 
 dc.init()
-    .read(dc.http.readPostData(handler, "/api/vote"))
+    .readData(dc.http.readPostData(handler, "/api/vote"))
         .map(
             (data) => new Vote(data)
         ).filter(
