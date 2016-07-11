@@ -34,7 +34,7 @@ dc.plugin("dc-instagram", {client_id: "CLIENT_ID", client_secret: "CLIENT_SECRET
                             // TODO: HERE!
                             .wait("LIKES")
                             .filter(
-                                (instagramMedia) => instagramMedia.id in accumulator.likes
+                                (instagramMedia) => !(instagramMedia.id in accumulator.likes)
                             )
                             .accumulate()
                             .then(
