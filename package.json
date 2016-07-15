@@ -8,7 +8,11 @@
   },
   "author": "",
   "license": {
-      "type": "GPL-3.0",
-      "url": "https://www.gnu.org/licenses/gpl-3.0.md"
+    "type": "GPL-3.0",
+    "url": "https://www.gnu.org/licenses/gpl-3.0.md"
+  },
+  "dependencies": {
+    "request": "^2.73.0",
+    "request-promise": "^3.0.0"
   }
 }
