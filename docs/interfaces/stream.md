@@ -6,6 +6,6 @@
         Stream transform(Callback<Buffer> transformation);
         DataStream split(Callback<Entry> splitter);
 
-        Stream carry(Callbac<Accumulator, Stream>);
+        Stream carry(Callback<Accumulator, Stream>);
 
     }
