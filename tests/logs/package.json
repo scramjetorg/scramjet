@@ -1,0 +1,11 @@
+{
+  "name": "tomcat-log-grepper",
+  "version": "0.0.1",
+  "description": "A simple stream based log grepper that greps multiple files from multiple places at once in a sorted manner",
+  "main": "logs.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
