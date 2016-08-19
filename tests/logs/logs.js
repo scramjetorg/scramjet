@@ -47,11 +47,9 @@ Promise.all(argv._.map(
                     );
                     return ret;
                 })
-        )).mux((streams, callback) => {
-            this.index = new ArrayWithSortedSet(
-                (a, b) => a.ts - b.ts,
-                streams.length
-            );
-        });
+        )).mux(
+            (a, b) => a.ts - b.ts,
+            (sorted, streams, callback) => callback(sorted.shift())
+        );
     }
 );
