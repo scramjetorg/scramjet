@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 // Pump all the tomcat log files to a merge function then filter and stuff...
+const MultiStream = require("../../lib/multi-stream");
+const StringStream = require("../../lib/string-stream");
 
 var argv = require('yargs')
     .usage('Usage: $0 [options] [source1] [source2] ...')
@@ -32,8 +34,9 @@ var argv = require('yargs')
 const fs = require("fs");
 const path = require("path");
 
-const range = argv.range.map(
-    (r) => range.split(/:/).map(
+
+const ranges = argv.range && argv.range.map(
+    (r) => r.split(/:/).map(
         (ts, i) => {
             if (!ts.match(/^\d/)) {
                 return new Date(+ts);
@@ -46,16 +49,16 @@ const range = argv.range.map(
     )
 );
 const filters = [
-    argv.origin && argv.origin.length && argv.origin.length === 1 ? (item) => argv.origin[0] === item.origin : (item) => argv.origin.indexOf(item.origin) >= 0,
-    argv.source && argv.source.length && argv.source.length === 1 ? (item) => argv.source[0] === item.source : (item) => argv.source.indexOf(item.source) >= 0,
-    argv.level && argv.level.length && argv.level.length === 1 ? (item) => argv.level[0] === item.level : (item) => argv.level.indexOf(item.level) >= 0,
-    range && range.length && (item) => {
-        for (const r of range) {
+    argv.origin && argv.origin.length && argv.origin.length === 1 ? ((item) => argv.origin[0] === item.origin) : ((item) => argv.origin.indexOf(item.origin) >= 0),
+    argv.source && argv.source.length && argv.source.length === 1 ? ((item) => argv.source[0] === item.source) : ((item) => argv.source.indexOf(item.source) >= 0),
+    argv.level && argv.level.length && argv.level.length === 1 ? ((item) => argv.level[0] === item.level) : ((item) => argv.level.indexOf(item.level) >= 0),
+    ranges && ((item) => {
+        for (const r of ranges) {
             if (item.ts > r[0] && item.ts < r[1])
                 return true;
         }
         return false;
-    }
+    })
 ].filter((f) => f).reduce(
     (o, f) => (i) => f(i) && o(i),
     () => true
@@ -64,11 +67,11 @@ const filters = [
 Promise.all(argv._.map(
     (source) => new Promise((solve, ject) => {
         const stream = fs.createReadStream(path.resolve(process.cwd(), source));
-        const out = (err) => {
+        const out = (fd) => {
             stream.removeListener("open", out);
             stream.removeListener("error", out);
 
-            if (err instanceof Error)
+            if (fd instanceof Error)
                 ject(err);
             else
                 solve(stream);
@@ -77,6 +80,8 @@ Promise.all(argv._.map(
         stream.on("error", out);
     })
 )).then(
+    (streams) => (console.log(streams), streams)
+).then(
     (openStreams) => new MultiStream(openStreams.map(
         (stream) => stream.pipe(new StringStream("utf-8"))
             .split(/[\n^$](?=\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3,}\s)/g)
@@ -97,11 +102,13 @@ Promise.all(argv._.map(
 ).then(
     (streams) => streams.each(
         (stream) => stream.filter(filters)
+    ).merge(
+        (a, b) => a.ts - b.ts
     )
 ).then(
-    (streams) => {
-        return new MergedStream(streams).mux(
-            (a, b) => a.ts - b.ts
-        );
-    }
+    (stream) => stream.map(
+        (entry) => [entry.ts.toISOString(), origin, level, source, message].join(" ")
+    ).pipe(process.stdout)
+).catch(
+    (e) => console.error(e && e.stack)
 );
