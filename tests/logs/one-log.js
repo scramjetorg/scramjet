@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 // Pump all the tomcat log files to a merge function then filter and stuff...
-const MultiStream = require("../../lib/multi-stream");
 const StringStream = require("../../lib/string-stream");
 
 var argv = require('yargs')
-    .usage('Usage: $0 [options] [source1] [source2] ...')
+    .usage('Usage: $0 [options] [source1]')
     .demand(1)
     .options("origin", {
         alias: "o",
@@ -66,51 +65,47 @@ const filters = [
 );
 
 let a;
-Promise.all(argv._.map(
-    (source) => new Promise((solve, ject) => {
-        const stream = fs.createReadStream(path.resolve(process.cwd(), source));
-        const out = (fd) => {
-            stream.removeListener("open", out);
-            stream.removeListener("error", out);
+let source = argv._[0];
 
-            if (fd instanceof Error)
-                ject(err);
-            else
-                solve(stream);
-        };
-        stream.on("open", out);
-        stream.on("error", out);
+new Promise((solve, ject) => {
+    const stream = fs.createReadStream(path.resolve(process.cwd(), source));
+    const out = (fd) => {
+        stream.removeListener("open", out);
+        stream.removeListener("error", out);
 
-        a = stream;
-    })
-)).then(
-    (openStreams) => new MultiStream(openStreams.map(
-        (stream) => (stream.pipe(new StringStream("utf-8"))
-            .split(/[\n^$](?=\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3,}\s)/g)
-            .parse((logline) => {
-                const ret = {};
-                log.replace(/^([\s\d\-+\:,]+)\s+\[([^\]]+)\]\s+([^\s]+)\s+([^\-]+)\s+-\s*([^]*)$/m,
-                    (all, ts, origin, level, source, message) => {
-                        ret.ts = new Date(ts.replace(/,\d+$/, ".$1Z"));
-                        ret.origin = origin;
-                        ret.level = level;
-                        ret.source = source;
-                        ret.message = message;
-                    }
-                );
-                return ret;
-            })
-        )))
+        if (fd instanceof Error)
+            ject(err);
+        else
+            solve(stream);
+    };
+    stream.on("open", out);
+    stream.on("error", out);
+
+    a = stream;
+}).then(
+    (stream) => stream.pipe(new StringStream("utf-8"))
+        .split(/[\n^$](?=\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3,}\s)/g)
+        .parse((logline) => {
+            const ret = {};
+            logline.replace(/^([\s\d\-+\:,]+)\s+\[([^\]]+)\]\s+([^\s]+)\s+([^\-]+)\s+-\s*([^]*)$/m,
+                (all, ts, origin, level, source, message) => {
+                    ret.ts = new Date(ts.replace(/,(\d+)$/, ".$1Z"));
+                    ret.origin = origin;
+                    ret.level = level;
+                    ret.source = source;
+                    ret.message = message;
+                }
+            );
+            return ret;
+        })
 ).then(
-    (streams) => streams.each(
-        (stream) => stream.filter(filters)
-    ).merge(
-        (a, b) => a.ts - b.ts
-    )
+    (stream) => stream.filter(filters)
 ).then(
     (stream) => stream.map(
-        (entry) => [entry.ts.toISOString(), origin, level, source, message].join(" ")
+        (entry) => JSON.stringify(entry) + "\n"
     )
+).then(
+    (stream) => stream.pipe(process.stdout)
 ).catch(
     (e) => console.error(e && e.stack)
 );
