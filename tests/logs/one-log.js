@@ -48,7 +48,7 @@ const ranges = argv.range && argv.range.map(
         }
     )
 );
-const filters = [
+const filter_arr = [
     argv.origin && argv.origin.length && argv.origin.length === 1 ? ((item) => argv.origin[0] === item.origin) : ((item) => argv.origin.indexOf(item.origin) >= 0),
     argv.source && argv.source.length && argv.source.length === 1 ? ((item) => argv.source[0] === item.source) : ((item) => argv.source.indexOf(item.source) >= 0),
     argv.level && argv.level.length && argv.level.length === 1 ? ((item) => argv.level[0] === item.level) : ((item) => argv.level.indexOf(item.level) >= 0),
@@ -59,10 +59,17 @@ const filters = [
         }
         return false;
     })
-].filter((f) => f).reduce(
-    (o, f) => (i) => f(i) && o(i),
-    () => true
-);
+].filter((f) => f);
+
+let filters;
+if (filter_arr.length > 0) {
+    filters = filter_arr.reduce(
+        (o, f) => (i) => f(i) && o(i),
+        () => 1
+    );
+} else {
+    filters = () => 1;
+}
 
 let a;
 let source = argv._[0];
@@ -85,9 +92,11 @@ new Promise((solve, ject) => {
 }).then(
     (stream) => stream.pipe(new StringStream("utf-8"))
         .split(/[\n^$](?=\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3,}\s)/g)
+).then(
+    (stream) => stream
         .parse((logline) => {
             const ret = {};
-            logline.replace(/^([\s\d\-+\:,]+)\s+\[([^\]]+)\]\s+([^\s]+)\s+([^\-]+)\s+-\s*([^]*)$/m,
+            logline.replace(/^([\s\d\-+\:,]+)\s+\[([^\]]+)\]\s+([^\s]+)\s+([^\-]+)\s?-\s*([^]*)$/m,
                 (all, ts, origin, level, source, message) => {
                     ret.ts = new Date(ts.replace(/,(\d+)$/, ".$1Z"));
                     ret.origin = origin;
@@ -97,15 +106,22 @@ new Promise((solve, ject) => {
                 }
             );
             return ret;
-        })
+        }).debug(
+            (stream) => stream.on("data", (d) => console.log("data", d))
+        )
 ).then(
-    (stream) => stream.filter(filters)
+    (stream) => stream
+        .filter(filters)
 ).then(
     (stream) => stream.map(
-        (entry) => JSON.stringify(entry) + "\n"
+        (entry) => {
+            return JSON.stringify(entry) + "\n";
+        }
     )
 ).then(
-    (stream) => stream.pipe(process.stdout)
+    (stream) => stream
+        .on("data", (d) => console.log("data", d))
+        .on("error", (e) => console.error("ERROR", e))
 ).catch(
     (e) => console.error(e && e.stack)
 );
