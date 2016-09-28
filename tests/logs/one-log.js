@@ -49,9 +49,9 @@ const ranges = argv.range && argv.range.map(
     )
 );
 const filter_arr = [
-    argv.origin && argv.origin.length && argv.origin.length === 1 ? ((item) => argv.origin[0] === item.origin) : ((item) => argv.origin.indexOf(item.origin) >= 0),
-    argv.source && argv.source.length && argv.source.length === 1 ? ((item) => argv.source[0] === item.source) : ((item) => argv.source.indexOf(item.source) >= 0),
-    argv.level && argv.level.length && argv.level.length === 1 ? ((item) => argv.level[0] === item.level) : ((item) => argv.level.indexOf(item.level) >= 0),
+    argv.origin && argv.origin.length && (argv.origin.length === 1 ? (item) => argv.origin[0] === item.origin : (item) => argv.origin.indexOf(item.origin) >= 0),
+    argv.source && argv.source.length && (argv.source.length === 1 ? (item) => argv.source[0] === item.source : (item) => argv.source.indexOf(item.source) >= 0),
+    argv.level && argv.level.length && (argv.level.length === 1 ? (item) => argv.level[0] === item.level : (item) => argv.level.indexOf(item.level) >= 0),
     ranges && ((item) => {
         for (const r of ranges) {
             if (item.ts > r[0] && item.ts < r[1])
@@ -106,21 +106,14 @@ new Promise((solve, ject) => {
                 }
             );
             return ret;
-        }).debug(
-            (stream) => stream.on("data", (d) => console.log("data", d))
-        )
+        })
 ).then(
     (stream) => stream
         .filter(filters)
-).then(
-    (stream) => stream.map(
-        (entry) => {
-            return JSON.stringify(entry) + "\n";
-        }
-    )
+        .map((entry) => JSON.stringify(entry) + "\n")
 ).then(
     (stream) => stream
-        .on("data", (d) => console.log("data", d))
+        .pipe(process.stdout)
         .on("error", (e) => console.error("ERROR", e))
 ).catch(
     (e) => console.error(e && e.stack)
