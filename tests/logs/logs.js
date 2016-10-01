@@ -50,9 +50,9 @@ const ranges = argv.range && argv.range.map(
     )
 );
 const filters = [
-    argv.origin && argv.origin.length && argv.origin.length === 1 ? ((item) => argv.origin[0] === item.origin) : ((item) => argv.origin.indexOf(item.origin) >= 0),
-    argv.source && argv.source.length && argv.source.length === 1 ? ((item) => argv.source[0] === item.source) : ((item) => argv.source.indexOf(item.source) >= 0),
-    argv.level && argv.level.length && argv.level.length === 1 ? ((item) => argv.level[0] === item.level) : ((item) => argv.level.indexOf(item.level) >= 0),
+    argv.origin && argv.origin.length && (argv.origin.length === 1 ? (item) => argv.origin[0] === item.origin : (item) => argv.origin.indexOf(item.origin) >= 0),
+    argv.source && argv.source.length && (argv.source.length === 1 ? (item) => argv.source[0] === item.source : (item) => argv.source.indexOf(item.source) >= 0),
+    argv.level && argv.level.length && (argv.level.length === 1 ? (item) => argv.level[0] === item.level : (item) => argv.level.indexOf(item.level) >= 0),
     ranges && ((item) => {
         for (const r of ranges) {
             if (item.ts > r[0] && item.ts < r[1])
@@ -84,12 +84,14 @@ Promise.all(argv._.map(
         a = stream;
     })
 )).then(
+    (openStreams) => (console.log(openStreams.length), openStreams)
+).then(
     (openStreams) => new MultiStream(openStreams.map(
         (stream) => (stream.pipe(new StringStream("utf-8"))
             .split(/[\n^$](?=\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3,}\s)/g)
             .parse((logline) => {
                 const ret = {};
-                log.replace(/^([\s\d\-+\:,]+)\s+\[([^\]]+)\]\s+([^\s]+)\s+([^\-]+)\s+-\s*([^]*)$/m,
+                logline.replace(/^([\s\d\-+\:,]+)\s+\[([^\]]+)\]\s+([^\s]+)\s+([^\-]+)\s?-\s*([^]*)$/m,
                     (all, ts, origin, level, source, message) => {
                         ret.ts = new Date(ts.replace(/,\d+$/, ".$1Z"));
                         ret.origin = origin;
@@ -100,17 +102,16 @@ Promise.all(argv._.map(
                 );
                 return ret;
             })
-        )))
-).then(
-    (streams) => streams.each(
+        ))
+    ).each(
         (stream) => stream.filter(filters)
-    ).merge(
+    ).mux(
         (a, b) => a.ts - b.ts
-    )
-).then(
-    (stream) => stream.map(
+    ).on("data", console.log.bind(console, "data")).map(
         (entry) => [entry.ts.toISOString(), origin, level, source, message].join(" ")
-    )
+    ).on(
+        "error", (e) => console.error(e)
+    ).pipe(process.stdout)
 ).catch(
     (e) => console.error(e && e.stack)
 );
