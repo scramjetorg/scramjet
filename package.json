@@ -1,6 +1,6 @@
 {
   "name": "Scramjet",
-  "version": "0.9.1",
+  "version": "0.10.0",
   "description": "Simple yet powerful live data computation framework",
   "main": "index.js",
   "scripts": {
@@ -8,8 +8,8 @@
   },
   "homepage": "https://michalcz.github.io/scramjet/",
   "repository": {
-      "type": "git",
-      "url": "https://github.com/MichalCz/scramjet.git"
+    "type": "git",
+    "url": "https://github.com/MichalCz/scramjet.git"
   },
   "author": "Michał Czapracki <cz@signicode.com>",
   "license": "GPL-3.0",
