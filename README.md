@@ -30,6 +30,6 @@ At this moment Scramjet is released under the terms of GPL-3.
 
 ## Help wanted
 
-The project is yet to be open sourced, there's lots of work to do - transforming and muxing, joining and splitting, browserifying, modularizing, documenting and issuing those issues.
+The project is in it's relative infancy, there's lots of work to do - transforming and muxing, joining and splitting, browserifying, modularizing, documenting and issuing those issues.
 
 If you want to help and be part of the Scramjet team, please reach out to me, MichalCz on Github or email me: scramjet@signicode.com.
