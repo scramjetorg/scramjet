@@ -1,6 +1,6 @@
 {
   "name": "Scramjet",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "Simple yet powerful live data computation framework",
   "main": "index.js",
   "scripts": {
