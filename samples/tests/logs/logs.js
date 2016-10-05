@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // Pump all the tomcat log files to a merge function then filter and stuff...
-const MultiStream = require("../../lib/multi-stream");
-const StringStream = require("../../lib/string-stream");
+const scramjet = require("../../../");
+const MultiStream = scramjet.MultiStream;
+const StringStream = scramjet.StringStream;
 
 var argv = require('yargs')
     .usage('Usage: $0 [options] [source1] [source2] ...')

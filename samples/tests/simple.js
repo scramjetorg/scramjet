@@ -1,5 +1,5 @@
 const request = require("request");
-const StringStream = require("../lib/string-stream");
+const StringStream = require("../../").StringStream;
 
 let columns = null;
 request.get("http://www.wroclaw.pl/open-data/opendata/its/parkingi/parkingi.csv")
