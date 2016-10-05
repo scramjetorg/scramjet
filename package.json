@@ -1,5 +1,5 @@
 {
-  "name": "Scramjet",
+  "name": "scramjet",
   "version": "0.10.0",
   "description": "Simple yet powerful live data computation framework",
   "main": "index.js",
