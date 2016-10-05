@@ -1,16 +1,18 @@
 {
-  "name": "Scramjet",
-  "version": "0.9.1",
+  "name": "scramjet",
+  "version": "0.10.1",
   "description": "Simple yet powerful live data computation framework",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Michał Czapracki <cz@signicode.com>",
-  "license": {
-    "type": "GPL-3.0",
-    "url": "https://www.gnu.org/licenses/gpl-3.0.md"
+  "homepage": "https://michalcz.github.io/scramjet/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MichalCz/scramjet.git"
   },
+  "author": "Michał Czapracki <cz@signicode.com>",
+  "license": "GPL-3.0",
   "dependencies": {
     "js-sorted-set": "^0.2.0",
     "mergesort-stream": "^1.0.1",
