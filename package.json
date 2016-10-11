@@ -3,6 +3,9 @@
   "version": "0.10.1",
   "description": "Simple yet powerful live data computation framework",
   "main": "index.js",
+  "keywords": [
+      "stream", "es6", "transform", "transmux", "mux", "live data", "realtime", "filter", "map", "apache", "spark", "apex", "log", "parser"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,12 +14,20 @@
     "type": "git",
     "url": "https://github.com/MichalCz/scramjet.git"
   },
+  "engines": {
+    "node": ">=6"
+  },
   "author": "Michał Czapracki <cz@signicode.com>",
   "license": "GPL-3.0",
-  "dependencies": {
+  "devDependencies": {
+    "express": "^4.14.0",
     "js-sorted-set": "^0.2.0",
-    "mergesort-stream": "^1.0.1",
+    "nodeunit": "^0.10.2",
     "request": "^2.73.0",
-    "request-promise": "^3.0.0"
+    "request-promise": "^3.0.0",
+    "stream-array": "^1.1.2"
+  },
+  "dependencies": {
+    "mergesort-stream": "^1.0.1"
   }
 }
