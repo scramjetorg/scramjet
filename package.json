@@ -1,10 +1,23 @@
 {
   "name": "scramjet",
-  "version": "0.10.1",
+  "version": "1.0.0",
   "description": "Simple yet powerful live data computation framework",
   "main": "index.js",
   "keywords": [
-      "stream", "es6", "transform", "transmux", "mux", "live data", "realtime", "filter", "map", "apache", "spark", "apex", "log", "parser"
+    "stream",
+    "es6",
+    "transform",
+    "transmux",
+    "mux",
+    "live data",
+    "realtime",
+    "filter",
+    "map",
+    "apache",
+    "spark",
+    "apex",
+    "log",
+    "parser"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
