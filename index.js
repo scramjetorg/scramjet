@@ -4,5 +4,8 @@ module.exports = {
     get DataEmitter() { return require("./lib/data-emitter"); },
     get DataStream() { return require("./lib/data-stream"); },
     get MultiStream() { return require("./lib/multi-stream"); },
-    get StringStream() { return require("./lib/string-stream"); }
+    get StringStream() { return require("./lib/string-stream"); },
+    API(version) {
+        if (version === 1) return module.exports;
+    }
 };
