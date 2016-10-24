@@ -1,7 +1,7 @@
 {
   "name": "scramjet",
   "version": "1.0.1",
-  "description": "Simple yet powerful live data computation framework",
+  "description": "Simple yet powerful live data computation framework like event-stream, but written in ES6 and using streams2",
   "main": "index.js",
   "keywords": [
     "stream",
@@ -17,6 +17,7 @@
     "spark",
     "apex",
     "log",
+    "functional programming",
     "parser"
   ],
   "scripts": {
@@ -35,6 +36,7 @@
   "devDependencies": {
     "express": "^4.14.0",
     "js-sorted-set": "^0.2.0",
+    "jsdoc": "^3.4.2",
     "nodeunit": "^0.10.2",
     "request": "^2.73.0",
     "request-promise": "^3.0.0",
