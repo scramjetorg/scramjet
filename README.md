@@ -2,9 +2,7 @@
 
 Scramjet is a powerful, infinitely scalable yet simple framework for transformation and analysis of so called "live data". It is built upon the logic behind three well known javascript array operations - namingly map, filter and reduce. This means that if you've ever performed operations on an Array in JavaScript - you already know Scramjet like the back of your hand.
 
-Thanks to Scramjet you can simply focus on your data, test it on a simple case, on a subset and then, send the processing to the server when you like. You can make constant adjustments and fixes, quickly test and change your assumptions because you don't need a field of servers to run it.
-
-Scramjet doesn't use configs or fixed environments. It's up to your preference to choose the best system for your needs. All you need is bare node.js, your data and those 5 lines of code that are between your given input and your desired outcome!
+Scramjet can transform streams both in synchronous and asynchronous fashion thus facilitaing. The transorms can be run in chains 
 
 ## Example
 
@@ -23,6 +21,41 @@ request.get("http://www.wroclaw.pl/open-data/opendata/its/parkingi/parkingi.csv"
     .map((data) => columns.reduce((acc, id, i) => (acc[id] = data[i], acc), {}))
     .on("data", console.log.bind(console))
 ```
+
+## Usage
+
+Scramjet uses functional programming to run transformations on your data streams in a fashion very similar to the well known event-stream node module. Most transformations are done by passing a transform function. You can write your function in two ways:
+
+1. Synchronous
+
+ Example: a simple stream transform that outputs a stream of objects of the same id property and the length of the value string.
+
+ ```javascript
+    datastream.map(
+        (item) => ({id: item.id, length: item.value.length})
+    )
+ ```
+
+2. Asynchronous (using Promises)
+
+ Example: A simple stream that fetches an url mentioned in the incoming object
+
+ ```javascript
+    datastream.map(
+        (item) => new Promise((resolve, reject) => {
+            request(item.url, (err, res, data) => {
+                if (err)
+                    reject(err); // will emit an "error" event on the stream
+                else
+                    resolve(data);
+            });
+        })
+    )
+ ```
+
+The actual logic of this transform function is as if you passed your function
+to the ```then``` method of a Promise resolved with the data from the input
+stream.
 
 ## License and contributions
 
