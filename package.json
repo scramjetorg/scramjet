@@ -2,7 +2,12 @@
   "name": "scramjet",
   "version": "1.0.1",
   "description": "Simple yet powerful live data computation framework like event-stream, but written in ES6 and using streams2",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib/",
+    "doc": "docs/",
+    "example": "samples/"
+  },
   "keywords": [
     "stream",
     "es6",
@@ -34,13 +39,8 @@
   "author": "Michał Czapracki <cz@signicode.com>",
   "license": "GPL-3.0",
   "devDependencies": {
-    "express": "^4.14.0",
-    "js-sorted-set": "^0.2.0",
-    "jsdoc": "^3.4.2",
-    "nodeunit": "^0.10.2",
     "request": "^2.73.0",
-    "request-promise": "^3.0.0",
-    "stream-array": "^1.1.2"
+    "request-promise": "^3.0.0"
   },
   "dependencies": {
     "mergesort-stream": "^1.0.1"
