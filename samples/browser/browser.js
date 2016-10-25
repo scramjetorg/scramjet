@@ -5,8 +5,7 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var cpu = require("windows-cpu");
-var browserifiedScramjet = require('browserify')([__dirname + "/../index"], {standalone: "scramjet"})
-    .transform("babelify", {presets: ["es2015"]});
+var browserifiedScramjet = require('browserify')([__dirname + "/../../lib/index"], {standalone: "scramjet"});
 
 app.use(express.static(__dirname + "/browser"));
 
