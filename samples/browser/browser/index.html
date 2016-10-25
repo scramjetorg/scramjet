@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <title>tests</title>
+        </head>
+    <body>
+
+
+        <script src="./scramjet.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            const stream = new scramjet.DataStream();
+
+            io.connect()
+                .on("cpu", (data) => {
+                    stream.write(data);
+                })
+
+            stream
+                .filter(
+                    (data) => {
+                        if (data.error) {
+                            throw Object.assign(new Error(), data);
+                        } else {
+                            return true;
+                        }
+                    }
+                )
+                .map(
+                    (data) => ({
+                        cpu: data.cpuInfo.pop(),
+                        load: data.totalLoad.reduce(
+                            (acc, a) => (acc + a),
+                            0
+                        ),
+                        memory: data.totalMemoryUsage.usageInMb
+                    })
+                )
+                .on("data", (data) => console.log(data))
+                .on("error", (e) => console.log("error", e))
+        </script>
+    </body>
+</html>
