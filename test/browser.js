@@ -5,8 +5,15 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var cpu = require("windows-cpu");
+var browserifiedScramjet = require('browserify')([__dirname + "/../index"], {standalone: "scramjet"})
+    .transform("babelify", {presets: ["es2015"]});
 
 app.use(express.static(__dirname + "/browser"));
+
+app.get("/scramjet.js", (req, res) => {
+    res.writeHead(200, {"content-type": "text/javascript; charset=utf-8"});
+    browserifiedScramjet.bundle().pipe(res);
+});
 
 io.on('connection', function(socket){
   console.log('a user connected');
