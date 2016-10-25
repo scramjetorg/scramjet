@@ -40,7 +40,9 @@
     "nodeunit": "^0.10.2",
     "request": "^2.73.0",
     "request-promise": "^3.0.0",
-    "stream-array": "^1.1.2"
+    "socket.io": "^1.5.1",
+    "stream-array": "^1.1.2",
+    "windows-cpu": "^0.1.4"
   },
   "dependencies": {
     "mergesort-stream": "^1.0.1"
