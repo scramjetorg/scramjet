@@ -10,7 +10,7 @@ How about a CSV parser of all the parkings in the city of Wrocław from http://w
 
 ```javascript
 const request = require("request");
-const StringStream = require("../lib/string-stream");
+const StringStream = require("scramjet").StringStream;
 
 let columns = null;
 request.get("http://www.wroclaw.pl/open-data/opendata/its/parkingi/parkingi.csv")
@@ -21,6 +21,15 @@ request.get("http://www.wroclaw.pl/open-data/opendata/its/parkingi/parkingi.csv"
     .map((data) => columns.reduce((acc, id, i) => (acc[id] = data[i], acc), {}))
     .on("data", console.log.bind(console))
 ```
+
+## API Docs
+
+Here's the list of the exposed classes, please review the specific documentation:
+
+* [```scramjet.DataStream```](docs/data-stream.md) - the base class for all scramjet classes.
+* [```scramjet.BufferStream```](docs/buffer-stream.md) - a DataStream of Buffers.
+* [```scramjet.StringStream```](docs/string-stream.md) - a DataStream of Strings.
+* [```scramjet.MultiStream```](docs/multi-stream.md) - a DataStream of Strings.
 
 ## Browserifying
 
