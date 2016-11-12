@@ -39,6 +39,11 @@
   "author": "Michał Czapracki <cz@signicode.com>",
   "license": "GPL-3.0",
   "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-jsdoc-to-markdown": "^1.2.2",
+    "gulp-rename": "^1.2.2",
+    "gulp-util": "^3.0.7",
     "request": "^2.73.0",
     "request-promise": "^3.0.0"
   },
