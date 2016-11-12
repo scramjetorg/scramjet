@@ -1,6 +1,6 @@
 {
   "name": "scramjet",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Simple yet powerful live data computation framework like event-stream, but written in ES6 and using streams2",
   "main": "lib/index.js",
   "directories": {
