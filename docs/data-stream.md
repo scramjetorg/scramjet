@@ -11,11 +11,11 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
     * [.debug(func)](#DataStream+debug) ⇒ <code>[DataStream](#DataStream)</code>
     * [.group(func)](#DataStream+group) ⇒ <code>[DataStream](#DataStream)</code>
     * [.tee(func)](#DataStream+tee) ⇒ <code>[DataStream](#DataStream)</code>
-    * [.reduce(func, into)](#DataStream+reduce) ⇒ <code>Object</code>
+    * [.reduce(func, into)](#DataStream+reduce) ⇒ <code>Promise</code>
     * [.map(func)](#DataStream+map) ⇒ <code>[DataStream](#DataStream)</code>
     * [.filter(func)](#DataStream+filter) ⇒ <code>[DataStream](#DataStream)</code>
     * [.pop(func)](#DataStream+pop) ⇒ <code>[DataStream](#DataStream)</code>
-    * [.split()](#DataStream+split) ⇒ <code>MultiStream</code>
+    * [.separate()](#DataStream+separate) ⇒ <code>MultiStream</code>
 
 <a name="new_DataStream_new"></a>
 
@@ -69,16 +69,16 @@ Duplicate the stream and pass the duplicate to the passed callbackfunction.
 
 <a name="DataStream+reduce"></a>
 
-### dataStream.reduce(func, into) ⇒ <code>Object</code>
+### dataStream.reduce(func, into) ⇒ <code>Promise</code>
 Reduces the stream into the given object. The main difference to nativeis that Array.prototype.reduce is that only the first object will bepassed to the following methods.
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
-**Returns**: <code>Object</code> - returns the first object passed  
+**Returns**: <code>Promise</code> - Promise resolved by the last object returned by the                   call of the transform function.  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | func | <code>TransformFunction</code> | The into object will be passed as the                                  first argument, the data object from the                                  stream as the second. |
-| into | <code>Object</code> | Any object |
+| into | <code>Object</code> | Any object passed initally to the transform                       function |
 
 <a name="DataStream+map"></a>
 
@@ -90,7 +90,7 @@ Transforms stream objects into new ones, just like Array.prototype.mapdoes.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>TransformFunction</code> | The function that creates the new                                  object. As usually it can return a                                  Promise or just return the new object. |
+| func | <code>TransformFunction</code> | The function that creates the new                                  object. As usually it can return a                                  Promise or just return the new                                  object. |
 
 <a name="DataStream+filter"></a>
 
@@ -120,9 +120,9 @@ Pops the first item from the stream and pipes the other.
 | --- | --- | --- |
 | func | <code>TransformFunction</code> | Would receive the first item as the                                  first argument. |
 
-<a name="DataStream+split"></a>
+<a name="DataStream+separate"></a>
 
-### dataStream.split() ⇒ <code>MultiStream</code>
+### dataStream.separate() ⇒ <code>MultiStream</code>
 Splits the stream into a Multistream where every function passed createsa separate stream.
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
