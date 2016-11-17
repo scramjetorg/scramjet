@@ -1,3 +1,6 @@
+master: [![Build Status](https://travis-ci.org/MichalCz/scramjet.svg?branch=master)](https://travis-ci.org/MichalCz/scramjet)
+develop: [![Build Status](https://travis-ci.org/MichalCz/scramjet.svg?branch=develop)](https://travis-ci.org/MichalCz/scramjet)
+
 ## What does it do?
 
 Scramjet is a powerful, infinitely scalable yet simple framework for transformation and analysis of so called "live data". It is built upon the logic behind three well known javascript array operations - namingly map, filter and reduce. This means that if you've ever performed operations on an Array in JavaScript - you already know Scramjet like the back of your hand.
