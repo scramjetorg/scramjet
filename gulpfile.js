@@ -16,5 +16,5 @@ gulp.task("docs", function() {
         .pipe(rename(function(path) {
             path.extname = ".md";
         }))
-        .pipe(gulp.dest("docs"));
+        .pipe(gulp.dest("docs/"));
 });
