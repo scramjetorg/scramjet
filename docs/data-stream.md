@@ -11,10 +11,12 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
     * [.debug(func)](#DataStream+debug) ⇒ <code>[DataStream](#DataStream)</code>
     * [.group(func)](#DataStream+group) ⇒ <code>[DataStream](#DataStream)</code>
     * [.tee(func)](#DataStream+tee) ⇒ <code>[DataStream](#DataStream)</code>
+    * [.slice(start, end)](#DataStream+slice) ⇒ <code>[DataStream](#DataStream)</code>
     * [.reduce(func, into)](#DataStream+reduce) ⇒ <code>Promise</code>
+    * [.reduceNow(func, into)](#DataStream+reduceNow) ⇒ <code>Promise</code>
     * [.map(func)](#DataStream+map) ⇒ <code>[DataStream](#DataStream)</code>
     * [.filter(func)](#DataStream+filter) ⇒ <code>[DataStream](#DataStream)</code>
-    * [.pop(func)](#DataStream+pop) ⇒ <code>[DataStream](#DataStream)</code>
+    * [.pop(count, func)](#DataStream+pop) ⇒ <code>[DataStream](#DataStream)</code>
     * [.separate()](#DataStream+separate) ⇒ <code>MultiStream</code>
 
 <a name="new_DataStream_new"></a>
@@ -67,10 +69,40 @@ Duplicate the stream and pass the duplicate to the passed callbackfunction.
 | --- | --- | --- |
 | func | <code>TransformFunction</code> | The duplicate stream will be passed as                                  first argument. |
 
+<a name="DataStream+slice"></a>
+
+### dataStream.slice(start, end) ⇒ <code>[DataStream](#DataStream)</code>
+Returns a stream consisting of an array of items with `0` to `start`omitted and `start` until `end` included. Works similarily toArray.prototype.slice.Takes count from the moment it's called. Any previous items will not becounted.Also take into account that the stream will end if both arguments arepassed.
+
+**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
+**Returns**: <code>[DataStream](#DataStream)</code> - the affected stream  
+**Todo**
+
+- [ ] to be implemented
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| start | <code>Number</code> | omit this number of entries. |
+| end | <code>Number</code> | end at this number of entries (from 0) |
+
 <a name="DataStream+reduce"></a>
 
 ### dataStream.reduce(func, into) ⇒ <code>Promise</code>
 Reduces the stream into the given object. The main difference to nativeis that Array.prototype.reduce is that only the first object will bepassed to the following methods.
+
+**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
+**Returns**: <code>Promise</code> - Promise resolved by the last object returned by the                   call of the transform function.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| func | <code>TransformFunction</code> | The into object will be passed as the                                  first argument, the data object from the                                  stream as the second. |
+| into | <code>Object</code> | Any object passed initally to the transform                       function |
+
+<a name="DataStream+reduceNow"></a>
+
+### dataStream.reduceNow(func, into) ⇒ <code>Promise</code>
+Reduces the stream into the given object the same way as {@see reduce},but resolves the promise at once with the passed object.If the object is an instance of EventEmitter then it will propagate theerror from the previous stream.
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
 **Returns**: <code>Promise</code> - Promise resolved by the last object returned by the                   call of the transform function.  
@@ -106,24 +138,21 @@ Filters object based on the function outcome, just likeArray.prototype.filter.
 
 <a name="DataStream+pop"></a>
 
-### dataStream.pop(func) ⇒ <code>[DataStream](#DataStream)</code>
+### dataStream.pop(count, func) ⇒ <code>[DataStream](#DataStream)</code>
 Pops the first item from the stream and pipes the other.
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
 **Returns**: <code>[DataStream](#DataStream)</code> - substream.  
-**Todo**
-
-- [ ] Not yet implemented. Should use the filter method above.
-
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>TransformFunction</code> | Would receive the first item as the                                  first argument. |
+| count | <code>Number</code> | The number of items to pop. |
+| func | <code>TransformFunction</code> | Function that receives an array of popped                                 items. |
 
 <a name="DataStream+separate"></a>
 
 ### dataStream.separate() ⇒ <code>MultiStream</code>
-Splits the stream into a Multistream where every function passed createsa separate stream.
+Splits the stream two ways
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
 **Todo**
