@@ -10,7 +10,6 @@ A factilitation stream created for easy splitting or parsing a buffer
     * [.split(splitter)](#BufferStream+split) ⇒ <code>[BufferStream](#BufferStream)</code>
     * [.toStringStream(encoding)](#BufferStream+toStringStream) ⇒ <code>StringStream</code>
     * [.parse(parser)](#BufferStream+parse) ⇒ <code>DataStream</code>
-    * [.tee(func)](#BufferStream+tee) ⇒ <code>[BufferStream](#BufferStream)</code>
 
 <a name="BufferStream+split"></a>
 
@@ -51,16 +50,4 @@ Parses every buffer to object. The method MUST parse EVERY buffer into asingle 
 | Param | Type | Description |
 | --- | --- | --- |
 | parser | <code>TransformFunction</code> | The transform function |
-
-<a name="BufferStream+tee"></a>
-
-### bufferStream.tee(func) ⇒ <code>[BufferStream](#BufferStream)</code>
-Duplicate the stream and pass the duplicate to the passed callbackfunction.
-
-**Kind**: instance method of <code>[BufferStream](#BufferStream)</code>  
-**Returns**: <code>[BufferStream](#BufferStream)</code> - self  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| func | <code>TransformFunction</code> | The duplicate stream will be passed as                                  first argument. |
 
