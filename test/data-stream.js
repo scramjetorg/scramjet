@@ -14,19 +14,39 @@ module.exports = {
         test.ok(true, "Group is not implemented");
         test.done();
     },
-    test_tee: (test) => {
+    test_tee: {
+        standard(test) {
 
-        test.expect(3);
-        const str = getStream();
+            test.expect(3);
+            const str = getStream();
 
-        str.tee((stream) => {
-            test.notEqual(str, stream, "The stream must be a new object");
-            test.equals(str.read(), stream.read(), "The stream items must be identical");
-            test.ok(stream instanceof DataStream, "Stream has to be a DataStream");
-            test.done();
-        }).on("error",
-            (e) => (console.log(e), test.ok(false, "Should not throw error: " + e))
-        );
+            str.tee((stream) => {
+                test.notEqual(str, stream, "The stream must be a new object");
+                test.equals(str.read(), stream.read(), "The stream items must be identical");
+                test.ok(stream instanceof DataStream, "Stream has to be a DataStream");
+                test.done();
+            }).on("error",
+                (e) => (console.log(e), test.ok(false, "Should not throw error: " + e))
+            );
+        },
+        extended(test) {
+
+            let cmp = {};
+            class NewStream extends DataStream {
+                test() {
+                    return cmp;
+                }
+            }
+
+            new NewStream().tee(
+                stream => {
+                    test.ok(stream instanceof NewStream, "Returns instance of the Extended class");
+                    test.equals(stream.test(), cmp, "The instance works as it should");
+                    test.done();
+                }
+            );
+
+        }
     },
     test_slice: (test) => {
         test.ok(true, "Slice is not implemented");
@@ -61,6 +81,23 @@ module.exports = {
                 ret instanceof Promise,
                 "Reduce returns a chainable Promise"
             );
+
+        },
+        pass_accumulator_test: (test) => {
+            test.expect(1);
+
+            getStream()
+                .reduce(
+                    (acc, int) => (acc + int.val),
+                    0
+                ).then(
+                    (acc) => {
+                        test.equals(acc, 4950, "Sum should be equal to the sum of all streamed elements");
+                        test.done();
+                    }
+                ).catch(
+                    (e) => (console.log(e), test.ok(false, "Should not throw error: " + e))
+                );
 
         }
     },
