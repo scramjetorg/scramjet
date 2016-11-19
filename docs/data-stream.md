@@ -8,6 +8,7 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
 
 * [DataStream](#DataStream) ⇐ <code>stream.PassThrough</code>
     * [new DataStream(opts)](#new_DataStream_new)
+    * [._selfInstance()](#DataStream+_selfInstance) ⇒ <code>[DataStream](#DataStream)</code>
     * [.debug(func)](#DataStream+debug) ⇒ <code>[DataStream](#DataStream)</code>
     * [.group(func)](#DataStream+group) ⇒ <code>[DataStream](#DataStream)</code>
     * [.tee(func)](#DataStream+tee) ⇒ <code>[DataStream](#DataStream)</code>
@@ -29,6 +30,13 @@ Create the DataStream.
 | --- | --- | --- |
 | opts | <code>object</code> | Stream options passed to superclass |
 
+<a name="DataStream+_selfInstance"></a>
+
+### dataStream._selfInstance() ⇒ <code>[DataStream](#DataStream)</code>
+Should return a new instance of self. Normally this doesn't have to beoverridden.When the constructor would use some special arguments this may be used tooverride the object construction in {@see pop} and {@see tee}...
+
+**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
+**Returns**: <code>[DataStream](#DataStream)</code> - an empty instance of the same class.  
 <a name="DataStream+debug"></a>
 
 ### dataStream.debug(func) ⇒ <code>[DataStream](#DataStream)</code>
