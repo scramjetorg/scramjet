@@ -18,7 +18,7 @@ const getStream = (arr) => {
 };
 
 module.exports = {
-    test_pipe: (test) => {
+    test_pipe(test) {
         test.expect(2);
 
         const firstChunk = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do ";
@@ -181,3 +181,21 @@ module.exports = {
 
     }
 };
+
+const dataStreamTests = require("./data-stream");
+Object.keys(dataStreamTests).forEach(
+    (key) => {
+        if (typeof dataStreamTests[key] === "function") {
+            dataStreamTests[key] = {base: dataStreamTests[key]};
+        }
+        if (module.exports[key] === "function") {
+            module.exports[key] = {
+                override_test: module.exports[key]
+            };
+        }
+        for (var id in dataStreamTests[key]) {
+            (module.exports[key] = module.exports[key] || {})["superclass_"+id] = dataStreamTests[key][id];
+        }
+
+    }
+);
