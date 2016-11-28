@@ -41,7 +41,7 @@ module.exports = {
 
     },
     test_split: {
-        string: (test) => {
+        string(test) {
             test.expect(4);
 
             const orgStream = getStream([
@@ -72,7 +72,7 @@ module.exports = {
                 }
             );
         },
-        regex: (test) => {
+        regex(test) {
             const orgStream = getStream([
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do ",
                 "eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut ",
@@ -102,8 +102,7 @@ module.exports = {
             );
         }
     },
-    test_match: (test) => {
-
+    test_match(test) {
         test.expect(3);
 
         const orgStream = getStream([
@@ -118,7 +117,6 @@ module.exports = {
 
         let stream;
         test.doesNotThrow(() => stream = orgStream.match(/\b(\w{4})[^\w]/g), null, "Should not throw on match by regex");
-        let spaces = 0;
 
         test.ok(stream instanceof DataStream, "Should return a DataStream");
 
@@ -132,7 +130,7 @@ module.exports = {
 
     },
 
-    test_parse: (test) => {
+    test_parse(test) {
 
         const orgStream = getStream([
             "AAL\tAmerican Airlines Group Inc\t46.26\t \t0.43\t0.94%", "AAPL\tApple Inc\t110.06\t \t0.11\t0.10%", "ADBE\tAdobe Systems Inc\t105.02\t \t-0.79\t-0.75%", "ADI\tAnalog Devices Inc\t68.47\t \t0.26\t0.38%", "ADP\tAutomatic Data Processing Inc\t94.39\t \t0.01\t0.01%",
@@ -194,7 +192,8 @@ Object.keys(dataStreamTests).forEach(
             };
         }
         for (var id in dataStreamTests[key]) {
-            (module.exports[key] = module.exports[key] || {})["superclass_"+id] = dataStreamTests[key][id];
+            if (dataStreamTests[key].hasOwnProperty(id))
+                (module.exports[key] = module.exports[key] || {})["superclass_"+id] = dataStreamTests[key][id];
         }
 
     }

@@ -11,3 +11,28 @@ Interface changes:
 Bugfixes:
 * Fixed error in MultiStream.mux
 * Fixed error in the flush method in split/match.
+
+## Version 1.3.1
+
+* Simplified stream transformations.
+* Improved docs
+
+## Version 1.4.0
+
+Interface changes:
+* ```DataStream::reduceNow``` introduced to allow reducing into an object
+  returned instantly.
+* ```StringStream::pop``` implemented
+* ```StringStream::separate``` and ```StringStream::slice``` prosposed
+
+Added proper tests for ```DataStream``` and ```StringStream``` and travis.ci.
+
+## Version 1.4.2
+
+* Improve tee and pop methods overriding
+* Fix ```stream.end``` handling in ```reduce```
+
+## Version 1.5.0
+
+* Change MultiStream methods to work asynchronously (return Promise instead of
+    the streams)

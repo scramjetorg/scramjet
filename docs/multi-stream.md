@@ -6,20 +6,24 @@ An object consisting of multiple streams than can be refined or muxed.
 **Kind**: global class  
 
 * [MultiStream](#MultiStream)
-    * [new MultiStream(streams)](#new_MultiStream_new)
+    * [new MultiStream(streams, options)](#new_MultiStream_new)
     * [.map(func)](#MultiStream+map) ⇒ <code>[MultiStream](#MultiStream)</code>
     * [.filter(func)](#MultiStream+filter) ⇒ <code>[MultiStream](#MultiStream)</code>
+    * [.dedupe(cmp)](#MultiStream+dedupe) ⇒ <code>DataStream</code>
     * [.mux(cmp)](#MultiStream+mux) ⇒ <code>DataStream</code>
+    * [.add(stream)](#MultiStream+add)
+    * [.remove(stream)](#MultiStream+remove)
 
 <a name="new_MultiStream_new"></a>
 
-### new MultiStream(streams)
+### new MultiStream(streams, options)
 Crates an instance of MultiStream with the specified stream list.
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| streams | <code>Array.&lt;stream.Readable&gt;</code> | the list of readable streams (other objects will be filtered out!) |
+| streams | <code>Array.&lt;stream.Readable&gt;</code> | the list of readable streams (other                                     objects will be filtered out!) |
+| options | <code>Object</code> | Optional options for the super object. ;) |
 
 <a name="MultiStream+map"></a>
 
