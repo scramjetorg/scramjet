@@ -27,7 +27,7 @@
   ],
   "scripts": {
     "test": "node run-test",
-    "preversion": "gulp && test -z \"$(git status --porcelain)\""
+    "preversion": "gulp"
   },
   "homepage": "https://michalcz.github.io/scramjet/",
   "repository": {
