@@ -36,3 +36,5 @@ Added proper tests for ```DataStream``` and ```StringStream``` and travis.ci.
 
 * Change MultiStream methods to work asynchronously (return Promise instead of
     the streams)
+* Document MultiStream add/remove methods
+* Enforce stricter jshint
