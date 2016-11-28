@@ -1,13 +1,16 @@
-"use strict";
+const gulp = require("gulp");
+const gutil = require("gulp-util");
+const gulpJsdoc2md = require("gulp-jsdoc-to-markdown");
+const rename = require("gulp-rename");
+const nodeunit_runner = require("gulp-nodeunit-runner");
+const jshint = require('gulp-jshint');
 
-var fs = require("fs");
-var gulp = require("gulp");
-var gutil = require("gulp-util");
-var gulpJsdoc2md = require("gulp-jsdoc-to-markdown");
-var rename = require("gulp-rename");
-var concat = require("gulp-concat");
-var nodeunit_runner = require("gulp-nodeunit-runner");
-
+gulp.task('lint', function() {
+  return gulp.src('./lib/*.js')
+    .pipe(jshint())
+    .pipe(jshint.reporter('jshint-stylish'))
+    .pipe(jshint.reporter('fail'));
+});
 
 gulp.task('test', function () {
     gulp.src("test/*.js")
@@ -26,4 +29,4 @@ gulp.task("docs", function() {
         .pipe(gulp.dest("docs/"));
 });
 
-gulp.task('default', ["docs", "test"]);
+gulp.task('default', ["docs", "test", "lint"]);
