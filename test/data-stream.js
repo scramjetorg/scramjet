@@ -10,7 +10,7 @@ const getStream = () => {
 };
 
 module.exports = {
-    test_group: (test) => {
+    test_group(test) {
         test.ok(true, "Group is not implemented");
         test.done();
     },
@@ -48,12 +48,12 @@ module.exports = {
 
         }
     },
-    test_slice: (test) => {
+    test_slice(test) {
         test.ok(true, "Slice is not implemented");
         test.done();
     },
     test_reduce: {
-        accumulator_tests: (test) => {
+        accumulator_tests(test) {
 
             test.expect(4);
 
@@ -83,7 +83,7 @@ module.exports = {
             );
 
         },
-        pass_accumulator_test: (test) => {
+        pass_accumulator_test(test) {
             test.expect(1);
 
             getStream()
@@ -102,7 +102,7 @@ module.exports = {
         }
     },
     test_reduceNow: {
-        accumulator_tests: (test) => {
+        accumulator_tests(test) {
 
             test.expect(3);
 
@@ -131,7 +131,7 @@ module.exports = {
 
         }
     },
-    test_map: (test) => {
+    test_map(test) {
         test.expect(3);
 
         let unmapped;
@@ -165,7 +165,7 @@ module.exports = {
             );
 
     },
-    test_filter: (test) => {
+    test_filter(test) {
         test.expect(3);
 
         let unfiltered;
@@ -198,7 +198,7 @@ module.exports = {
             );
     },
     test_pop: {
-        from_begining: (test) => {
+        from_begining(test) {
             test.expect(4);
 
             let popped;
@@ -225,11 +225,11 @@ module.exports = {
                 );
         }
     },
-    test_separate: (test) => {
+    test_separate(test) {
         test.done();
     },
     test_pipe: {
-        pipes: (test) => {
+        pipes(test) {
             test.expect(2);
 
             const orgStream = new DataStream();
@@ -242,7 +242,7 @@ module.exports = {
             test.notStrictEqual(orgStream, pipedStream, "Piped stream musn't be the same object");
             orgStream.end({val: 123});
         },
-        propagates_errors: (test) => {
+        propagates_errors(test) {
             test.expect(1);
 
             const orgStream = new DataStream();
@@ -254,5 +254,5 @@ module.exports = {
             });
             orgStream.emit("error", new Error("Hello!"));
         }
-}
+    }
 };

@@ -43,12 +43,14 @@
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.0",
     "gulp-jsdoc-to-markdown": "^1.2.2",
+    "gulp-jshint": "^2.0.4",
     "gulp-nodeunit-runner": "^0.2.2",
     "gulp-rename": "^1.2.2",
     "gulp-util": "^3.0.7",
+    "jshint": "^2.9.4",
+    "jshint-stylish": "^2.2.1",
     "nodeunit": "^0.10.2",
-    "request": "^2.73.0",
-    "request-promise": "^3.0.0"
+    "request": "^2.73.0"
   },
   "dependencies": {
     "mergesort-stream": "^1.0.1"

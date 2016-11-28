@@ -1,5 +1,7 @@
-master: [![Build Status](https://travis-ci.org/MichalCz/scramjet.svg?branch=master)](https://travis-ci.org/MichalCz/scramjet)
-develop: [![Build Status](https://travis-ci.org/MichalCz/scramjet.svg?branch=develop)](https://travis-ci.org/MichalCz/scramjet)
+[![Master Build Status](https://travis-ci.org/MichalCz/scramjet.svg?branch=master)](https://travis-ci.org/MichalCz/scramjet)
+[![Develop Build Status](https://travis-ci.org/MichalCz/scramjet.svg?branch=develop)](https://travis-ci.org/MichalCz/scramjet)
+[![Dependencies](https://david-dm.org/MichalCz/scramjet)](https://david-dm.org/MichalCz/scramjet)
+[![Dev Dependencies](https://david-dm.org/MichalCz/scramjet/dev-status.svg)](https://david-dm.org/MichalCz/scramjet?type=dev)
 
 ## What does it do?
 
