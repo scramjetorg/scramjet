@@ -14,7 +14,8 @@ gulp.task('lint', function() {
 
 gulp.task('test', function () {
     gulp.src("test/*.js")
-        .pipe(nodeunit_runner({reporter: "verbose"}));
+        .pipe(nodeunit_runner({reporter: "verbose"}))
+    ;
 });
 
 gulp.task("docs", function() {
