@@ -1,3 +1,51 @@
+# Scramjet 2.x
+
+* The interface for the following classes is now considered stable:
+  - ```DataStream```
+  - ```StringStream```
+  - ```BufferStream```
+  - ```MultiStream```
+* This means that no already existing method will change the interface and
+  essentially the current protocol will be backwards compatible.
+* Relicensed to the MIT License
+
+## Scramjet 2.0.0
+
+Initial release of the MIT licensed and stable version.
+
+# Scramjet 1.x
+
+With the release of 2.x the 1.x branch will no longer get support. The last
+version in code is identical to 2.0.0 and future releases in the next major
+will still be backwards compatible.
+
+## Version 1.5.0
+
+* Change MultiStream methods to work asynchronously (return Promise instead of
+    the streams)
+* Document MultiStream add/remove methods
+* Enforce stricter jshint
+
+## Version 1.4.2
+
+* Improve tee and pop methods overriding
+* Fix ```stream.end``` handling in ```reduce```
+
+## Version 1.4.0
+
+Interface changes:
+* ```DataStream::reduceNow``` introduced to allow reducing into an object
+  returned instantly.
+* ```StringStream::pop``` implemented
+* ```StringStream::separate``` and ```StringStream::slice``` prosposed
+
+Added proper tests for ```DataStream``` and ```StringStream``` and travis.ci.
+
+## Version 1.3.1
+
+* Simplified stream transformations.
+* Improved docs
+
 ## Version 1.3.0
 
 Interface changes:
@@ -11,30 +59,3 @@ Interface changes:
 Bugfixes:
 * Fixed error in MultiStream.mux
 * Fixed error in the flush method in split/match.
-
-## Version 1.3.1
-
-* Simplified stream transformations.
-* Improved docs
-
-## Version 1.4.0
-
-Interface changes:
-* ```DataStream::reduceNow``` introduced to allow reducing into an object
-  returned instantly.
-* ```StringStream::pop``` implemented
-* ```StringStream::separate``` and ```StringStream::slice``` prosposed
-
-Added proper tests for ```DataStream``` and ```StringStream``` and travis.ci.
-
-## Version 1.4.2
-
-* Improve tee and pop methods overriding
-* Fix ```stream.end``` handling in ```reduce```
-
-## Version 1.5.0
-
-* Change MultiStream methods to work asynchronously (return Promise instead of
-    the streams)
-* Document MultiStream add/remove methods
-* Enforce stricter jshint
