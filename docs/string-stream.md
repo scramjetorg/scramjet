@@ -10,6 +10,7 @@ A stream of string objects for further transformation on top of DataStream.
     * [new StringStream(encoding)](#new_StringStream_new)
     * [.split(splitter)](#StringStream+split) ⇒ <code>BufferStream</code>
     * [.match(splitter)](#StringStream+match) ⇒ <code>[StringStream](#StringStream)</code>
+    * [.parse(parser)](#StringStream+parse) ⇒ <code>DataStream</code>
 
 <a name="new_StringStream_new"></a>
 
@@ -52,4 +53,16 @@ Finds matches in the string stream and streams the match results
 | Param | Type | Description |
 | --- | --- | --- |
 | splitter | <code>RegExp</code> | A function that will be called for every                             stream chunk. |
+
+<a name="StringStream+parse"></a>
+
+### stringStream.parse(parser) ⇒ <code>DataStream</code>
+Parses every string to object. The method MUST parse EVERY string into asingle object, so the string stream here should already be splitted.
+
+**Kind**: instance method of <code>[StringStream](#StringStream)</code>  
+**Returns**: <code>DataStream</code> - The parsed objects stream.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| parser | <code>TransformFunction</code> | The transform function |
 
