@@ -106,7 +106,6 @@ module.exports = {
 
             test.expect(3);
 
-            let ended = false;
             const comparable = {sum: 0, cnt: 0};
             const ret = getStream()
                 .on("end",
@@ -130,6 +129,43 @@ module.exports = {
             );
 
         }
+    },
+    test_map_filter_chain(test) {
+        test.expect(3);
+
+        getStream()
+            .filter(
+                (item) => item.val % 2 === 0
+            )
+            .map((item) => ({
+                even: item.val % 2 === 0,
+                num: item.val
+            }))
+            .map((item) => ({
+                even: item.even,
+                num: item.num,
+                sq: item.num * item.num
+            }))
+            .filter(
+                (item) => item.sq % 16
+            )
+            .reduce(
+                (acc, item) => {
+                    acc.odd += item.even ? 0 : 1;
+                    acc.hexd += item.sq % 16 ? 0 : 1;
+                    acc.cnt++;
+                    return acc;
+                },
+                {odd: 0, hexd: 0, cnt: 0}
+            )
+            .then(
+                (out) => {
+                    test.equals(out.odd, 0, "Odds should be filtered");
+                    test.equals(out.hexd, 0, "Modulo 16 items should be filtered");
+                    test.equals(out.cnt, 25, "Stream should contain 25 items after filtering");
+                    test.done();
+                }
+            );
     },
     test_map(test) {
         test.expect(3);
