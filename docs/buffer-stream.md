@@ -7,9 +7,20 @@ A factilitation stream created for easy splitting or parsing a buffer
 **Extends:** <code>DataStream</code>  
 
 * [BufferStream](#BufferStream) ⇐ <code>DataStream</code>
+    * [new BufferStream(opts)](#new_BufferStream_new)
     * [.split(splitter)](#BufferStream+split) ⇒ <code>[BufferStream](#BufferStream)</code>
     * [.toStringStream(encoding)](#BufferStream+toStringStream) ⇒ <code>StringStream</code>
     * [.parse(parser)](#BufferStream+parse) ⇒ <code>DataStream</code>
+
+<a name="new_BufferStream_new"></a>
+
+### new BufferStream(opts)
+Create the BufferStream.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| opts | <code>object</code> | Stream options passed to superclass |
 
 <a name="BufferStream+split"></a>
 
@@ -18,6 +29,7 @@ Splits the buffer stream into buffer objects according to the passedfunction.
 
 **Kind**: instance method of <code>[BufferStream](#BufferStream)</code>  
 **Returns**: <code>[BufferStream](#BufferStream)</code> - the re-splitted buffer stream.  
+**See**: file: [../samples/buffer-stream-split.js](../samples/buffer-stream-split.js)  
 **Todo**
 
 - [ ] implement splitting by buffer or string
@@ -34,6 +46,7 @@ Creates a string stream from the given buffer stream. Still it returns aDataStr
 
 **Kind**: instance method of <code>[BufferStream](#BufferStream)</code>  
 **Returns**: <code>StringStream</code> - The converted stream.  
+**See**: file: [../samples/buffer-stream-tostringstream.js](../samples/buffer-stream-tostringstream.js)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -46,6 +59,7 @@ Parses every buffer to object. The method MUST parse EVERY buffer into asingle 
 
 **Kind**: instance method of <code>[BufferStream](#BufferStream)</code>  
 **Returns**: <code>DataStream</code> - The parsed objects stream.  
+**See**: file: [../samples/buffer-stream-parse.js](../samples/buffer-stream-parse.js)  
 
 | Param | Type | Description |
 | --- | --- | --- |

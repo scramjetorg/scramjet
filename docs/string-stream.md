@@ -29,6 +29,7 @@ Splits the buffer stream into buffer objects according to the passedfunction.
 
 **Kind**: instance method of <code>[StringStream](#StringStream)</code>  
 **Returns**: <code>BufferStream</code> - the re-splitted buffer stream.  
+**See**: file: [../samples/string-stream-split.js](../samples/string-stream-split.js)  
 **Todo**
 
 - [ ] implement splitting by buffer or string
@@ -45,6 +46,7 @@ Finds matches in the string stream and streams the match results
 
 **Kind**: instance method of <code>[StringStream](#StringStream)</code>  
 **Returns**: <code>[StringStream](#StringStream)</code> - string stream of matches.  
+**See**: file: [../samples/string-stream-match.js](../samples/string-stream-match.js)  
 **Todo**
 
 - [ ] implement splitting by buffer or string
@@ -61,6 +63,7 @@ Parses every string to object. The method MUST parse EVERY string into asingle 
 
 **Kind**: instance method of <code>[StringStream](#StringStream)</code>  
 **Returns**: <code>DataStream</code> - The parsed objects stream.  
+**See**: file: [../samples/string-stream-parse.js](../samples/string-stream-parse.js)  
 
 | Param | Type | Description |
 | --- | --- | --- |
