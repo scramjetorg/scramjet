@@ -52,17 +52,22 @@ dc.init()
     .readData(dc.http.readPostData(handler, "/api/vote"))
         .map(
             (data) => new Vote(data)
-        ).filter(
+        )
+        .filter(
             (vote) => vote !== Vote.invalid
-        ).group(
+        )
+        .group(
             (vote) => vote.phoneNumber
-        ).nagle().reduce(
+        )
+        .nagle()
+        .reduce(
             (cache, votes) => votes.forEach((vote) => cache.replace(vote)),
             dc.hashCache((vote) => vote.phoneNumber)
         )
 
         .use((cache) => cache.changeStream())
-            .nagle().reduce(
+            .nagle()
+            .reduce(
                 (emitter, changes) => {
                     const acc = {};
                     changes.forEach((change) => {
@@ -71,7 +76,8 @@ dc.init()
                     });
                     emitter.emit(acc);
                 }, dc.dataEmitter()
-            ).reduce(
+            )
+            .reduce(
                 (emitter, diff) => {
                     for (var id in diff) {
                         emitter.emit({
@@ -81,9 +87,12 @@ dc.init()
                     }
                 },
                 dc.dataEmitter()
-            ).nagle().group(
+            )
+            .nagle()
+            .group(
                 (subtotal) =>  subtotal.contestant
-            ).reduce(
+            )
+            .reduce(
                 (cache, subtotals) => cache.modify(subtotal[0].contestant,
                     (oldData) => {
 
