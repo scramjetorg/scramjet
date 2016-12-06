@@ -19,6 +19,8 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
     * [.filter(func)](#DataStream+filter) ⇒ <code>[DataStream](#DataStream)</code>
     * [.pop(count, func)](#DataStream+pop) ⇒ <code>[DataStream](#DataStream)</code>
     * [.separate()](#DataStream+separate) ⇒ <code>MultiStream</code>
+    * [.toBufferStream(serializer)](#DataStream+toBufferStream) ⇒ <code>BufferStream</code>
+    * [.toStringStream(serializer)](#DataStream+toStringStream) ⇒ <code>StringStream</code>
 
 <a name="new_DataStream_new"></a>
 
@@ -37,7 +39,7 @@ Should return a new instance of self. Normally this doesn't have to beoverridde
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
 **Returns**: <code>[DataStream](#DataStream)</code> - an empty instance of the same class.  
-**See**: file: [../samples/data-stream-selfinstance.js](../samples/data-stream-selfinstance.js)  
+**See**: example in file: [../samples/data-stream-selfinstance.js](../samples/data-stream-selfinstance.js)  
 <a name="DataStream+debug"></a>
 
 ### dataStream.debug(func) ⇒ <code>[DataStream](#DataStream)</code>
@@ -45,7 +47,7 @@ Injects a ```debugger``` statement when called.
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
 **Returns**: <code>[DataStream](#DataStream)</code> - self  
-**See**: file: [../samples/data-stream-debug.js](../samples/data-stream-debug.js)  
+**See**: example in file: [../samples/data-stream-debug.js](../samples/data-stream-debug.js)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -58,7 +60,7 @@ Calls the given callback for a hash, then makes sure all items with thesame has
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
 **Returns**: <code>[DataStream](#DataStream)</code> - self  
-**See**: file: [../samples/data-stream-group.js](../samples/data-stream-group.js)  
+**See**: example in file: [../samples/data-stream-group.js](../samples/data-stream-group.js)  
 **Todo**
 
 - [ ] Not yet implemented
@@ -75,7 +77,7 @@ Duplicate the stream and pass the duplicate to the passed callbackfunction.
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
 **Returns**: <code>[DataStream](#DataStream)</code> - self  
-**See**: file: [../samples/data-stream-tee.js](../samples/data-stream-tee.js)  
+**See**: example in file: [../samples/data-stream-tee.js](../samples/data-stream-tee.js)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -88,7 +90,7 @@ Returns a stream consisting of an array of items with `0` to `start`omitted and
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
 **Returns**: <code>[DataStream](#DataStream)</code> - the affected stream  
-**See**: file: [../samples/data-stream-slice.js](../samples/data-stream-slice.js)  
+**See**: example in file: [../samples/data-stream-slice.js](../samples/data-stream-slice.js)  
 **Todo**
 
 - [ ] to be implemented
@@ -106,7 +108,7 @@ Reduces the stream into the given object. The main difference to nativeis that 
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
 **Returns**: <code>Promise</code> - Promise resolved by the last object returned by the                   call of the transform function.  
-**See**: file: [../samples/data-stream-reduce.js](../samples/data-stream-reduce.js)  
+**See**: example in file: [../samples/data-stream-reduce.js](../samples/data-stream-reduce.js)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -120,7 +122,7 @@ Reduces the stream into the given object the same way as {@see reduce},but reso
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
 **Returns**: <code>Promise</code> - Promise resolved by the last object returned by the                   call of the transform function.  
-**See**: file: [../samples/data-stream-reduceNow.js](../samples/data-stream-reduceNow.js)  
+**See**: example in file: [../samples/data-stream-reduceNow.js](../samples/data-stream-reduceNow.js)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -134,7 +136,7 @@ Transforms stream objects into new ones, just like Array.prototype.mapdoes.
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
 **Returns**: <code>[DataStream](#DataStream)</code> - mapped stream  
-**See**: file: [../samples/data-stream-map.js](../samples/data-stream-map.js)  
+**See**: example in file: [../samples/data-stream-map.js](../samples/data-stream-map.js)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -147,7 +149,7 @@ Filters object based on the function outcome, just likeArray.prototype.filter.
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
 **Returns**: <code>[DataStream](#DataStream)</code> - filtered stream  
-**See**: file: [../samples/data-stream-filter.js](../samples/data-stream-filter.js)  
+**See**: example in file: [../samples/data-stream-filter.js](../samples/data-stream-filter.js)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -160,7 +162,7 @@ Pops the first item from the stream and pipes the other.
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
 **Returns**: <code>[DataStream](#DataStream)</code> - substream.  
-**See**: file: [../samples/data-stream-pop.js](../samples/data-stream-pop.js)  
+**See**: example in file: [../samples/data-stream-pop.js](../samples/data-stream-pop.js)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -173,7 +175,7 @@ Pops the first item from the stream and pipes the other.
 Splits the stream two ways
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
-**See**: file: [../samples/data-stream-separate.js](../samples/data-stream-separate.js)  
+**See**: example in file: [../samples/data-stream-separate.js](../samples/data-stream-separate.js)  
 **Todo**
 
 - [ ] Not yet implemented. Should use a number of tee+filter combination.
@@ -182,4 +184,28 @@ Splits the stream two ways
 | Param | Type | Description |
 | --- | --- | --- |
 | ...funcs | <code>TransformFunction</code> | The list of transfrom functions |
+
+<a name="DataStream+toBufferStream"></a>
+
+### dataStream.toBufferStream(serializer) ⇒ <code>BufferStream</code>
+Creates a BufferStream
+
+**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
+**Returns**: <code>BufferStream</code> - the resulting stream  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| serializer | <code>TransformFunction</code> | A method that converts objects to                                        Buffer. |
+
+<a name="DataStream+toStringStream"></a>
+
+### dataStream.toStringStream(serializer) ⇒ <code>StringStream</code>
+Creates a StringStream.
+
+**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
+**Returns**: <code>StringStream</code> - the resulting stream  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| serializer | <code>TransformFunction</code> | A method that converts objects to                                        String. |
 

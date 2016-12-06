@@ -202,7 +202,7 @@ module.exports = {
             test.expect(4);
 
             let popped;
-            const stream = getStream()
+            getStream()
                 .pop(3,
                     (items) => {
                         popped = items;

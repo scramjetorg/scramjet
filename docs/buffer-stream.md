@@ -9,6 +9,7 @@ A factilitation stream created for easy splitting or parsing a buffer
 * [BufferStream](#BufferStream) ⇐ <code>DataStream</code>
     * [new BufferStream(opts)](#new_BufferStream_new)
     * [.split(splitter)](#BufferStream+split) ⇒ <code>[BufferStream](#BufferStream)</code>
+    * [.breakup(number)](#BufferStream+breakup) ⇒ <code>[BufferStream](#BufferStream)</code>
     * [.toStringStream(encoding)](#BufferStream+toStringStream) ⇒ <code>StringStream</code>
     * [.parse(parser)](#BufferStream+parse) ⇒ <code>DataStream</code>
 
@@ -29,7 +30,7 @@ Splits the buffer stream into buffer objects according to the passedfunction.
 
 **Kind**: instance method of <code>[BufferStream](#BufferStream)</code>  
 **Returns**: <code>[BufferStream](#BufferStream)</code> - the re-splitted buffer stream.  
-**See**: file: [../samples/buffer-stream-split.js](../samples/buffer-stream-split.js)  
+**See**: example in file: [../samples/buffer-stream-split.js](../samples/buffer-stream-split.js)  
 **Todo**
 
 - [ ] implement splitting by buffer or string
@@ -39,6 +40,18 @@ Splits the buffer stream into buffer objects according to the passedfunction.
 | --- | --- | --- |
 | splitter | <code>function</code> | A function that will be called for every                             stream chunk. |
 
+<a name="BufferStream+breakup"></a>
+
+### bufferStream.breakup(number) ⇒ <code>[BufferStream](#BufferStream)</code>
+Breaks up a stream apart into chunks of the specified length
+
+**Kind**: instance method of <code>[BufferStream](#BufferStream)</code>  
+**Returns**: <code>[BufferStream](#BufferStream)</code> - the resulting buffer stream.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| number | <code>Number</code> | the desired chunk length |
+
 <a name="BufferStream+toStringStream"></a>
 
 ### bufferStream.toStringStream(encoding) ⇒ <code>StringStream</code>
@@ -46,7 +59,7 @@ Creates a string stream from the given buffer stream. Still it returns aDataStr
 
 **Kind**: instance method of <code>[BufferStream](#BufferStream)</code>  
 **Returns**: <code>StringStream</code> - The converted stream.  
-**See**: file: [../samples/buffer-stream-tostringstream.js](../samples/buffer-stream-tostringstream.js)  
+**See**: example in file: [../samples/buffer-stream-tostringstream.js](../samples/buffer-stream-tostringstream.js)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -59,7 +72,7 @@ Parses every buffer to object. The method MUST parse EVERY buffer into asingle 
 
 **Kind**: instance method of <code>[BufferStream](#BufferStream)</code>  
 **Returns**: <code>DataStream</code> - The parsed objects stream.  
-**See**: file: [../samples/buffer-stream-parse.js](../samples/buffer-stream-parse.js)  
+**See**: example in file: [../samples/buffer-stream-parse.js](../samples/buffer-stream-parse.js)  
 
 | Param | Type | Description |
 | --- | --- | --- |
