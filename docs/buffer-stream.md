@@ -8,6 +8,7 @@ A factilitation stream created for easy splitting or parsing a buffer
 
 * [BufferStream](#BufferStream) ⇐ <code>DataStream</code>
     * [new BufferStream(opts)](#new_BufferStream_new)
+    * [.pop(chars, func)](#BufferStream+pop) ⇒ <code>[BufferStream](#BufferStream)</code>
     * [.split(splitter)](#BufferStream+split) ⇒ <code>[BufferStream](#BufferStream)</code>
     * [.breakup(number)](#BufferStream+breakup) ⇒ <code>[BufferStream](#BufferStream)</code>
     * [.toStringStream(encoding)](#BufferStream+toStringStream) ⇒ <code>StringStream</code>
@@ -22,6 +23,20 @@ Create the BufferStream.
 | Param | Type | Description |
 | --- | --- | --- |
 | opts | <code>object</code> | Stream options passed to superclass |
+
+<a name="BufferStream+pop"></a>
+
+### bufferStream.pop(chars, func) ⇒ <code>[BufferStream](#BufferStream)</code>
+Works the same way as {@see DataStream.pop}, but in this case extractsthe given number of bytes.
+
+**Kind**: instance method of <code>[BufferStream](#BufferStream)</code>  
+**Returns**: <code>[BufferStream](#BufferStream)</code> - substream.  
+**See**: example in file: [../samples/string-stream-pop.js](../samples/string-stream-pop.js)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chars | <code>Number</code> | The number of bytes to pop. |
+| func | <code>TransformFunction</code> | Function that receives a string of popped                                 bytes. |
 
 <a name="BufferStream+split"></a>
 

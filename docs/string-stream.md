@@ -9,6 +9,7 @@ A stream of string objects for further transformation on top of DataStream.
 * [StringStream](#StringStream) ⇐ <code>DataStream</code>
     * [new StringStream(encoding)](#new_StringStream_new)
     * _instance_
+        * [.pop(bytes, func)](#StringStream+pop) ⇒ <code>[StringStream](#StringStream)</code>
         * [.split(splitter)](#StringStream+split) ⇒ <code>[StringStream](#StringStream)</code>
         * [.match(splitter)](#StringStream+match) ⇒ <code>[StringStream](#StringStream)</code>
         * [.toBufferStream()](#StringStream+toBufferStream) ⇒ <code>[StringStream](#StringStream)</code>
@@ -25,6 +26,20 @@ Constructs the stream with the given encoding.
 | Param | Type | Description |
 | --- | --- | --- |
 | encoding | <code>String</code> | the encoding to use |
+
+<a name="StringStream+pop"></a>
+
+### stringStream.pop(bytes, func) ⇒ <code>[StringStream](#StringStream)</code>
+Works the same way as {@see DataStream.pop}, but in this case extractsthe given number of characters.
+
+**Kind**: instance method of <code>[StringStream](#StringStream)</code>  
+**Returns**: <code>[StringStream](#StringStream)</code> - substream.  
+**See**: example in file: [../samples/string-stream-pop.js](../samples/string-stream-pop.js)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| bytes | <code>Number</code> | The number of characters to pop. |
+| func | <code>TransformFunction</code> | Function that receives a string of popped                                 chars. |
 
 <a name="StringStream+split"></a>
 
