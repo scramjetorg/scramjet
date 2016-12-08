@@ -3,8 +3,14 @@
 
 const BufferStream = require('../').BufferStream;
 
-require("fs")
-    .createReadStream(require("path").resolve(__dirname, "./data/in-binary.bin"))
-    .pipe(new BufferStream())
-    .on("data", (chunk) => console.log("chunk of " + chunk.length + " bytes"))
+exports.stream = () =>
+    require("fs").createReadStream(
+        require("path").resolve(__dirname, "./data/in-nasdaq.bin")
+    )
+    .pipe(new BufferStream())                                                   // construct the BufferStream
 ;
+
+exports.test = (test) => {
+    test.ok(exports.stream() instanceof BufferStream, "exports.stream instance of BufferStream");
+    test.done();
+};
