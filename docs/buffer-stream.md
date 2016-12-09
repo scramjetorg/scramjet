@@ -62,6 +62,7 @@ Breaks up a stream apart into chunks of the specified length
 
 **Kind**: instance method of <code>[BufferStream](#BufferStream)</code>  
 **Returns**: <code>[BufferStream](#BufferStream)</code> - the resulting buffer stream.  
+**See**: example in file: [../samples/buffer-stream-breakup.js](../samples/buffer-stream-breakup.js)  
 
 | Param | Type | Description |
 | --- | --- | --- |
