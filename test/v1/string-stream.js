@@ -1,5 +1,5 @@
-const StringStream = require('../').StringStream;
-const DataStream = require('../').DataStream;
+const StringStream = require('../../').StringStream;
+const DataStream = require('../../').DataStream;
 const Readable = require('stream').Readable;
 
 const getStream = (arr) => {

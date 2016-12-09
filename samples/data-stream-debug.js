@@ -18,7 +18,7 @@ fs.createReadStream(path.resolve(__dirname, "./data/in-nasdaq.bin"))           /
     )                                                                           // returns a DataStream
     .debug()                                                                    // node debugger will stop here for inspection
     .on("data",
-        (data) => console.log("stock: ", data.symbol, data.price + " USD", data.change + " USD")
+        (data) => exports.log("stock: ", data.symbol, data.price + " USD", data.change + " USD")
     )
     .on("error",
         (e) => {
@@ -26,3 +26,4 @@ fs.createReadStream(path.resolve(__dirname, "./data/in-nasdaq.bin"))           /
             process.exit(100);
         }
     );
+exports.log = console.log.bind(console);

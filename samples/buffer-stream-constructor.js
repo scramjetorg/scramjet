@@ -10,7 +10,11 @@ exports.stream = () =>
     .pipe(new BufferStream())                                                   // construct the BufferStream
 ;
 
+// ------- END EXAMPLE --------
+
 exports.test = (test) => {
     test.ok(exports.stream() instanceof BufferStream, "exports.stream instance of BufferStream");
     test.done();
 };
+
+exports.log = console.log.bind(console);

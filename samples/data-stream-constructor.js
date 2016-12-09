@@ -20,7 +20,7 @@ fs.createReadStream(path.resolve(__dirname, "./data/in-nasdaq.bin"))           /
     )                                                                           // actually returns the DataStream, but there's nothing to keep you from
     .pipe(new DataStream())                                                     // constructing a DataStream
     .on("data",
-        (data) => console.log("stock: ", data.symbol, data.price + " USD", data.change + " USD")
+        (data) => exports.log("stock: ", data.symbol, data.price + " USD", data.change + " USD")
     )
     .on("error",
         (e) => {
@@ -28,3 +28,4 @@ fs.createReadStream(path.resolve(__dirname, "./data/in-nasdaq.bin"))           /
             process.exit(100);
         }
     );
+exports.log = console.log.bind(console);

@@ -1,11 +1,11 @@
 #!/usr/bin/env node
-// module: buffer-stream, method: parse
+// module: buffer-stream, method: pop
+
 const crypto = require('crypto');
 
 let popped;
 
-exports.stream = () =>
-    require("./buffer-stream-constructor")
+exports.stream = () => require("./buffer-stream-constructor")
     .stream()                                                                   // get BufferStream from another example
     .pop(13, (p) => {                                                           // pop 13 bytes
         popped = {
@@ -13,32 +13,23 @@ exports.stream = () =>
             len: p.length,
             md5: crypto.createHash("md5").update(p).digest("hex")
         };
-    });
+    })
+;
 
+// ------- END EXAMPLE --------
 
 exports.test = (test) => {
-    test.expect(3);
+    test.expect(2);
 
-    let allDataParsed = 0;
     exports.stream()
-        .once("data",
-            (data) => {
-                console.log("stock: ", data.symbol, data.price + " USD", data.change + " USD");
-                if (typeof data.symbol === "string" && data.price > 0 && typeof data.change === "number") {
-                    allDataParsed++;
-                }
-            }
-        )
-        .on("end", () => {
-            test.equals(allDataParsed, 105, "All data was parsed properly");
+        .once("data", (buf) => {
+            test.equals(popped.len, 13, "All data was parsed properly");
+            test.notEqual(popped.buf.toString("hex"), buf.toString("hex"), "Pop removed data from the item");
             test.done();
         })
-        .on("error",
-            (e) => {
-                console.error(e && e.stack);
-                test.ok(false, "Should not throw error", e && e.stack);
-            }
-        );
-
+        .on("error", (e) => { console.error("Error", e && e.stack); test.ok(0, "Error should not occur"); })
+    ;
 
 };
+
+exports.log = console.log.bind(console);

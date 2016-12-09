@@ -3,9 +3,9 @@
 
 const DataStream = require("../").DataStream;
 
-exports.stream = () =>
-    require("./buffer-stream-constructor")
+exports.stream = () => require("./buffer-stream-constructor")
     .stream()                                                                   // get BufferStream from another example
+    .breakup(13)                                                                // get the data in 13 byte chunks
     .parse(                                                                     // parse every chunk
         (chunk) => ({
             symbol: chunk.toString("ascii", 0, 5).toUpperCase().trim(),         // extract symbol from first 5 bytes
@@ -14,29 +14,25 @@ exports.stream = () =>
         })
     );
 
+// ------- END EXAMPLE --------
+
 exports.test = (test) => {
-    test.expect(3);
+    test.expect(2);
 
     let allDataParsed = 0;
     const str = exports.stream()
         .on("data",
             (data) => {
-                console.log("stock: ", data.symbol, data.price + " USD", data.change + " USD");
-                if (typeof data.symbol === "string" && data.price > 0 && typeof data.change === "number") {
+                if (typeof data.symbol === "string" && data.price > 0 && typeof data.change === "number")
                     allDataParsed++;
-                }
             }
         )
         .on("end", () => {
             test.equals(allDataParsed, 105, "All data was parsed properly");
             test.done();
         })
-        .on("error",
-            (e) => {
-                console.error(e && e.stack);
-                test.ok(false, "Should not throw error", e && e.stack);
-            }
-        );
-
-    test.ok(str instanceof DataStream, "");
+        .on("error", (e) => { console.error("Error", e && e.stack); test.ok(0, "Error should not occur"); })
+    ;
+    test.ok(str instanceof DataStream, "Returns a DataStream");
 };
+exports.log = console.log.bind(console);

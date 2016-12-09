@@ -1,23 +1,27 @@
 #!/usr/bin/env node
 // module: buffer-stream, method: tostringstream
 
-const BufferStream = require('../').BufferStream;
-const fs = require('fs');
-const path = require('path');
+const StringStream = require('../').StringStream;
 
-let cnt = 0;
-
-fs.createReadStream(path.resolve(__dirname, "./data/in-binary.b64l"))           // read input data
-    .pipe(new BufferStream())                                                   // pipe to the transforming stream
-    .split(Buffer.from("\n"))                                                   // Split by LF
+exports.stream = () => require("./buffer-stream-constructor")
+    .stream()                                                                   // get BufferStream from another example
     .toStringStream("ascii")                                                    // read as ASCII
     .map(
         (b64) => Buffer.from(b64, "base64").toString()
-    )
-    .on("data", (str) => (console.log("got a line", str), cnt++))
-    .on("error",
-        (e) => {
-            console.error("Error", e && e.stack);
-            process.exit(100);
-        }
     );
+
+exports.test = (test) => {
+    test.expect(2);
+
+    const ret = exports.stream()
+        .toStringStream("utf-8")
+        .once("data", (line) => {
+            test.ok(typeof line === "string", "Should emit lines as strings");
+            test.done();
+        })
+        .on("error", (e) => { console.error("Error", e && e.stack); test.ok(0, "Error should not occur"); });
+
+    test.ok(ret instanceof StringStream, "Returns a StringStream");
+};
+
+exports.log = console.log.bind(console);

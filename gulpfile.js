@@ -4,6 +4,7 @@ const gulpJsdoc2md = require("gulp-jsdoc-to-markdown");
 const rename = require("gulp-rename");
 const nodeunit_runner = require("gulp-nodeunit-runner");
 const jshint = require('gulp-jshint');
+const exec = require('gulp-exec');
 
 gulp.task('lint', function() {
   return gulp.src('./lib/*.js')
@@ -12,10 +13,16 @@ gulp.task('lint', function() {
     .pipe(jshint.reporter('fail'));
 });
 
-gulp.task('test', function () {
-    gulp.src("test/*.js")
+gulp.task("test_legacy", function () {
+    return gulp.src("test/v1/*.js")
         .pipe(nodeunit_runner({reporter: "verbose"}))
     ;
+});
+
+gulp.task("test_samples", ['docs'], function() {
+    return gulp.src("test/samples/*.js")
+        .pipe(exec("node <%= file.path %>"))
+        .pipe(exec.reporter());
 });
 
 gulp.task("docs", function() {
@@ -30,4 +37,4 @@ gulp.task("docs", function() {
         .pipe(gulp.dest("docs/"));
 });
 
-gulp.task('default', ["docs", "test", "lint"]);
+gulp.task('default', ["docs", "test_legacy", "test_samples", "lint"]);

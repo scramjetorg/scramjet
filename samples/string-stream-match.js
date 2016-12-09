@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // module: string-stream, method: match
 
-const StringStream = require('scramjet').StringStream;
+const StringStream = require('../').StringStream;
 
 
+exports.log = console.log.bind(console);
