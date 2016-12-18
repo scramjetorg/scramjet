@@ -82,11 +82,27 @@ module.exports = scramjet.fromArray(
             (acc, key) => (acc[key] = tests[key], acc),
             {}
         );
-        nodeunit.run("samples_test", tests, null, (err) => err ? j(err) : s());
+        nodeunit.run("samples_test", tests, null, (err, outcome) => {
+            if (err) {
+                return j(err);
+            } else {
+                err = outcome.filter(
+                    (item) => item.error
+                );
+                if (err.length) {
+                    return j(err);
+                } else {
+                    return s();
+                }
+            }
+        });
     })
 ).then(
     () => console.log("Tests succeeded!"),
-    (e) => console.error("Some tests failed", e)
+    (e) => {
+        console.error("Some tests failed", e);
+        process.exit(101);
+    }
 ).catch(
     (error) => {
         console.log("Error", error);

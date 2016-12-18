@@ -3,29 +3,16 @@
 
 const DataStream = require('../').DataStream;
 
-const BufferStream = require('../').BufferStream;
+exports.stream = () =>require("./buffer-stream-parse")
+    .stream()                                                                   // get BufferStream from another example
+    .pipe(new DataStream())                                                     // construct the DataStream
+;
 
-const fs = require('fs');
-const path = require('path');
+// ------- END EXAMPLE --------
 
-fs.createReadStream(path.resolve(__dirname, "./data/in-nasdaq.bin"))           // read input data
-    .pipe(new BufferStream())                                                   // pipe to the transforming stream
-    .breakup(13)                                                                // breakup into 11-byte chunks (remember! this is an Object stream!)
-    .parse(                                                                     // parse every chunk
-        (chunk) => ({
-            symbol: chunk.toString("ascii", 0, 5).toUpperCase().trim(),         // extract symbol from first 5 bytes
-            price: chunk.readUInt32LE(5) / 100,                                 // extract 4-byte unsigned price value
-            change: chunk.readInt32LE(9) / 100                                  // extract 4-byte signed change value
-        })
-    )                                                                           // actually returns the DataStream, but there's nothing to keep you from
-    .pipe(new DataStream())                                                     // constructing a DataStream
-    .on("data",
-        (data) => exports.log("stock: ", data.symbol, data.price + " USD", data.change + " USD")
-    )
-    .on("error",
-        (e) => {
-            console.error("Error", e && e.stack);
-            process.exit(100);
-        }
-    );
+exports.test = (test) => {
+    test.ok(exports.stream() instanceof DataStream, "exports.stream instance of DataStream");
+    test.done();
+};
+
 exports.log = console.log.bind(console);

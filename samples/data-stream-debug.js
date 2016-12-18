@@ -1,29 +1,27 @@
 #!/usr/bin/env node
-// module: data-stream, method: debug
+// module: data-stream, method: constructor
 
-const BufferStream = require('../').BufferStream;
+const DataStream = require('../').DataStream;
 
-const fs = require('fs');
-const path = require('path');
-
-fs.createReadStream(path.resolve(__dirname, "./data/in-nasdaq.bin"))           // read input data
-    .pipe(new BufferStream())                                                   // pipe to the transforming stream
-    .breakup(13)                                                                // breakup into 11-byte chunks (remember! this is an Object stream!)
-    .parse(                                                                     // parse every chunk
-        (chunk) => ({
-            symbol: chunk.toString("ascii", 0, 5).toUpperCase().trim(),         // extract symbol from first 5 bytes
-            price: chunk.readUInt32LE(5) / 100,                                 // extract 4-byte unsigned price value
-            change: chunk.readInt32LE(9) / 100                                  // extract 4-byte signed change value
-        })
-    )                                                                           // returns a DataStream
-    .debug()                                                                    // node debugger will stop here for inspection
-    .on("data",
-        (data) => exports.log("stock: ", data.symbol, data.price + " USD", data.change + " USD")
+let assigned;
+exports.stream = () => require("./data-stream-constructor")
+    .stream()                                                                   // get BufferStream from another example
+    .debug(                                                                     // pauses the debugger here (<-- HERE, not on data!)
+        (stream) => exports.log(stream)                                         // inspect the kind of stream we have here
     )
-    .on("error",
-        (e) => {
-            console.error("Error", e && e.stack);
-            process.exit(100);
-        }
-    );
+    .debug(
+        (stream) => assigned = stream
+    )
+;
+
+// ------- END EXAMPLE --------
+
+exports.test = (test) => {
+    const returned = exports.stream();
+    test.ok(returned instanceof DataStream, "exports.stream instance of DataStream");
+    test.ok(assigned, "debug should work synchronously");
+    test.equals(returned, assigned, "debug should not change the stream");
+    test.done();
+};
+
 exports.log = console.log.bind(console);
