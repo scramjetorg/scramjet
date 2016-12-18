@@ -9,6 +9,17 @@
   essentially the current protocol will be backwards compatible.
 * Relicensed to the MIT License
 
+## Scramjet 2.1.0
+
+* pop method now working consistently in Buffer and String Streams (pops a
+  number of bytes instead of buffers/strings)
+* breakup method introduced in BufferStream - breaks stream up into set length
+  chunks.
+* DataStream fromArray and toArray shorthand methods added.
+* toBufferStream/toStringStream methods added on StringStream and BufferStream
+* DataStream remap function added
+* DataStream pop now operates on a copy of the original array.
+
 ## Scramjet 2.0.0
 
 Initial release of the MIT licensed and stable version.

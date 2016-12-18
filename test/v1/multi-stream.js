@@ -1,5 +1,5 @@
-const MultiStream = require('../').MultiStream;
-const DataStream = require('../').DataStream;
+const MultiStream = require('../../').MultiStream;
+const DataStream = require('../../').DataStream;
 const EventEmitter = require('events').EventEmitter;
 
 const getStream = (n, z) => {

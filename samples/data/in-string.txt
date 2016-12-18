@@ -1,0 +1,1 @@
+EUR,2016-06-16T16:30:00Z,1t,apples 3.40,pears 5.40,plums 2.10,grapes 7.10,bananas 2.30

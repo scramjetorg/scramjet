@@ -7,9 +7,36 @@ A factilitation stream created for easy splitting or parsing a buffer
 **Extends:** <code>DataStream</code>  
 
 * [BufferStream](#BufferStream) ⇐ <code>DataStream</code>
+    * [new BufferStream(opts)](#new_BufferStream_new)
+    * [.pop(chars, func)](#BufferStream+pop) ⇒ <code>[BufferStream](#BufferStream)</code>
     * [.split(splitter)](#BufferStream+split) ⇒ <code>[BufferStream](#BufferStream)</code>
+    * [.breakup(number)](#BufferStream+breakup) ⇒ <code>[BufferStream](#BufferStream)</code>
     * [.toStringStream(encoding)](#BufferStream+toStringStream) ⇒ <code>StringStream</code>
     * [.parse(parser)](#BufferStream+parse) ⇒ <code>DataStream</code>
+
+<a name="new_BufferStream_new"></a>
+
+### new BufferStream(opts)
+Create the BufferStream.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| opts | <code>object</code> | Stream options passed to superclass |
+
+<a name="BufferStream+pop"></a>
+
+### bufferStream.pop(chars, func) ⇒ <code>[BufferStream](#BufferStream)</code>
+Works the same way as {@see DataStream.pop}, but in this case extractsthe given number of bytes.
+
+**Kind**: instance method of <code>[BufferStream](#BufferStream)</code>  
+**Returns**: <code>[BufferStream](#BufferStream)</code> - substream.  
+**See**: example in file: [../samples/string-stream-pop.js](../samples/string-stream-pop.js)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chars | <code>Number</code> | The number of bytes to pop. |
+| func | <code>TransformFunction</code> | Function that receives a string of popped                                 bytes. |
 
 <a name="BufferStream+split"></a>
 
@@ -18,6 +45,7 @@ Splits the buffer stream into buffer objects according to the passedfunction.
 
 **Kind**: instance method of <code>[BufferStream](#BufferStream)</code>  
 **Returns**: <code>[BufferStream](#BufferStream)</code> - the re-splitted buffer stream.  
+**See**: example in file: [../samples/buffer-stream-split.js](../samples/buffer-stream-split.js)  
 **Todo**
 
 - [ ] implement splitting by buffer or string
@@ -27,6 +55,19 @@ Splits the buffer stream into buffer objects according to the passedfunction.
 | --- | --- | --- |
 | splitter | <code>function</code> | A function that will be called for every                             stream chunk. |
 
+<a name="BufferStream+breakup"></a>
+
+### bufferStream.breakup(number) ⇒ <code>[BufferStream](#BufferStream)</code>
+Breaks up a stream apart into chunks of the specified length
+
+**Kind**: instance method of <code>[BufferStream](#BufferStream)</code>  
+**Returns**: <code>[BufferStream](#BufferStream)</code> - the resulting buffer stream.  
+**See**: example in file: [../samples/buffer-stream-breakup.js](../samples/buffer-stream-breakup.js)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| number | <code>Number</code> | the desired chunk length |
+
 <a name="BufferStream+toStringStream"></a>
 
 ### bufferStream.toStringStream(encoding) ⇒ <code>StringStream</code>
@@ -34,6 +75,7 @@ Creates a string stream from the given buffer stream. Still it returns aDataStr
 
 **Kind**: instance method of <code>[BufferStream](#BufferStream)</code>  
 **Returns**: <code>StringStream</code> - The converted stream.  
+**See**: example in file: [../samples/buffer-stream-tostringstream.js](../samples/buffer-stream-tostringstream.js)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -46,6 +88,7 @@ Parses every buffer to object. The method MUST parse EVERY buffer into asingle 
 
 **Kind**: instance method of <code>[BufferStream](#BufferStream)</code>  
 **Returns**: <code>DataStream</code> - The parsed objects stream.  
+**See**: example in file: [../samples/buffer-stream-parse.js](../samples/buffer-stream-parse.js)  
 
 | Param | Type | Description |
 | --- | --- | --- |
