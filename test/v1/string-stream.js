@@ -1,10 +1,10 @@
-const StringStream = require('../').StringStream;
-const DataStream = require('../').DataStream;
+const StringStream = require('../../').StringStream;
+const DataStream = require('../../').DataStream;
 const Readable = require('stream').Readable;
 
 const getStream = (arr) => {
     const ret = new Readable({
-        read(size) {
+        read() {
             const tup = arr.shift();
             if (tup) {
                 this.push(tup);

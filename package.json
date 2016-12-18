@@ -53,6 +53,7 @@
     "request": "^2.73.0"
   },
   "dependencies": {
+    "gulp-exec": "^2.1.3",
     "mergesort-stream": "^1.0.1"
   }
 }

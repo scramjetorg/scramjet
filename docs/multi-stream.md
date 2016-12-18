@@ -32,6 +32,7 @@ Runs callback for every stream, returns a new MultiStream of mappedstreams and 
 
 **Kind**: instance method of <code>[MultiStream](#MultiStream)</code>  
 **Returns**: <code>[MultiStream](#MultiStream)</code> - the mapped instance  
+**See**: example in file: [../samples/multi-stream-map.js](../samples/multi-stream-map.js)  
 **Todo**
 
 - [ ] For later add/remove operations to work properly, the stream mustcurrently return the same instance!
@@ -48,6 +49,7 @@ Filters the stream list and returns a new MultiStream with only thestreams for 
 
 **Kind**: instance method of <code>[MultiStream](#MultiStream)</code>  
 **Returns**: <code>[MultiStream](#MultiStream)</code> - the filtered instance  
+**See**: example in file: [../samples/multi-stream-filter.js](../samples/multi-stream-filter.js)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -60,6 +62,7 @@ Makes a number of redundant streams into a single one
 
 **Kind**: instance method of <code>[MultiStream](#MultiStream)</code>  
 **Returns**: <code>DataStream</code> - the deduplicated stream  
+**See**: example in file: [../samples/multi-stream-dedupe.js](../samples/multi-stream-dedupe.js)  
 **Todo**
 
 - [ ] Not yet implemented
@@ -76,6 +79,7 @@ Muxes the streams into a single one.
 
 **Kind**: instance method of <code>[MultiStream](#MultiStream)</code>  
 **Returns**: <code>DataStream</code> - The resulting DataStream  
+**See**: example in file: [../samples/multi-stream-mux.js](../samples/multi-stream-mux.js)  
 **Todo**
 
 - [ ] For now using comparator will not affect the mergesort.
@@ -92,6 +96,7 @@ Muxes the streams into a single one.
 Adds a stream to the MultiStream. If the stream was muxed, filtered ormapped, this stream will undergo the same transorms and conditions asif it was added in constructor.
 
 **Kind**: instance method of <code>[MultiStream](#MultiStream)</code>  
+**See**: example in file: [../samples/multi-stream-add.js](../samples/multi-stream-add.js)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -103,6 +108,7 @@ Adds a stream to the MultiStream. If the stream was muxed, filtered ormapped, t
 Removes a stream from the MultiStream. If the stream was muxed, filteredor mapped, it will be removed from same streams
 
 **Kind**: instance method of <code>[MultiStream](#MultiStream)</code>  
+**See**: example in file: [../samples/multi-stream-remove.js](../samples/multi-stream-remove.js)  
 
 | Param | Type | Description |
 | --- | --- | --- |

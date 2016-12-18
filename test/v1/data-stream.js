@@ -1,4 +1,4 @@
-const DataStream = require('../').DataStream;
+const DataStream = require('../../').DataStream;
 
 const getStream = () => {
     const ret = new DataStream();
@@ -106,7 +106,6 @@ module.exports = {
 
             test.expect(3);
 
-            let ended = false;
             const comparable = {sum: 0, cnt: 0};
             const ret = getStream()
                 .on("end",
@@ -202,7 +201,7 @@ module.exports = {
             test.expect(4);
 
             let popped;
-            const stream = getStream()
+            getStream()
                 .pop(3,
                     (items) => {
                         popped = items;
