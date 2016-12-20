@@ -26,8 +26,8 @@
     "parser"
   ],
   "scripts": {
-    "test": "node run-test",
-    "preversion": "gulp"
+    "test": "gulp test",
+    "preversion": "gulp prerelease"
   },
   "homepage": "https://michalcz.github.io/scramjet/",
   "repository": {
@@ -42,18 +42,20 @@
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.0",
+    "gulp-exec": "^2.1.3",
     "gulp-jsdoc-to-markdown": "^1.2.2",
     "gulp-jshint": "^2.0.4",
     "gulp-nodeunit-runner": "^0.2.2",
     "gulp-rename": "^1.2.2",
     "gulp-util": "^3.0.7",
+    "jsdoc-to-markdown": "^2.0.1",
     "jshint": "^2.9.4",
     "jshint-stylish": "^2.2.1",
     "nodeunit": "^0.10.2",
-    "request": "^2.73.0"
+    "request": "^2.73.0",
+    "through2": "^2.0.3"
   },
   "dependencies": {
-    "gulp-exec": "^2.1.3",
     "mergesort-stream": "^1.0.1"
   }
 }

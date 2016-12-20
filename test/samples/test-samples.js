@@ -27,7 +27,7 @@ module.exports = scramjet.fromArray(
         return fs.createReadStream(item.srcpath)
             .pipe(new scramjet.StringStream())
             .split(scramjet.StringStream.SPLIT_LINE)
-            .match(/@see example.*\{@link ([^\}]+)(?:\|[^\}]*)?\}/gi)
+            .match(/@example.*\{@link ([^\}]+)(?:\|[^\}]*)?\}/gi)
             .map((match) => new Promise((s) => {
                 const file = path.resolve(__dirname, "../", match);
                 fs.access(
