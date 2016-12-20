@@ -5,3 +5,5 @@ node_js:
 before_script:
   - npm install -g gulp
 script: gulp
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

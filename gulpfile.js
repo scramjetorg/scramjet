@@ -37,4 +37,5 @@ gulp.task("docs", function() {
         .pipe(gulp.dest("docs/"));
 });
 
+gulp.task("test", ["test_legacy", "test_samples"]);
 gulp.task('default', ["docs", "test_legacy", "test_samples", "lint"]);
