@@ -50,7 +50,7 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
         * [.reduceNow(func, into)](#DataStream+reduceNow) ⇒ <code>Promise</code>
         * [.remap(func, Clazz)](#DataStream+remap) ⇒ <code>[DataStream](#DataStream)</code>
         * [.each(func)](#DataStream+each) ↩︎
-        * [.map(func)](#DataStream+map) ⇒ <code>[DataStream](#DataStream)</code>
+        * [.map(func, Clazz)](#DataStream+map) ⇒ <code>[DataStream](#DataStream)</code>
         * [.filter(func)](#DataStream+filter) ⇒ <code>[DataStream](#DataStream)</code>
         * [.pop(count, func)](#DataStream+pop) ⇒ <code>[DataStream](#DataStream)</code>
         * [.separate()](#DataStream+separate) ⇒ <code>MultiStream</code>
@@ -226,7 +226,7 @@ Performs an operation on every chunk, without changing the streamThis is a sho
 
 <a name="DataStream+map"></a>
 
-### dataStream.map(func) ⇒ <code>[DataStream](#DataStream)</code>
+### dataStream.map(func, Clazz) ⇒ <code>[DataStream](#DataStream)</code>
 Transforms stream objects into new ones, just like Array.prototype.mapdoes.
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
@@ -235,6 +235,7 @@ Transforms stream objects into new ones, just like Array.prototype.mapdoes.
 | Param | Type | Description |
 | --- | --- | --- |
 | func | <code>[MapCallback](#MapCallback)</code> | The function that creates the new object |
+| Clazz | <code>Class</code> | (optional) The class to be mapped to. |
 
 **Example**  
 ```js
