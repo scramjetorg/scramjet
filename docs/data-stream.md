@@ -15,8 +15,19 @@ streamed through your flow.</p>
 <dd></dd>
 <dt><a href="#TeeCallback">TeeCallback</a> : <code>function</code></dt>
 <dd></dd>
+<dt><a href="#AccumulateCallback">AccumulateCallback</a> ⇒ <code>Promise</code> | <code>*</code></dt>
+<dd></dd>
 <dt><a href="#ReduceCallback">ReduceCallback</a> ⇒ <code>Promise</code> | <code>*</code></dt>
 <dd></dd>
+<dt><a href="#RemapCallback">RemapCallback</a> ⇒ <code>Promise</code> | <code>*</code></dt>
+<dd></dd>
+<dt><a href="#MapCallback">MapCallback</a> ⇒ <code>Promise</code> | <code>*</code></dt>
+<dd></dd>
+<dt><a href="#FilterCallback">FilterCallback</a> ⇒ <code>Promise</code> | <code>Boolean</code></dt>
+<dd></dd>
+<dt><a href="#PopCallback">PopCallback</a> : <code>function</code></dt>
+<dd><p>Pop callback</p>
+</dd>
 </dl>
 
 <a name="DataStream"></a>
@@ -34,9 +45,11 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
         * [.group(func)](#DataStream+group) ⇒ <code>[DataStream](#DataStream)</code>
         * [.tee(func)](#DataStream+tee) ⇒ <code>[DataStream](#DataStream)</code>
         * [.slice(start, end, func)](#DataStream+slice) ⇒ <code>[DataStream](#DataStream)</code>
+        * [.accumulate(func, into)](#DataStream+accumulate) ⇒ <code>Promise</code>
         * [.reduce(func, into)](#DataStream+reduce) ⇒ <code>Promise</code>
         * [.reduceNow(func, into)](#DataStream+reduceNow) ⇒ <code>Promise</code>
         * [.remap(func, Clazz)](#DataStream+remap) ⇒ <code>[DataStream](#DataStream)</code>
+        * [.each(func)](#DataStream+each) ↩︎
         * [.map(func)](#DataStream+map) ⇒ <code>[DataStream](#DataStream)</code>
         * [.filter(func)](#DataStream+filter) ⇒ <code>[DataStream](#DataStream)</code>
         * [.pop(count, func)](#DataStream+pop) ⇒ <code>[DataStream](#DataStream)</code>
@@ -129,12 +142,25 @@ Gets a slice of the stream to the callback function.Returns a stream consistin
 | --- | --- | --- |
 | start | <code>Number</code> | omit this number of entries. |
 | end | <code>Number</code> | end at this number of entries (from 0) |
-| func | <code>PopCallback</code> | the callback |
+| func | <code>[PopCallback](#PopCallback)</code> | the callback |
 
 **Example**  
 ```js
 [../samples/data-stream-slice.js](../samples/data-stream-slice.js)
 ```
+<a name="DataStream+accumulate"></a>
+
+### dataStream.accumulate(func, into) ⇒ <code>Promise</code>
+Accumulates data into the object.Works very similarily to reduce, but result of previous operations haveno influence over the accumulator in the next one.
+
+**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
+**Returns**: <code>Promise</code> - resolved with the "into" object on stream end.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| func | <code>[AccumulateCallback](#AccumulateCallback)</code> | The accumulation function |
+| into | <code>\*</code> | Accumulator object |
+
 <a name="DataStream+reduce"></a>
 
 ### dataStream.reduce(func, into) ⇒ <code>Promise</code>
@@ -162,7 +188,7 @@ Reduces the stream into the given object the same way as {@see reduce},but reso
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>TransformFunction</code> | The into object will be passed as the                                  first argument, the data object from the                                  stream as the second. |
+| func | <code>[ReduceCallback](#ReduceCallback)</code> | The into object will be passed as the first                               argument, the data object from the stream                               as the second. |
 | into | <code>Object</code> | Any object passed initally to the transform                       function |
 
 **Example**  
@@ -186,6 +212,18 @@ Remaps the stream into a new stream. This means that every item mayemit as many
 ```js
 [../samples/data-stream-remap.js](../samples/data-stream-remap.js)
 ```
+<a name="DataStream+each"></a>
+
+### dataStream.each(func) ↩︎
+Performs an operation on every chunk, without changing the streamThis is a shorthand for ```stream.on("data", func)```
+
+**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
+**Chainable**  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| func | <code>[MapCallback](#MapCallback)</code> | a callback called for each chunk. |
+
 <a name="DataStream+map"></a>
 
 ### dataStream.map(func) ⇒ <code>[DataStream](#DataStream)</code>
@@ -196,7 +234,7 @@ Transforms stream objects into new ones, just like Array.prototype.mapdoes.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>TransformFunction</code> | The function that creates the new                                  object. As usually it can return a                                  Promise or just return the new                                  object. |
+| func | <code>[MapCallback](#MapCallback)</code> | The function that creates the new object |
 
 **Example**  
 ```js
@@ -212,7 +250,7 @@ Filters object based on the function outcome, just likeArray.prototype.filter.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>TransformFunction</code> | The function that filters the object.                                  As usually it can return a Promise or                                  just return the boolean value of true                                  if the item should not be filtered,                                  false otherwise. |
+| func | <code>[FilterCallback](#FilterCallback)</code> | The function that filters the object |
 
 **Example**  
 ```js
@@ -221,7 +259,7 @@ Filters object based on the function outcome, just likeArray.prototype.filter.
 <a name="DataStream+pop"></a>
 
 ### dataStream.pop(count, func) ⇒ <code>[DataStream](#DataStream)</code>
-Pops the first item from the stream and pipes the other.
+Pops the first item from the stream and pipes the other
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
 **Returns**: <code>[DataStream](#DataStream)</code> - substream.  
@@ -229,7 +267,7 @@ Pops the first item from the stream and pipes the other.
 | Param | Type | Description |
 | --- | --- | --- |
 | count | <code>Number</code> | The number of items to pop. |
-| func | <code>TransformFunction</code> | Function that receives an array of popped                                 items. |
+| func | <code>[PopCallback](#PopCallback)</code> | Function that receives an array of popped items |
 
 **Example**  
 ```js
@@ -264,24 +302,32 @@ Creates a BufferStream
 
 | Param | Type | Description |
 | --- | --- | --- |
-| serializer | <code>TransformFunction</code> | A method that converts objects to                                        Buffer. |
+| serializer | <code>[MapCallback](#MapCallback)</code> | A method that converts chunks to buffers |
 
+**Example**  
+```js
+[../samples/data-stream-tobufferstream.js](../samples/data-stream-tobufferstream.js)
+```
 <a name="DataStream+toStringStream"></a>
 
 ### dataStream.toStringStream(serializer) ⇒ <code>StringStream</code>
-Creates a StringStream.
+Creates a StringStream
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
 **Returns**: <code>StringStream</code> - the resulting stream  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| serializer | <code>TransformFunction</code> | A method that converts objects to                                        String. |
+| serializer | <code>[MapCallback](#MapCallback)</code> | A method that converts chunks to strings |
 
+**Example**  
+```js
+[../samples/data-stream-tostringstream.js](../samples/data-stream-tostringstream.js)
+```
 <a name="DataStream+toArray"></a>
 
 ### dataStream.toArray(initial) ⇒ <code>Promise</code>
-Aggregates the stream into a single Array.In fact it's just a shorthand for reducing the stream into an Array.
+Aggregates the stream into a single ArrayIn fact it's just a shorthand for reducing the stream into an Array.
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
 **Returns**: <code>Promise</code> - Promise resolved with the resulting array on stream                   end.  
@@ -325,6 +371,17 @@ Create a DataStream from an Array
 | --- | --- | --- |
 | teed | <code>[DataStream](#DataStream)</code> | The teed stream |
 
+<a name="AccumulateCallback"></a>
+
+## AccumulateCallback ⇒ <code>Promise</code> &#124; <code>\*</code>
+**Kind**: global typedef  
+**Returns**: <code>Promise</code> &#124; <code>\*</code> - resolved when all operations are completed  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| acc | <code>\*</code> | Accumulator passed to accumulate function |
+| chunk | <code>\*</code> | the stream chunk |
+
 <a name="ReduceCallback"></a>
 
 ## ReduceCallback ⇒ <code>Promise</code> &#124; <code>\*</code>
@@ -335,4 +392,46 @@ Create a DataStream from an Array
 | --- | --- | --- |
 | acc | <code>\*</code> | the accumulator - the object initially passed or retuned                by the previous reduce operation |
 | chunk | <code>Object</code> | the stream chunk. |
+
+<a name="RemapCallback"></a>
+
+## RemapCallback ⇒ <code>Promise</code> &#124; <code>\*</code>
+**Kind**: global typedef  
+**Returns**: <code>Promise</code> &#124; <code>\*</code> - promise to be resolved when chunk has been processed  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| emit | <code>function</code> | a method to emit objects in the remapped stream |
+| chunk | <code>\*</code> | the chunk from the original stream |
+
+<a name="MapCallback"></a>
+
+## MapCallback ⇒ <code>Promise</code> &#124; <code>\*</code>
+**Kind**: global typedef  
+**Returns**: <code>Promise</code> &#124; <code>\*</code> - the mapped object  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chunk | <code>\*</code> | the chunk to be mapped |
+
+<a name="FilterCallback"></a>
+
+## FilterCallback ⇒ <code>Promise</code> &#124; <code>Boolean</code>
+**Kind**: global typedef  
+**Returns**: <code>Promise</code> &#124; <code>Boolean</code> - information if the object should remain in                            the filtered stream.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chunk | <code>\*</code> | the chunk to be filtered or not |
+
+<a name="PopCallback"></a>
+
+## PopCallback : <code>function</code>
+Pop callback
+
+**Kind**: global typedef  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| popped | <code>Array.&lt;Object&gt;</code> | an array of popped chunks |
 

@@ -1,159 +1,128 @@
-## Classes
+[![Master Build Status](https://travis-ci.org/MichalCz/scramjet.svg?branch=master)](https://travis-ci.org/MichalCz/scramjet)
+[![Develop Build Status](https://travis-ci.org/MichalCz/scramjet.svg?branch=develop)](https://travis-ci.org/MichalCz/scramjet)
+[![Dependencies](https://david-dm.org/MichalCz/scramjet/status.svg)](https://david-dm.org/MichalCz/scramjet)
+[![Dev Dependencies](https://david-dm.org/MichalCz/scramjet/dev-status.svg)](https://david-dm.org/MichalCz/scramjet?type=dev)
 
-<dl>
-<dt><a href="#BufferStream">BufferStream</a> ⇐ <code>DataStream</code></dt>
-<dd><p>A factilitation stream created for easy splitting or parsing buffers</p>
-</dd>
-</dl>
+## What does it do?
 
-## Typedefs
+Scramjet is a powerful, yet simple framework written on top of node.js object streams, somewhat similar to the well-known [event-stream](https://www.npmjs.com/package/event-stream) module, but with more simplicty in mind and written in ES6. It is built upon the logic behind three well known javascript array operations - namingly map, filter and reduce. This means that if you've ever performed operations on an Array in JavaScript - you already know Scramjet like the back of your hand.
 
-<dl>
-<dt><a href="#PopCallback">PopCallback</a> : <code>function</code></dt>
-<dd><p>Pop callback</p>
-</dd>
-<dt><a href="#TransformFunction">TransformFunction</a> ⇒ <code>Promise</code></dt>
-<dd></dd>
-</dl>
+It allows you to perform the transformations both synchronously and asynchronously in the same API.
+
+## Example
+
+How about a CSV parser of all the parkings in the city of Wrocław from http://www.wroclaw.pl/open-data/...
+
+```javascript
+const request = require("request");
+const StringStream = require("scramjet").StringStream;
+
+let columns = null;
+request.get("http://www.wroclaw.pl/open-data/opendata/its/parkingi/parkingi.csv")
+    .pipe(new StringStream())
+    .split("\n")
+    .parse((line) => line.split(";"))
+    .pop(1, (data) => columns = data)
+    .map((data) => columns.reduce((acc, id, i) => (acc[id] = data[i], acc), {}))
+    .on("data", console.log.bind(console))
+```
+
+## API Docs
+
+Here's the list of the exposed classes, please review the specific documentation for details:
+
+* [```scramjet.DataStream```](docs/data-stream.md) - the base class for all scramjet classes.
+* [```scramjet.BufferStream```](docs/buffer-stream.md) - a DataStream of Buffers.
+* [```scramjet.StringStream```](docs/string-stream.md) - a DataStream of Strings.
+* [```scramjet.MultiStream```](docs/multi-stream.md) - a DataStream of Strings.
+
+Note that:
+
+* Most of the methods take a callback argument that operates on the stream items.
+* The callback, unless it's stated otherwise, will receive an argument with the next chunk.
+* If you want to perform your operations asynchronously, return a Promise, otherwise just return the right value.
+
+The quick reference of the exposed classes:
+
 
 <a name="BufferStream"></a>
+### BufferStream ⇐ DataStream
 
-## BufferStream ⇐ <code>DataStream</code>
 A factilitation stream created for easy splitting or parsing buffers
 
-**Kind**: global class  
-**Extends:** <code>DataStream</code>  
+[Detailed BufferStream docs here](docs/6hzzn6sccby3v8nsvp0y9qw7b9yn254t91vrmzn1ygpzzykqpvi.md)
 
-* [BufferStream](#BufferStream) ⇐ <code>DataStream</code>
-    * [new BufferStream(opts)](#new_BufferStream_new)
-    * [.pop(chars, func)](#BufferStream+pop) ⇒ <code>[BufferStream](#BufferStream)</code>
-    * [.split(splitter)](#BufferStream+split) ⇒ <code>[BufferStream](#BufferStream)</code>
-    * [.breakup(number)](#BufferStream+breakup) ⇒ <code>[BufferStream](#BufferStream)</code>
-    * [.toStringStream(encoding)](#BufferStream+toStringStream) ⇒ <code>StringStream</code>
-    * [.parse(parser)](#BufferStream+parse) ⇒ <code>DataStream</code>
-
-<a name="new_BufferStream_new"></a>
-
-### new BufferStream(opts)
-Creates the BufferStream
+| Method | Description | Example
+|--------|-------------|---------
+| new BufferStream(opts) | Creates the BufferStream | [BufferStream example](../samples/buffer-stream-constructor.js) |
+| bufferStream.pop(chars, func) ⇒ <code>[BufferStream](#BufferStream)</code> | Pops given number of bytes from the original stream | [pop example](../samples/string-stream-pop.js) |
+| bufferStream.split(splitter) ⇒ <code>[BufferStream](#BufferStream)</code> | Splits the buffer stream into buffer objects | [split example](../samples/buffer-stream-split.js) |
+| bufferStream.breakup(number) ⇒ <code>[BufferStream](#BufferStream)</code> | Breaks up a stream apart into chunks of the specified length | [breakup example](../samples/buffer-stream-breakup.js) |
+| bufferStream.toStringStream(encoding) ⇒ <code>StringStream</code> | Creates a string stream from the given buffer stream | [toStringStream example](../samples/buffer-stream-tostringstream.js) |
+| bufferStream.parse(parser) ⇒ <code>DataStream</code> | Parses every buffer to object | [parse example](../samples/buffer-stream-parse.js) |
 
 
-| Param | Type | Description |
-| --- | --- | --- |
-| opts | <code>object</code> | Stream options passed to superclass |
+## Browserifying
 
-**Example**  
-```js
-[../samples/buffer-stream-constructor.js](../samples/buffer-stream-constructor.js)
+Scramjet works in the browser too, there's a nice, self-contained sample in here, just run it:
+
+```bash
+    git clone https://github.com/MichalCz/scramjet.git
+    cd scramjet
+    npm install .
+    cd samples/browser
+    npm start # point your browser to http://localhost:30035 and open console
 ```
-<a name="BufferStream+pop"></a>
 
-### bufferStream.pop(chars, func) ⇒ <code>[BufferStream](#BufferStream)</code>
-Pops given number of bytes from the original streamWorks the same way as {@see DataStream.pop}, but in this case extractsthe given number of bytes.
+If you need your scramjet version for the browser, grab browserify and just run:
 
-**Kind**: instance method of <code>[BufferStream](#BufferStream)</code>  
-**Chainable**  
-**Returns**: <code>[BufferStream](#BufferStream)</code> - substream  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| chars | <code>Number</code> | The number of bytes to pop |
-| func | <code>[PopCallback](#PopCallback)</code> | Function that receives a string of popped bytes |
-
-**Example**  
-```js
-[../samples/string-stream-pop.js](../samples/string-stream-pop.js)
+```bash
+    browserify lib/index -standalone scramjet -o /path/to/your/browserified-scramjet.js
 ```
-<a name="BufferStream+split"></a>
 
-### bufferStream.split(splitter) ⇒ <code>[BufferStream](#BufferStream)</code>
-Splits the buffer stream into buffer objects
+With this you can run your transformations in the browser, use websockets to send them back and forth. If you do and fail for some reason, please remember to be issuing those issues - as no one person can test all the use cases and I am but one person.
 
-**Kind**: instance method of <code>[BufferStream](#BufferStream)</code>  
-**Chainable**  
-**Returns**: <code>[BufferStream](#BufferStream)</code> - the re-splitted buffer stream.  
-**Todo**
+## Usage
 
-- [ ] implement splitting by function
+Scramjet uses functional programming to run transformations on your data streams in a fashion very similar to the well known event-stream node module. Most transformations are done by passing a transform function. You can write your function in two ways:
 
+1. Synchronous
 
-| Param | Type | Description |
-| --- | --- | --- |
-| splitter | <code>String</code> &#124; <code>Buffer</code> | the buffer or string that the stream                                  should be split by. |
+ Example: a simple stream transform that outputs a stream of objects of the same id property and the length of the value string.
 
-**Example**  
-```js
-[../samples/buffer-stream-split.js](../samples/buffer-stream-split.js)
-```
-<a name="BufferStream+breakup"></a>
+ ```javascript
+    datastream.map(
+        (item) => ({id: item.id, length: item.value.length})
+    )
+ ```
 
-### bufferStream.breakup(number) ⇒ <code>[BufferStream](#BufferStream)</code>
-Breaks up a stream apart into chunks of the specified length
+2. Asynchronous (using Promises)
 
-**Kind**: instance method of <code>[BufferStream](#BufferStream)</code>  
-**Chainable**  
-**Returns**: <code>[BufferStream](#BufferStream)</code> - the resulting buffer stream.  
+ Example: A simple stream that fetches an url mentioned in the incoming object
 
-| Param | Type | Description |
-| --- | --- | --- |
-| number | <code>Number</code> | the desired chunk length |
+ ```javascript
+    datastream.map(
+        (item) => new Promise((resolve, reject) => {
+            request(item.url, (err, res, data) => {
+                if (err)
+                    reject(err); // will emit an "error" event on the stream
+                else
+                    resolve(data);
+            });
+        })
+    )
+ ```
 
-**Example**  
-```js
-[../samples/buffer-stream-breakup.js](../samples/buffer-stream-breakup.js)
-```
-<a name="BufferStream+toStringStream"></a>
+The actual logic of this transform function is as if you passed your function
+to the ```then``` method of a Promise resolved with the data from the input
+stream.
 
-### bufferStream.toStringStream(encoding) ⇒ <code>StringStream</code>
-Creates a string stream from the given buffer streamStill it returns a DataStream derivative and isn't the typical node.jsstream so you can do all your transforms when you like.
+## License and contributions
 
-**Kind**: instance method of <code>[BufferStream](#BufferStream)</code>  
-**Chainable**  
-**Returns**: <code>StringStream</code> - The converted stream.  
+As of version 2.0 Scramjet is MIT Licensed.
 
-| Param | Type | Description |
-| --- | --- | --- |
-| encoding | <code>String</code> | The encoding to be used to convert the buffers                           to streams. |
+## Help wanted
 
-**Example**  
-```js
-[../samples/buffer-stream-tostringstream.js](../samples/buffer-stream-tostringstream.js)
-```
-<a name="BufferStream+parse"></a>
+The project need's your help! There's lots of work to do - transforming and muxing, joining and splitting, browserifying, modularizing, documenting and issuing those issues.
 
-### bufferStream.parse(parser) ⇒ <code>DataStream</code>
-Parses every buffer to objectThe method MUST parse EVERY buffer into a single object, so the bufferstream here should already be splitted or broken up.
-
-**Kind**: instance method of <code>[BufferStream](#BufferStream)</code>  
-**Chainable**  
-**Returns**: <code>DataStream</code> - The parsed objects stream.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| parser | <code>[TransformFunction](#TransformFunction)</code> | The transform function |
-
-**Example**  
-```js
-[../samples/buffer-stream-parse.js](../samples/buffer-stream-parse.js)
-```
-<a name="PopCallback"></a>
-
-## PopCallback : <code>function</code>
-Pop callback
-
-**Kind**: global typedef  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| popped | <code>Buffer</code> | popped bytes |
-
-<a name="TransformFunction"></a>
-
-## TransformFunction ⇒ <code>Promise</code>
-**Kind**: global typedef  
-**Returns**: <code>Promise</code> - the promise should be resolved with the parsed object  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| chunk | <code>Buffer</code> | the transformed chunk |
-
+If you want to help and be part of the Scramjet team, please reach out to me, MichalCz on Github or email me: scramjet@signicode.com.

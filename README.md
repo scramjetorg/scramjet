@@ -59,16 +59,18 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
 | dataStream.group(func) ⇒ <code>[DataStream](#DataStream)</code> | Groups execution by key in a single thread | [group example](../samples/data-stream-group.js) |
 | dataStream.tee(func) ⇒ <code>[DataStream](#DataStream)</code> | Duplicate the stream | [tee example](../samples/data-stream-tee.js) |
 | dataStream.slice(start, end, func) ⇒ <code>[DataStream](#DataStream)</code> | Gets a slice of the stream to the callback function. | [slice example](../samples/data-stream-slice.js) |
+| dataStream.accumulate(func, into) ⇒ <code>Promise</code> | Accumulates data into the object. |  |
 | dataStream.reduce(func, into) ⇒ <code>Promise</code> | Reduces the stream into a given accumulator | [reduce example](../samples/data-stream-reduce.js) |
 | dataStream.reduceNow(func, into) ⇒ <code>Promise</code> | Reduces the stream into the given object the same way as {@see reduce}, | [reduceNow example](../samples/data-stream-reduceNow.js) |
 | dataStream.remap(func, Clazz) ⇒ <code>[DataStream](#DataStream)</code> | Remaps the stream into a new stream. This means that every item may | [remap example](../samples/data-stream-remap.js) |
+| dataStream.each(func) ↩︎ | Performs an operation on every chunk, without changing the stream |  |
 | dataStream.map(func) ⇒ <code>[DataStream](#DataStream)</code> | Transforms stream objects into new ones, just like Array.prototype.map | [map example](../samples/data-stream-map.js) |
 | dataStream.filter(func) ⇒ <code>[DataStream](#DataStream)</code> | Filters object based on the function outcome, just like | [filter example](../samples/data-stream-filter.js) |
-| dataStream.pop(count, func) ⇒ <code>[DataStream](#DataStream)</code> | Pops the first item from the stream and pipes the other. | [pop example](../samples/data-stream-pop.js) |
+| dataStream.pop(count, func) ⇒ <code>[DataStream](#DataStream)</code> | Pops the first item from the stream and pipes the other | [pop example](../samples/data-stream-pop.js) |
 | dataStream.separate() ⇒ <code>[MultiStream](#MultiStream)</code> | Splits the stream two ways | [separate example](../samples/data-stream-separate.js) |
-| dataStream.toBufferStream(serializer) ⇒ <code>[BufferStream](#BufferStream)</code> | Creates a BufferStream |  |
-| dataStream.toStringStream(serializer) ⇒ <code>[StringStream](#StringStream)</code> | Creates a StringStream. |  |
-| dataStream.toArray(initial) ⇒ <code>Promise</code> | Aggregates the stream into a single Array. |  |
+| dataStream.toBufferStream(serializer) ⇒ <code>[BufferStream](#BufferStream)</code> | Creates a BufferStream | [toBufferStream example](../samples/data-stream-tobufferstream.js) |
+| dataStream.toStringStream(serializer) ⇒ <code>[StringStream](#StringStream)</code> | Creates a StringStream | [toStringStream example](../samples/data-stream-tostringstream.js) |
+| dataStream.toArray(initial) ⇒ <code>Promise</code> | Aggregates the stream into a single Array |  |
 | DataStream.fromArray(arr) ⇒ <code>[DataStream](#DataStream)</code> | Create a DataStream from an Array | [fromArray example](../samples/data-stream-fromarray.js) |
 
 
@@ -120,9 +122,9 @@ An object consisting of multiple streams than can be refined or muxed.
 | multiStream.map(func) ⇒ <code>[MultiStream](#MultiStream)</code> | Returns new MultiStream with the streams returned by the tranform. | [map example](../samples/multi-stream-map.js) |
 | multiStream.filter(func) ⇒ <code>[MultiStream](#MultiStream)</code> | Filters the stream list and returns a new MultiStream with only the | [filter example](../samples/multi-stream-filter.js) |
 | multiStream.dedupe(cmp) ⇒ <code>[DataStream](#DataStream)</code> | Makes a number of redundant streams into a single one | [dedupe example](../samples/multi-stream-dedupe.js) |
-| multiStream.mux(cmp) ⇒ <code>[DataStream](#DataStream)</code> | Muxes the streams into a single one. | [mux example](../samples/multi-stream-mux.js) |
-| multiStream.add(stream) | Adds a stream to the MultiStream. If the stream was muxed, filtered or | [add example](../samples/multi-stream-add.js) |
-| multiStream.remove(stream) | Removes a stream from the MultiStream. If the stream was muxed, filtered | [remove example](../samples/multi-stream-remove.js) |
+| multiStream.mux(cmp) ⇒ <code>[DataStream](#DataStream)</code> | Muxes the streams into a single one | [mux example](../samples/multi-stream-mux.js) |
+| multiStream.add(stream) | Adds a stream to the MultiStream | [add example](../samples/multi-stream-add.js) |
+| multiStream.remove(stream) | Removes a stream from the MultiStream | [remove example](../samples/multi-stream-remove.js) |
 
 
 ## Browserifying

@@ -88,7 +88,7 @@ Makes a number of redundant streams into a single one
 <a name="MultiStream+mux"></a>
 
 ### multiStream.mux(cmp) ⇒ <code>DataStream</code>
-Muxes the streams into a single one.
+Muxes the streams into a single one
 
 **Kind**: instance method of <code>[MultiStream](#MultiStream)</code>  
 **Returns**: <code>DataStream</code> - The resulting DataStream  
@@ -109,7 +109,7 @@ Muxes the streams into a single one.
 <a name="MultiStream+add"></a>
 
 ### multiStream.add(stream)
-Adds a stream to the MultiStream. If the stream was muxed, filtered ormapped, this stream will undergo the same transorms and conditions asif it was added in constructor.
+Adds a stream to the MultiStreamIf the stream was muxed, filtered or mapped, this stream will undergo thesame transorms and conditions as if it was added in constructor.
 
 **Kind**: instance method of <code>[MultiStream](#MultiStream)</code>  
 
@@ -124,7 +124,7 @@ Adds a stream to the MultiStream. If the stream was muxed, filtered ormapped, t
 <a name="MultiStream+remove"></a>
 
 ### multiStream.remove(stream)
-Removes a stream from the MultiStream. If the stream was muxed, filteredor mapped, it will be removed from same streams
+Removes a stream from the MultiStreamIf the stream was muxed, filtered or mapped, it will be removed from samestreams.
 
 **Kind**: instance method of <code>[MultiStream](#MultiStream)</code>  
 
