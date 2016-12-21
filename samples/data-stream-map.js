@@ -23,9 +23,6 @@ exports.test = (test) => {
         .map(
             (obj) => ({num: obj.val})
         )
-        .each(
-            console.log
-        )
         .once(
             "data", (obj) => {
                 test.ok(typeof obj === "object", "Mapped data must be mapped");
