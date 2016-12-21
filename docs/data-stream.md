@@ -47,7 +47,7 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
         * [.slice(start, end, func)](#DataStream+slice) ⇒ <code>[DataStream](#DataStream)</code>
         * [.accumulate(func, into)](#DataStream+accumulate) ⇒ <code>Promise</code>
         * [.reduce(func, into)](#DataStream+reduce) ⇒ <code>Promise</code>
-        * [.reduceNow(func, into)](#DataStream+reduceNow) ⇒ <code>Promise</code>
+        * [.reduceNow(func, into)](#DataStream+reduceNow) ⇒ <code>\*</code>
         * [.remap(func, Clazz)](#DataStream+remap) ⇒ <code>[DataStream](#DataStream)</code>
         * [.each(func)](#DataStream+each) ↩︎
         * [.map(func, Clazz)](#DataStream+map) ⇒ <code>[DataStream](#DataStream)</code>
@@ -164,15 +164,15 @@ Accumulates data into the object.Works very similarily to reduce, but result o
 <a name="DataStream+reduce"></a>
 
 ### dataStream.reduce(func, into) ⇒ <code>Promise</code>
-Reduces the stream into a given accumulatorReduces the stream into the given object. The main difference to nativeis that Array.prototype.reduce is that only the first object will bepassed to the following methods.
+Reduces the stream into a given accumulatorWorks similarily to Array.prototype.reduce, so whatever you return in theformer operation will be the first operand to the latter.
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
-**Returns**: <code>Promise</code> - Promise resolved by the last object returned by the                   call of the transform function.  
+**Returns**: <code>Promise</code> - Promise resolved by the last object returned by thecall of the transform function  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>TransformFunction</code> | The into object will be passed as the                                  first argument, the data object from the                                  stream as the second. |
-| into | <code>Object</code> | Any object passed initally to the transform                       function |
+| func | <code>TransformFunction</code> | The into object will be passed as the first argument, the data object from the stream as the second. |
+| into | <code>Object</code> | Any object passed initally to the transform function |
 
 **Example**  
 ```js
@@ -180,16 +180,16 @@ Reduces the stream into a given accumulatorReduces the stream into the given o
 ```
 <a name="DataStream+reduceNow"></a>
 
-### dataStream.reduceNow(func, into) ⇒ <code>Promise</code>
-Reduces the stream into the given object the same way as {@see reduce},but resolves the promise at once with the passed object.If the object is an instance of EventEmitter then it will propagate theerror from the previous stream.
+### dataStream.reduceNow(func, into) ⇒ <code>\*</code>
+Reduces the stream into the given object, returning it immediately.The main difference to reduce is that only the first object will bereturned at once (however the method will be called with the previousentry).If the object is an instance of EventEmitter then it will propagate theerror from the previous stream.
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
-**Returns**: <code>Promise</code> - Promise resolved by the last object returned by the                   call of the transform function.  
+**Returns**: <code>\*</code> - whatever was passed as into  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>[ReduceCallback](#ReduceCallback)</code> | The into object will be passed as the first                               argument, the data object from the stream                               as the second. |
-| into | <code>Object</code> | Any object passed initally to the transform                       function |
+| func | <code>[ReduceCallback](#ReduceCallback)</code> | The into object will be passed as the first argument, the data object from the stream as the second. |
+| into | <code>\*</code> &#124; <code>EventEmitter</code> | Any object passed initally to the transform function |
 
 **Example**  
 ```js

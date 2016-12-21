@@ -61,7 +61,7 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
 | dataStream.slice(start, end, func) ⇒ <code>[DataStream](#DataStream)</code> | Gets a slice of the stream to the callback function. | [slice example](../samples/data-stream-slice.js) |
 | dataStream.accumulate(func, into) ⇒ <code>Promise</code> | Accumulates data into the object. |  |
 | dataStream.reduce(func, into) ⇒ <code>Promise</code> | Reduces the stream into a given accumulator | [reduce example](../samples/data-stream-reduce.js) |
-| dataStream.reduceNow(func, into) ⇒ <code>Promise</code> | Reduces the stream into the given object the same way as {@see reduce}, | [reduceNow example](../samples/data-stream-reduceNow.js) |
+| dataStream.reduceNow(func, into) ⇒ <code>\*</code> | Reduces the stream into the given object, returning it immediately. | [reduceNow example](../samples/data-stream-reduceNow.js) |
 | dataStream.remap(func, Clazz) ⇒ <code>[DataStream](#DataStream)</code> | Remaps the stream into a new stream. | [remap example](../samples/data-stream-remap.js) |
 | dataStream.each(func) ↩︎ | Performs an operation on every chunk, without changing the stream |  |
 | dataStream.map(func, Clazz) ⇒ <code>[DataStream](#DataStream)</code> | Transforms stream objects into new ones, just like Array.prototype.map | [map example](../samples/data-stream-map.js) |
