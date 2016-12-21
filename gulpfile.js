@@ -52,7 +52,7 @@ gulp.task("readme", function() {
         );
 });
 
-gulp.task("docs", function() {
+gulp.task("docs", ["readme"], function() {
   return gulp.src("lib/*.js")
         .pipe(gulpJsdoc2md({}))
         .on("error", function(err) {

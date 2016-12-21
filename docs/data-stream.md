@@ -198,14 +198,14 @@ Reduces the stream into the given object the same way as {@see reduce},but reso
 <a name="DataStream+remap"></a>
 
 ### dataStream.remap(func, Clazz) ⇒ <code>[DataStream](#DataStream)</code>
-Remaps the stream into a new stream. This means that every item mayemit as many other items as we like.
+Remaps the stream into a new stream.This means that every item may emit as many other items as we like.
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
 **Returns**: <code>[DataStream](#DataStream)</code> - a new DataStream of the given class with new chunks  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>TransformFunction</code> | A TransformFunction that is called with                                     * `emit` function as the first                                       argument that should be called to                                       push entries in the other stream.                                     * `chunk` chunk. |
+| func | <code>[RemapCallback](#RemapCallback)</code> | A callback that is called on every chunk |
 | Clazz | <code>class</code> | Optional DataStream subclass to be constructed |
 
 **Example**  
