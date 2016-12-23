@@ -34,7 +34,7 @@ gulp.task("scm_clean", function(cb){
 });
 
 gulp.task("test_samples", ['docs'], function() {
-    return gulp.src("test/samples/*.js")
+    return gulp.src("test/samples/test_*.js")
         .pipe(exec("node <%= file.path %>"))
         .pipe(exec.reporter());
 });

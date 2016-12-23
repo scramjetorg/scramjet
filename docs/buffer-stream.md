@@ -12,7 +12,7 @@
 <dt><a href="#PopCallback">PopCallback</a> : <code>function</code></dt>
 <dd><p>Pop callback</p>
 </dd>
-<dt><a href="#TransformFunction">TransformFunction</a> ⇒ <code>Promise</code></dt>
+<dt><a href="#ParseCallback">ParseCallback</a> ⇒ <code>Promise</code></dt>
 <dd></dd>
 </dl>
 
@@ -125,7 +125,7 @@ Parses every buffer to objectThe method MUST parse EVERY buffer into a single 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| parser | <code>[TransformFunction](#TransformFunction)</code> | The transform function |
+| parser | <code>[ParseCallback](#ParseCallback)</code> | The transform function |
 
 **Example**  
 ```js
@@ -142,9 +142,9 @@ Pop callback
 | --- | --- | --- |
 | popped | <code>Buffer</code> | popped bytes |
 
-<a name="TransformFunction"></a>
+<a name="ParseCallback"></a>
 
-## TransformFunction ⇒ <code>Promise</code>
+## ParseCallback ⇒ <code>Promise</code>
 **Kind**: global typedef  
 **Returns**: <code>Promise</code> - the promise should be resolved with the parsed object  
 
