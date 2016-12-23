@@ -123,7 +123,7 @@ module.exports = {
         stream.reduce((acc, item) => acc + ":" + item, "").then(
             (res) => {
                 test.equals(":amet:elit:enim:quis:nisi:Duis:aute", res,
-                    "Should return a StringStream of all four letter words");
+                    "Should return a string with all four letter words");
                 test.done();
             }
         );
