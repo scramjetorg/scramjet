@@ -106,7 +106,7 @@ A factilitation stream created for easy splitting or parsing buffers
 | bufferStream.split(splitter) ⇒ <code>[BufferStream](#BufferStream)</code> | Splits the buffer stream into buffer objects | [split example](../samples/buffer-stream-split.js) |
 | bufferStream.breakup(number) ⇒ <code>[BufferStream](#BufferStream)</code> | Breaks up a stream apart into chunks of the specified length | [breakup example](../samples/buffer-stream-breakup.js) |
 | bufferStream.toStringStream(encoding) ⇒ <code>[StringStream](#StringStream)</code> | Creates a string stream from the given buffer stream | [toStringStream example](../samples/buffer-stream-tostringstream.js) |
-| bufferStream.parse(parser) ⇒ <code>[DataStream](#DataStream)</code> | Parses every buffer to object | [parse example](../samples/buffer-stream-parse.js) |
+| bufferStream.parse(parser) ⇒ <code>[DataStream](#DataStream)</code> | [Parallel] Parses every buffer to object | [parse example](../samples/buffer-stream-parse.js) |
 
 
 <a name="MultiStream"></a>

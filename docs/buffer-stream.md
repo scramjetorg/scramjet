@@ -118,7 +118,7 @@ Creates a string stream from the given buffer streamStill it returns a DataStr
 <a name="BufferStream+parse"></a>
 
 ### bufferStream.parse(parser) ⇒ <code>DataStream</code>
-Parses every buffer to objectThe method MUST parse EVERY buffer into a single object, so the bufferstream here should already be splitted or broken up.
+[Parallel] Parses every buffer to objectThe method MUST parse EVERY buffer into a single object, so the bufferstream here should already be splitted or broken up.
 
 **Kind**: instance method of <code>[BufferStream](#BufferStream)</code>  
 **Returns**: <code>DataStream</code> - The parsed objects stream.  
