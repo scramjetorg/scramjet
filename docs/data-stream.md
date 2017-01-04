@@ -151,9 +151,7 @@ Gets a slice of the stream to the callback function.Returns a stream consistin
 <a name="DataStream+accumulate"></a>
 
 ### dataStream.accumulate(func, into) ⇒ <code>Promise</code>
-Accumulates data into the object.Works very similarily to reduce, but result of previous operations haveno influence over the accumulator in the next one.
-
-Method is parallel
+Accumulates data into the object.Works very similarily to reduce, but result of previous operations haveno influence over the accumulator in the next one.Method is parallel
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
 **Returns**: <code>Promise</code> - resolved with the "into" object on stream end.  
