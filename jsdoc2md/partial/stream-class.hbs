@@ -1,0 +1,11 @@
+{{#if name}}{{#unless internal}}
+<a name="{{name}}"></a>
+### {{#sig~}}{{#if @prefix}}{{@prefix}} {{/if~}}{{@accessSymbol}}{{{name}}}{{~#if @returnSymbol}} {{@returnSymbol}}{{/if~}}{{#if @returnTypes}} {{@returnTypes}}{{/if~}}{{~/sig}}
+
+{{{description}}}
+
+[Detailed {{#if @prefix}}{{@prefix}} {{/if~}}{{@accessSymbol}}{{{name}}} docs here](docs/{{{replace meta.filename ".js" ".md"}}})
+
+{{>stream-class-table}}
+
+{{/unless}}{{/if~}}
