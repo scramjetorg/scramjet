@@ -59,7 +59,7 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
 | dataStream.group(func) ⇒ <code>[DataStream](#DataStream)</code> | Groups execution by key in a single thread | [group example](../samples/data-stream-group.js) |
 | dataStream.tee(func) ⇒ <code>[DataStream](#DataStream)</code> | Duplicate the stream | [tee example](../samples/data-stream-tee.js) |
 | dataStream.slice(start, end, func) ⇒ <code>[DataStream](#DataStream)</code> | Gets a slice of the stream to the callback function. | [slice example](../samples/data-stream-slice.js) |
-| dataStream.accumulate(func, into) ⇒ <code>Promise</code> | Accumulates data into the object. |  |
+| dataStream.accumulate(func, into) ⇒ <code>Promise</code> | Accumulates data into the object. | [accumulate example](../samples/data-stream-accumulate.js) |
 | dataStream.reduce(func, into) ⇒ <code>Promise</code> | Reduces the stream into a given accumulator | [reduce example](../samples/data-stream-reduce.js) |
 | dataStream.reduceNow(func, into) ⇒ <code>\*</code> | Reduces the stream into the given object, returning it immediately. | [reduceNow example](../samples/data-stream-reduceNow.js) |
 | dataStream.remap(func, Clazz) ⇒ <code>[DataStream](#DataStream)</code> | Remaps the stream into a new stream. | [remap example](../samples/data-stream-remap.js) |
@@ -106,7 +106,7 @@ A factilitation stream created for easy splitting or parsing buffers
 | bufferStream.split(splitter) ⇒ <code>[BufferStream](#BufferStream)</code> | Splits the buffer stream into buffer objects | [split example](../samples/buffer-stream-split.js) |
 | bufferStream.breakup(number) ⇒ <code>[BufferStream](#BufferStream)</code> | Breaks up a stream apart into chunks of the specified length | [breakup example](../samples/buffer-stream-breakup.js) |
 | bufferStream.toStringStream(encoding) ⇒ <code>[StringStream](#StringStream)</code> | Creates a string stream from the given buffer stream | [toStringStream example](../samples/buffer-stream-tostringstream.js) |
-| bufferStream.parse(parser) ⇒ <code>[DataStream](#DataStream)</code> | Parses every buffer to object | [parse example](../samples/buffer-stream-parse.js) |
+| bufferStream.parse(parser) ⇒ <code>[DataStream](#DataStream)</code> | [Parallel] Parses every buffer to object | [parse example](../samples/buffer-stream-parse.js) |
 
 
 <a name="MultiStream"></a>

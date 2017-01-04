@@ -11,7 +11,7 @@ const matrix = [
     ["data", scramjet.DataStream]
 ];
 
-
+console.log("Samples testing");
 
 module.exports = scramjet.fromArray(
     matrix.map(

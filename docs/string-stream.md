@@ -11,6 +11,8 @@
 <dl>
 <dt><a href="#PopCallback">PopCallback</a> : <code>function</code></dt>
 <dd></dd>
+<dt><a href="#ParseCallback">ParseCallback</a> ⇒ <code>Promise</code></dt>
+<dd></dd>
 </dl>
 
 <a name="StringStream"></a>
@@ -124,7 +126,7 @@ Parses every string to objectThe method MUST parse EVERY string into a single 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| parser | <code>TransformFunction</code> | The transform function |
+| parser | <code>[ParseCallback](#ParseCallback)</code> | The transform function |
 
 **Example**  
 ```js
@@ -144,4 +146,14 @@ A handly split by line regex to quickly get a line-by-line stream
 | Param | Type | Description |
 | --- | --- | --- |
 | popped | <code>String</code> | Pooped chars |
+
+<a name="ParseCallback"></a>
+
+## ParseCallback ⇒ <code>Promise</code>
+**Kind**: global typedef  
+**Returns**: <code>Promise</code> - the promise should be resolved with the parsed object  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chunk | <code>String</code> | the transformed chunk |
 

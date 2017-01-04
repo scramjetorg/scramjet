@@ -12,7 +12,7 @@
 <dt><a href="#PopCallback">PopCallback</a> : <code>function</code></dt>
 <dd><p>Pop callback</p>
 </dd>
-<dt><a href="#TransformFunction">TransformFunction</a> ⇒ <code>Promise</code></dt>
+<dt><a href="#ParseCallback">ParseCallback</a> ⇒ <code>Promise</code></dt>
 <dd></dd>
 </dl>
 
@@ -118,14 +118,14 @@ Creates a string stream from the given buffer streamStill it returns a DataStr
 <a name="BufferStream+parse"></a>
 
 ### bufferStream.parse(parser) ⇒ <code>DataStream</code>
-Parses every buffer to objectThe method MUST parse EVERY buffer into a single object, so the bufferstream here should already be splitted or broken up.
+[Parallel] Parses every buffer to objectThe method MUST parse EVERY buffer into a single object, so the bufferstream here should already be splitted or broken up.
 
 **Kind**: instance method of <code>[BufferStream](#BufferStream)</code>  
 **Returns**: <code>DataStream</code> - The parsed objects stream.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| parser | <code>[TransformFunction](#TransformFunction)</code> | The transform function |
+| parser | <code>[ParseCallback](#ParseCallback)</code> | The transform function |
 
 **Example**  
 ```js
@@ -142,9 +142,9 @@ Pop callback
 | --- | --- | --- |
 | popped | <code>Buffer</code> | popped bytes |
 
-<a name="TransformFunction"></a>
+<a name="ParseCallback"></a>
 
-## TransformFunction ⇒ <code>Promise</code>
+## ParseCallback ⇒ <code>Promise</code>
 **Kind**: global typedef  
 **Returns**: <code>Promise</code> - the promise should be resolved with the parsed object  
 

@@ -153,6 +153,8 @@ Gets a slice of the stream to the callback function.Returns a stream consistin
 ### dataStream.accumulate(func, into) ⇒ <code>Promise</code>
 Accumulates data into the object.Works very similarily to reduce, but result of previous operations haveno influence over the accumulator in the next one.
 
+Method is parallel
+
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
 **Returns**: <code>Promise</code> - resolved with the "into" object on stream end.  
 
@@ -161,10 +163,14 @@ Accumulates data into the object.Works very similarily to reduce, but result o
 | func | <code>[AccumulateCallback](#AccumulateCallback)</code> | The accumulation function |
 | into | <code>\*</code> | Accumulator object |
 
+**Example**  
+```js
+[../samples/data-stream-accumulate.js](../samples/data-stream-accumulate.js)
+```
 <a name="DataStream+reduce"></a>
 
 ### dataStream.reduce(func, into) ⇒ <code>Promise</code>
-Reduces the stream into a given accumulatorWorks similarily to Array.prototype.reduce, so whatever you return in theformer operation will be the first operand to the latter.
+Reduces the stream into a given accumulatorWorks similarily to Array.prototype.reduce, so whatever you return in theformer operation will be the first operand to the latter.This method is serial - meaning that any processing on an entry willoccur only after the previous entry is fully processed. This does meanit's much slower than parallel functions.
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
 **Returns**: <code>Promise</code> - Promise resolved by the last object returned by thecall of the transform function  
@@ -181,7 +187,7 @@ Reduces the stream into a given accumulatorWorks similarily to Array.prototype
 <a name="DataStream+reduceNow"></a>
 
 ### dataStream.reduceNow(func, into) ⇒ <code>\*</code>
-Reduces the stream into the given object, returning it immediately.The main difference to reduce is that only the first object will bereturned at once (however the method will be called with the previousentry).If the object is an instance of EventEmitter then it will propagate theerror from the previous stream.
+Reduces the stream into the given object, returning it immediately.The main difference to reduce is that only the first object will bereturned at once (however the method will be called with the previousentry).If the object is an instance of EventEmitter then it will propagate theerror from the previous stream.This method is serial - meaning that any processing on an entry willoccur only after the previous entry is fully processed. This does meanit's much slower than parallel functions.
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
 **Returns**: <code>\*</code> - whatever was passed as into  
