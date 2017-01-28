@@ -1,7 +1,6 @@
 const request = require("request");
 const StringStream = require("../../").StringStream;
 
-const hourglass = "-\\|/-";
 let i = 0;
 
 let columns = null;
@@ -11,7 +10,7 @@ const res = request.get("http://www.wroclaw.pl/open-data/opendata/its/parkingi/p
     .split("\n")
     .parse((line) => line.split(";"))
     .pop(1, (data) => {
-        columns = data.pop();
+        columns = data[0];
         console.log("cols", columns);
     })
     .map((data) => columns.reduce(

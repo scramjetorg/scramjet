@@ -1,10 +1,86 @@
-## Classes
+## Functions
 
 <dl>
-<dt><a href="#DataStream">DataStream</a> ⇐ <code>stream.PassThrough</code></dt>
-<dd><p>DataStream is the primary stream type for Scramjet. When you parse your
-stream, just pipe it you can then perform calculations on the data objects
-streamed through your flow.</p>
+<dt><a href="#debug">debug(func)</a> ⇒ <code>DataStream</code></dt>
+<dd><p>Injects a <code>debugger</code> statement when called.</p>
+</dd>
+<dt><a href="#group">group(func)</a> ⇒ <code>DataStream</code></dt>
+<dd><p>Groups execution by key in a single thread</p>
+<p>Calls the given callback for a hash, then makes sure all items with the
+same hash are processed by a single thread (or server).</p>
+</dd>
+<dt><a href="#tee">tee(func)</a> ⇒ <code>DataStream</code></dt>
+<dd><p>Duplicate the stream</p>
+<p>Creates a duplicate stream instance and pases it to the callback.</p>
+</dd>
+<dt><a href="#slice">slice(start, end, func)</a> ⇒ <code>DataStream</code></dt>
+<dd><p>Gets a slice of the stream to the callback function.</p>
+<p>Returns a stream consisting of an array of items with <code>0</code> to <code>start</code>
+omitted and <code>start</code> until <code>end</code> included. Works similarily to
+Array.prototype.slice.
+Takes count from the moment it&#39;s called. Any previous items will not be
+taken into account.
+Also note that the stream may end if both arguments are passed.</p>
+</dd>
+<dt><a href="#accumulate">accumulate(func, into)</a> ⇒ <code>Promise</code></dt>
+<dd><p>Accumulates data into the object.</p>
+<p>Works very similarily to reduce, but result of previous operations have
+no influence over the accumulator in the next one.</p>
+<p>Method is parallel</p>
+</dd>
+<dt><a href="#reduce">reduce(func, into)</a> ⇒ <code>Promise</code></dt>
+<dd><p>Reduces the stream into a given accumulator</p>
+<p>Works similarily to Array.prototype.reduce, so whatever you return in the
+former operation will be the first operand to the latter.</p>
+<p>This method is serial - meaning that any processing on an entry will
+occur only after the previous entry is fully processed. This does mean
+it&#39;s much slower than parallel functions.</p>
+</dd>
+<dt><a href="#reduceNow">reduceNow(func, into)</a> ⇒ <code>*</code></dt>
+<dd><p>Reduces the stream into the given object, returning it immediately.</p>
+<p>The main difference to reduce is that only the first object will be
+returned at once (however the method will be called with the previous
+entry).
+If the object is an instance of EventEmitter then it will propagate the
+error from the previous stream.</p>
+<p>This method is serial - meaning that any processing on an entry will
+occur only after the previous entry is fully processed. This does mean
+it&#39;s much slower than parallel functions.</p>
+</dd>
+<dt><a href="#remap">remap(func, Clazz)</a> ⇒ <code>DataStream</code></dt>
+<dd><p>Remaps the stream into a new stream.</p>
+<p>This means that every item may emit as many other items as we like.</p>
+</dd>
+<dt><a href="#each">each(func)</a> ↩︎</dt>
+<dd><p>Performs an operation on every chunk, without changing the stream</p>
+<p>This is a shorthand for <code>stream.on(&quot;data&quot;, func)</code></p>
+</dd>
+<dt><a href="#map">map(func, Clazz)</a> ⇒ <code>DataStream</code></dt>
+<dd><p>Transforms stream objects into new ones, just like Array.prototype.map
+does.</p>
+</dd>
+<dt><a href="#filter">filter(func)</a> ⇒ <code>DataStream</code></dt>
+<dd><p>Filters object based on the function outcome, just like
+Array.prototype.filter.</p>
+</dd>
+<dt><a href="#pop">pop(count, func)</a> ⇒ <code>DataStream</code></dt>
+<dd><p>Pops the first item from the stream and pipes the other</p>
+</dd>
+<dt><a href="#separate">separate()</a> ⇒ <code>MultiStream</code></dt>
+<dd><p>Splits the stream two ways</p>
+</dd>
+<dt><a href="#toBufferStream">toBufferStream(serializer)</a> ⇒ <code>BufferStream</code></dt>
+<dd><p>Creates a BufferStream</p>
+</dd>
+<dt><a href="#toStringStream">toStringStream(serializer)</a> ⇒ <code>StringStream</code></dt>
+<dd><p>Creates a StringStream</p>
+</dd>
+<dt><a href="#fromArray">fromArray(arr)</a> ⇒ <code>DataStream</code></dt>
+<dd><p>Create a DataStream from an Array</p>
+</dd>
+<dt><a href="#toArray">toArray(initial)</a> ⇒ <code>Promise</code></dt>
+<dd><p>Aggregates the stream into a single Array</p>
+<p>In fact it&#39;s just a shorthand for reducing the stream into an Array.</p>
 </dd>
 </dl>
 
@@ -30,57 +106,13 @@ streamed through your flow.</p>
 </dd>
 </dl>
 
-<a name="DataStream"></a>
+<a name="debug"></a>
 
-## DataStream ⇐ <code>stream.PassThrough</code>
-DataStream is the primary stream type for Scramjet. When you parse yourstream, just pipe it you can then perform calculations on the data objectsstreamed through your flow.
-
-**Kind**: global class  
-**Extends:** <code>stream.PassThrough</code>  
-
-* [DataStream](#DataStream) ⇐ <code>stream.PassThrough</code>
-    * [new DataStream(opts)](#new_DataStream_new)
-    * _instance_
-        * [.debug(func)](#DataStream+debug) ⇒ <code>[DataStream](#DataStream)</code>
-        * [.group(func)](#DataStream+group) ⇒ <code>[DataStream](#DataStream)</code>
-        * [.tee(func)](#DataStream+tee) ⇒ <code>[DataStream](#DataStream)</code>
-        * [.slice(start, end, func)](#DataStream+slice) ⇒ <code>[DataStream](#DataStream)</code>
-        * [.accumulate(func, into)](#DataStream+accumulate) ⇒ <code>Promise</code>
-        * [.reduce(func, into)](#DataStream+reduce) ⇒ <code>Promise</code>
-        * [.reduceNow(func, into)](#DataStream+reduceNow) ⇒ <code>\*</code>
-        * [.remap(func, Clazz)](#DataStream+remap) ⇒ <code>[DataStream](#DataStream)</code>
-        * [.each(func)](#DataStream+each) ↩︎
-        * [.map(func, Clazz)](#DataStream+map) ⇒ <code>[DataStream](#DataStream)</code>
-        * [.filter(func)](#DataStream+filter) ⇒ <code>[DataStream](#DataStream)</code>
-        * [.pop(count, func)](#DataStream+pop) ⇒ <code>[DataStream](#DataStream)</code>
-        * [.separate()](#DataStream+separate) ⇒ <code>MultiStream</code>
-        * [.toBufferStream(serializer)](#DataStream+toBufferStream) ⇒ <code>BufferStream</code>
-        * [.toStringStream(serializer)](#DataStream+toStringStream) ⇒ <code>StringStream</code>
-        * [.toArray(initial)](#DataStream+toArray) ⇒ <code>Promise</code>
-    * _static_
-        * [.fromArray(arr)](#DataStream.fromArray) ⇒ <code>[DataStream](#DataStream)</code>
-
-<a name="new_DataStream_new"></a>
-
-### new DataStream(opts)
-Create the DataStream.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| opts | <code>object</code> | Stream options passed to superclass |
-
-**Example**  
-```js
-[../samples/data-stream-constructor.js](../samples/data-stream-constructor.js)
-```
-<a name="DataStream+debug"></a>
-
-### dataStream.debug(func) ⇒ <code>[DataStream](#DataStream)</code>
+## debug(func) ⇒ <code>DataStream</code>
 Injects a ```debugger``` statement when called.
 
-**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
-**Returns**: <code>[DataStream](#DataStream)</code> - self  
+**Kind**: global function  
+**Returns**: <code>DataStream</code> - self  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -90,13 +122,13 @@ Injects a ```debugger``` statement when called.
 ```js
 [../samples/data-stream-debug.js](../samples/data-stream-debug.js)
 ```
-<a name="DataStream+group"></a>
+<a name="group"></a>
 
-### dataStream.group(func) ⇒ <code>[DataStream](#DataStream)</code>
+## group(func) ⇒ <code>DataStream</code>
 Groups execution by key in a single threadCalls the given callback for a hash, then makes sure all items with thesame hash are processed by a single thread (or server).
 
-**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
-**Returns**: <code>[DataStream](#DataStream)</code> - self  
+**Kind**: global function  
+**Returns**: <code>DataStream</code> - self  
 **Todo**
 
 - [ ] Not yet implemented
@@ -110,13 +142,13 @@ Groups execution by key in a single threadCalls the given callback for a hash,
 ```js
 [../samples/data-stream-group.js](../samples/data-stream-group.js)
 ```
-<a name="DataStream+tee"></a>
+<a name="tee"></a>
 
-### dataStream.tee(func) ⇒ <code>[DataStream](#DataStream)</code>
+## tee(func) ⇒ <code>DataStream</code>
 Duplicate the streamCreates a duplicate stream instance and pases it to the callback.
 
-**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
-**Returns**: <code>[DataStream](#DataStream)</code> - self  
+**Kind**: global function  
+**Returns**: <code>DataStream</code> - self  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -126,13 +158,13 @@ Duplicate the streamCreates a duplicate stream instance and pases it to the ca
 ```js
 [../samples/data-stream-tee.js](../samples/data-stream-tee.js)
 ```
-<a name="DataStream+slice"></a>
+<a name="slice"></a>
 
-### dataStream.slice(start, end, func) ⇒ <code>[DataStream](#DataStream)</code>
+## slice(start, end, func) ⇒ <code>DataStream</code>
 Gets a slice of the stream to the callback function.Returns a stream consisting of an array of items with `0` to `start`omitted and `start` until `end` included. Works similarily toArray.prototype.slice.Takes count from the moment it's called. Any previous items will not betaken into account.Also note that the stream may end if both arguments are passed.
 
-**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
-**Returns**: <code>[DataStream](#DataStream)</code> - the affected stream  
+**Kind**: global function  
+**Returns**: <code>DataStream</code> - the affected stream  
 **Todo**
 
 - [ ] to be implemented
@@ -148,12 +180,12 @@ Gets a slice of the stream to the callback function.Returns a stream consistin
 ```js
 [../samples/data-stream-slice.js](../samples/data-stream-slice.js)
 ```
-<a name="DataStream+accumulate"></a>
+<a name="accumulate"></a>
 
-### dataStream.accumulate(func, into) ⇒ <code>Promise</code>
+## accumulate(func, into) ⇒ <code>Promise</code>
 Accumulates data into the object.Works very similarily to reduce, but result of previous operations haveno influence over the accumulator in the next one.Method is parallel
 
-**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
+**Kind**: global function  
 **Returns**: <code>Promise</code> - resolved with the "into" object on stream end.  
 
 | Param | Type | Description |
@@ -165,12 +197,12 @@ Accumulates data into the object.Works very similarily to reduce, but result o
 ```js
 [../samples/data-stream-accumulate.js](../samples/data-stream-accumulate.js)
 ```
-<a name="DataStream+reduce"></a>
+<a name="reduce"></a>
 
-### dataStream.reduce(func, into) ⇒ <code>Promise</code>
+## reduce(func, into) ⇒ <code>Promise</code>
 Reduces the stream into a given accumulatorWorks similarily to Array.prototype.reduce, so whatever you return in theformer operation will be the first operand to the latter.This method is serial - meaning that any processing on an entry willoccur only after the previous entry is fully processed. This does meanit's much slower than parallel functions.
 
-**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
+**Kind**: global function  
 **Returns**: <code>Promise</code> - Promise resolved by the last object returned by thecall of the transform function  
 
 | Param | Type | Description |
@@ -182,12 +214,12 @@ Reduces the stream into a given accumulatorWorks similarily to Array.prototype
 ```js
 [../samples/data-stream-reduce.js](../samples/data-stream-reduce.js)
 ```
-<a name="DataStream+reduceNow"></a>
+<a name="reduceNow"></a>
 
-### dataStream.reduceNow(func, into) ⇒ <code>\*</code>
+## reduceNow(func, into) ⇒ <code>\*</code>
 Reduces the stream into the given object, returning it immediately.The main difference to reduce is that only the first object will bereturned at once (however the method will be called with the previousentry).If the object is an instance of EventEmitter then it will propagate theerror from the previous stream.This method is serial - meaning that any processing on an entry willoccur only after the previous entry is fully processed. This does meanit's much slower than parallel functions.
 
-**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
+**Kind**: global function  
 **Returns**: <code>\*</code> - whatever was passed as into  
 
 | Param | Type | Description |
@@ -199,13 +231,13 @@ Reduces the stream into the given object, returning it immediately.The main di
 ```js
 [../samples/data-stream-reduceNow.js](../samples/data-stream-reduceNow.js)
 ```
-<a name="DataStream+remap"></a>
+<a name="remap"></a>
 
-### dataStream.remap(func, Clazz) ⇒ <code>[DataStream](#DataStream)</code>
+## remap(func, Clazz) ⇒ <code>DataStream</code>
 Remaps the stream into a new stream.This means that every item may emit as many other items as we like.
 
-**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
-**Returns**: <code>[DataStream](#DataStream)</code> - a new DataStream of the given class with new chunks  
+**Kind**: global function  
+**Returns**: <code>DataStream</code> - a new DataStream of the given class with new chunks  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -216,25 +248,25 @@ Remaps the stream into a new stream.This means that every item may emit as man
 ```js
 [../samples/data-stream-remap.js](../samples/data-stream-remap.js)
 ```
-<a name="DataStream+each"></a>
+<a name="each"></a>
 
-### dataStream.each(func) ↩︎
+## each(func) ↩︎
 Performs an operation on every chunk, without changing the streamThis is a shorthand for ```stream.on("data", func)```
 
-**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
+**Kind**: global function  
 **Chainable**  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | func | <code>[MapCallback](#MapCallback)</code> | a callback called for each chunk. |
 
-<a name="DataStream+map"></a>
+<a name="map"></a>
 
-### dataStream.map(func, Clazz) ⇒ <code>[DataStream](#DataStream)</code>
+## map(func, Clazz) ⇒ <code>DataStream</code>
 Transforms stream objects into new ones, just like Array.prototype.mapdoes.
 
-**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
-**Returns**: <code>[DataStream](#DataStream)</code> - mapped stream  
+**Kind**: global function  
+**Returns**: <code>DataStream</code> - mapped stream  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -245,13 +277,13 @@ Transforms stream objects into new ones, just like Array.prototype.mapdoes.
 ```js
 [../samples/data-stream-map.js](../samples/data-stream-map.js)
 ```
-<a name="DataStream+filter"></a>
+<a name="filter"></a>
 
-### dataStream.filter(func) ⇒ <code>[DataStream](#DataStream)</code>
+## filter(func) ⇒ <code>DataStream</code>
 Filters object based on the function outcome, just likeArray.prototype.filter.
 
-**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
-**Returns**: <code>[DataStream](#DataStream)</code> - filtered stream  
+**Kind**: global function  
+**Returns**: <code>DataStream</code> - filtered stream  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -261,13 +293,13 @@ Filters object based on the function outcome, just likeArray.prototype.filter.
 ```js
 [../samples/data-stream-filter.js](../samples/data-stream-filter.js)
 ```
-<a name="DataStream+pop"></a>
+<a name="pop"></a>
 
-### dataStream.pop(count, func) ⇒ <code>[DataStream](#DataStream)</code>
+## pop(count, func) ⇒ <code>DataStream</code>
 Pops the first item from the stream and pipes the other
 
-**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
-**Returns**: <code>[DataStream](#DataStream)</code> - substream.  
+**Kind**: global function  
+**Returns**: <code>DataStream</code> - substream.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -278,12 +310,12 @@ Pops the first item from the stream and pipes the other
 ```js
 [../samples/data-stream-pop.js](../samples/data-stream-pop.js)
 ```
-<a name="DataStream+separate"></a>
+<a name="separate"></a>
 
-### dataStream.separate() ⇒ <code>MultiStream</code>
+## separate() ⇒ <code>MultiStream</code>
 Splits the stream two ways
 
-**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
+**Kind**: global function  
 **Todo**
 
 - [ ] Not yet implemented. Should use a number of tee+filter combination.
@@ -297,12 +329,12 @@ Splits the stream two ways
 ```js
 [../samples/data-stream-separate.js](../samples/data-stream-separate.js)
 ```
-<a name="DataStream+toBufferStream"></a>
+<a name="toBufferStream"></a>
 
-### dataStream.toBufferStream(serializer) ⇒ <code>BufferStream</code>
+## toBufferStream(serializer) ⇒ <code>BufferStream</code>
 Creates a BufferStream
 
-**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
+**Kind**: global function  
 **Returns**: <code>BufferStream</code> - the resulting stream  
 
 | Param | Type | Description |
@@ -313,12 +345,12 @@ Creates a BufferStream
 ```js
 [../samples/data-stream-tobufferstream.js](../samples/data-stream-tobufferstream.js)
 ```
-<a name="DataStream+toStringStream"></a>
+<a name="toStringStream"></a>
 
-### dataStream.toStringStream(serializer) ⇒ <code>StringStream</code>
+## toStringStream(serializer) ⇒ <code>StringStream</code>
 Creates a StringStream
 
-**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
+**Kind**: global function  
 **Returns**: <code>StringStream</code> - the resulting stream  
 
 | Param | Type | Description |
@@ -329,25 +361,13 @@ Creates a StringStream
 ```js
 [../samples/data-stream-tostringstream.js](../samples/data-stream-tostringstream.js)
 ```
-<a name="DataStream+toArray"></a>
+<a name="fromArray"></a>
 
-### dataStream.toArray(initial) ⇒ <code>Promise</code>
-Aggregates the stream into a single ArrayIn fact it's just a shorthand for reducing the stream into an Array.
-
-**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
-**Returns**: <code>Promise</code> - Promise resolved with the resulting array on stream                   end.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| initial | <code>Array</code> | Optional array to begin with. |
-
-<a name="DataStream.fromArray"></a>
-
-### DataStream.fromArray(arr) ⇒ <code>[DataStream](#DataStream)</code>
+## fromArray(arr) ⇒ <code>DataStream</code>
 Create a DataStream from an Array
 
-**Kind**: static method of <code>[DataStream](#DataStream)</code>  
-**Returns**: <code>[DataStream](#DataStream)</code> - the resulting stream  
+**Kind**: global function  
+**Returns**: <code>DataStream</code> - the resulting stream  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -357,6 +377,18 @@ Create a DataStream from an Array
 ```js
 [../samples/data-stream-fromarray.js](../samples/data-stream-fromarray.js)
 ```
+<a name="toArray"></a>
+
+## toArray(initial) ⇒ <code>Promise</code>
+Aggregates the stream into a single ArrayIn fact it's just a shorthand for reducing the stream into an Array.
+
+**Kind**: global function  
+**Returns**: <code>Promise</code> - Promise resolved with the resulting array on stream                   end.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| initial | <code>Array</code> | Optional array to begin with. |
+
 <a name="GroupCallback"></a>
 
 ## GroupCallback ⇒ <code>Promise</code> &#124; <code>String</code>
@@ -374,7 +406,7 @@ Create a DataStream from an Array
 
 | Param | Type | Description |
 | --- | --- | --- |
-| teed | <code>[DataStream](#DataStream)</code> | The teed stream |
+| teed | <code>DataStream</code> | The teed stream |
 
 <a name="AccumulateCallback"></a>
 

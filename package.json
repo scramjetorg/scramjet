@@ -29,10 +29,10 @@
     "test": "gulp test",
     "preversion": "gulp prerelease"
   },
-  "homepage": "https://michalcz.github.io/scramjet/",
+  "homepage": "http://scramjet.io/scramjet/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MichalCz/scramjet.git"
+    "url": "https://github.com/signicode/scramjet.git"
   },
   "engines": {
     "node": ">=6"

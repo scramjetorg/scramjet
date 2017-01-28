@@ -1,8 +1,35 @@
-## Classes
+## Members
 
 <dl>
-<dt><a href="#StringStream">StringStream</a> ⇐ <code>DataStream</code></dt>
-<dd><p>A stream of string objects for further transformation on top of DataStream.</p>
+<dt><a href="#SPLIT_LINE">SPLIT_LINE</a></dt>
+<dd><p>A handly split by line regex to quickly get a line-by-line stream</p>
+</dd>
+</dl>
+
+## Functions
+
+<dl>
+<dt><a href="#pop">pop(bytes, func)</a> ⇒ <code>StringStream</code></dt>
+<dd><p>Pops given length of chars from the original stream</p>
+<p>Works the same way as {@see DataStream.pop}, but in this case extracts
+the given number of characters.</p>
+</dd>
+<dt><a href="#split">split(splitter)</a> ⇒ <code>StringStream</code></dt>
+<dd><p>Splits the string stream by the specified regexp or string</p>
+</dd>
+<dt><a href="#match">match(splitter)</a> ⇒ <code>StringStream</code></dt>
+<dd><p>Finds matches in the string stream and streams the match results</p>
+</dd>
+<dt><a href="#toBufferStream">toBufferStream()</a> ⇒ <code>StringStream</code></dt>
+<dd><p>Transforms the StringStream to BufferStream</p>
+<p>Creates a buffer stream from the given string stream. Still it returns a
+DataStream derivative and isn&#39;t the typical node.js stream so you can do
+all your transforms when you like.</p>
+</dd>
+<dt><a href="#parse">parse(parser)</a> ⇒ <code>DataStream</code></dt>
+<dd><p>Parses every string to object</p>
+<p>The method MUST parse EVERY string into a single object, so the string
+stream here should already be splitted.</p>
 </dd>
 </dl>
 
@@ -15,46 +42,19 @@
 <dd></dd>
 </dl>
 
-<a name="StringStream"></a>
+<a name="SPLIT_LINE"></a>
 
-## StringStream ⇐ <code>DataStream</code>
-A stream of string objects for further transformation on top of DataStream.
+## SPLIT_LINE
+A handly split by line regex to quickly get a line-by-line stream
 
-**Kind**: global class  
-**Extends:** <code>DataStream</code>  
+**Kind**: global variable  
+<a name="pop"></a>
 
-* [StringStream](#StringStream) ⇐ <code>DataStream</code>
-    * [new StringStream(encoding)](#new_StringStream_new)
-    * _instance_
-        * [.pop(bytes, func)](#StringStream+pop) ⇒ <code>[StringStream](#StringStream)</code>
-        * [.split(splitter)](#StringStream+split) ⇒ <code>[StringStream](#StringStream)</code>
-        * [.match(splitter)](#StringStream+match) ⇒ <code>[StringStream](#StringStream)</code>
-        * [.toBufferStream()](#StringStream+toBufferStream) ⇒ <code>[StringStream](#StringStream)</code>
-        * [.parse(parser)](#StringStream+parse) ⇒ <code>DataStream</code>
-    * _static_
-        * [.SPLIT_LINE](#StringStream.SPLIT_LINE)
-
-<a name="new_StringStream_new"></a>
-
-### new StringStream(encoding)
-Constructs the stream with the given encoding
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| encoding | <code>String</code> | the encoding to use |
-
-**Example**  
-```js
-[../samples/string-stream-constructor.js](../samples/string-stream-constructor.js)
-```
-<a name="StringStream+pop"></a>
-
-### stringStream.pop(bytes, func) ⇒ <code>[StringStream](#StringStream)</code>
+## pop(bytes, func) ⇒ <code>StringStream</code>
 Pops given length of chars from the original streamWorks the same way as {@see DataStream.pop}, but in this case extractsthe given number of characters.
 
-**Kind**: instance method of <code>[StringStream](#StringStream)</code>  
-**Returns**: <code>[StringStream](#StringStream)</code> - substream.  
+**Kind**: global function  
+**Returns**: <code>StringStream</code> - substream.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -65,13 +65,13 @@ Pops given length of chars from the original streamWorks the same way as {@see
 ```js
 [../samples/string-stream-pop.js](../samples/string-stream-pop.js)
 ```
-<a name="StringStream+split"></a>
+<a name="split"></a>
 
-### stringStream.split(splitter) ⇒ <code>[StringStream](#StringStream)</code>
+## split(splitter) ⇒ <code>StringStream</code>
 Splits the string stream by the specified regexp or string
 
-**Kind**: instance method of <code>[StringStream](#StringStream)</code>  
-**Returns**: <code>[StringStream](#StringStream)</code> - the re-splitted string stream.  
+**Kind**: global function  
+**Returns**: <code>StringStream</code> - the re-splitted string stream.  
 **Todo**
 
 - [ ] implement splitting by buffer or string
@@ -85,13 +85,13 @@ Splits the string stream by the specified regexp or string
 ```js
 [../samples/string-stream-split.js](../samples/string-stream-split.js)
 ```
-<a name="StringStream+match"></a>
+<a name="match"></a>
 
-### stringStream.match(splitter) ⇒ <code>[StringStream](#StringStream)</code>
+## match(splitter) ⇒ <code>StringStream</code>
 Finds matches in the string stream and streams the match results
 
-**Kind**: instance method of <code>[StringStream](#StringStream)</code>  
-**Returns**: <code>[StringStream](#StringStream)</code> - string stream of matches.  
+**Kind**: global function  
+**Returns**: <code>StringStream</code> - string stream of matches.  
 **Todo**
 
 - [ ] implement splitting by buffer or string
@@ -105,23 +105,23 @@ Finds matches in the string stream and streams the match results
 ```js
 [../samples/string-stream-match.js](../samples/string-stream-match.js)
 ```
-<a name="StringStream+toBufferStream"></a>
+<a name="toBufferStream"></a>
 
-### stringStream.toBufferStream() ⇒ <code>[StringStream](#StringStream)</code>
+## toBufferStream() ⇒ <code>StringStream</code>
 Transforms the StringStream to BufferStreamCreates a buffer stream from the given string stream. Still it returns aDataStream derivative and isn't the typical node.js stream so you can doall your transforms when you like.
 
-**Kind**: instance method of <code>[StringStream](#StringStream)</code>  
-**Returns**: <code>[StringStream](#StringStream)</code> - The converted stream.  
+**Kind**: global function  
+**Returns**: <code>StringStream</code> - The converted stream.  
 **Example**  
 ```js
 [../samples/string-stream-tobufferstream.js](../samples/string-stream-tobufferstream.js)
 ```
-<a name="StringStream+parse"></a>
+<a name="parse"></a>
 
-### stringStream.parse(parser) ⇒ <code>DataStream</code>
+## parse(parser) ⇒ <code>DataStream</code>
 Parses every string to objectThe method MUST parse EVERY string into a single object, so the stringstream here should already be splitted.
 
-**Kind**: instance method of <code>[StringStream](#StringStream)</code>  
+**Kind**: global function  
 **Returns**: <code>DataStream</code> - The parsed objects stream.  
 
 | Param | Type | Description |
@@ -132,12 +132,6 @@ Parses every string to objectThe method MUST parse EVERY string into a single 
 ```js
 [../samples/string-stream-parse.js](../samples/string-stream-parse.js)
 ```
-<a name="StringStream.SPLIT_LINE"></a>
-
-### StringStream.SPLIT_LINE
-A handly split by line regex to quickly get a line-by-line stream
-
-**Kind**: static property of <code>[StringStream](#StringStream)</code>  
 <a name="PopCallback"></a>
 
 ## PopCallback : <code>function</code>

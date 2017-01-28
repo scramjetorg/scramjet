@@ -1,8 +1,26 @@
-## Classes
+## Functions
 
 <dl>
-<dt><a href="#BufferStream">BufferStream</a> ⇐ <code>DataStream</code></dt>
-<dd><p>A factilitation stream created for easy splitting or parsing buffers</p>
+<dt><a href="#pop">pop(chars, func)</a> ⇒ <code>BufferStream</code></dt>
+<dd><p>Pops given number of bytes from the original stream</p>
+<p>Works the same way as {@see DataStream.pop}, but in this case extracts
+the given number of bytes.</p>
+</dd>
+<dt><a href="#split">split(splitter)</a> ⇒ <code>BufferStream</code></dt>
+<dd><p>Splits the buffer stream into buffer objects</p>
+</dd>
+<dt><a href="#breakup">breakup(number)</a> ⇒ <code>BufferStream</code></dt>
+<dd><p>Breaks up a stream apart into chunks of the specified length</p>
+</dd>
+<dt><a href="#toStringStream">toStringStream(encoding)</a> ⇒ <code>StringStream</code></dt>
+<dd><p>Creates a string stream from the given buffer stream</p>
+<p>Still it returns a DataStream derivative and isn&#39;t the typical node.js
+stream so you can do all your transforms when you like.</p>
+</dd>
+<dt><a href="#parse">parse(parser)</a> ⇒ <code>DataStream</code></dt>
+<dd><p>[Parallel] Parses every buffer to object</p>
+<p>The method MUST parse EVERY buffer into a single object, so the buffer
+stream here should already be splitted or broken up.</p>
 </dd>
 </dl>
 
@@ -16,43 +34,13 @@
 <dd></dd>
 </dl>
 
-<a name="BufferStream"></a>
+<a name="pop"></a>
 
-## BufferStream ⇐ <code>DataStream</code>
-A factilitation stream created for easy splitting or parsing buffers
-
-**Kind**: global class  
-**Extends:** <code>DataStream</code>  
-
-* [BufferStream](#BufferStream) ⇐ <code>DataStream</code>
-    * [new BufferStream(opts)](#new_BufferStream_new)
-    * [.pop(chars, func)](#BufferStream+pop) ⇒ <code>[BufferStream](#BufferStream)</code>
-    * [.split(splitter)](#BufferStream+split) ⇒ <code>[BufferStream](#BufferStream)</code>
-    * [.breakup(number)](#BufferStream+breakup) ⇒ <code>[BufferStream](#BufferStream)</code>
-    * [.toStringStream(encoding)](#BufferStream+toStringStream) ⇒ <code>StringStream</code>
-    * [.parse(parser)](#BufferStream+parse) ⇒ <code>DataStream</code>
-
-<a name="new_BufferStream_new"></a>
-
-### new BufferStream(opts)
-Creates the BufferStream
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| opts | <code>object</code> | Stream options passed to superclass |
-
-**Example**  
-```js
-[../samples/buffer-stream-constructor.js](../samples/buffer-stream-constructor.js)
-```
-<a name="BufferStream+pop"></a>
-
-### bufferStream.pop(chars, func) ⇒ <code>[BufferStream](#BufferStream)</code>
+## pop(chars, func) ⇒ <code>BufferStream</code>
 Pops given number of bytes from the original streamWorks the same way as {@see DataStream.pop}, but in this case extractsthe given number of bytes.
 
-**Kind**: instance method of <code>[BufferStream](#BufferStream)</code>  
-**Returns**: <code>[BufferStream](#BufferStream)</code> - substream  
+**Kind**: global function  
+**Returns**: <code>BufferStream</code> - substream  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -63,13 +51,13 @@ Pops given number of bytes from the original streamWorks the same way as {@see
 ```js
 [../samples/string-stream-pop.js](../samples/string-stream-pop.js)
 ```
-<a name="BufferStream+split"></a>
+<a name="split"></a>
 
-### bufferStream.split(splitter) ⇒ <code>[BufferStream](#BufferStream)</code>
+## split(splitter) ⇒ <code>BufferStream</code>
 Splits the buffer stream into buffer objects
 
-**Kind**: instance method of <code>[BufferStream](#BufferStream)</code>  
-**Returns**: <code>[BufferStream](#BufferStream)</code> - the re-splitted buffer stream.  
+**Kind**: global function  
+**Returns**: <code>BufferStream</code> - the re-splitted buffer stream.  
 **Todo**
 
 - [ ] implement splitting by function
@@ -83,13 +71,13 @@ Splits the buffer stream into buffer objects
 ```js
 [../samples/buffer-stream-split.js](../samples/buffer-stream-split.js)
 ```
-<a name="BufferStream+breakup"></a>
+<a name="breakup"></a>
 
-### bufferStream.breakup(number) ⇒ <code>[BufferStream](#BufferStream)</code>
+## breakup(number) ⇒ <code>BufferStream</code>
 Breaks up a stream apart into chunks of the specified length
 
-**Kind**: instance method of <code>[BufferStream](#BufferStream)</code>  
-**Returns**: <code>[BufferStream](#BufferStream)</code> - the resulting buffer stream.  
+**Kind**: global function  
+**Returns**: <code>BufferStream</code> - the resulting buffer stream.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -99,12 +87,12 @@ Breaks up a stream apart into chunks of the specified length
 ```js
 [../samples/buffer-stream-breakup.js](../samples/buffer-stream-breakup.js)
 ```
-<a name="BufferStream+toStringStream"></a>
+<a name="toStringStream"></a>
 
-### bufferStream.toStringStream(encoding) ⇒ <code>StringStream</code>
+## toStringStream(encoding) ⇒ <code>StringStream</code>
 Creates a string stream from the given buffer streamStill it returns a DataStream derivative and isn't the typical node.jsstream so you can do all your transforms when you like.
 
-**Kind**: instance method of <code>[BufferStream](#BufferStream)</code>  
+**Kind**: global function  
 **Returns**: <code>StringStream</code> - The converted stream.  
 
 | Param | Type | Description |
@@ -115,12 +103,12 @@ Creates a string stream from the given buffer streamStill it returns a DataStr
 ```js
 [../samples/buffer-stream-tostringstream.js](../samples/buffer-stream-tostringstream.js)
 ```
-<a name="BufferStream+parse"></a>
+<a name="parse"></a>
 
-### bufferStream.parse(parser) ⇒ <code>DataStream</code>
+## parse(parser) ⇒ <code>DataStream</code>
 [Parallel] Parses every buffer to objectThe method MUST parse EVERY buffer into a single object, so the bufferstream here should already be splitted or broken up.
 
-**Kind**: instance method of <code>[BufferStream](#BufferStream)</code>  
+**Kind**: global function  
 **Returns**: <code>DataStream</code> - The parsed objects stream.  
 
 | Param | Type | Description |
