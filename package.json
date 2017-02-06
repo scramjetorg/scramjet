@@ -40,6 +40,7 @@
   "author": "Signicode / Michał Czapracki <cz@signicode.com>",
   "license": "MIT",
   "devDependencies": {
+    "freeport": "^1.0.5",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.0",
     "gulp-exec": "^2.1.3",
