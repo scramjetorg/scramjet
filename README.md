@@ -1,7 +1,7 @@
-[![Master Build Status](https://travis-ci.org/MichalCz/scramjet.svg?branch=master)](https://travis-ci.org/MichalCz/scramjet)
-[![Develop Build Status](https://travis-ci.org/MichalCz/scramjet.svg?branch=develop)](https://travis-ci.org/MichalCz/scramjet)
-[![Dependencies](https://david-dm.org/MichalCz/scramjet/status.svg)](https://david-dm.org/MichalCz/scramjet)
-[![Dev Dependencies](https://david-dm.org/MichalCz/scramjet/dev-status.svg)](https://david-dm.org/MichalCz/scramjet?type=dev)
+[![Master Build Status](https://travis-ci.org/signicode/scramjet.svg?branch=master)](https://travis-ci.org/signicode/scramjet)
+[![Develop Build Status](https://travis-ci.org/signicode/scramjet.svg?branch=develop)](https://travis-ci.org/signicode/scramjet)
+[![Dependencies](https://david-dm.org/signicode/scramjet/status.svg)](https://david-dm.org/signicode/scramjet)
+[![Dev Dependencies](https://david-dm.org/signicode/scramjet/dev-status.svg)](https://david-dm.org/signicode/scramjet?type=dev)
 
 ## What does it do?
 
@@ -66,10 +66,10 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
 | dataStream.each(func) ↩︎ | Performs an operation on every chunk, without changing the stream |  |
 | dataStream.map(func, Clazz) ⇒ <code>[DataStream](#DataStream)</code> | Transforms stream objects into new ones, just like Array.prototype.map | [map example](../samples/data-stream-map.js) |
 | dataStream.filter(func) ⇒ <code>[DataStream](#DataStream)</code> | Filters object based on the function outcome, just like | [filter example](../samples/data-stream-filter.js) |
-| dataStream.pop(count, func) ⇒ <code>[DataStream](#DataStream)</code> | Pops the first item from the stream and pipes the other | [pop example](../samples/data-stream-pop.js) |
+| dataStream.shift(count, func) ⇒ <code>[DataStream](#DataStream)</code> | Shifts the first n items from the stream and pipes the other | [shift example](../samples/data-stream-shift.js) |
 | dataStream.separate() ⇒ <code>[MultiStream](#MultiStream)</code> | Splits the stream two ways | [separate example](../samples/data-stream-separate.js) |
 | dataStream.toBufferStream(serializer) ⇒ <code>[BufferStream](#BufferStream)</code> | Creates a BufferStream | [toBufferStream example](../samples/data-stream-tobufferstream.js) |
-| dataStream.toStringStream(serializer) ⇒ <code>[StringStream](#StringStream)</code> | Creates a StringStream | [toStringStream example](../samples/data-stream-tostringstream.js) |
+| dataStream.stringify(serializer) ⇒ <code>[StringStream](#StringStream)</code> | Creates a StringStream | [stringify example](../samples/data-stream-tostringstream.js) |
 | dataStream.toArray(initial) ⇒ <code>Promise</code> | Aggregates the stream into a single Array |  |
 | DataStream.fromArray(arr) ⇒ <code>[DataStream](#DataStream)</code> | Create a DataStream from an Array | [fromArray example](../samples/data-stream-fromarray.js) |
 
@@ -132,7 +132,7 @@ An object consisting of multiple streams than can be refined or muxed.
 Scramjet works in the browser too, there's a nice, self-contained sample in here, just run it:
 
 ```bash
-    git clone https://github.com/MichalCz/scramjet.git
+    git clone https://github.com/signicode/scramjet.git
     cd scramjet
     npm install .
     cd samples/browser
@@ -190,4 +190,4 @@ As of version 2.0 Scramjet is MIT Licensed.
 
 The project need's your help! There's lots of work to do - transforming and muxing, joining and splitting, browserifying, modularizing, documenting and issuing those issues.
 
-If you want to help and be part of the Scramjet team, please reach out to me, MichalCz on Github or email me: scramjet@signicode.com.
+If you want to help and be part of the Scramjet team, please reach out to me, signicode on Github or email me: scramjet@signicode.com.

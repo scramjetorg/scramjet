@@ -17,7 +17,8 @@ const decorateAsynchronously = (cb, chunk) => new Promise((res) => {
 });
 
 const decorateAsynchronouslyWithError = (cb, chunk) => {
-    if (chunk.val > 0 && (chunk.val % 22) === 0) {
+    debugger;
+    if (chunk.val === 22) {
         return new Promise((res, rej) => {
             setTimeout(() => rej(new Error("Err")), 100);
         });
@@ -28,7 +29,7 @@ const decorateAsynchronouslyWithError = (cb, chunk) => {
 
 module.exports = {
     test_ok(test) {
-        test.expect(2);
+        test.expect(3);
         const a = [];
         getStream()
             .map(decorateAsynchronously.bind(null, () => 0))
@@ -36,6 +37,7 @@ module.exports = {
             .on(
                 "end",
                 () => {
+                    test.ok(a[0].ref, "called asynchronous map");
                     test.equals(a.length, 100, "accumulated all items");
                     test.ok(
                         a[0].val === 0 &&
