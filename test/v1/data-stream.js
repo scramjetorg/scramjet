@@ -1,5 +1,7 @@
 const DataStream = require('../../').DataStream;
 
+require('longjohn');
+
 const getStream = () => {
     const ret = new DataStream();
     let cnt = 0;
@@ -134,19 +136,25 @@ module.exports = {
         test.expect(3);
 
         let unmapped;
-        const mapped = getStream()
+
+        let mapped = getStream()
             .tee(
-                (stream) => unmapped = stream.reduce(
-                    (acc, item) => (acc.push(item), acc),
+                (stream) => unmapped = stream.accumulate(
+                    (acc, item) => acc.push(item),
                     []
                 )
             )
-            .map((item) => ({
-                even: item.val % 2 === 0,
-                num: item.val
-            }))
-            .reduce(
-                (acc, item) => (acc.push(item), acc),
+            .map(
+                (item) => {
+                    return {
+                        even: item.val % 2 === 0,
+                        num: item.val
+                    };
+                }
+            )
+            .on("error", (e) => test.ok(false, "Should not error " + (e && e.stack)))
+            .accumulate(
+                (acc, item) => acc.push(item),
                 []
             );
 
