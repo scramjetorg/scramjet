@@ -142,7 +142,7 @@ Gets a slice of the stream to the callback function.Returns a stream consistin
 | --- | --- | --- |
 | start | <code>Number</code> | omit this number of entries. |
 | end | <code>Number</code> | end at this number of entries (from 0) |
-| func | <code>PopCallback</code> | the callback |
+| func | <code>[ShiftCallback](#ShiftCallback)</code> | the callback |
 
 **Example**  
 ```js
@@ -272,7 +272,7 @@ Shifts the first n items from the stream and pipes the other
 | Param | Type | Description |
 | --- | --- | --- |
 | count | <code>Number</code> | The number of items to shift. |
-| func | <code>PopCallback</code> | Function that receives an array of shifted items |
+| func | <code>[ShiftCallback](#ShiftCallback)</code> | Function that receives an array of shifted items |
 
 **Example**  
 ```js

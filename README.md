@@ -84,7 +84,7 @@ A stream of string objects for further transformation on top of DataStream.
 | Method | Description | Example
 |--------|-------------|---------
 | new StringStream(encoding) | Constructs the stream with the given encoding | [StringStream example](../samples/string-stream-constructor.js) |
-| stringStream.pop(bytes, func) ⇒ <code>[StringStream](#StringStream)</code> | Pops given length of chars from the original stream | [pop example](../samples/string-stream-pop.js) |
+| stringStream.shift(bytes, func) ⇒ <code>[StringStream](#StringStream)</code> | Shifts given length of chars from the original stream | [shift example](../samples/string-stream-shift.js) |
 | stringStream.split(splitter) ⇒ <code>[StringStream](#StringStream)</code> | Splits the string stream by the specified regexp or string | [split example](../samples/string-stream-split.js) |
 | stringStream.match(splitter) ⇒ <code>[StringStream](#StringStream)</code> | Finds matches in the string stream and streams the match results | [match example](../samples/string-stream-match.js) |
 | stringStream.toBufferStream() ⇒ <code>[StringStream](#StringStream)</code> | Transforms the StringStream to BufferStream | [toBufferStream example](../samples/string-stream-tobufferstream.js) |
@@ -102,7 +102,7 @@ A factilitation stream created for easy splitting or parsing buffers
 | Method | Description | Example
 |--------|-------------|---------
 | new BufferStream(opts) | Creates the BufferStream | [BufferStream example](../samples/buffer-stream-constructor.js) |
-| bufferStream.pop(chars, func) ⇒ <code>[BufferStream](#BufferStream)</code> | Pops given number of bytes from the original stream | [pop example](../samples/string-stream-pop.js) |
+| bufferStream.shift(chars, func) ⇒ <code>[BufferStream](#BufferStream)</code> | Shift given number of bytes from the original stream | [shift example](../samples/string-stream-shift.js) |
 | bufferStream.split(splitter) ⇒ <code>[BufferStream](#BufferStream)</code> | Splits the buffer stream into buffer objects | [split example](../samples/buffer-stream-split.js) |
 | bufferStream.breakup(number) ⇒ <code>[BufferStream](#BufferStream)</code> | Breaks up a stream apart into chunks of the specified length | [breakup example](../samples/buffer-stream-breakup.js) |
 | bufferStream.toStringStream(encoding) ⇒ <code>[StringStream](#StringStream)</code> | Creates a string stream from the given buffer stream | [toStringStream example](../samples/buffer-stream-tostringstream.js) |
