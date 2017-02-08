@@ -5,9 +5,18 @@
 
 ## What does it do?
 
-Scramjet is a powerful, yet simple framework written on top of node.js object streams, somewhat similar to the well-known [event-stream](https://www.npmjs.com/package/event-stream) module, but with more simplicty in mind and written in ES6. It is built upon the logic behind three well known javascript array operations - namingly map, filter and reduce. This means that if you've ever performed operations on an Array in JavaScript - you already know Scramjet like the back of your hand.
+Scramjet is a powerful, yet simple framework written on top of node.js object streams, somewhat similar to the
+well-known [event-stream](https://www.npmjs.com/package/event-stream) or
+[highland](https://www.npmjs.com/package/highland) module, but with a much simplier API and written fully in ES6. It is
+built upon the logic behind three well known javascript array operations - namingly map, filter and reduce. This means
+that if you've ever performed operations on an Array in JavaScript - you already know Scramjet like the back of your
+hand.
 
-It allows you to perform the transformations both synchronously and asynchronously in the same API.
+The main advantage of scramjet is running asynchronous operations on your data streams. First of all it allows you to
+perform the transformations both synchronously and asynchronously by using the same API - so now you can "map" your
+stream from whatever source and call any number of API's consecutively.
+
+The benchmarks are punblished in the [scramjet-benchmark repo](https://github.com/signicode/scramjet-benchmark).
 
 ## Example
 
@@ -65,6 +74,7 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
 | dataStream.remap(func, Clazz) ⇒ <code>[DataStream](#DataStream)</code> | Remaps the stream into a new stream. | [remap example](../samples/data-stream-remap.js) |
 | dataStream.each(func) ↩︎ | Performs an operation on every chunk, without changing the stream |  |
 | dataStream.map(func, Clazz) ⇒ <code>[DataStream](#DataStream)</code> | Transforms stream objects into new ones, just like Array.prototype.map | [map example](../samples/data-stream-map.js) |
+| dataStream.assign(func) ⇒ <code>[DataStream](#DataStream)</code> | Transforms stream objects by assigning the properties from the returned | [assign example](../samples/data-stream-assign.js) |
 | dataStream.filter(func) ⇒ <code>[DataStream](#DataStream)</code> | Filters object based on the function outcome, just like | [filter example](../samples/data-stream-filter.js) |
 | dataStream.shift(count, func) ⇒ <code>[DataStream](#DataStream)</code> | Shifts the first n items from the stream and pipes the other | [shift example](../samples/data-stream-shift.js) |
 | dataStream.separate() ⇒ <code>[MultiStream](#MultiStream)</code> | Splits the stream two ways | [separate example](../samples/data-stream-separate.js) |

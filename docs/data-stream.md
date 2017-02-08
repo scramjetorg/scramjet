@@ -8,6 +8,13 @@ streamed through your flow.</p>
 </dd>
 </dl>
 
+## Functions
+
+<dl>
+<dt><a href="#tapStops merging transform callbacks at the current place in the commandchain.">tapStops merging transform callbacks at the current place in the commandchain.()</a></dt>
+<dd></dd>
+</dl>
+
 ## Typedefs
 
 <dl>
@@ -51,6 +58,7 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
         * [.remap(func, Clazz)](#DataStream+remap) ⇒ <code>[DataStream](#DataStream)</code>
         * [.each(func)](#DataStream+each) ↩︎
         * [.map(func, Clazz)](#DataStream+map) ⇒ <code>[DataStream](#DataStream)</code>
+        * [.assign(func)](#DataStream+assign) ⇒ <code>[DataStream](#DataStream)</code>
         * [.filter(func)](#DataStream+filter) ⇒ <code>[DataStream](#DataStream)</code>
         * [.shift(count, func)](#DataStream+shift) ⇒ <code>[DataStream](#DataStream)</code>
         * [.separate()](#DataStream+separate) ⇒ <code>MultiStream</code>
@@ -245,6 +253,22 @@ Transforms stream objects into new ones, just like Array.prototype.mapdoes.
 ```js
 [../samples/data-stream-map.js](../samples/data-stream-map.js)
 ```
+<a name="DataStream+assign"></a>
+
+### dataStream.assign(func) ⇒ <code>[DataStream](#DataStream)</code>
+Transforms stream objects by assigning the properties from the returneddata along with data from original ones.The original objects are unaltered.
+
+**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
+**Returns**: <code>[DataStream](#DataStream)</code> - mapped stream  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| func | <code>[MapCallback](#MapCallback)</code> | The function that returns new object properties |
+
+**Example**  
+```js
+[../samples/data-stream-assign.js](../samples/data-stream-assign.js)
+```
 <a name="DataStream+filter"></a>
 
 ### dataStream.filter(func) ⇒ <code>[DataStream](#DataStream)</code>
@@ -356,6 +380,14 @@ Create a DataStream from an Array
 **Example**  
 ```js
 [../samples/data-stream-fromarray.js](../samples/data-stream-fromarray.js)
+```
+<a name="tapStops merging transform callbacks at the current place in the commandchain."></a>
+
+## tapStops merging transform callbacks at the current place in the commandchain.()
+**Kind**: global function  
+**Example**  
+```js
+[../samples/data-stream-tap.js](../samples/data-stream-tap.js)
 ```
 <a name="GroupCallback"></a>
 
