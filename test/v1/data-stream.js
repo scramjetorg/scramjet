@@ -1,5 +1,7 @@
 const DataStream = require('../../').DataStream;
 
+require('longjohn');
+
 const getStream = () => {
     const ret = new DataStream();
     let cnt = 0;
@@ -134,19 +136,25 @@ module.exports = {
         test.expect(3);
 
         let unmapped;
-        const mapped = getStream()
+
+        let mapped = getStream()
             .tee(
-                (stream) => unmapped = stream.reduce(
-                    (acc, item) => (acc.push(item), acc),
+                (stream) => unmapped = stream.accumulate(
+                    (acc, item) => acc.push(item),
                     []
                 )
             )
-            .map((item) => ({
-                even: item.val % 2 === 0,
-                num: item.val
-            }))
-            .reduce(
-                (acc, item) => (acc.push(item), acc),
+            .map(
+                (item) => {
+                    return {
+                        even: item.val % 2 === 0,
+                        num: item.val
+                    };
+                }
+            )
+            .on("error", (e) => test.ok(false, "Should not error " + (e && e.stack)))
+            .accumulate(
+                (acc, item) => acc.push(item),
                 []
             );
 
@@ -196,15 +204,15 @@ module.exports = {
                 (e) => (console.log(e), test.ok(false, "Should not throw error: " + e))
             );
     },
-    test_pop: {
+    test_shift: {
         from_begining(test) {
             test.expect(4);
 
-            let popped;
+            let shifted;
             getStream()
-                .pop(3,
+                .shift(3,
                     (items) => {
-                        popped = items;
+                        shifted = items;
                     }
                 )
                 .reduce(
@@ -213,10 +221,10 @@ module.exports = {
                 )
                 .then(
                     (items) => {
-                        test.equals(popped.length, 3, "Pop should result in an array of a given number");
-                        test.equals(popped[2].val, 2, "Pop should take the number of first items");
-                        test.equals(items[0].val, 3, "Popped items should not appear in the stream");
-                        test.equals(items.length, 97, "All the non-popped items should be in the stream");
+                        test.equals(shifted.length, 3, "Shift should result in an array of a given number");
+                        test.equals(shifted[2].val, 2, "Shift should take the number of first items");
+                        test.equals(items[0].val, 3, "Shifted items should not appear in the stream");
+                        test.equals(items.length, 97, "All the non-shifted items should be in the stream");
                         test.done();
                     }
                 ).catch(
