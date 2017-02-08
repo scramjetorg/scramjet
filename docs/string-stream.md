@@ -9,7 +9,7 @@
 ## Typedefs
 
 <dl>
-<dt><a href="#PopCallback">PopCallback</a> : <code>function</code></dt>
+<dt><a href="#ShiftCallback">ShiftCallback</a> : <code>function</code></dt>
 <dd></dd>
 <dt><a href="#ParseCallback">ParseCallback</a> ⇒ <code>Promise</code></dt>
 <dd></dd>
@@ -26,7 +26,7 @@ A stream of string objects for further transformation on top of DataStream.
 * [StringStream](#StringStream) ⇐ <code>DataStream</code>
     * [new StringStream(encoding)](#new_StringStream_new)
     * _instance_
-        * [.pop(bytes, func)](#StringStream+pop) ⇒ <code>[StringStream](#StringStream)</code>
+        * [.shift(bytes, func)](#StringStream+shift) ⇒ <code>[StringStream](#StringStream)</code>
         * [.split(splitter)](#StringStream+split) ⇒ <code>[StringStream](#StringStream)</code>
         * [.match(splitter)](#StringStream+match) ⇒ <code>[StringStream](#StringStream)</code>
         * [.toBufferStream()](#StringStream+toBufferStream) ⇒ <code>[StringStream](#StringStream)</code>
@@ -48,22 +48,22 @@ Constructs the stream with the given encoding
 ```js
 [../samples/string-stream-constructor.js](../samples/string-stream-constructor.js)
 ```
-<a name="StringStream+pop"></a>
+<a name="StringStream+shift"></a>
 
-### stringStream.pop(bytes, func) ⇒ <code>[StringStream](#StringStream)</code>
-Pops given length of chars from the original streamWorks the same way as {@see DataStream.pop}, but in this case extractsthe given number of characters.
+### stringStream.shift(bytes, func) ⇒ <code>[StringStream](#StringStream)</code>
+Shifts given length of chars from the original streamWorks the same way as {@see DataStream.shift}, but in this case extractsthe given number of characters.
 
 **Kind**: instance method of <code>[StringStream](#StringStream)</code>  
 **Returns**: <code>[StringStream](#StringStream)</code> - substream.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| bytes | <code>Number</code> | The number of characters to pop. |
-| func | <code>[PopCallback](#PopCallback)</code> | Function that receives a string of popped                                 chars. |
+| bytes | <code>Number</code> | The number of characters to shift. |
+| func | <code>[ShiftCallback](#ShiftCallback)</code> | Function that receives a string of shifted                                 chars. |
 
 **Example**  
 ```js
-[../samples/string-stream-pop.js](../samples/string-stream-pop.js)
+[../samples/string-stream-shift.js](../samples/string-stream-shift.js)
 ```
 <a name="StringStream+split"></a>
 
@@ -138,14 +138,14 @@ Parses every string to objectThe method MUST parse EVERY string into a single 
 A handly split by line regex to quickly get a line-by-line stream
 
 **Kind**: static property of <code>[StringStream](#StringStream)</code>  
-<a name="PopCallback"></a>
+<a name="ShiftCallback"></a>
 
-## PopCallback : <code>function</code>
+## ShiftCallback : <code>function</code>
 **Kind**: global typedef  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| popped | <code>String</code> | Pooped chars |
+| shifted | <code>String</code> | Pooped chars |
 
 <a name="ParseCallback"></a>
 
