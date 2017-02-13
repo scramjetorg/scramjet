@@ -2,14 +2,15 @@ const MultiStream = require('../../').MultiStream;
 const DataStream = require('../../').DataStream;
 const EventEmitter = require('events').EventEmitter;
 
-const getStream = (n, z) => {
+const getStream = (n, z, k) => {
     z = z || 100;
+    k = k || 1;
     const ret = new DataStream();
     ret.len = z;
     ret.init = n;
     let cnt = 0;
     for (let i = 0; i < z; i++)
-        ret.write({val: +(cnt++ + n)});
+        ret.write({val: +(k * cnt++ + n)});
     process.nextTick(() => ret.end());
     return ret;
 };
@@ -37,6 +38,47 @@ module.exports = {
         }, null, "MultiStream can be constructed a list of streams");
         test.ok(new MultiStream() instanceof EventEmitter, "MultiStream extends EventEmitter");
         test.done();
+    },
+    test_mux_cmp(test) {
+        test.expect(3);
+
+        const streams = [
+            getStream(10, 10, 3),   // [10, 13, 16, 19, 22, 25, 28, 31, 34, 37]
+            getStream(20, 10, 2)    // [20, 22, 24, 26, 28, 30, 32, 34, 36, 38]
+        ];
+        const lastStream = getStream(30, 10, 1);     // [30, 31, 32, 33, 34, 35, 36, 37, 38, 39]
+
+        streams.concat(lastStream).map(
+            (stream) => new Promise(
+                res => stream.on("end", () => console.log("end", res()))
+            )
+        );
+
+        const toMux = new MultiStream(streams);
+        const mux = toMux.mux((a, b) => a - b);
+
+        toMux.add(lastStream);
+
+        mux.on("error", () => console.log("err"));
+
+        process.once('unhandledRejection', (reason) => {
+            console.log('Unhandled rejection: ' + reason.stack, test.fail(1, "Unhandled rejection"));
+        });
+
+        mux.accumulate(
+            (acc, item) => {
+                console.log(item);
+                acc.push(item);
+            },
+            []
+        ).then(
+            (arr) => {
+                test.ok(arr[0] === 10 && arr[4] === 20 && arr[5] === 22, "Stream items must be merged in");
+                test.equals(arr.length, 30, "All items should be consumed");
+                test.equals(arr[14], 31, "Stream added after calling constructor should be taken into account");
+                test.done();
+            }
+        );
     },
     test_map(test) {
         test.expect(3);
