@@ -26,7 +26,7 @@ A factilitation stream created for easy splitting or parsing buffers
 
 * [BufferStream](#BufferStream) ⇐ <code>DataStream</code>
     * [new BufferStream(opts)](#new_BufferStream_new)
-    * [.pop(chars, func)](#BufferStream+pop) ⇒ <code>[BufferStream](#BufferStream)</code>
+    * [.shift(chars, func)](#BufferStream+shift) ⇒ <code>[BufferStream](#BufferStream)</code>
     * [.split(splitter)](#BufferStream+split) ⇒ <code>[BufferStream](#BufferStream)</code>
     * [.breakup(number)](#BufferStream+breakup) ⇒ <code>[BufferStream](#BufferStream)</code>
     * [.toStringStream(encoding)](#BufferStream+toStringStream) ⇒ <code>StringStream</code>
@@ -46,22 +46,22 @@ Creates the BufferStream
 ```js
 [../samples/buffer-stream-constructor.js](../samples/buffer-stream-constructor.js)
 ```
-<a name="BufferStream+pop"></a>
+<a name="BufferStream+shift"></a>
 
-### bufferStream.pop(chars, func) ⇒ <code>[BufferStream](#BufferStream)</code>
-Pops given number of bytes from the original streamWorks the same way as {@see DataStream.pop}, but in this case extractsthe given number of bytes.
+### bufferStream.shift(chars, func) ⇒ <code>[BufferStream](#BufferStream)</code>
+Shift given number of bytes from the original streamWorks the same way as {@see DataStream.shift}, but in this case extractsthe given number of bytes.
 
 **Kind**: instance method of <code>[BufferStream](#BufferStream)</code>  
 **Returns**: <code>[BufferStream](#BufferStream)</code> - substream  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| chars | <code>Number</code> | The number of bytes to pop |
-| func | <code>[PopCallback](#PopCallback)</code> | Function that receives a string of popped bytes |
+| chars | <code>Number</code> | The number of bytes to shift |
+| func | <code>[PopCallback](#PopCallback)</code> | Function that receives a string of shifted bytes |
 
 **Example**  
 ```js
-[../samples/string-stream-pop.js](../samples/string-stream-pop.js)
+[../samples/string-stream-shift.js](../samples/string-stream-shift.js)
 ```
 <a name="BufferStream+split"></a>
 

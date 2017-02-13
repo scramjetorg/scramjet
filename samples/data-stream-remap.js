@@ -2,12 +2,13 @@
 // module: data-stream, method: remap
 
 const DataStream = require('../').DataStream;
+exports.log = console.log.bind(console);
 
 let ref;
 DataStream.fromArray([[1,2], [3,4], [5,6], [7,8], [9,10]])
     .on("end", () => exports.log("end1"))
     .debug((stream) => {
-        console.log((ref = stream)._writableState.ended);
+        exports.log((ref = stream)._writableState.ended);
     })
     .remap((emit, item) => {
         emit(item[0]);
@@ -27,5 +28,3 @@ DataStream.fromArray([[1,2], [3,4], [5,6], [7,8], [9,10]])
     .catch(
         (e) => console.error(e)
     );
-
-exports.log = console.log.bind(console);

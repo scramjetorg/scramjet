@@ -156,9 +156,10 @@ module.exports = {
             "WBA\tWalgreens Boots Alliance Inc\t83.27\t \t-0.72\t-0.86%", "WDC\tWestern Digital Corp\t60.93\t \t2.13\t3.62%", "WFM\tWhole Foods Market Inc\t30.96\t \t0.02\t0.06%", "XLNX\tXilinx Inc\t52.98\t \t-0.26\t-0.49%", "YHOO\tYahoo Inc\t41.19\t \t-0.26\t-0.63%", "XRAY\tDentsply Sirona Inc\t60.16\t \t-0.79\t-1.30%"
         ]);
 
+        let z;
         const stream = orgStream
             .pipe(
-                new StringStream('utf-8')
+                z = new StringStream('utf-8')
             )
             .parse(
                 (ticker) => {
@@ -171,6 +172,9 @@ module.exports = {
                     };
                 }
             );
+
+        z.ttt = "ye";
+        stream.ttt = "okok";
 
         test.ok(stream instanceof DataStream, "Should return data stream");
         stream.pop(2, (data) => {

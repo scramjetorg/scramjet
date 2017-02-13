@@ -9,6 +9,14 @@
   essentially the current protocol will be backwards compatible.
 * Relicensed to the MIT License
 
+## Scramjet 2.3.0
+
+* Asynchronous tranforms on multiple streams are merged into one.
+* New .tap() method introduced to be able to revert to previous behavior
+* Benchmark added (but is also released separately)
+* Misleading pop() name changed to shift(), but old one still kept for
+  compatibility
+
 ## Scramjet 2.2.1
 
 * Asynchronous transforms now run in parallel, exact documentation on how to
