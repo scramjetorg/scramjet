@@ -17,7 +17,6 @@ const decorateAsynchronously = (cb, chunk) => new Promise((res) => {
 });
 
 const decorateAsynchronouslyWithError = (cb, chunk) => {
-    debugger;
     if (chunk.val === 22) {
         return new Promise((res, rej) => {
             setTimeout(() => rej(new Error("Err")), 100);
@@ -27,23 +26,36 @@ const decorateAsynchronouslyWithError = (cb, chunk) => {
     }
 };
 
+const unhandleds = [];
+process.on("unhandledRejection", (e, p) => {
+    if (e instanceof Error)
+        console.error("Unhandled: ", p, "\n\n" + e.stack);
+    else
+        console.error("Unhandled promise: ", p, e);
+    unhandleds.push(e);
+});
+
+
 module.exports = {
     test_ok(test) {
         test.expect(3);
         const a = [];
         getStream()
-            .map(decorateAsynchronously.bind(null, () => 0))
-            .each((i) => a.push(i))
+            .map((item) => decorateAsynchronously(() => 0, item))
+            .filter(
+                (a) => a.val % 2 === 0
+            )
+            .each((i) => a.push(i, console.log(i)))
             .on(
                 "end",
                 () => {
                     test.ok(a[0].ref, "called asynchronous map");
-                    test.equals(a.length, 100, "accumulated all items");
+                    test.equals(a.length, 50, "accumulated all items");
                     test.ok(
                         a[0].val === 0 &&
-                        a[1].val === 1 &&
-                        a[2].val === 2 &&
-                        a[3].val === 3,
+                        a[1].val === 2 &&
+                        a[2].val === 4 &&
+                        a[3].val === 6,
                         "Order should be preserved"
                     );
                     test.done();
@@ -57,7 +69,8 @@ module.exports = {
     test_err(test) {
         test.expect(3);
         getStream()
-            .map(decorateAsynchronouslyWithError.bind(null, () => 0))
+            .map((item) => decorateAsynchronouslyWithError(() => 0, item))
+            .each((a) => console.log(a))
             .once("error", (e, chunk) => {
                 test.ok(true, "Should emit error");
                 test.ok(e instanceof Error, "Thrown should be an instance of Error");
