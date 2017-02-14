@@ -9,6 +9,10 @@
   essentially the current protocol will be backwards compatible.
 * Relicensed to the MIT License
 
+## Scramjet 2.3.2
+
+* flatMap method introduced on DataStream
+
 ## Scramjet 2.3.0
 
 * Asynchronous tranforms on multiple streams are merged into one.
