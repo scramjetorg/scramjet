@@ -28,6 +28,8 @@ streamed through your flow.</p>
 <dd></dd>
 <dt><a href="#RemapCallback">RemapCallback</a> ⇒ <code>Promise</code> | <code>*</code></dt>
 <dd></dd>
+<dt><a href="#FlatMapCallback">FlatMapCallback</a> ⇒ <code>Promise.&lt;Iterable&gt;</code> | <code>Iterable</code></dt>
+<dd></dd>
 <dt><a href="#MapCallback">MapCallback</a> ⇒ <code>Promise</code> | <code>*</code></dt>
 <dd></dd>
 <dt><a href="#FilterCallback">FilterCallback</a> ⇒ <code>Promise</code> | <code>Boolean</code></dt>
@@ -56,6 +58,7 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
         * [.reduce(func, into)](#DataStream+reduce) ⇒ <code>Promise</code>
         * [.reduceNow(func, into)](#DataStream+reduceNow) ⇒ <code>\*</code>
         * [.remap(func, Clazz)](#DataStream+remap) ⇒ <code>[DataStream](#DataStream)</code>
+        * [.flatMap(func, Clazz)](#DataStream+flatMap) ⇒ <code>[DataStream](#DataStream)</code>
         * [.each(func)](#DataStream+each) ↩︎
         * [.map(func, Clazz)](#DataStream+map) ⇒ <code>[DataStream](#DataStream)</code>
         * [.assign(func)](#DataStream+assign) ⇒ <code>[DataStream](#DataStream)</code>
@@ -223,6 +226,23 @@ Remaps the stream into a new stream.This means that every item may emit as man
 **Example**  
 ```js
 [../samples/data-stream-remap.js](../samples/data-stream-remap.js)
+```
+<a name="DataStream+flatMap"></a>
+
+### dataStream.flatMap(func, Clazz) ⇒ <code>[DataStream](#DataStream)</code>
+Takes any method that returns any iterable and flattens the result.The passed callback must return an iterable (otherwise an error will be emitted). The resulting stream willconsist of all the items of the returned iterables, one iterable after another.
+
+**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
+**Returns**: <code>[DataStream](#DataStream)</code> - a new DataStream of the given class with new chunks  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| func | <code>[FlatMapCallback](#FlatMapCallback)</code> | A callback that is called on every chunk |
+| Clazz | <code>class</code> | Optional DataStream subclass to be constructed |
+
+**Example**  
+```js
+[../samples/data-stream-flatmap.js](../samples/data-stream-flatmap.js)
 ```
 <a name="DataStream+each"></a>
 
@@ -439,6 +459,16 @@ Create a DataStream from an Array
 | Param | Type | Description |
 | --- | --- | --- |
 | emit | <code>function</code> | a method to emit objects in the remapped stream |
+| chunk | <code>\*</code> | the chunk from the original stream |
+
+<a name="FlatMapCallback"></a>
+
+## FlatMapCallback ⇒ <code>Promise.&lt;Iterable&gt;</code> &#124; <code>Iterable</code>
+**Kind**: global typedef  
+**Returns**: <code>Promise.&lt;Iterable&gt;</code> &#124; <code>Iterable</code> - promise to be resolved when chunk has been processed  
+
+| Param | Type | Description |
+| --- | --- | --- |
 | chunk | <code>\*</code> | the chunk from the original stream |
 
 <a name="MapCallback"></a>

@@ -40,9 +40,11 @@ module.exports = {
                 }
             }
 
-            new NewStream().tee(
+            const org = new NewStream();
+            org.tee(
                 stream => {
                     test.ok(stream instanceof NewStream, "Returns instance of the Extended class");
+                    test.notEqual(stream, org, "Should return a new stream here");
                     test.equals(stream.test(), cmp, "The instance works as it should");
                     test.done();
                 }
