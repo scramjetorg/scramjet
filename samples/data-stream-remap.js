@@ -5,7 +5,7 @@ const DataStream = require('../').DataStream;
 exports.log = console.log.bind(console);
 
 let ref;
-DataStream.fromArray([[1,2], [3,4], [5,6], [7,8], [9,10]])
+DataStream.fromArray([[1,2,20], [3,4,21], [5,6,22], [7,8,23], [9,10,24]])
     .on("end", () => exports.log("end1"))
     .debug((stream) => {
         exports.log((ref = stream)._writableState.ended);
@@ -14,9 +14,13 @@ DataStream.fromArray([[1,2], [3,4], [5,6], [7,8], [9,10]])
         emit(item[0]);
         return new Promise((s) => (process.nextTick(() => {
             emit(item[1]);
+            emit(item[2]);
             s();
         })));
     })
+    .filter(
+        (item) => item < 20
+    )
     .on("end", () => exports.log("end2"))
     .reduce(
         (acc, item) => (acc.push(item), acc),
