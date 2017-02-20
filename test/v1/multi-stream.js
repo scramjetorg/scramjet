@@ -39,8 +39,29 @@ module.exports = {
         test.ok(new MultiStream() instanceof EventEmitter, "MultiStream extends EventEmitter");
         test.done();
     },
+    test_mux(test) {
+        const streams = [
+            getStream(10, 10, 1),
+            getStream(20, 10, 1)
+        ];
+
+        const mux = new MultiStream(streams).mux();
+        test.ok(mux instanceof DataStream, "Returns DataStream instance");
+
+        mux.accumulate(
+            (acc, item) => acc.push(item.val),
+            []
+        ).then(
+            (arr) => {
+                test.equals(arr.length, 20, "Accumulates all chunks from both streams");
+                test.notEqual(arr.indexOf(11), -1, "Contains chunks from first stream");
+                test.notEqual(arr.indexOf(21), -1, "Contains chunks from second stream");
+                test.done();
+            }
+        );
+    },
     test_mux_cmp(test) {
-        test.expect(3);
+        test.expect(5);
 
         const streams = [
             getStream(10, 10, 3),   // [10, 13, 16, 19, 22, 25, 28, 31, 34, 37]
@@ -48,36 +69,31 @@ module.exports = {
         ];
         const lastStream = getStream(30, 10, 1);     // [30, 31, 32, 33, 34, 35, 36, 37, 38, 39]
 
-        streams.concat(lastStream).map(
-            (stream) => new Promise(
-                res => stream.on("end", () => console.log("end", res()))
-            )
-        );
-
         const toMux = new MultiStream(streams);
-        const mux = toMux.mux((a, b) => a - b);
-
         toMux.add(lastStream);
 
-        mux.on("error", () => console.log("err"));
+        const mux = toMux.mux((a, b) => a.val - b.val);
+
+        mux.on("error", () => test.fail(true, "Should not error!"));
 
         process.once('unhandledRejection', (reason) => {
             console.log('Unhandled rejection: ' + reason.stack, test.fail(1, "Unhandled rejection"));
         });
 
         mux.accumulate(
-            (acc, item) => {
-                console.log(item);
-                acc.push(item);
-            },
+            (acc, item) => acc.push(item.val),
             []
         ).then(
             (arr) => {
-                test.ok(arr[0] === 10 && arr[4] === 20 && arr[5] === 22, "Stream items must be merged in");
+                test.equals(arr[0], 10, "Stream items must be merged in");
+                test.equals(arr[4], 20, "Stream items must be merged in");
+                test.equals(arr[5], 22, "Stream items must be merged in");
                 test.equals(arr.length, 30, "All items should be consumed");
                 test.equals(arr[14], 31, "Stream added after calling constructor should be taken into account");
                 test.done();
             }
+        ).catch(
+            (reason) => console.log('Thrown: ' + reason.stack, test.fail(1, "Unhandled rejection"))
         );
     },
     test_map(test) {
