@@ -1,6 +1,6 @@
 {
   "name": "scramjet",
-  "version": "2.2.1",
+  "version": "2.4.1",
   "description": "Simple yet powerful live or real-time data computation framework like event-stream, but written in ES6 and using streams2",
   "main": "lib/index.js",
   "directories": {
@@ -30,10 +30,10 @@
     "test": "gulp test",
     "preversion": "gulp prerelease"
   },
-  "homepage": "https://michalcz.github.io/scramjet/",
+  "homepage": "http://scramjet.io/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MichalCz/scramjet.git"
+    "url": "https://github.com/signicode/scramjet.git"
   },
   "engines": {
     "node": ">=6"
@@ -41,6 +41,7 @@
   "author": "Signicode / Michał Czapracki <cz@signicode.com>",
   "license": "MIT",
   "devDependencies": {
+    "freeport": "^1.0.5",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.0",
     "gulp-exec": "^2.1.3",
@@ -52,8 +53,10 @@
     "jsdoc-to-markdown": "^2.0.1",
     "jshint": "^2.9.4",
     "jshint-stylish": "^2.2.1",
+    "longjohn": "^0.2.12",
     "nodeunit": "^0.10.2",
-    "request": "^2.73.0",
+    "request": "^2.79.0",
+    "request-promise": "^4.1.1",
     "through2": "^2.0.3"
   },
   "dependencies": {

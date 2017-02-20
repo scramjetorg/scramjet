@@ -1,14 +1,14 @@
 #!/usr/bin/env node
-// module: buffer-stream, method: pop
+// module: buffer-stream, method: shift
 
 const crypto = require('crypto');
 
-let popped;
+let shifted;
 
 exports.stream = () => require("./buffer-stream-constructor")
     .stream()                                                                   // get BufferStream from another example
-    .pop(13, (p) => {                                                           // pop 13 bytes
-        popped = {
+    .shift(13, (p) => {                                                           // shift 13 bytes
+        shifted = {
             buf: p,
             len: p.length,
             md5: crypto.createHash("md5").update(p).digest("hex")
@@ -23,8 +23,8 @@ exports.test = (test) => {
 
     exports.stream()
         .once("data", (buf) => {
-            test.equals(popped.len, 13, "All data was parsed properly");
-            test.notEqual(popped.buf.toString("hex"), buf.toString("hex"), "Pop removed data from the item");
+            test.equals(shifted.len, 13, "All data was parsed properly");
+            test.notEqual(shifted.buf.toString("hex"), buf.toString("hex"), "Shift removed data from the item");
             test.done();
         })
         .on("error", (e) => { console.error("Error", e && e.stack); test.ok(0, "Error should not occur"); })

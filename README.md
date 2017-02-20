@@ -1,13 +1,22 @@
-[![Master Build Status](https://travis-ci.org/MichalCz/scramjet.svg?branch=master)](https://travis-ci.org/MichalCz/scramjet)
-[![Develop Build Status](https://travis-ci.org/MichalCz/scramjet.svg?branch=develop)](https://travis-ci.org/MichalCz/scramjet)
-[![Dependencies](https://david-dm.org/MichalCz/scramjet/status.svg)](https://david-dm.org/MichalCz/scramjet)
-[![Dev Dependencies](https://david-dm.org/MichalCz/scramjet/dev-status.svg)](https://david-dm.org/MichalCz/scramjet?type=dev)
+[![Master Build Status](https://travis-ci.org/signicode/scramjet.svg?branch=master)](https://travis-ci.org/signicode/scramjet)
+[![Develop Build Status](https://travis-ci.org/signicode/scramjet.svg?branch=develop)](https://travis-ci.org/signicode/scramjet)
+[![Dependencies](https://david-dm.org/signicode/scramjet/status.svg)](https://david-dm.org/signicode/scramjet)
+[![Dev Dependencies](https://david-dm.org/signicode/scramjet/dev-status.svg)](https://david-dm.org/signicode/scramjet?type=dev)
 
 ## What does it do?
 
-Scramjet is a powerful, yet simple framework written on top of node.js object streams, somewhat similar to the well-known [event-stream](https://www.npmjs.com/package/event-stream) module, but with more simplicty in mind and written in ES6. It is built upon the logic behind three well known javascript array operations - namingly map, filter and reduce. This means that if you've ever performed operations on an Array in JavaScript - you already know Scramjet like the back of your hand.
+Scramjet is a powerful, yet simple framework written on top of node.js object streams, somewhat similar to the
+well-known [event-stream](https://www.npmjs.com/package/event-stream) or
+[highland](https://www.npmjs.com/package/highland) module, but with a much simplier API and written fully in ES6. It is
+built upon the logic behind three well known javascript array operations - namingly map, filter and reduce. This means
+that if you've ever performed operations on an Array in JavaScript - you already know Scramjet like the back of your
+hand.
 
-It allows you to perform the transformations both synchronously and asynchronously in the same API.
+The main advantage of scramjet is running asynchronous operations on your data streams. First of all it allows you to
+perform the transformations both synchronously and asynchronously by using the same API - so now you can "map" your
+stream from whatever source and call any number of API's consecutively.
+
+The benchmarks are punblished in the [scramjet-benchmark repo](https://github.com/signicode/scramjet-benchmark).
 
 ## Example
 
@@ -63,13 +72,15 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
 | dataStream.reduce(func, into) ⇒ <code>Promise</code> | Reduces the stream into a given accumulator | [reduce example](../samples/data-stream-reduce.js) |
 | dataStream.reduceNow(func, into) ⇒ <code>\*</code> | Reduces the stream into the given object, returning it immediately. | [reduceNow example](../samples/data-stream-reduceNow.js) |
 | dataStream.remap(func, Clazz) ⇒ <code>[DataStream](#DataStream)</code> | Remaps the stream into a new stream. | [remap example](../samples/data-stream-remap.js) |
+| dataStream.flatMap(func, Clazz) ⇒ <code>[DataStream](#DataStream)</code> | Takes any method that returns any iterable and flattens the result. | [flatMap example](../samples/data-stream-flatmap.js) |
 | dataStream.each(func) ↩︎ | Performs an operation on every chunk, without changing the stream |  |
 | dataStream.map(func, Clazz) ⇒ <code>[DataStream](#DataStream)</code> | Transforms stream objects into new ones, just like Array.prototype.map | [map example](../samples/data-stream-map.js) |
+| dataStream.assign(func) ⇒ <code>[DataStream](#DataStream)</code> | Transforms stream objects by assigning the properties from the returned | [assign example](../samples/data-stream-assign.js) |
 | dataStream.filter(func) ⇒ <code>[DataStream](#DataStream)</code> | Filters object based on the function outcome, just like | [filter example](../samples/data-stream-filter.js) |
-| dataStream.pop(count, func) ⇒ <code>[DataStream](#DataStream)</code> | Pops the first item from the stream and pipes the other | [pop example](../samples/data-stream-pop.js) |
+| dataStream.shift(count, func) ⇒ <code>[DataStream](#DataStream)</code> | Shifts the first n items from the stream and pipes the other | [shift example](../samples/data-stream-shift.js) |
 | dataStream.separate() ⇒ <code>[MultiStream](#MultiStream)</code> | Splits the stream two ways | [separate example](../samples/data-stream-separate.js) |
 | dataStream.toBufferStream(serializer) ⇒ <code>[BufferStream](#BufferStream)</code> | Creates a BufferStream | [toBufferStream example](../samples/data-stream-tobufferstream.js) |
-| dataStream.toStringStream(serializer) ⇒ <code>[StringStream](#StringStream)</code> | Creates a StringStream | [toStringStream example](../samples/data-stream-tostringstream.js) |
+| dataStream.stringify(serializer) ⇒ <code>[StringStream](#StringStream)</code> | Creates a StringStream | [stringify example](../samples/data-stream-tostringstream.js) |
 | dataStream.toArray(initial) ⇒ <code>Promise</code> | Aggregates the stream into a single Array |  |
 | DataStream.fromArray(arr) ⇒ <code>[DataStream](#DataStream)</code> | Create a DataStream from an Array | [fromArray example](../samples/data-stream-fromarray.js) |
 
@@ -84,7 +95,7 @@ A stream of string objects for further transformation on top of DataStream.
 | Method | Description | Example
 |--------|-------------|---------
 | new StringStream(encoding) | Constructs the stream with the given encoding | [StringStream example](../samples/string-stream-constructor.js) |
-| stringStream.pop(bytes, func) ⇒ <code>[StringStream](#StringStream)</code> | Pops given length of chars from the original stream | [pop example](../samples/string-stream-pop.js) |
+| stringStream.shift(bytes, func) ⇒ <code>[StringStream](#StringStream)</code> | Shifts given length of chars from the original stream | [shift example](../samples/string-stream-shift.js) |
 | stringStream.split(splitter) ⇒ <code>[StringStream](#StringStream)</code> | Splits the string stream by the specified regexp or string | [split example](../samples/string-stream-split.js) |
 | stringStream.match(splitter) ⇒ <code>[StringStream](#StringStream)</code> | Finds matches in the string stream and streams the match results | [match example](../samples/string-stream-match.js) |
 | stringStream.toBufferStream() ⇒ <code>[StringStream](#StringStream)</code> | Transforms the StringStream to BufferStream | [toBufferStream example](../samples/string-stream-tobufferstream.js) |
@@ -102,7 +113,7 @@ A factilitation stream created for easy splitting or parsing buffers
 | Method | Description | Example
 |--------|-------------|---------
 | new BufferStream(opts) | Creates the BufferStream | [BufferStream example](../samples/buffer-stream-constructor.js) |
-| bufferStream.pop(chars, func) ⇒ <code>[BufferStream](#BufferStream)</code> | Pops given number of bytes from the original stream | [pop example](../samples/string-stream-pop.js) |
+| bufferStream.shift(chars, func) ⇒ <code>[BufferStream](#BufferStream)</code> | Shift given number of bytes from the original stream | [shift example](../samples/string-stream-shift.js) |
 | bufferStream.split(splitter) ⇒ <code>[BufferStream](#BufferStream)</code> | Splits the buffer stream into buffer objects | [split example](../samples/buffer-stream-split.js) |
 | bufferStream.breakup(number) ⇒ <code>[BufferStream](#BufferStream)</code> | Breaks up a stream apart into chunks of the specified length | [breakup example](../samples/buffer-stream-breakup.js) |
 | bufferStream.toStringStream(encoding) ⇒ <code>[StringStream](#StringStream)</code> | Creates a string stream from the given buffer stream | [toStringStream example](../samples/buffer-stream-tostringstream.js) |
@@ -132,7 +143,7 @@ An object consisting of multiple streams than can be refined or muxed.
 Scramjet works in the browser too, there's a nice, self-contained sample in here, just run it:
 
 ```bash
-    git clone https://github.com/MichalCz/scramjet.git
+    git clone https://github.com/signicode/scramjet.git
     cd scramjet
     npm install .
     cd samples/browser
@@ -190,4 +201,4 @@ As of version 2.0 Scramjet is MIT Licensed.
 
 The project need's your help! There's lots of work to do - transforming and muxing, joining and splitting, browserifying, modularizing, documenting and issuing those issues.
 
-If you want to help and be part of the Scramjet team, please reach out to me, MichalCz on Github or email me: scramjet@signicode.com.
+If you want to help and be part of the Scramjet team, please reach out to me, signicode on Github or email me: scramjet@signicode.com.

@@ -1,25 +1,20 @@
 #!/usr/bin/env node
-// module: data-stream, method: remap
+// module: data-stream, method: flatMap
 
 const DataStream = require('../').DataStream;
 exports.log = console.log.bind(console);
 
 let ref;
-DataStream.fromArray([[1,2,20], [3,4,21], [5,6,22], [7,8,23], [9,10,24]])
+DataStream.fromArray([{a: 1, b: 2, c: 11}, {a: 3, b: 4, c: 13}, {a: 5, b: 6, c: 15}, {a: 7, b: 8, c: 17}, {a: 9, b: 10, c: 19}])
     .on("end", () => exports.log("end1"))
     .debug((stream) => {
         exports.log((ref = stream)._writableState.ended);
     })
-    .remap((emit, item) => {
-        emit(item[0]);
-        return new Promise((s) => (process.nextTick(() => {
-            emit(item[1]);
-            emit(item[2]);
-            s();
-        })));
+    .flatMap((item) => {
+        return Object.keys(item).map((k) => k + ':' + item[k]);
     })
     .filter(
-        (item) => item < 20
+        (item) => item.indexOf('b') !== 0
     )
     .on("end", () => exports.log("end2"))
     .reduce(

@@ -8,6 +8,13 @@ streamed through your flow.</p>
 </dd>
 </dl>
 
+## Functions
+
+<dl>
+<dt><a href="#tapStops merging transform callbacks at the current place in the commandchain.">tapStops merging transform callbacks at the current place in the commandchain.()</a></dt>
+<dd></dd>
+</dl>
+
 ## Typedefs
 
 <dl>
@@ -21,12 +28,14 @@ streamed through your flow.</p>
 <dd></dd>
 <dt><a href="#RemapCallback">RemapCallback</a> ⇒ <code>Promise</code> | <code>*</code></dt>
 <dd></dd>
+<dt><a href="#FlatMapCallback">FlatMapCallback</a> ⇒ <code>Promise.&lt;Iterable&gt;</code> | <code>Iterable</code></dt>
+<dd></dd>
 <dt><a href="#MapCallback">MapCallback</a> ⇒ <code>Promise</code> | <code>*</code></dt>
 <dd></dd>
 <dt><a href="#FilterCallback">FilterCallback</a> ⇒ <code>Promise</code> | <code>Boolean</code></dt>
 <dd></dd>
-<dt><a href="#PopCallback">PopCallback</a> : <code>function</code></dt>
-<dd><p>Pop callback</p>
+<dt><a href="#ShiftCallback">ShiftCallback</a> : <code>function</code></dt>
+<dd><p>Shift callback</p>
 </dd>
 </dl>
 
@@ -49,13 +58,15 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
         * [.reduce(func, into)](#DataStream+reduce) ⇒ <code>Promise</code>
         * [.reduceNow(func, into)](#DataStream+reduceNow) ⇒ <code>\*</code>
         * [.remap(func, Clazz)](#DataStream+remap) ⇒ <code>[DataStream](#DataStream)</code>
+        * [.flatMap(func, Clazz)](#DataStream+flatMap) ⇒ <code>[DataStream](#DataStream)</code>
         * [.each(func)](#DataStream+each) ↩︎
         * [.map(func, Clazz)](#DataStream+map) ⇒ <code>[DataStream](#DataStream)</code>
+        * [.assign(func)](#DataStream+assign) ⇒ <code>[DataStream](#DataStream)</code>
         * [.filter(func)](#DataStream+filter) ⇒ <code>[DataStream](#DataStream)</code>
-        * [.pop(count, func)](#DataStream+pop) ⇒ <code>[DataStream](#DataStream)</code>
+        * [.shift(count, func)](#DataStream+shift) ⇒ <code>[DataStream](#DataStream)</code>
         * [.separate()](#DataStream+separate) ⇒ <code>MultiStream</code>
         * [.toBufferStream(serializer)](#DataStream+toBufferStream) ⇒ <code>BufferStream</code>
-        * [.toStringStream(serializer)](#DataStream+toStringStream) ⇒ <code>StringStream</code>
+        * [.stringify(serializer)](#DataStream+stringify) ⇒ <code>StringStream</code>
         * [.toArray(initial)](#DataStream+toArray) ⇒ <code>Promise</code>
     * _static_
         * [.fromArray(arr)](#DataStream.fromArray) ⇒ <code>[DataStream](#DataStream)</code>
@@ -142,7 +153,7 @@ Gets a slice of the stream to the callback function.Returns a stream consistin
 | --- | --- | --- |
 | start | <code>Number</code> | omit this number of entries. |
 | end | <code>Number</code> | end at this number of entries (from 0) |
-| func | <code>[PopCallback](#PopCallback)</code> | the callback |
+| func | <code>[ShiftCallback](#ShiftCallback)</code> | the callback |
 
 **Example**  
 ```js
@@ -216,6 +227,23 @@ Remaps the stream into a new stream.This means that every item may emit as man
 ```js
 [../samples/data-stream-remap.js](../samples/data-stream-remap.js)
 ```
+<a name="DataStream+flatMap"></a>
+
+### dataStream.flatMap(func, Clazz) ⇒ <code>[DataStream](#DataStream)</code>
+Takes any method that returns any iterable and flattens the result.The passed callback must return an iterable (otherwise an error will be emitted). The resulting stream willconsist of all the items of the returned iterables, one iterable after another.
+
+**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
+**Returns**: <code>[DataStream](#DataStream)</code> - a new DataStream of the given class with new chunks  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| func | <code>[FlatMapCallback](#FlatMapCallback)</code> | A callback that is called on every chunk |
+| Clazz | <code>class</code> | Optional DataStream subclass to be constructed |
+
+**Example**  
+```js
+[../samples/data-stream-flatmap.js](../samples/data-stream-flatmap.js)
+```
 <a name="DataStream+each"></a>
 
 ### dataStream.each(func) ↩︎
@@ -245,6 +273,22 @@ Transforms stream objects into new ones, just like Array.prototype.mapdoes.
 ```js
 [../samples/data-stream-map.js](../samples/data-stream-map.js)
 ```
+<a name="DataStream+assign"></a>
+
+### dataStream.assign(func) ⇒ <code>[DataStream](#DataStream)</code>
+Transforms stream objects by assigning the properties from the returneddata along with data from original ones.The original objects are unaltered.
+
+**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
+**Returns**: <code>[DataStream](#DataStream)</code> - mapped stream  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| func | <code>[MapCallback](#MapCallback)</code> | The function that returns new object properties |
+
+**Example**  
+```js
+[../samples/data-stream-assign.js](../samples/data-stream-assign.js)
+```
 <a name="DataStream+filter"></a>
 
 ### dataStream.filter(func) ⇒ <code>[DataStream](#DataStream)</code>
@@ -261,22 +305,22 @@ Filters object based on the function outcome, just likeArray.prototype.filter.
 ```js
 [../samples/data-stream-filter.js](../samples/data-stream-filter.js)
 ```
-<a name="DataStream+pop"></a>
+<a name="DataStream+shift"></a>
 
-### dataStream.pop(count, func) ⇒ <code>[DataStream](#DataStream)</code>
-Pops the first item from the stream and pipes the other
+### dataStream.shift(count, func) ⇒ <code>[DataStream](#DataStream)</code>
+Shifts the first n items from the stream and pipes the other
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
 **Returns**: <code>[DataStream](#DataStream)</code> - substream.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| count | <code>Number</code> | The number of items to pop. |
-| func | <code>[PopCallback](#PopCallback)</code> | Function that receives an array of popped items |
+| count | <code>Number</code> | The number of items to shift. |
+| func | <code>[ShiftCallback](#ShiftCallback)</code> | Function that receives an array of shifted items |
 
 **Example**  
 ```js
-[../samples/data-stream-pop.js](../samples/data-stream-pop.js)
+[../samples/data-stream-shift.js](../samples/data-stream-shift.js)
 ```
 <a name="DataStream+separate"></a>
 
@@ -313,9 +357,9 @@ Creates a BufferStream
 ```js
 [../samples/data-stream-tobufferstream.js](../samples/data-stream-tobufferstream.js)
 ```
-<a name="DataStream+toStringStream"></a>
+<a name="DataStream+stringify"></a>
 
-### dataStream.toStringStream(serializer) ⇒ <code>StringStream</code>
+### dataStream.stringify(serializer) ⇒ <code>StringStream</code>
 Creates a StringStream
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
@@ -356,6 +400,14 @@ Create a DataStream from an Array
 **Example**  
 ```js
 [../samples/data-stream-fromarray.js](../samples/data-stream-fromarray.js)
+```
+<a name="tapStops merging transform callbacks at the current place in the commandchain."></a>
+
+## tapStops merging transform callbacks at the current place in the commandchain.()
+**Kind**: global function  
+**Example**  
+```js
+[../samples/data-stream-tap.js](../samples/data-stream-tap.js)
 ```
 <a name="GroupCallback"></a>
 
@@ -409,6 +461,16 @@ Create a DataStream from an Array
 | emit | <code>function</code> | a method to emit objects in the remapped stream |
 | chunk | <code>\*</code> | the chunk from the original stream |
 
+<a name="FlatMapCallback"></a>
+
+## FlatMapCallback ⇒ <code>Promise.&lt;Iterable&gt;</code> &#124; <code>Iterable</code>
+**Kind**: global typedef  
+**Returns**: <code>Promise.&lt;Iterable&gt;</code> &#124; <code>Iterable</code> - promise to be resolved when chunk has been processed  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chunk | <code>\*</code> | the chunk from the original stream |
+
 <a name="MapCallback"></a>
 
 ## MapCallback ⇒ <code>Promise</code> &#124; <code>\*</code>
@@ -429,14 +491,14 @@ Create a DataStream from an Array
 | --- | --- | --- |
 | chunk | <code>\*</code> | the chunk to be filtered or not |
 
-<a name="PopCallback"></a>
+<a name="ShiftCallback"></a>
 
-## PopCallback : <code>function</code>
-Pop callback
+## ShiftCallback : <code>function</code>
+Shift callback
 
 **Kind**: global typedef  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| popped | <code>Array.&lt;Object&gt;</code> | an array of popped chunks |
+| shifted | <code>Array.&lt;Object&gt;</code> | an array of shifted chunks |
 
