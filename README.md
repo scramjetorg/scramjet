@@ -130,9 +130,9 @@ An object consisting of multiple streams than can be refined or muxed.
 | Method | Description | Example
 |--------|-------------|---------
 | new MultiStream(streams, options) | Crates an instance of MultiStream with the specified stream list | [MultiStream example](../samples/multi-stream-constructor.js) |
-| multiStream.map(func) ⇒ <code>[MultiStream](#MultiStream)</code> | Returns new MultiStream with the streams returned by the tranform. | [map example](../samples/multi-stream-map.js) |
+| multiStream.map(aFunc) ⇒ <code>[MultiStream](#MultiStream)</code> | Returns new MultiStream with the streams returned by the tranform. | [map example](../samples/multi-stream-map.js) |
 | multiStream.filter(func) ⇒ <code>[MultiStream](#MultiStream)</code> | Filters the stream list and returns a new MultiStream with only the | [filter example](../samples/multi-stream-filter.js) |
-| multiStream.dedupe(cmp) ⇒ <code>[DataStream](#DataStream)</code> | Makes a number of redundant streams into a single one | [dedupe example](../samples/multi-stream-dedupe.js) |
+| multiStream.dedupe(cmp) ⇒ <code>[DataStream](#DataStream)</code> | Removes duplicate items from stream using the given hash function | [dedupe example](../samples/multi-stream-dedupe.js) |
 | multiStream.mux(cmp) ⇒ <code>[DataStream](#DataStream)</code> | Muxes the streams into a single one | [mux example](../samples/multi-stream-mux.js) |
 | multiStream.add(stream) | Adds a stream to the MultiStream | [add example](../samples/multi-stream-add.js) |
 | multiStream.remove(stream) | Removes a stream from the MultiStream | [remove example](../samples/multi-stream-remove.js) |

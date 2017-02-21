@@ -73,12 +73,12 @@ module.exports = {
         toMux.add(lastStream);
 
         const mux = toMux.mux((a, b) => a.val - b.val);
-
         mux.on("error", () => test.fail(true, "Should not error!"));
 
-        process.once('unhandledRejection', (reason) => {
-            console.log('Unhandled rejection: ' + reason.stack, test.fail(1, "Unhandled rejection"));
-        });
+        process.once(
+            'unhandledRejection',
+            (reason) => console.log('Unhandled rejection: ' + (reason && reason.stack), test.fail(1, "Unhandled rejection"))
+        );
 
         mux.accumulate(
             (acc, item) => acc.push(item.val),
