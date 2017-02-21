@@ -60,7 +60,5 @@
     "request-promise": "^4.1.1",
     "through2": "^2.0.3"
   },
-  "dependencies": {
-    "mergesort-stream": "^1.0.1"
-  }
+  "dependencies": {}
 }
