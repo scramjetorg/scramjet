@@ -21,6 +21,7 @@
     "apache",
     "spark",
     "apex",
+    "highland",
     "log",
     "functional programming",
     "parser"
@@ -41,6 +42,7 @@
   "license": "MIT",
   "devDependencies": {
     "freeport": "^1.0.5",
+    "fs-promise": "^2.0.0",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.0",
     "gulp-exec": "^2.1.3",
@@ -58,7 +60,5 @@
     "request-promise": "^4.1.1",
     "through2": "^2.0.3"
   },
-  "dependencies": {
-    "mergesort-stream": "^1.0.1"
-  }
+  "dependencies": {}
 }

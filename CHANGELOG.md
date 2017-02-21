@@ -9,7 +9,11 @@
   essentially the current protocol will be backwards compatible.
 * Relicensed to the MIT License
 
-## Scramjet 2.3.2
+## Scramjet 2.4.2
+
+* Removed dependency on mergesort-stream and almost 30% performance improvement on muxing streams
+
+## Scramjet 2.4.1
 
 * flatMap method introduced on DataStream
 
