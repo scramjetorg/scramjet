@@ -114,6 +114,10 @@ Calls the passed in place with the stream as first argument, returns result.
 | --- | --- | --- |
 | func | <code>function</code> | if passed, the function will be called on self                         to add an option to inspect the stream in place,                         while not breaking the transform chain |
 
+**Example**  
+```js
+[../samples/data-stream-use.js](../samples/data-stream-use.js)
+```
 <a name="DataStream+group"></a>
 
 ### dataStream.group(func) ⇒ <code>[DataStream](#DataStream)</code>

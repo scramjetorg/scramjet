@@ -65,7 +65,7 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
 |--------|-------------|---------
 | new DataStream(opts) | Create the DataStream. | [DataStream example](../samples/data-stream-constructor.js) |
 | dataStream.debug(func) ⇒ <code>[DataStream](#DataStream)</code> | Injects a ```debugger``` statement when called. | [debug example](../samples/data-stream-debug.js) |
-| dataStream.use(func) ⇒ <code>\*</code> | Calls the passed in place with the stream as first argument, returns result. |  |
+| dataStream.use(func) ⇒ <code>\*</code> | Calls the passed in place with the stream as first argument, returns result. | [use example](../samples/data-stream-use.js) |
 | dataStream.group(func) ⇒ <code>[DataStream](#DataStream)</code> | Groups execution by key in a single thread | [group example](../samples/data-stream-group.js) |
 | dataStream.tee(func) ⇒ <code>[DataStream](#DataStream)</code> | Duplicate the stream | [tee example](../samples/data-stream-tee.js) |
 | dataStream.slice(start, end, func) ⇒ <code>[DataStream](#DataStream)</code> | Gets a slice of the stream to the callback function. | [slice example](../samples/data-stream-slice.js) |
