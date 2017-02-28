@@ -51,6 +51,7 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
     * [new DataStream(opts)](#new_DataStream_new)
     * _instance_
         * [.debug(func)](#DataStream+debug) ⇒ <code>[DataStream](#DataStream)</code>
+        * [.use(func)](#DataStream+use) ⇒ <code>\*</code>
         * [.group(func)](#DataStream+group) ⇒ <code>[DataStream](#DataStream)</code>
         * [.tee(func)](#DataStream+tee) ⇒ <code>[DataStream](#DataStream)</code>
         * [.slice(start, end, func)](#DataStream+slice) ⇒ <code>[DataStream](#DataStream)</code>
@@ -100,6 +101,22 @@ Injects a ```debugger``` statement when called.
 **Example**  
 ```js
 [../samples/data-stream-debug.js](../samples/data-stream-debug.js)
+```
+<a name="DataStream+use"></a>
+
+### dataStream.use(func) ⇒ <code>\*</code>
+Calls the passed in place with the stream as first argument, returns result.
+
+**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
+**Returns**: <code>\*</code> - anything the passed function returns  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| func | <code>function</code> | if passed, the function will be called on self                         to add an option to inspect the stream in place,                         while not breaking the transform chain |
+
+**Example**  
+```js
+[../samples/data-stream-use.js](../samples/data-stream-use.js)
 ```
 <a name="DataStream+group"></a>
 
