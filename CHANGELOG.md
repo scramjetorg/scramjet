@@ -9,6 +9,14 @@
   essentially the current protocol will be backwards compatible.
 * Relicensed to the MIT License
 
+## Scramjet 2.5.1
+
+* Dev dependencies update (nodeunit, jsdoc-to-markdown)
+
+## Scramjet 2.5.0
+
+* Added `use` method.
+
 ## Scramjet 2.4.2
 
 * Removed dependency on mergesort-stream and almost 30% performance improvement on muxing streams
