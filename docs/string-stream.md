@@ -28,11 +28,14 @@ A stream of string objects for further transformation on top of DataStream.
     * _instance_
         * [.shift(bytes, func)](#StringStream+shift) ⇒ <code>[StringStream](#StringStream)</code>
         * [.split(splitter)](#StringStream+split) ⇒ <code>[StringStream](#StringStream)</code>
+        * [.append(arg)](#StringStream+append) ⇒ <code>[StringStream](#StringStream)</code>
+        * [.prepend(arg)](#StringStream+prepend) ⇒ <code>[StringStream](#StringStream)</code>
         * [.match(splitter)](#StringStream+match) ⇒ <code>[StringStream](#StringStream)</code>
         * [.toBufferStream()](#StringStream+toBufferStream) ⇒ <code>[StringStream](#StringStream)</code>
         * [.parse(parser)](#StringStream+parse) ⇒ <code>DataStream</code>
     * _static_
         * [.SPLIT_LINE](#StringStream.SPLIT_LINE)
+        * [.fromString(str, encoding)](#StringStream.fromString) ⇒ <code>[StringStream](#StringStream)</code>
 
 <a name="new_StringStream_new"></a>
 
@@ -84,6 +87,38 @@ Splits the string stream by the specified regexp or string
 **Example**  
 ```js
 [../samples/string-stream-split.js](../samples/string-stream-split.js)
+```
+<a name="StringStream+append"></a>
+
+### stringStream.append(arg) ⇒ <code>[StringStream](#StringStream)</code>
+Appends given argument to all the items.
+
+**Kind**: instance method of <code>[StringStream](#StringStream)</code>  
+**Returns**: <code>[StringStream](#StringStream)</code> - the resulting stream  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| arg | <code>function</code> &#124; <code>String</code> | the argument to append. If function passed then it will be called and resolved                              and the resolution will be appended. |
+
+**Example**  
+```js
+[../samples/string-stream-append.js](../samples/string-stream-append.js)
+```
+<a name="StringStream+prepend"></a>
+
+### stringStream.prepend(arg) ⇒ <code>[StringStream](#StringStream)</code>
+Prepends given argument to all the items.
+
+**Kind**: instance method of <code>[StringStream](#StringStream)</code>  
+**Returns**: <code>[StringStream](#StringStream)</code> - the resulting stream  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| arg | <code>function</code> &#124; <code>String</code> | the argument to prepend. If function passed then it will be called and resolved                              and the resolution will be prepended. |
+
+**Example**  
+```js
+[../samples/string-stream-prepend.js](../samples/string-stream-prepend.js)
 ```
 <a name="StringStream+match"></a>
 
@@ -138,6 +173,19 @@ Parses every string to objectThe method MUST parse EVERY string into a single 
 A handly split by line regex to quickly get a line-by-line stream
 
 **Kind**: static property of <code>[StringStream](#StringStream)</code>  
+<a name="StringStream.fromString"></a>
+
+### StringStream.fromString(str, encoding) ⇒ <code>[StringStream](#StringStream)</code>
+Creates a StringStream and writes a specific string.
+
+**Kind**: static method of <code>[StringStream](#StringStream)</code>  
+**Returns**: <code>[StringStream](#StringStream)</code> - new StringStream.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| str | <code>String</code> | the string to push the your stream |
+| encoding | <code>String</code> | optional encoding |
+
 <a name="ShiftCallback"></a>
 
 ## ShiftCallback : <code>function</code>
