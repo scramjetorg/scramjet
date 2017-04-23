@@ -60,6 +60,9 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
         * [.reduceNow(func, into)](#DataStream+reduceNow) ⇒ <code>\*</code>
         * [.remap(func, Clazz)](#DataStream+remap) ⇒ <code>[DataStream](#DataStream)</code>
         * [.flatMap(func, Clazz)](#DataStream+flatMap) ⇒ <code>[DataStream](#DataStream)</code>
+        * [.unshift(item)](#DataStream+unshift) ↩︎
+        * [.flatten()](#DataStream+flatten) ⇒ <code>[DataStream](#DataStream)</code>
+        * [.batch(count)](#DataStream+batch) ⇒ <code>[DataStream](#DataStream)</code>
         * [.each(func)](#DataStream+each) ↩︎
         * [.map(func, Clazz)](#DataStream+map) ⇒ <code>[DataStream](#DataStream)</code>
         * [.assign(func)](#DataStream+assign) ⇒ <code>[DataStream](#DataStream)</code>
@@ -261,6 +264,36 @@ Takes any method that returns any iterable and flattens the result.The passed 
 ```js
 [../samples/data-stream-flatmap.js](../samples/data-stream-flatmap.js)
 ```
+<a name="DataStream+unshift"></a>
+
+### dataStream.unshift(item) ↩︎
+Pushes any data at call time
+
+**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
+**Chainable**  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| item | <code>\*</code> | list of items to unshift (you can pass more items) |
+
+<a name="DataStream+flatten"></a>
+
+### dataStream.flatten() ⇒ <code>[DataStream](#DataStream)</code>
+A shorthand for streams of Arrays to flatten them.Runs: .flatmap(i => i);
+
+**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
+<a name="DataStream+batch"></a>
+
+### dataStream.batch(count) ⇒ <code>[DataStream](#DataStream)</code>
+Aggregates count items for microbatch processing
+
+**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
+**Returns**: <code>[DataStream](#DataStream)</code> - the microbatch stream  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| count | <code>Number</code> | How many items to aggregate |
+
 <a name="DataStream+each"></a>
 
 ### dataStream.each(func) ↩︎

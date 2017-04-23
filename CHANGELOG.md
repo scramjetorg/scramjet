@@ -9,6 +9,27 @@
   essentially the current protocol will be backwards compatible.
 * Relicensed to the MIT License
 
+## Scramjet 2.6.0
+
+New methods!
+
+* StringStream.fromString - static, works like DataStream:fromArray
+* StringStream::append - appends anything to every chunk
+* StringStream::prepend - prepends anything to every chunk
+* DataStream::unshift - writes some chunks at call time
+* DataStream::flatten - a shorthand for flattening chunks which are arrays
+* DataStream::batch - batch aggregation of chunks by length
+
+Examples yet to come.
+
+## Scramjet 2.5.2
+
+* Dev dependencies update (nodeunit, jsdoc-to-markdown)
+
+## Scramjet 2.5.0
+
+* Added `use` method.
+
 ## Scramjet 2.4.2
 
 * Removed dependency on mergesort-stream and almost 30% performance improvement on muxing streams
