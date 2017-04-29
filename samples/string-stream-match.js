@@ -13,5 +13,6 @@ const test = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do ei
 exports.log = console.log.bind(console);
 
 StringStream.fromString(test)
-    .match(/c[\w]+/gi)
+    .match(/\b(\w{4})[^\w]/g)
+    // .match(/c[\w]+/gi)
     .each(exports.log);
