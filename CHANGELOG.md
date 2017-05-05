@@ -9,6 +9,14 @@
   essentially the current protocol will be backwards compatible.
 * Relicensed to the MIT License
 
+## Scramjet 2.7.0
+
+Implemented DataStream::group.
+
+## Scramjet 2.6.1
+
+Fix regression on StringStream::match.
+
 ## Scramjet 2.6.0
 
 New methods!

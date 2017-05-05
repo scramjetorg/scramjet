@@ -18,7 +18,7 @@ streamed through your flow.</p>
 ## Typedefs
 
 <dl>
-<dt><a href="#GroupCallback">GroupCallback</a> ⇒ <code>Promise</code> | <code>String</code></dt>
+<dt><a href="#GroupCallback">GroupCallback</a> ⇒ <code>Promise</code> | <code>Object</code></dt>
 <dd></dd>
 <dt><a href="#TeeCallback">TeeCallback</a> : <code>function</code></dt>
 <dd></dd>
@@ -124,14 +124,10 @@ Calls the passed in place with the stream as first argument, returns result.
 <a name="DataStream+group"></a>
 
 ### dataStream.group(func) ⇒ <code>[DataStream](#DataStream)</code>
-Groups execution by key in a single threadCalls the given callback for a hash, then makes sure all items with thesame hash are processed by a single thread (or server).
+Separates execution to multiple streams using the hashes returned by the passed callbackCalls the given callback for a hash, then makes sure all items with the same hash are processed within a singlestream. Thanks to that streams can be distributed to multiple threads.
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
 **Returns**: <code>[DataStream](#DataStream)</code> - self  
-**Todo**
-
-- [ ] Not yet implemented
-
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -461,9 +457,9 @@ Create a DataStream from an Array
 ```
 <a name="GroupCallback"></a>
 
-## GroupCallback ⇒ <code>Promise</code> &#124; <code>String</code>
+## GroupCallback ⇒ <code>Promise</code> &#124; <code>Object</code>
 **Kind**: global typedef  
-**Returns**: <code>Promise</code> &#124; <code>String</code> - the key to hash by  
+**Returns**: <code>Promise</code> &#124; <code>Object</code> - the key to hash by (key is used in a Map)  
 
 | Param | Type | Description |
 | --- | --- | --- |

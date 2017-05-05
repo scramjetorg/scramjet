@@ -66,7 +66,7 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
 | new DataStream(opts) | Create the DataStream. | [DataStream example](../samples/data-stream-constructor.js) |
 | dataStream.debug(func) ⇒ <code>[DataStream](#DataStream)</code> | Injects a ```debugger``` statement when called. | [debug example](../samples/data-stream-debug.js) |
 | dataStream.use(func) ⇒ <code>\*</code> | Calls the passed in place with the stream as first argument, returns result. | [use example](../samples/data-stream-use.js) |
-| dataStream.group(func) ⇒ <code>[DataStream](#DataStream)</code> | Groups execution by key in a single thread | [group example](../samples/data-stream-group.js) |
+| dataStream.group(func) ⇒ <code>[DataStream](#DataStream)</code> | Separates execution to multiple streams using the hashes returned by the passed callback | [group example](../samples/data-stream-group.js) |
 | dataStream.tee(func) ⇒ <code>[DataStream](#DataStream)</code> | Duplicate the stream | [tee example](../samples/data-stream-tee.js) |
 | dataStream.slice(start, end, func) ⇒ <code>[DataStream](#DataStream)</code> | Gets a slice of the stream to the callback function. | [slice example](../samples/data-stream-slice.js) |
 | dataStream.accumulate(func, into) ⇒ <code>Promise</code> | Accumulates data into the object. | [accumulate example](../samples/data-stream-accumulate.js) |
@@ -137,6 +137,7 @@ An object consisting of multiple streams than can be refined or muxed.
 | Method | Description | Example
 |--------|-------------|---------
 | new MultiStream(streams, options) | Crates an instance of MultiStream with the specified stream list | [MultiStream example](../samples/multi-stream-constructor.js) |
+| multiStream.streams : <code>Array</code> | Array of all streams |  |
 | multiStream.map(aFunc) ⇒ <code>[MultiStream](#MultiStream)</code> | Returns new MultiStream with the streams returned by the tranform. | [map example](../samples/multi-stream-map.js) |
 | multiStream.filter(func) ⇒ <code>[MultiStream](#MultiStream)</code> | Filters the stream list and returns a new MultiStream with only the | [filter example](../samples/multi-stream-filter.js) |
 | multiStream.dedupe(cmp) ⇒ <code>[DataStream](#DataStream)</code> | Removes duplicate items from stream using the given hash function | [dedupe example](../samples/multi-stream-dedupe.js) |

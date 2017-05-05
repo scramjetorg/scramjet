@@ -1,11 +1,55 @@
 #!/usr/bin/env node
 // module: data-stream, method: group
 
-const DataStream = require('../').DataStream;
+const {DataStream, MultiStream} = require('../');
 
 exports.stream = () =>
-    DataStream.fromArray([1,2,3,4,5,6,7,8,9,10])
-    .group((item) => item % 2)                                                  // group odd and even numbers in separate threads
+    DataStream.fromArray([0,1,2,3,4,5,6,7,8,9,10])
+        .group((item) => 'item' + item % 2)             // group odd and even numbers in separate threads
 ;
+
+exports.test = (test) => {
+    let str = exports.stream();
+    test.expect(3);
+    test.ok(str instanceof MultiStream, "Returns MultiStream");
+    let i = 0;
+    str
+        .on("error", (e) => console.error(e && e.stack))
+        .map(
+            (s) => s.map((chunk) => {
+                s.strId = s.strId || ('st' + i++);
+                return {
+                    strId: s.strId,
+                    chunk
+                };
+            })
+        )
+        .then(
+            (ms) => ms
+                .mux()
+                .accumulate(
+                    (acc, item) => {
+                        (acc[item.strId] = acc[item.strId] || []).push(item.chunk);
+                    }, {}
+                )
+                .then(
+                    (a) => (console.log("then"), a)
+                )
+                .catch(
+                    (e) => console.log(e)
+                )
+        )
+        .then(
+            (arr) => {
+                test.equals('' + arr.st0, '0,2,4,6,8,10', "First stream accumulates even items");
+                test.equals('' + arr.st1, '1,3,5,7,9', "Second stream accumulates odd items");
+                test.done();
+            }
+        )
+        ;
+
+
+
+};
 
 exports.log = console.log.bind(console);
