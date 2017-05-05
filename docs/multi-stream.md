@@ -7,6 +7,7 @@ An object consisting of multiple streams than can be refined or muxed.
 
 * [MultiStream](#MultiStream)
     * [new MultiStream(streams, options)](#new_MultiStream_new)
+    * [.streams](#MultiStream+streams) : <code>Array</code>
     * [.map(aFunc)](#MultiStream+map) ⇒ <code>[MultiStream](#MultiStream)</code>
     * [.filter(func)](#MultiStream+filter) ⇒ <code>[MultiStream](#MultiStream)</code>
     * [.dedupe(cmp)](#MultiStream+dedupe) ⇒ <code>DataStream</code>
@@ -29,6 +30,12 @@ Crates an instance of MultiStream with the specified stream list
 ```js
 [../samples/multi-stream-constructor.js](../samples/multi-stream-constructor.js)
 ```
+<a name="MultiStream+streams"></a>
+
+### multiStream.streams : <code>Array</code>
+Array of all streams
+
+**Kind**: instance property of <code>[MultiStream](#MultiStream)</code>  
 <a name="MultiStream+map"></a>
 
 ### multiStream.map(aFunc) ⇒ <code>[MultiStream](#MultiStream)</code>
