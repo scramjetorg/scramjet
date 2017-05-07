@@ -281,7 +281,7 @@ A shorthand for streams of Arrays to flatten them.Runs: .flatmap(i => i);
 <a name="DataStream+batch"></a>
 
 ### dataStream.batch(count) ⇒ <code>[DataStream](#DataStream)</code>
-Aggregates count items for microbatch processing
+Aggregates a number of items for microbatch processing
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
 **Returns**: <code>[DataStream](#DataStream)</code> - the microbatch stream  
@@ -290,6 +290,10 @@ Aggregates count items for microbatch processing
 | --- | --- | --- |
 | count | <code>Number</code> | How many items to aggregate |
 
+**Example**  
+```js
+[../samples/data-stream-batch.js](../samples/data-stream-batch.js)
+```
 <a name="DataStream+each"></a>
 
 ### dataStream.each(func) ↩︎
