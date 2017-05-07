@@ -76,7 +76,7 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
 | dataStream.flatMap(func, Clazz) ⇒ <code>[DataStream](#DataStream)</code> | Takes any method that returns any iterable and flattens the result. | [flatMap example](../samples/data-stream-flatmap.js) |
 | dataStream.unshift(item) ↩︎ | Pushes any data at call time |  |
 | dataStream.flatten() ⇒ <code>[DataStream](#DataStream)</code> | A shorthand for streams of Arrays to flatten them. |  |
-| dataStream.batch(count) ⇒ <code>[DataStream](#DataStream)</code> | Aggregates count items for microbatch processing |  |
+| dataStream.batch(count) ⇒ <code>[DataStream](#DataStream)</code> | Aggregates a number of items for microbatch processing | [batch example](../samples/data-stream-batch.js) |
 | dataStream.each(func) ↩︎ | Performs an operation on every chunk, without changing the stream |  |
 | dataStream.map(func, Clazz) ⇒ <code>[DataStream](#DataStream)</code> | Transforms stream objects into new ones, just like Array.prototype.map | [map example](../samples/data-stream-map.js) |
 | dataStream.assign(func) ⇒ <code>[DataStream](#DataStream)</code> | Transforms stream objects by assigning the properties from the returned | [assign example](../samples/data-stream-assign.js) |
