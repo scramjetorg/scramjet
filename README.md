@@ -64,6 +64,9 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
 | Method | Description | Example
 |--------|-------------|---------
 | new DataStream(opts) | Create the DataStream. | [DataStream example](../samples/data-stream-constructor.js) |
+| dataStream.TimeSource : <code>Object</code> | Source of time - must implement the interface of Date. |  |
+| dataStream.setTimeout : <code>function</code> | setTimeout method |  |
+| dataStream.clearTimeout : <code>function</code> | setTimeout method |  |
 | dataStream.debug(func) ⇒ <code>[DataStream](#DataStream)</code> | Injects a ```debugger``` statement when called. | [debug example](../samples/data-stream-debug.js) |
 | dataStream.use(func) ⇒ <code>\*</code> | Calls the passed in place with the stream as first argument, returns result. | [use example](../samples/data-stream-use.js) |
 | dataStream.group(func) ⇒ <code>[DataStream](#DataStream)</code> | Separates execution to multiple streams using the hashes returned by the passed callback | [group example](../samples/data-stream-group.js) |
@@ -76,7 +79,8 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
 | dataStream.flatMap(func, Clazz) ⇒ <code>[DataStream](#DataStream)</code> | Takes any method that returns any iterable and flattens the result. | [flatMap example](../samples/data-stream-flatmap.js) |
 | dataStream.unshift(item) ↩︎ | Pushes any data at call time |  |
 | dataStream.flatten() ⇒ <code>[DataStream](#DataStream)</code> | A shorthand for streams of Arrays to flatten them. |  |
-| dataStream.batch(count) ⇒ <code>[DataStream](#DataStream)</code> | Aggregates a number of items for microbatch processing | [batch example](../samples/data-stream-batch.js) |
+| dataStream.batch(count) ⇒ <code>[DataStream](#DataStream)</code> | Aggregates chunks in arrays given number of number of items long. | [batch example](../samples/data-stream-batch.js) |
+| dataStream.timeBatch(ms, count) ⇒ <code>[DataStream](#DataStream)</code> | Aggregates chunks to arrays not delaying output by more than the given number of ms. | [timeBatch example](../samples/data-stream-timebatch.js) |
 | dataStream.each(func) ↩︎ | Performs an operation on every chunk, without changing the stream |  |
 | dataStream.map(func, Clazz) ⇒ <code>[DataStream](#DataStream)</code> | Transforms stream objects into new ones, just like Array.prototype.map | [map example](../samples/data-stream-map.js) |
 | dataStream.assign(func) ⇒ <code>[DataStream](#DataStream)</code> | Transforms stream objects by assigning the properties from the returned | [assign example](../samples/data-stream-assign.js) |
