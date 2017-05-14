@@ -50,6 +50,9 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
 * [DataStream](#DataStream) ⇐ <code>stream.PassThrough</code>
     * [new DataStream(opts)](#new_DataStream_new)
     * _instance_
+        * [.TimeSource](#DataStream+TimeSource) : <code>Object</code>
+        * [.setTimeout](#DataStream+setTimeout) : <code>function</code>
+        * [.clearTimeout](#DataStream+clearTimeout) : <code>function</code>
         * [.debug(func)](#DataStream+debug) ⇒ <code>[DataStream](#DataStream)</code>
         * [.use(func)](#DataStream+use) ⇒ <code>\*</code>
         * [.group(func)](#DataStream+group) ⇒ <code>[DataStream](#DataStream)</code>
@@ -63,6 +66,7 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
         * [.unshift(item)](#DataStream+unshift) ↩︎
         * [.flatten()](#DataStream+flatten) ⇒ <code>[DataStream](#DataStream)</code>
         * [.batch(count)](#DataStream+batch) ⇒ <code>[DataStream](#DataStream)</code>
+        * [.timeBatch(ms, count)](#DataStream+timeBatch) ⇒ <code>[DataStream](#DataStream)</code>
         * [.each(func)](#DataStream+each) ↩︎
         * [.map(func, Clazz)](#DataStream+map) ⇒ <code>[DataStream](#DataStream)</code>
         * [.assign(func)](#DataStream+assign) ⇒ <code>[DataStream](#DataStream)</code>
@@ -89,6 +93,24 @@ Create the DataStream.
 ```js
 [../samples/data-stream-constructor.js](../samples/data-stream-constructor.js)
 ```
+<a name="DataStream+TimeSource"></a>
+
+### dataStream.TimeSource : <code>Object</code>
+Source of time - must implement the interface of Date.
+
+**Kind**: instance property of <code>[DataStream](#DataStream)</code>  
+<a name="DataStream+setTimeout"></a>
+
+### dataStream.setTimeout : <code>function</code>
+setTimeout method
+
+**Kind**: instance property of <code>[DataStream](#DataStream)</code>  
+<a name="DataStream+clearTimeout"></a>
+
+### dataStream.clearTimeout : <code>function</code>
+setTimeout method
+
+**Kind**: instance property of <code>[DataStream](#DataStream)</code>  
 <a name="DataStream+debug"></a>
 
 ### dataStream.debug(func) ⇒ <code>[DataStream](#DataStream)</code>
@@ -281,10 +303,10 @@ A shorthand for streams of Arrays to flatten them.Runs: .flatmap(i => i);
 <a name="DataStream+batch"></a>
 
 ### dataStream.batch(count) ⇒ <code>[DataStream](#DataStream)</code>
-Aggregates a number of items for microbatch processing
+Aggregates chunks in arrays given number of number of items long.This can be used for microbatch processing.
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
-**Returns**: <code>[DataStream](#DataStream)</code> - the microbatch stream  
+**Returns**: <code>[DataStream](#DataStream)</code> - the stream of arrays  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -293,6 +315,23 @@ Aggregates a number of items for microbatch processing
 **Example**  
 ```js
 [../samples/data-stream-batch.js](../samples/data-stream-batch.js)
+```
+<a name="DataStream+timeBatch"></a>
+
+### dataStream.timeBatch(ms, count) ⇒ <code>[DataStream](#DataStream)</code>
+Aggregates chunks to arrays not delaying output by more than the given number of ms.
+
+**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
+**Returns**: <code>[DataStream](#DataStream)</code> - the stream of arrays  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| ms | <code>Number</code> | Maximum ammount of milliseconds |
+| count | <code>Number</code> | Maximum number of items in batch (otherwise no limit) |
+
+**Example**  
+```js
+[../samples/data-stream-timebatch.js](../samples/data-stream-timebatch.js)
 ```
 <a name="DataStream+each"></a>
 

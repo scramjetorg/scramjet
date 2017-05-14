@@ -9,6 +9,10 @@
   essentially the current protocol will be backwards compatible.
 * Relicensed to the MIT License
 
+## Scramjet 2.8.0
+
+Implemented DataStream::timeBatch, minor docs fix
+
 ## Scramjet 2.7.0
 
 Implemented DataStream::group.
