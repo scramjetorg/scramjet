@@ -55,6 +55,7 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
         * [.clearTimeout](#DataStream+clearTimeout) : <code>function</code>
         * [.debug(func)](#DataStream+debug) ⇒ <code>[DataStream](#DataStream)</code>
         * [.use(func)](#DataStream+use) ⇒ <code>\*</code>
+        * [.cluster(hashFunc, count, stringify, parse)](#DataStream+cluster) ⇒ <code>ClusteredDataStream</code>
         * [.group(func)](#DataStream+group) ⇒ <code>[DataStream](#DataStream)</code>
         * [.tee(func)](#DataStream+tee) ⇒ <code>[DataStream](#DataStream)</code>
         * [.slice(start, end, func)](#DataStream+slice) ⇒ <code>[DataStream](#DataStream)</code>
@@ -78,6 +79,7 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
         * [.toArray(initial)](#DataStream+toArray) ⇒ <code>Promise</code>
     * _static_
         * [.fromArray(arr)](#DataStream.fromArray) ⇒ <code>[DataStream](#DataStream)</code>
+        * [.fromIterator(iter)](#DataStream.fromIterator) ⇒ <code>[DataStream](#DataStream)</code>
 
 <a name="new_DataStream_new"></a>
 
@@ -143,6 +145,25 @@ Calls the passed in place with the stream as first argument, returns result.
 ```js
 [../samples/data-stream-use.js](../samples/data-stream-use.js)
 ```
+<a name="DataStream+cluster"></a>
+
+### dataStream.cluster(hashFunc, count, stringify, parse) ⇒ <code>ClusteredDataStream</code>
+[NYI] Distributes processing to multiple forked subprocesses.
+
+**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
+**Returns**: <code>ClusteredDataStream</code> - the clustered DataStream  
+**Todo**
+
+- [ ] Not yet implemented!
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| hashFunc | <code>[GroupCallback](#GroupCallback)</code> | a hashing function that calculates a hash for chunks. |
+| count | <code>Number</code> | (Optional) number of threads to use (num of cpus by default) |
+| stringify | <code>function</code> | (Optional) serialization method (JSON.stringify by default) |
+| parse | <code>function</code> | (Optional) deserialization method (JSON.parse by default) |
+
 <a name="DataStream+group"></a>
 
 ### dataStream.group(func) ⇒ <code>[DataStream](#DataStream)</code>
@@ -489,6 +510,22 @@ Create a DataStream from an Array
 **Example**  
 ```js
 [../samples/data-stream-fromarray.js](../samples/data-stream-fromarray.js)
+```
+<a name="DataStream.fromIterator"></a>
+
+### DataStream.fromIterator(iter) ⇒ <code>[DataStream](#DataStream)</code>
+Create a DataStream from an IteratorDoesn't end the stream until it reaches end of the iterator.
+
+**Kind**: static method of <code>[DataStream](#DataStream)</code>  
+**Returns**: <code>[DataStream](#DataStream)</code> - the resulting stream  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| iter | <code>Iterator</code> | the iterator object |
+
+**Example**  
+```js
+[../samples/data-stream-fromiterator.js](../samples/data-stream-fromiterator.js)
 ```
 <a name="tapStops merging transform callbacks at the current place in the commandchain."></a>
 

@@ -69,6 +69,7 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
 | dataStream.clearTimeout : <code>function</code> | setTimeout method |  |
 | dataStream.debug(func) ⇒ <code>[DataStream](#DataStream)</code> | Injects a ```debugger``` statement when called. | [debug example](../samples/data-stream-debug.js) |
 | dataStream.use(func) ⇒ <code>\*</code> | Calls the passed in place with the stream as first argument, returns result. | [use example](../samples/data-stream-use.js) |
+| dataStream.cluster(hashFunc, count, stringify, parse) ⇒ <code>ClusteredDataStream</code> | [NYI] Distributes processing to multiple forked subprocesses. |  |
 | dataStream.group(func) ⇒ <code>[DataStream](#DataStream)</code> | Separates execution to multiple streams using the hashes returned by the passed callback | [group example](../samples/data-stream-group.js) |
 | dataStream.tee(func) ⇒ <code>[DataStream](#DataStream)</code> | Duplicate the stream | [tee example](../samples/data-stream-tee.js) |
 | dataStream.slice(start, end, func) ⇒ <code>[DataStream](#DataStream)</code> | Gets a slice of the stream to the callback function. | [slice example](../samples/data-stream-slice.js) |
@@ -91,6 +92,7 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
 | dataStream.stringify(serializer) ⇒ <code>[StringStream](#StringStream)</code> | Creates a StringStream | [stringify example](../samples/data-stream-tostringstream.js) |
 | dataStream.toArray(initial) ⇒ <code>Promise</code> | Aggregates the stream into a single Array |  |
 | DataStream.fromArray(arr) ⇒ <code>[DataStream](#DataStream)</code> | Create a DataStream from an Array | [fromArray example](../samples/data-stream-fromarray.js) |
+| DataStream.fromIterator(iter) ⇒ <code>[DataStream](#DataStream)</code> | Create a DataStream from an Iterator | [fromIterator example](../samples/data-stream-fromiterator.js) |
 
 
 <a name="StringStream"></a>
