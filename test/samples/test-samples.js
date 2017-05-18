@@ -8,7 +8,8 @@ const matrix = [
     ["buffer", scramjet.BufferStream],
     ["string", scramjet.StrinStream],
     ["multi", scramjet.MultiStream],
-    ["data", scramjet.DataStream]
+    ["data", scramjet.DataStream],
+    ["scramjet", "index.js"]
 ];
 
 console.log("Samples testing");
@@ -18,8 +19,7 @@ module.exports = scramjet.fromArray(
         (item) => ({
             cls: item[0],
             srcpath:
-                path.resolve(__dirname, "../../lib/", item[0] + '-stream.js'),
-            Clazz: item[1]
+                path.resolve(__dirname, "../../lib/", typeof item[1] === "string" ? item[1] : item[0] + '-stream.js')
         })
     )
 ).remap(

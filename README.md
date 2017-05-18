@@ -38,12 +38,13 @@ request.get("http://www.wroclaw.pl/open-data/opendata/its/parkingi/parkingi.csv"
 
 ## API Docs
 
-Here's the list of the exposed classes, please review the specific documentation for details:
+Here's the list of the exposed classes and methods, please review the specific documentation for details:
 
 * [```scramjet.DataStream```](docs/data-stream.md) - the base class for all scramjet classes.
 * [```scramjet.BufferStream```](docs/buffer-stream.md) - a DataStream of Buffers.
 * [```scramjet.StringStream```](docs/string-stream.md) - a DataStream of Strings.
 * [```scramjet.MultiStream```](docs/multi-stream.md) - a DataStream of Strings.
+* [```scramjet.plugin```](docs/index.md) - method for adding plugins, please see the docs
 
 Note that:
 
