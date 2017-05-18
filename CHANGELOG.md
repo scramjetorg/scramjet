@@ -9,6 +9,10 @@
   essentially the current protocol will be backwards compatible.
 * Relicensed to the MIT License
 
+## Scramjet 2.10.0
+
+scramjet.plugin interface added for plugins. More docs to come in 2.10.1.
+
 ## Scramjet 2.9.0
 
 DataStream.fromIterator static method added, cluster method hinted.
