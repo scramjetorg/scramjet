@@ -11,13 +11,22 @@ streamed through your flow.</p>
 ## Functions
 
 <dl>
-<dt><a href="#tapStops merging transform callbacks at the current place in the commandchain.">tapStops merging transform callbacks at the current place in the commandchain.()</a></dt>
+<dt><a href="#tapStops merging transform callbacks at the current place in the command chain.">tapStops merging transform callbacks at the current place in the command chain.()</a></dt>
+<dd></dd>
+<dt><a href="#whenReadReads a chunk from the stream and resolves the promise when read.">whenReadReads a chunk from the stream and resolves the promise when read.()</a> ⇒ <code>Promise.&lt;Object&gt;</code></dt>
+<dd></dd>
+<dt><a href="#whenWroteWrites a chunk to the stream and returns a Promise resolved when more chunks can be written.">whenWroteWrites a chunk to the stream and returns a Promise resolved when more chunks can be written.()</a> ⇒ <code>Promise.&lt;Object&gt;</code></dt>
+<dd></dd>
+<dt><a href="#setOptionsAllows resetting stream options.">setOptionsAllows resetting stream options.(options)</a> ↩︎</dt>
 <dd></dd>
 </dl>
 
 ## Typedefs
 
 <dl>
+<dt><a href="#StreamOptions">StreamOptions</a> : <code>Object</code></dt>
+<dd><p>Standard options for scramjet streams.</p>
+</dd>
 <dt><a href="#GroupCallback">GroupCallback</a> ⇒ <code>Promise</code> | <code>Object</code></dt>
 <dd></dd>
 <dt><a href="#TeeCallback">TeeCallback</a> : <code>function</code></dt>
@@ -56,7 +65,7 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
         * [.debug(func)](#DataStream+debug) ⇒ <code>[DataStream](#DataStream)</code>
         * [.use(func)](#DataStream+use) ⇒ <code>\*</code>
         * [.cluster(hashFunc, count, stringify, parse)](#DataStream+cluster) ⇒ <code>ClusteredDataStream</code>
-        * [.group(func)](#DataStream+group) ⇒ <code>[DataStream](#DataStream)</code>
+        * [.separate(func, createOptions)](#DataStream+separate) ⇒ <code>[DataStream](#DataStream)</code>
         * [.tee(func)](#DataStream+tee) ⇒ <code>[DataStream](#DataStream)</code>
         * [.slice(start, end, func)](#DataStream+slice) ⇒ <code>[DataStream](#DataStream)</code>
         * [.accumulate(func, into)](#DataStream+accumulate) ⇒ <code>Promise</code>
@@ -73,7 +82,6 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
         * [.assign(func)](#DataStream+assign) ⇒ <code>[DataStream](#DataStream)</code>
         * [.filter(func)](#DataStream+filter) ⇒ <code>[DataStream](#DataStream)</code>
         * [.shift(count, func)](#DataStream+shift) ⇒ <code>[DataStream](#DataStream)</code>
-        * [.separate()](#DataStream+separate) ⇒ <code>MultiStream</code>
         * [.toBufferStream(serializer)](#DataStream+toBufferStream) ⇒ <code>BufferStream</code>
         * [.stringify(serializer)](#DataStream+stringify) ⇒ <code>StringStream</code>
         * [.toArray(initial)](#DataStream+toArray) ⇒ <code>Promise</code>
@@ -89,7 +97,7 @@ Create the DataStream.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| opts | <code>object</code> | Stream options passed to superclass |
+| opts | <code>[StreamOptions](#StreamOptions)</code> | Stream options passed to superclass |
 
 **Example**  
 ```js
@@ -164,10 +172,10 @@ Calls the passed in place with the stream as first argument, returns result.
 | stringify | <code>function</code> | (Optional) serialization method (JSON.stringify by default) |
 | parse | <code>function</code> | (Optional) deserialization method (JSON.parse by default) |
 
-<a name="DataStream+group"></a>
+<a name="DataStream+separate"></a>
 
-### dataStream.group(func) ⇒ <code>[DataStream](#DataStream)</code>
-Separates execution to multiple streams using the hashes returned by the passed callbackCalls the given callback for a hash, then makes sure all items with the same hash are processed within a singlestream. Thanks to that streams can be distributed to multiple threads.
+### dataStream.separate(func, createOptions) ⇒ <code>[DataStream](#DataStream)</code>
+Separates execution to multiple streams using the hashes returned by the passed callback.Calls the given callback for a hash, then makes sure all items with the same hash are processed within a singlestream. Thanks to that streams can be distributed to multiple threads.
 
 **Kind**: instance method of <code>[DataStream](#DataStream)</code>  
 **Returns**: <code>[DataStream](#DataStream)</code> - self  
@@ -175,10 +183,11 @@ Separates execution to multiple streams using the hashes returned by the passed 
 | Param | Type | Description |
 | --- | --- | --- |
 | func | <code>[GroupCallback](#GroupCallback)</code> | the callback function |
+| createOptions | <code>Object</code> | options to use to create the separated streams |
 
 **Example**  
 ```js
-[../samples/data-stream-group.js](../samples/data-stream-group.js)
+[../samples/data-stream-separate.js](../samples/data-stream-separate.js)
 ```
 <a name="DataStream+tee"></a>
 
@@ -190,7 +199,7 @@ Duplicate the streamCreates a duplicate stream instance and pases it to the ca
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>[TeeCallback](#TeeCallback)</code> | The duplicate stream will be passed as                                  first argument. |
+| func | <code>[TeeCallback](#TeeCallback)</code> | The duplicate stream will be passed as first argument. |
 
 **Example**  
 ```js
@@ -211,7 +220,7 @@ Gets a slice of the stream to the callback function.Returns a stream consistin
 | Param | Type | Description |
 | --- | --- | --- |
 | start | <code>Number</code> | omit this number of entries. |
-| end | <code>Number</code> | end at this number of entries (from 0) |
+| end | <code>Number</code> | end at this number of entries (from start) |
 | func | <code>[ShiftCallback](#ShiftCallback)</code> | the callback |
 
 **Example**  
@@ -432,25 +441,6 @@ Shifts the first n items from the stream and pipes the other
 ```js
 [../samples/data-stream-shift.js](../samples/data-stream-shift.js)
 ```
-<a name="DataStream+separate"></a>
-
-### dataStream.separate() ⇒ <code>MultiStream</code>
-Splits the stream two ways
-
-**Kind**: instance method of <code>[DataStream](#DataStream)</code>  
-**Todo**
-
-- [ ] Not yet implemented. Should use a number of tee+filter combination.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| ...funcs | <code>TransformFunction</code> | The list of transfrom functions |
-
-**Example**  
-```js
-[../samples/data-stream-separate.js](../samples/data-stream-separate.js)
-```
 <a name="DataStream+toBufferStream"></a>
 
 ### dataStream.toBufferStream(serializer) ⇒ <code>BufferStream</code>
@@ -527,14 +517,47 @@ Create a DataStream from an IteratorDoesn't end the stream until it reaches en
 ```js
 [../samples/data-stream-fromiterator.js](../samples/data-stream-fromiterator.js)
 ```
-<a name="tapStops merging transform callbacks at the current place in the commandchain."></a>
+<a name="tapStops merging transform callbacks at the current place in the command chain."></a>
 
-## tapStops merging transform callbacks at the current place in the commandchain.()
+## tapStops merging transform callbacks at the current place in the command chain.()
 **Kind**: global function  
 **Example**  
 ```js
 [../samples/data-stream-tap.js](../samples/data-stream-tap.js)
 ```
+<a name="whenReadReads a chunk from the stream and resolves the promise when read."></a>
+
+## whenReadReads a chunk from the stream and resolves the promise when read.() ⇒ <code>Promise.&lt;Object&gt;</code>
+**Kind**: global function  
+**Returns**: <code>Promise.&lt;Object&gt;</code> - the read item  
+<a name="whenWroteWrites a chunk to the stream and returns a Promise resolved when more chunks can be written."></a>
+
+## whenWroteWrites a chunk to the stream and returns a Promise resolved when more chunks can be written.() ⇒ <code>Promise.&lt;Object&gt;</code>
+**Kind**: global function  
+**Returns**: <code>Promise.&lt;Object&gt;</code> - the read item  
+<a name="setOptionsAllows resetting stream options."></a>
+
+## setOptionsAllows resetting stream options.(options) ↩︎
+**Kind**: global function  
+**Chainable**  
+
+| Param | Type |
+| --- | --- |
+| options | <code>[StreamOptions](#StreamOptions)</code> | 
+
+<a name="StreamOptions"></a>
+
+## StreamOptions : <code>Object</code>
+Standard options for scramjet streams.
+
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| maxParallel | <code>Number</code> | the number of transforms done in parallel |
+| referrer | <code>[DataStream](#DataStream)</code> | a referring stream to point to (if possible the transforms will be pushed to it                                 instead of creating a new stream) |
+
 <a name="GroupCallback"></a>
 
 ## GroupCallback ⇒ <code>Promise</code> &#124; <code>Object</code>

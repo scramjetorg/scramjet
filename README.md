@@ -5,12 +5,13 @@
 
 ## What does it do?
 
-Scramjet is a powerful, yet simple framework written on top of node.js object streams, somewhat similar to the
-well-known [event-stream](https://www.npmjs.com/package/event-stream) or
-[highland](https://www.npmjs.com/package/highland) module, but with a much simplier API and written fully in ES6. It is
-built upon the logic behind three well known javascript array operations - namingly map, filter and reduce. This means
-that if you've ever performed operations on an Array in JavaScript - you already know Scramjet like the back of your
-hand.
+Scramjet is a powerful, yet simple functional stream programming framework written on top of node.js object streams that
+exposes a standards inspired javascript API and written fully in native ES6. Thanks to it some built in optimizations
+scramjet is much faster than similar frameworks in asynchronous operations (like for instance calling an API).
+
+It is built upon the logic behind three well known javascript array operations - namingly map, filter and reduce. This
+means that if you've ever performed operations on an Array in JavaScript - you already know Scramjet like the back of
+your hand.
 
 The main advantage of scramjet is running asynchronous operations on your data streams. First of all it allows you to
 perform the transformations both synchronously and asynchronously by using the same API - so now you can "map" your
@@ -71,7 +72,7 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
 | dataStream.debug(func) ⇒ <code>[DataStream](#DataStream)</code> | Injects a ```debugger``` statement when called. | [debug example](../samples/data-stream-debug.js) |
 | dataStream.use(func) ⇒ <code>\*</code> | Calls the passed in place with the stream as first argument, returns result. | [use example](../samples/data-stream-use.js) |
 | dataStream.cluster(hashFunc, count, stringify, parse) ⇒ <code>ClusteredDataStream</code> | [NYI] Distributes processing to multiple forked subprocesses. |  |
-| dataStream.group(func) ⇒ <code>[DataStream](#DataStream)</code> | Separates execution to multiple streams using the hashes returned by the passed callback | [group example](../samples/data-stream-group.js) |
+| dataStream.separate(func, createOptions) ⇒ <code>[DataStream](#DataStream)</code> | Separates execution to multiple streams using the hashes returned by the passed callback. | [separate example](../samples/data-stream-separate.js) |
 | dataStream.tee(func) ⇒ <code>[DataStream](#DataStream)</code> | Duplicate the stream | [tee example](../samples/data-stream-tee.js) |
 | dataStream.slice(start, end, func) ⇒ <code>[DataStream](#DataStream)</code> | Gets a slice of the stream to the callback function. | [slice example](../samples/data-stream-slice.js) |
 | dataStream.accumulate(func, into) ⇒ <code>Promise</code> | Accumulates data into the object. | [accumulate example](../samples/data-stream-accumulate.js) |
@@ -88,7 +89,6 @@ DataStream is the primary stream type for Scramjet. When you parse yourstream, 
 | dataStream.assign(func) ⇒ <code>[DataStream](#DataStream)</code> | Transforms stream objects by assigning the properties from the returned | [assign example](../samples/data-stream-assign.js) |
 | dataStream.filter(func) ⇒ <code>[DataStream](#DataStream)</code> | Filters object based on the function outcome, just like | [filter example](../samples/data-stream-filter.js) |
 | dataStream.shift(count, func) ⇒ <code>[DataStream](#DataStream)</code> | Shifts the first n items from the stream and pipes the other | [shift example](../samples/data-stream-shift.js) |
-| dataStream.separate() ⇒ <code>[MultiStream](#MultiStream)</code> | Splits the stream two ways | [separate example](../samples/data-stream-separate.js) |
 | dataStream.toBufferStream(serializer) ⇒ <code>[BufferStream](#BufferStream)</code> | Creates a BufferStream | [toBufferStream example](../samples/data-stream-tobufferstream.js) |
 | dataStream.stringify(serializer) ⇒ <code>[StringStream](#StringStream)</code> | Creates a StringStream | [stringify example](../samples/data-stream-tostringstream.js) |
 | dataStream.toArray(initial) ⇒ <code>Promise</code> | Aggregates the stream into a single Array |  |

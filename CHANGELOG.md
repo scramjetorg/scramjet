@@ -9,6 +9,12 @@
   essentially the current protocol will be backwards compatible.
 * Relicensed to the MIT License
 
+## Scramjet 2.11.0
+
+* Added whenRead and whenWrote methods docs (meaning that as of 2.11 they're fully supported).
+* Renamed group to separate, an alias still exists though...
+* Promised plugins will be documented in more detail in 2.11.1
+
 ## Scramjet 2.10.0
 
 scramjet.plugin interface added for plugins. More docs to come in 2.10.1.
