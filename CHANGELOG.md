@@ -9,6 +9,12 @@
   essentially the current protocol will be backwards compatible.
 * Relicensed to the MIT License
 
+## Scramjet 2.11.1
+
+* Fixed default encoding of StringStream to "utf8"
+* DataStream.fromIterator now allows asynchronous operations (by returning a promise)
+* The promised plugins doc is here. :)
+
 ## Scramjet 2.11.0
 
 * Added whenRead and whenWrote methods docs (meaning that as of 2.11 they're fully supported).
