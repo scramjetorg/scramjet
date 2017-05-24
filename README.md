@@ -46,6 +46,7 @@ Here's the list of the exposed classes and methods, please review the specific d
 * [```scramjet.StringStream```](docs/string-stream.md) - a DataStream of Strings.
 * [```scramjet.MultiStream```](docs/multi-stream.md) - a DataStream of Strings.
 * [```scramjet.plugin```](docs/index.md) - method for adding plugins, please see the docs
+* [more on plugins](docs/plugins.md) - a description and link.
 
 Note that:
 
