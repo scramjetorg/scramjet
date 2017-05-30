@@ -1,8 +1,10 @@
+#!/usr/bin/env node
 
 const scramjet = require("../../");
 const fs = require('fs');
 const path = require('path');
 const nodeunit = require('../lib/reporter');
+const {unhandledRejectionHandler} = require("./handlers");
 
 const matrix = [
     ["buffer", scramjet.BufferStream],
@@ -13,6 +15,8 @@ const matrix = [
 ];
 
 console.log("Samples testing");
+
+process.on("unhandledRejection", unhandledRejectionHandler);
 
 module.exports = scramjet.fromArray(
     matrix.map(
