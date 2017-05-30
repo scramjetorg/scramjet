@@ -9,6 +9,13 @@
   essentially the current protocol will be backwards compatible.
 * Relicensed to the MIT License
 
+## Scramjet 2.12.0
+
+* Added possibility to assign an object
+* Fixed assign not to mutate the object passed in callback
+* Added tests for assign
+* Fixed Node v8.0.0 compatibility (by filtering undefined chunks)
+
 ## Scramjet 2.11.1
 
 * Fixed default encoding of StringStream to "utf8"
