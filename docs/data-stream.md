@@ -402,7 +402,7 @@ Transforms stream objects by assigning the properties from the returneddata alo
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>[MapCallback](#MapCallback)</code> | The function that returns new object properties |
+| func | <code>[MapCallback](#MapCallback)</code> &#124; <code>Object</code> | The function that returns new object properties or just the new properties |
 
 **Example**  
 ```js
