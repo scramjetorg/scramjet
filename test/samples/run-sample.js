@@ -4,6 +4,10 @@ const path = require('path');
 const nodeunit = require('../lib/reporter');
 const stream = require(path.resolve(process.cwd(), process.argv[2]));
 
+const {unhandledRejectionHandler} = require("./handlers");
+
+process.on("unhandledRejection", unhandledRejectionHandler);
+
 nodeunit.run(process.argv[2], {
     stream: stream.test
 }, null, (err) => {
