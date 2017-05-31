@@ -32,6 +32,7 @@ exports.test = {
 
         DataStream.fromArray([1,2,3,4,5])
             .filter(() => 0)
+            .map(() => test.ok(false, "No data should be outputted even on merged transforms"))
             .on("data", () => test.ok(false, "No data should be emitted"))
             .on("end", () => {
                 test.ok(true, "Stream should end");
