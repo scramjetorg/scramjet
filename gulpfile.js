@@ -44,7 +44,16 @@ gulp.task("readme", function() {
     const jsdoc2md = require('jsdoc-to-markdown');
 
     return jsdoc2md.render({
-            files: ["lib/data-stream.js", "lib/string-stream.js", "lib/buffer-stream.js", "lib/multi-stream.js"],
+            files: [
+                "node_modules/scramjet-core/lib/data-stream.js",
+                "node_modules/scramjet-core/lib/string-stream.js",
+                "node_modules/scramjet-core/lib/buffer-stream.js",
+                "node_modules/scramjet-core/lib/multi-stream.js",
+                "lib/data-stream.js",
+                "lib/string-stream.js",
+                "lib/buffer-stream.js",
+                "lib/multi-stream.js"
+            ],
             plugin: "jsdoc2md/plugin.js"
         })
         .then(
