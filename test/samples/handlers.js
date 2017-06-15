@@ -6,6 +6,9 @@ module.exports = {
             console.log('Stream transforms:', reason.stream._options.transforms + '');
             console.log('Chunk that caused the issue:', reason.chunk);
         }
+        if (module.exports.unhandledRejectionHandler.lastAction) {
+            console.log("Last notified action was:", module.exports.unhandledRejectionHandler.lastAction);
+        }
         process.exit(101);
     }
 };
