@@ -27,8 +27,8 @@
     "parser"
   ],
   "scripts": {
-    "test": "gulp test",
-    "preversion": "gulp prerelease"
+    "test": "./node_modules/gulp/bin/gulp.js test",
+    "preversion": "./node_modules/gulp/bin/gulp.js prerelease"
   },
   "homepage": "http://scramjet.io/",
   "repository": {
