@@ -1,9 +1,13 @@
+![Scramjet Logo](docs/scramjet-logo-light.svg)
+
+** Version 3 **
+
 [![Master Build Status](https://travis-ci.org/signicode/scramjet.svg?branch=master)](https://travis-ci.org/signicode/scramjet)
 [![Develop Build Status](https://travis-ci.org/signicode/scramjet.svg?branch=develop)](https://travis-ci.org/signicode/scramjet)
 [![Dependencies](https://david-dm.org/signicode/scramjet/status.svg)](https://david-dm.org/signicode/scramjet)
 [![Dev Dependencies](https://david-dm.org/signicode/scramjet/dev-status.svg)](https://david-dm.org/signicode/scramjet?type=dev)
 
-## What does it do?
+## What is scramjet
 
 Scramjet is a powerful, yet simple functional stream programming framework written on top of node.js object streams that
 exposes a standards inspired javascript API and written fully in native ES6. Thanks to it some built in optimizations
