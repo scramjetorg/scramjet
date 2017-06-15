@@ -1,3 +1,16 @@
+# Scramjet 3.x
+
+The intreface is still the same as previous 2.x version, but now Scramjet is plugin based.
+
+The core features have been moved to [scramjet-core](https://www.npmjs.com/package/scramjet-core) module. This is a base
+for plugin development.
+
+Scramjet itself now consitst of most common plugins and extends core.
+
+# Scramjet 3.0.0
+
+Initial release of Scramjet 3.
+
 # Scramjet 2.x
 
 * The interface for the following classes is now considered stable:
