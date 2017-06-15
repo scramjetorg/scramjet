@@ -58,11 +58,12 @@
     "nodeunit": "^0.11.0",
     "request": "^2.79.0",
     "request-promise": "^4.1.1",
-    "through2": "^2.0.3"
+    "through2": "^2.0.3",
+    "fs-then-native": "^2.0.0",
+    "gulp-cached": "^1.1.1",
+    "gulp-remember": "^0.3.1"
   },
   "dependencies": {
-    "gulp-cached": "^1.1.1",
-    "gulp-remember": "^0.3.1",
-    "scramjet-core": "^3.0.4"
+    "scramjet-core": "^3.1.0"
   }
 }

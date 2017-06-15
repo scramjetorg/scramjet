@@ -77,30 +77,22 @@ The quick reference of the exposed classes:
 | dataStream.toBufferStream(serializer) ⇒ <code>BufferStream</code> | Creates a BufferStream | [toBufferStream example](../samples/data-stream-tobufferstream.js) |
 | dataStream.stringify(serializer) ⇒ <code>StringStream</code> | Creates a StringStream | [stringify example](../samples/data-stream-tostringstream.js) |
 | dataStream.toArray(initial) ⇒ <code>Promise</code> | Aggregates the stream into a single Array |  |
-| DataStream.this.TimeSource : <code>Object</code> | Source of time - must implement the interface of Date. |  |
-| DataStream.this.setTimeout : <code>function</code> | setTimeout method |  |
-| DataStream.this.clearTimeout : <code>function</code> | setTimeout method |  |
+| dataStream.debug(func) ⇒ <code>DataStream</code> | Injects a ```debugger``` statement when called. | [debug example](../samples/data-stream-debug.js) |
+| dataStream.cluster(hashFunc, count, stringify, parse) ⇒ <code>ClusteredDataStream</code> | [NYI] Distributes processing to multiple forked subprocesses. |  |
+| dataStream.separate(func, createOptions) ⇒ <code>DataStream</code> | Separates execution to multiple streams using the hashes returned by the passed callback. | [separate example](../samples/data-stream-separate.js) |
+| dataStream.slice(start, end, func) ⇒ <code>DataStream</code> | Gets a slice of the stream to the callback function. | [slice example](../samples/data-stream-slice.js) |
+| dataStream.accumulate(func, into) ⇒ <code>Promise</code> | Accumulates data into the object. | [accumulate example](../samples/data-stream-accumulate.js) |
+| dataStream.reduceNow(func, into) ⇒ <code>\*</code> | Reduces the stream into the given object, returning it immediately. | [reduceNow example](../samples/data-stream-reduceNow.js) |
+| dataStream.remap(func, Clazz) ⇒ <code>DataStream</code> | Remaps the stream into a new stream. | [remap example](../samples/data-stream-remap.js) |
+| dataStream.flatMap(func, Clazz) ⇒ <code>DataStream</code> | Takes any method that returns any iterable and flattens the result. | [flatMap example](../samples/data-stream-flatmap.js) |
+| dataStream.unshift(item) ↩︎ | Pushes any data at call time |  |
+| dataStream.flatten() ⇒ <code>DataStream</code> | A shorthand for streams of Arrays to flatten them. |  |
+| dataStream.batch(count) ⇒ <code>DataStream</code> | Aggregates chunks in arrays given number of number of items long. | [batch example](../samples/data-stream-batch.js) |
+| dataStream.timeBatch(ms, count) ⇒ <code>DataStream</code> | Aggregates chunks to arrays not delaying output by more than the given number of ms. | [timeBatch example](../samples/data-stream-timebatch.js) |
+| dataStream.assign(func) ⇒ <code>DataStream</code> | Transforms stream objects by assigning the properties from the returned | [assign example](../samples/data-stream-assign.js) |
+| dataStream.shift(count, func) ⇒ <code>DataStream</code> | Shifts the first n items from the stream and pipes the other | [shift example](../samples/data-stream-shift.js) |
 | DataStream.fromArray(arr) ⇒ <code>DataStream</code> | Create a DataStream from an Array | [fromArray example](../samples/data-stream-fromarray.js) |
 | DataStream.fromIterator(iter) ⇒ <code>DataStream</code> | Create a DataStream from an Iterator | [fromIterator example](../samples/data-stream-fromiterator.js) |
-| DataStream.debug(func) ⇒ <code>DataStream</code> | Injects a ```debugger``` statement when called. | [debug example](../samples/data-stream-debug.js) |
-| DataStream.cluster(hashFunc, count, stringify, parse) ⇒ <code>ClusteredDataStream</code> | [NYI] Distributes processing to multiple forked subprocesses. |  |
-| DataStream.separate(func, createOptions) ⇒ <code>DataStream</code> | Separates execution to multiple streams using the hashes returned by the passed callback. | [separate example](../samples/data-stream-separate.js) |
-| DataStream.slice(start, end, func) ⇒ <code>DataStream</code> | Gets a slice of the stream to the callback function. | [slice example](../samples/data-stream-slice.js) |
-| DataStream.accumulate(func, into) ⇒ <code>Promise</code> | Accumulates data into the object. | [accumulate example](../samples/data-stream-accumulate.js) |
-| DataStream.reduceNow(func, into) ⇒ <code>\*</code> | Reduces the stream into the given object, returning it immediately. | [reduceNow example](../samples/data-stream-reduceNow.js) |
-| DataStream.remap(func, Clazz) ⇒ <code>DataStream</code> | Remaps the stream into a new stream. | [remap example](../samples/data-stream-remap.js) |
-| DataStream.flatMap(func, Clazz) ⇒ <code>DataStream</code> | Takes any method that returns any iterable and flattens the result. | [flatMap example](../samples/data-stream-flatmap.js) |
-| DataStream.unshift(item) ↩︎ | Pushes any data at call time |  |
-| DataStream.flatten() ⇒ <code>DataStream</code> | A shorthand for streams of Arrays to flatten them. |  |
-| DataStream.batch(count) ⇒ <code>DataStream</code> | Aggregates chunks in arrays given number of number of items long. | [batch example](../samples/data-stream-batch.js) |
-| DataStream.timeBatch(ms, count) ⇒ <code>DataStream</code> | Aggregates chunks to arrays not delaying output by more than the given number of ms. | [timeBatch example](../samples/data-stream-timebatch.js) |
-| DataStream.assign(func) ⇒ <code>DataStream</code> | Transforms stream objects by assigning the properties from the returned | [assign example](../samples/data-stream-assign.js) |
-| DataStream.shift(count, func) ⇒ <code>DataStream</code> | Shifts the first n items from the stream and pipes the other | [shift example](../samples/data-stream-shift.js) |
-| DataStream.GroupCallback ⇒ <code>Promise</code> &#124; <code>Object</code> |  |  |
-| DataStream.AccumulateCallback ⇒ <code>Promise</code> &#124; <code>\*</code> |  |  |
-| DataStream.RemapCallback ⇒ <code>Promise</code> &#124; <code>\*</code> |  |  |
-| DataStream.FlatMapCallback ⇒ <code>Promise.&lt;Iterable&gt;</code> &#124; <code>Iterable</code> |  |  |
-| DataStream.ShiftCallback : <code>function</code> | Shift callback |  |
 
 
 <a name="StringStream"></a>
