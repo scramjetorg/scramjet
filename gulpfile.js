@@ -1,22 +1,28 @@
 const gulp = require("gulp");
 const path = require("path");
 const gutil = require("gulp-util");
-const gulpJsdoc2md = require("gulp-jsdoc-to-markdown");
 const rename = require("gulp-rename");
 const nodeunit_runner = require("gulp-nodeunit-runner");
 const jshint = require('gulp-jshint');
 const exec = require('gulp-exec');
 const execp = require('child_process').exec;
+const cache = require('gulp-cached');
+const remember = require('gulp-remember');
+
+const {Transform} = require('stream');
 
 gulp.task('lint', function() {
   return gulp.src('./lib/*.js')
+    .pipe(cache('lint')) // only pass through changed files
     .pipe(jshint())
+    .pipe(remember('lint')) // add back all files to the stream
     .pipe(jshint.reporter('jshint-stylish'))
-    .pipe(jshint.reporter('fail'));
+    .pipe(jshint.reporter('fail'))
+    ;
 });
 
 gulp.task("test_legacy", function () {
-    return gulp.src("test/v1/*.js")
+    return gulp.src(path.resolve(require.resolve("scramjet-core"), "../../test/v1/*.js"))
         .pipe(nodeunit_runner({reporter: "verbose"}))
     ;
 });
@@ -36,7 +42,8 @@ gulp.task("scm_clean", function(cb){
 gulp.task("test_samples", ['docs'], function() {
     return gulp.src("test/samples/test-*.js")
         .pipe(exec("node <%= file.path %>"))
-        .pipe(exec.reporter());
+        .pipe(exec.reporter())
+        ;
 });
 
 gulp.task("readme", function() {
@@ -45,10 +52,10 @@ gulp.task("readme", function() {
 
     return jsdoc2md.render({
             files: [
-                "node_modules/scramjet-core/lib/data-stream.js",
-                "node_modules/scramjet-core/lib/string-stream.js",
-                "node_modules/scramjet-core/lib/buffer-stream.js",
-                "node_modules/scramjet-core/lib/multi-stream.js",
+                path.dirname(require.resolve("scramjet-core")) + "/data-stream.js",
+                path.dirname(require.resolve("scramjet-core")) + "/string-stream.js",
+                path.dirname(require.resolve("scramjet-core")) + "/buffer-stream.js",
+                path.dirname(require.resolve("scramjet-core")) + "/multi-stream.js",
                 "lib/data-stream.js",
                 "lib/string-stream.js",
                 "lib/buffer-stream.js",
@@ -62,15 +69,40 @@ gulp.task("readme", function() {
 });
 
 gulp.task("docs", ["readme"], function() {
-  return gulp.src("lib/*.js")
-        .pipe(gulpJsdoc2md({}))
+    const corepath = path.dirname(require.resolve("scramjet-core"));
+    const jsdoc2md = require('jsdoc-to-markdown');
+
+    return gulp.src(["lib/*.js"])
+        .pipe(new Transform({
+            objectMode: true,
+            transform(file, encoding, callback) {
+                jsdoc2md.render({
+                        files: [
+                            path.resolve(corepath, path.basename(file.path)),
+                            file.path
+                        ]
+                    })
+                    .then(
+                        (contents) => {
+                            const newFile = file.clone();
+                            newFile.contents = Buffer.from(contents);
+                            return newFile;
+                        }
+                    )
+                    .then(
+                        (file) => callback(null, file)
+                    );
+            }
+        }))
         .on("error", function(err) {
             gutil.log(gutil.colors.red("jsdoc2md failed"), err.message);
         })
         .pipe(rename(function(path) {
             path.extname = ".md";
         }))
-        .pipe(gulp.dest("docs/"));
+        .pipe(
+            gulp.dest("docs/")
+        );
 });
 
 gulp.task("test", ["test_legacy", "test_samples"]);
