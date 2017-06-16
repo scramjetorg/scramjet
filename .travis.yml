@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "newest"
+  - "latest"
   - "6"
 before_script:
  - npm update -g npm
