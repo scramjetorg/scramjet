@@ -1,3 +1,10 @@
+## Modules
+
+<dl>
+<dt><a href="#module_ScramjetCore">ScramjetCore</a></dt>
+<dd></dd>
+</dl>
+
 ## Members
 
 <dl>
@@ -6,29 +13,93 @@
 </dd>
 </dl>
 
-## Typedefs
+<a name="module_ScramjetCore"></a>
 
-<dl>
-<dt><a href="#StreamMixin">StreamMixin</a> : <code>Object</code></dt>
-<dd><p>Definition of a single mixin for a specific Scramjet class</p>
-</dd>
-<dt><a href="#ScramjetPlugin">ScramjetPlugin</a> : <code>Object</code></dt>
-<dd><p>Definition of a plugin in Scramjet</p>
-</dd>
-</dl>
+## ScramjetCore
 
-<a name="scramjet"></a>
+* [ScramjetCore](#module_ScramjetCore)
+    * _static_
+        * [.BufferStream](#module_ScramjetCore.BufferStream)
+        * [.DataStream](#module_ScramjetCore.DataStream)
+        * [.MultiStream](#module_ScramjetCore.MultiStream)
+        * [.StringStream](#module_ScramjetCore.StringStream)
+        * [.PromiseTransformStream](#module_ScramjetCore.PromiseTransformStream)
+        * [.plugin(mixin)](#module_ScramjetCore.plugin) ↩︎
+        * [.API(version)](#module_ScramjetCore.API)
+    * _inner_
+        * [~scramjet](#module_ScramjetCore..scramjet) : <code>Object</code>
+        * [~StreamMixin](#module_ScramjetCore..StreamMixin) : <code>Object</code>
+        * [~ScramjetPlugin](#module_ScramjetCore..ScramjetPlugin) : <code>Object</code>
 
-## scramjet : <code>Object</code>
+<a name="module_ScramjetCore.BufferStream"></a>
+
+### ScramjetCore.BufferStream
+Provides a lazy-load accessor to BufferStream
+
+**Kind**: static property of <code>[ScramjetCore](#module_ScramjetCore)</code>  
+<a name="module_ScramjetCore.DataStream"></a>
+
+### ScramjetCore.DataStream
+Provides a lazy-load accessor to DataStream
+
+**Kind**: static property of <code>[ScramjetCore](#module_ScramjetCore)</code>  
+<a name="module_ScramjetCore.MultiStream"></a>
+
+### ScramjetCore.MultiStream
+Provides a lazy-load accessor to MultiStream
+
+**Kind**: static property of <code>[ScramjetCore](#module_ScramjetCore)</code>  
+<a name="module_ScramjetCore.StringStream"></a>
+
+### ScramjetCore.StringStream
+Provides a lazy-load accessor to StringStream
+
+**Kind**: static property of <code>[ScramjetCore](#module_ScramjetCore)</code>  
+<a name="module_ScramjetCore.PromiseTransformStream"></a>
+
+### ScramjetCore.PromiseTransformStream
+Provides a lazy-load accessor to PromiseTransformStream
+
+**Kind**: static property of <code>[ScramjetCore](#module_ScramjetCore)</code>  
+<a name="module_ScramjetCore.plugin"></a>
+
+### ScramjetCore.plugin(mixin) ↩︎
+Add a global plugin to scramjet - injects mixins into prototypes.
+
+**Kind**: static method of <code>[ScramjetCore](#module_ScramjetCore)</code>  
+**Chainable**  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| mixin | <code>ScramjetPlugin</code> | the plugin object |
+
+**Example**  
+```js
+[../samples/scramjet-plugin.js](../samples/scramjet-plugin.js)
+```
+<a name="module_ScramjetCore.API"></a>
+
+### ScramjetCore.API(version)
+Gets an API version (this may be important for future use)
+
+**Kind**: static method of <code>[ScramjetCore](#module_ScramjetCore)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| version | <code>Number</code> | The required version (currently only: 1) |
+
+<a name="module_ScramjetCore..scramjet"></a>
+
+### ScramjetCore~scramjet : <code>Object</code>
 Exports
 
-**Kind**: global variable  
-<a name="StreamMixin"></a>
+**Kind**: inner property of <code>[ScramjetCore](#module_ScramjetCore)</code>  
+<a name="module_ScramjetCore..StreamMixin"></a>
 
-## StreamMixin : <code>Object</code>
+### ScramjetCore~StreamMixin : <code>Object</code>
 Definition of a single mixin for a specific Scramjet class
 
-**Kind**: global typedef  
+**Kind**: inner typedef of <code>[ScramjetCore](#module_ScramjetCore)</code>  
 **Properties**
 
 | Name | Type | Description |
@@ -36,18 +107,24 @@ Definition of a single mixin for a specific Scramjet class
 | constructor | <code>function</code> | optional constructor that will be called in the stream constructor (this has to be an own property!) |
 | * | <code>function</code> | any name given will be mixed in to the scramjet stream (except for constructor) |
 
-<a name="ScramjetPlugin"></a>
+<a name="module_ScramjetCore..ScramjetPlugin"></a>
 
-## ScramjetPlugin : <code>Object</code>
+### ScramjetCore~ScramjetPlugin : <code>Object</code>
 Definition of a plugin in Scramjet
 
-**Kind**: global typedef  
+**Kind**: inner typedef of <code>[ScramjetCore](#module_ScramjetCore)</code>  
 **Properties**
 
 | Name | Type | Description |
 | --- | --- | --- |
-| BufferStream | <code>[StreamMixin](#StreamMixin)</code> | definition of constructor and properties for the BufferStream prototype. |
-| DataStream | <code>[StreamMixin](#StreamMixin)</code> | definition of constructor and properties for the DataStream prototype. |
-| MultiStream | <code>[StreamMixin](#StreamMixin)</code> | definition of constructor and properties for the MultiStream prototype. |
-| StringStream | <code>[StreamMixin](#StreamMixin)</code> | definition of constructor and properties for the StringStream prototype. |
+| BufferStream | <code>StreamMixin</code> | definition of constructor and properties for the BufferStream prototype. |
+| DataStream | <code>StreamMixin</code> | definition of constructor and properties for the DataStream prototype. |
+| MultiStream | <code>StreamMixin</code> | definition of constructor and properties for the MultiStream prototype. |
+| StringStream | <code>StreamMixin</code> | definition of constructor and properties for the StringStream prototype. |
 
+<a name="scramjet"></a>
+
+## scramjet : <code>Object</code>
+Exports
+
+**Kind**: global variable  

@@ -1,9 +1,13 @@
+![Scramjet Logo](docs/scramjet-logo-light.svg)
+
+** Version 3 **
+
 [![Master Build Status](https://travis-ci.org/signicode/scramjet.svg?branch=master)](https://travis-ci.org/signicode/scramjet)
 [![Develop Build Status](https://travis-ci.org/signicode/scramjet.svg?branch=develop)](https://travis-ci.org/signicode/scramjet)
 [![Dependencies](https://david-dm.org/signicode/scramjet/status.svg)](https://david-dm.org/signicode/scramjet)
 [![Dev Dependencies](https://david-dm.org/signicode/scramjet/dev-status.svg)](https://david-dm.org/signicode/scramjet?type=dev)
 
-## What does it do?
+## What is scramjet
 
 Scramjet is a powerful, yet simple functional stream programming framework written on top of node.js object streams that
 exposes a standards inspired javascript API and written fully in native ES6. Thanks to it some built in optimizations
@@ -17,7 +21,7 @@ The main advantage of scramjet is running asynchronous operations on your data s
 perform the transformations both synchronously and asynchronously by using the same API - so now you can "map" your
 stream from whatever source and call any number of API's consecutively.
 
-The benchmarks are punblished in the [scramjet-benchmark repo](https://github.com/signicode/scramjet-benchmark).
+The benchmarks are published in the [scramjet-benchmark repo](https://github.com/signicode/scramjet-benchmark).
 
 ## Example
 
@@ -58,47 +62,45 @@ The quick reference of the exposed classes:
 
 
 <a name="DataStream"></a>
-### DataStream ⇐ stream.PassThrough
+### ~DataStream ⇐ stream.PassThrough
 
-DataStream is the primary stream type for Scramjet. When you parse yourstream, just pipe it you can then perform calculations on the data objectsstreamed through your flow.
+
 
 [Detailed DataStream docs here](docs/data-stream.md)
 
 | Method | Description | Example
 |--------|-------------|---------
 | new DataStream(opts) | Create the DataStream. | [DataStream example](../samples/data-stream-constructor.js) |
-| dataStream.TimeSource : <code>Object</code> | Source of time - must implement the interface of Date. |  |
-| dataStream.setTimeout : <code>function</code> | setTimeout method |  |
-| dataStream.clearTimeout : <code>function</code> | setTimeout method |  |
-| dataStream.debug(func) ⇒ <code>[DataStream](#DataStream)</code> | Injects a ```debugger``` statement when called. | [debug example](../samples/data-stream-debug.js) |
 | dataStream.use(func) ⇒ <code>\*</code> | Calls the passed in place with the stream as first argument, returns result. | [use example](../samples/data-stream-use.js) |
-| dataStream.cluster(hashFunc, count, stringify, parse) ⇒ <code>ClusteredDataStream</code> | [NYI] Distributes processing to multiple forked subprocesses. |  |
-| dataStream.separate(func, createOptions) ⇒ <code>[DataStream](#DataStream)</code> | Separates execution to multiple streams using the hashes returned by the passed callback. | [separate example](../samples/data-stream-separate.js) |
-| dataStream.tee(func) ⇒ <code>[DataStream](#DataStream)</code> | Duplicate the stream | [tee example](../samples/data-stream-tee.js) |
-| dataStream.slice(start, end, func) ⇒ <code>[DataStream](#DataStream)</code> | Gets a slice of the stream to the callback function. | [slice example](../samples/data-stream-slice.js) |
-| dataStream.accumulate(func, into) ⇒ <code>Promise</code> | Accumulates data into the object. | [accumulate example](../samples/data-stream-accumulate.js) |
+| dataStream.tee(func) ⇒ <code>DataStream</code> | Duplicate the stream | [tee example](../samples/data-stream-tee.js) |
 | dataStream.reduce(func, into) ⇒ <code>Promise</code> | Reduces the stream into a given accumulator | [reduce example](../samples/data-stream-reduce.js) |
-| dataStream.reduceNow(func, into) ⇒ <code>\*</code> | Reduces the stream into the given object, returning it immediately. | [reduceNow example](../samples/data-stream-reduceNow.js) |
-| dataStream.remap(func, Clazz) ⇒ <code>[DataStream](#DataStream)</code> | Remaps the stream into a new stream. | [remap example](../samples/data-stream-remap.js) |
-| dataStream.flatMap(func, Clazz) ⇒ <code>[DataStream](#DataStream)</code> | Takes any method that returns any iterable and flattens the result. | [flatMap example](../samples/data-stream-flatmap.js) |
-| dataStream.unshift(item) ↩︎ | Pushes any data at call time |  |
-| dataStream.flatten() ⇒ <code>[DataStream](#DataStream)</code> | A shorthand for streams of Arrays to flatten them. |  |
-| dataStream.batch(count) ⇒ <code>[DataStream](#DataStream)</code> | Aggregates chunks in arrays given number of number of items long. | [batch example](../samples/data-stream-batch.js) |
-| dataStream.timeBatch(ms, count) ⇒ <code>[DataStream](#DataStream)</code> | Aggregates chunks to arrays not delaying output by more than the given number of ms. | [timeBatch example](../samples/data-stream-timebatch.js) |
 | dataStream.each(func) ↩︎ | Performs an operation on every chunk, without changing the stream |  |
-| dataStream.map(func, Clazz) ⇒ <code>[DataStream](#DataStream)</code> | Transforms stream objects into new ones, just like Array.prototype.map | [map example](../samples/data-stream-map.js) |
-| dataStream.assign(func) ⇒ <code>[DataStream](#DataStream)</code> | Transforms stream objects by assigning the properties from the returned | [assign example](../samples/data-stream-assign.js) |
-| dataStream.filter(func) ⇒ <code>[DataStream](#DataStream)</code> | Filters object based on the function outcome, just like | [filter example](../samples/data-stream-filter.js) |
-| dataStream.shift(count, func) ⇒ <code>[DataStream](#DataStream)</code> | Shifts the first n items from the stream and pipes the other | [shift example](../samples/data-stream-shift.js) |
-| dataStream.toBufferStream(serializer) ⇒ <code>[BufferStream](#BufferStream)</code> | Creates a BufferStream | [toBufferStream example](../samples/data-stream-tobufferstream.js) |
-| dataStream.stringify(serializer) ⇒ <code>[StringStream](#StringStream)</code> | Creates a StringStream | [stringify example](../samples/data-stream-tostringstream.js) |
+| dataStream.map(func, Clazz) ⇒ <code>DataStream</code> | Transforms stream objects into new ones, just like Array.prototype.map | [map example](../samples/data-stream-map.js) |
+| dataStream.filter(func) ⇒ <code>DataStream</code> | Filters object based on the function outcome, just like | [filter example](../samples/data-stream-filter.js) |
+| dataStream.pipe(to, options) ⇒ <code>Writable</code> | Override of node.js Readable pipe. |  |
+| dataStream.toBufferStream(serializer) ⇒ <code>BufferStream</code> | Creates a BufferStream | [toBufferStream example](../samples/data-stream-tobufferstream.js) |
+| dataStream.stringify(serializer) ⇒ <code>StringStream</code> | Creates a StringStream | [stringify example](../samples/data-stream-tostringstream.js) |
 | dataStream.toArray(initial) ⇒ <code>Promise</code> | Aggregates the stream into a single Array |  |
-| DataStream.fromArray(arr) ⇒ <code>[DataStream](#DataStream)</code> | Create a DataStream from an Array | [fromArray example](../samples/data-stream-fromarray.js) |
-| DataStream.fromIterator(iter) ⇒ <code>[DataStream](#DataStream)</code> | Create a DataStream from an Iterator | [fromIterator example](../samples/data-stream-fromiterator.js) |
+| dataStream.debug(func) ⇒ <code>DataStream</code> | Injects a ```debugger``` statement when called. | [debug example](../samples/data-stream-debug.js) |
+| dataStream.cluster(hashFunc, count, stringify, parse) ⇒ <code>ClusteredDataStream</code> | [NYI] Distributes processing to multiple forked subprocesses. |  |
+| dataStream.separate(func, createOptions) ⇒ <code>DataStream</code> | Separates execution to multiple streams using the hashes returned by the passed callback. | [separate example](../samples/data-stream-separate.js) |
+| dataStream.slice(start, end, func) ⇒ <code>DataStream</code> | Gets a slice of the stream to the callback function. | [slice example](../samples/data-stream-slice.js) |
+| dataStream.accumulate(func, into) ⇒ <code>Promise</code> | Accumulates data into the object. | [accumulate example](../samples/data-stream-accumulate.js) |
+| dataStream.reduceNow(func, into) ⇒ <code>\*</code> | Reduces the stream into the given object, returning it immediately. | [reduceNow example](../samples/data-stream-reduceNow.js) |
+| dataStream.remap(func, Clazz) ⇒ <code>DataStream</code> | Remaps the stream into a new stream. | [remap example](../samples/data-stream-remap.js) |
+| dataStream.flatMap(func, Clazz) ⇒ <code>DataStream</code> | Takes any method that returns any iterable and flattens the result. | [flatMap example](../samples/data-stream-flatmap.js) |
+| dataStream.unshift(item) ↩︎ | Pushes any data at call time |  |
+| dataStream.flatten() ⇒ <code>DataStream</code> | A shorthand for streams of Arrays to flatten them. |  |
+| dataStream.batch(count) ⇒ <code>DataStream</code> | Aggregates chunks in arrays given number of number of items long. | [batch example](../samples/data-stream-batch.js) |
+| dataStream.timeBatch(ms, count) ⇒ <code>DataStream</code> | Aggregates chunks to arrays not delaying output by more than the given number of ms. | [timeBatch example](../samples/data-stream-timebatch.js) |
+| dataStream.assign(func) ⇒ <code>DataStream</code> | Transforms stream objects by assigning the properties from the returned | [assign example](../samples/data-stream-assign.js) |
+| dataStream.shift(count, func) ⇒ <code>DataStream</code> | Shifts the first n items from the stream and pipes the other | [shift example](../samples/data-stream-shift.js) |
+| DataStream.fromArray(arr) ⇒ <code>DataStream</code> | Create a DataStream from an Array | [fromArray example](../samples/data-stream-fromarray.js) |
+| DataStream.fromIterator(iter) ⇒ <code>DataStream</code> | Create a DataStream from an Iterator | [fromIterator example](../samples/data-stream-fromiterator.js) |
 
 
 <a name="StringStream"></a>
-### StringStream ⇐ DataStream
+### ~StringStream ⇐ DataStream
 
 A stream of string objects for further transformation on top of DataStream.
 
@@ -107,19 +109,17 @@ A stream of string objects for further transformation on top of DataStream.
 | Method | Description | Example
 |--------|-------------|---------
 | new StringStream(encoding) | Constructs the stream with the given encoding | [StringStream example](../samples/string-stream-constructor.js) |
-| stringStream.shift(bytes, func) ⇒ <code>[StringStream](#StringStream)</code> | Shifts given length of chars from the original stream | [shift example](../samples/string-stream-shift.js) |
-| stringStream.split(splitter) ⇒ <code>[StringStream](#StringStream)</code> | Splits the string stream by the specified regexp or string | [split example](../samples/string-stream-split.js) |
-| stringStream.append(arg) ⇒ <code>[StringStream](#StringStream)</code> | Appends given argument to all the items. | [append example](../samples/string-stream-append.js) |
-| stringStream.prepend(arg) ⇒ <code>[StringStream](#StringStream)</code> | Prepends given argument to all the items. | [prepend example](../samples/string-stream-prepend.js) |
-| stringStream.match(splitter) ⇒ <code>[StringStream](#StringStream)</code> | Finds matches in the string stream and streams the match results | [match example](../samples/string-stream-match.js) |
-| stringStream.toBufferStream() ⇒ <code>[StringStream](#StringStream)</code> | Transforms the StringStream to BufferStream | [toBufferStream example](../samples/string-stream-tobufferstream.js) |
-| stringStream.parse(parser) ⇒ <code>[DataStream](#DataStream)</code> | Parses every string to object | [parse example](../samples/string-stream-parse.js) |
+| stringStream.shift(bytes, func) ⇒ <code>StringStream</code> | Shifts given length of chars from the original stream | [shift example](../samples/string-stream-shift.js) |
+| stringStream.split(splitter) ⇒ <code>StringStream</code> | Splits the string stream by the specified regexp or string | [split example](../samples/string-stream-split.js) |
+| stringStream.match(splitter) ⇒ <code>StringStream</code> | Finds matches in the string stream and streams the match results | [match example](../samples/string-stream-match.js) |
+| stringStream.toBufferStream() ⇒ <code>StringStream</code> | Transforms the StringStream to BufferStream | [toBufferStream example](../samples/string-stream-tobufferstream.js) |
+| stringStream.parse(parser) ⇒ <code>DataStream</code> | Parses every string to object | [parse example](../samples/string-stream-parse.js) |
 | StringStream.SPLIT_LINE | A handly split by line regex to quickly get a line-by-line stream |  |
-| StringStream.fromString(str, encoding) ⇒ <code>[StringStream](#StringStream)</code> | Creates a StringStream and writes a specific string. |  |
+| StringStream.fromString(str, encoding) ⇒ <code>StringStream</code> | Creates a StringStream and writes a specific string. |  |
 
 
 <a name="BufferStream"></a>
-### BufferStream ⇐ DataStream
+### ~BufferStream ⇐ DataStream
 
 A factilitation stream created for easy splitting or parsing buffers
 
@@ -128,15 +128,15 @@ A factilitation stream created for easy splitting or parsing buffers
 | Method | Description | Example
 |--------|-------------|---------
 | new BufferStream(opts) | Creates the BufferStream | [BufferStream example](../samples/buffer-stream-constructor.js) |
-| bufferStream.shift(chars, func) ⇒ <code>[BufferStream](#BufferStream)</code> | Shift given number of bytes from the original stream | [shift example](../samples/string-stream-shift.js) |
-| bufferStream.split(splitter) ⇒ <code>[BufferStream](#BufferStream)</code> | Splits the buffer stream into buffer objects | [split example](../samples/buffer-stream-split.js) |
-| bufferStream.breakup(number) ⇒ <code>[BufferStream](#BufferStream)</code> | Breaks up a stream apart into chunks of the specified length | [breakup example](../samples/buffer-stream-breakup.js) |
-| bufferStream.toStringStream(encoding) ⇒ <code>[StringStream](#StringStream)</code> | Creates a string stream from the given buffer stream | [toStringStream example](../samples/buffer-stream-tostringstream.js) |
-| bufferStream.parse(parser) ⇒ <code>[DataStream](#DataStream)</code> | [Parallel] Parses every buffer to object | [parse example](../samples/buffer-stream-parse.js) |
+| bufferStream.shift(chars, func) ⇒ <code>BufferStream</code> | Shift given number of bytes from the original stream | [shift example](../samples/string-stream-shift.js) |
+| bufferStream.split(splitter) ⇒ <code>BufferStream</code> | Splits the buffer stream into buffer objects | [split example](../samples/buffer-stream-split.js) |
+| bufferStream.breakup(number) ⇒ <code>BufferStream</code> | Breaks up a stream apart into chunks of the specified length | [breakup example](../samples/buffer-stream-breakup.js) |
+| bufferStream.stringify(encoding) ⇒ <code>StringStream</code> | Creates a string stream from the given buffer stream | [stringify example](../samples/buffer-stream-tostringstream.js) |
+| bufferStream.parse(parser) ⇒ <code>DataStream</code> | Parses every buffer to object | [parse example](../samples/buffer-stream-parse.js) |
 
 
 <a name="MultiStream"></a>
-### MultiStream
+### ~MultiStream
 
 An object consisting of multiple streams than can be refined or muxed.
 
@@ -146,10 +146,9 @@ An object consisting of multiple streams than can be refined or muxed.
 |--------|-------------|---------
 | new MultiStream(streams, options) | Crates an instance of MultiStream with the specified stream list | [MultiStream example](../samples/multi-stream-constructor.js) |
 | multiStream.streams : <code>Array</code> | Array of all streams |  |
-| multiStream.map(aFunc) ⇒ <code>[MultiStream](#MultiStream)</code> | Returns new MultiStream with the streams returned by the tranform. | [map example](../samples/multi-stream-map.js) |
-| multiStream.filter(func) ⇒ <code>[MultiStream](#MultiStream)</code> | Filters the stream list and returns a new MultiStream with only the | [filter example](../samples/multi-stream-filter.js) |
-| multiStream.dedupe(cmp) ⇒ <code>[DataStream](#DataStream)</code> | Removes duplicate items from stream using the given hash function | [dedupe example](../samples/multi-stream-dedupe.js) |
-| multiStream.mux(cmp) ⇒ <code>[DataStream](#DataStream)</code> | Muxes the streams into a single one | [mux example](../samples/multi-stream-mux.js) |
+| multiStream.map(aFunc) ⇒ <code>MultiStream</code> | Returns new MultiStream with the streams returned by the tranform. | [map example](../samples/multi-stream-map.js) |
+| multiStream.filter(func) ⇒ <code>MultiStream</code> | Filters the stream list and returns a new MultiStream with only the | [filter example](../samples/multi-stream-filter.js) |
+| multiStream.mux(cmp) ⇒ <code>DataStream</code> | Muxes the streams into a single one | [mux example](../samples/multi-stream-mux.js) |
 | multiStream.add(stream) | Adds a stream to the MultiStream | [add example](../samples/multi-stream-add.js) |
 | multiStream.remove(stream) | Removes a stream from the MultiStream | [remove example](../samples/multi-stream-remove.js) |
 
