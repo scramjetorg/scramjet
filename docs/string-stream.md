@@ -23,7 +23,7 @@
 ### ScramjetCore~StringStream ⇐ <code>DataStream</code>
 A stream of string objects for further transformation on top of DataStream.
 
-**Kind**: inner class of <code>[ScramjetCore](#module_ScramjetCore)</code>  
+**Kind**: inner class of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 **Extends**: <code>DataStream</code>  
 
 * [~StringStream](#module_ScramjetCore..StringStream) ⇐ <code>DataStream</code>
@@ -60,7 +60,7 @@ Shifts given length of chars from the original stream
 Works the same way as {@see DataStream.shift}, but in this case extracts
 the given number of characters.
 
-**Kind**: instance method of <code>[StringStream](#module_ScramjetCore..StringStream)</code>  
+**Kind**: instance method of [<code>StringStream</code>](#module_ScramjetCore..StringStream)  
 **Returns**: <code>StringStream</code> - substream.  
 
 | Param | Type | Description |
@@ -77,7 +77,7 @@ the given number of characters.
 #### stringStream.split(splitter) ⇒ <code>StringStream</code>
 Splits the string stream by the specified regexp or string
 
-**Kind**: instance method of <code>[StringStream](#module_ScramjetCore..StringStream)</code>  
+**Kind**: instance method of [<code>StringStream</code>](#module_ScramjetCore..StringStream)  
 **Returns**: <code>StringStream</code> - the re-splitted string stream.  
 **Todo**
 
@@ -86,7 +86,7 @@ Splits the string stream by the specified regexp or string
 
 | Param | Type | Description |
 | --- | --- | --- |
-| splitter | <code>RegExp</code> &#124; <code>String</code> | What to split by |
+| splitter | <code>RegExp</code> \| <code>String</code> | What to split by |
 
 **Example**  
 ```js
@@ -97,7 +97,7 @@ Splits the string stream by the specified regexp or string
 #### stringStream.match(splitter) ⇒ <code>StringStream</code>
 Finds matches in the string stream and streams the match results
 
-**Kind**: instance method of <code>[StringStream](#module_ScramjetCore..StringStream)</code>  
+**Kind**: instance method of [<code>StringStream</code>](#module_ScramjetCore..StringStream)  
 **Returns**: <code>StringStream</code> - string stream of matches.  
 **Todo**
 
@@ -121,7 +121,7 @@ Creates a buffer stream from the given string stream. Still it returns a
 DataStream derivative and isn't the typical node.js stream so you can do
 all your transforms when you like.
 
-**Kind**: instance method of <code>[StringStream](#module_ScramjetCore..StringStream)</code>  
+**Kind**: instance method of [<code>StringStream</code>](#module_ScramjetCore..StringStream)  
 **Returns**: <code>StringStream</code> - The converted stream.  
 **Example**  
 ```js
@@ -135,7 +135,7 @@ Parses every string to object
 The method MUST parse EVERY string into a single object, so the string
 stream here should already be splitted.
 
-**Kind**: instance method of <code>[StringStream](#module_ScramjetCore..StringStream)</code>  
+**Kind**: instance method of [<code>StringStream</code>](#module_ScramjetCore..StringStream)  
 **Returns**: <code>DataStream</code> - The parsed objects stream.  
 
 | Param | Type | Description |
@@ -151,13 +151,13 @@ stream here should already be splitted.
 #### StringStream.SPLIT_LINE
 A handly split by line regex to quickly get a line-by-line stream
 
-**Kind**: static property of <code>[StringStream](#module_ScramjetCore..StringStream)</code>  
+**Kind**: static property of [<code>StringStream</code>](#module_ScramjetCore..StringStream)  
 <a name="module_ScramjetCore..StringStream.fromString"></a>
 
 #### StringStream.fromString(str, encoding) ⇒ <code>StringStream</code>
 Creates a StringStream and writes a specific string.
 
-**Kind**: static method of <code>[StringStream](#module_ScramjetCore..StringStream)</code>  
+**Kind**: static method of [<code>StringStream</code>](#module_ScramjetCore..StringStream)  
 **Returns**: <code>StringStream</code> - new StringStream.  
 
 | Param | Type | Description |
@@ -170,11 +170,11 @@ Creates a StringStream and writes a specific string.
 ### ScramjetCore~toDataStream()
 Alias for [StringStream#parse](StringStream#parse)
 
-**Kind**: inner method of <code>[ScramjetCore](#module_ScramjetCore)</code>  
+**Kind**: inner method of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 <a name="module_ScramjetCore..ShiftCallback"></a>
 
 ### ScramjetCore~ShiftCallback : <code>function</code>
-**Kind**: inner typedef of <code>[ScramjetCore](#module_ScramjetCore)</code>  
+**Kind**: inner typedef of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -183,7 +183,7 @@ Alias for [StringStream#parse](StringStream#parse)
 <a name="module_ScramjetCore..ParseCallback"></a>
 
 ### ScramjetCore~ParseCallback ⇒ <code>Promise</code>
-**Kind**: inner typedef of <code>[ScramjetCore](#module_ScramjetCore)</code>  
+**Kind**: inner typedef of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 **Returns**: <code>Promise</code> - the promise should be resolved with the parsed object  
 
 | Param | Type | Description |
