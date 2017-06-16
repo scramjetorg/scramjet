@@ -20,7 +20,7 @@
 ### ScramjetCore~BufferStream ⇐ <code>DataStream</code>
 A factilitation stream created for easy splitting or parsing buffers
 
-**Kind**: inner class of <code>[ScramjetCore](#module_ScramjetCore)</code>  
+**Kind**: inner class of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 **Extends**: <code>DataStream</code>  
 
 * [~BufferStream](#module_ScramjetCore..BufferStream) ⇐ <code>DataStream</code>
@@ -53,7 +53,7 @@ Shift given number of bytes from the original stream
 Works the same way as {@see DataStream.shift}, but in this case extracts
 the given number of bytes.
 
-**Kind**: instance method of <code>[BufferStream](#module_ScramjetCore..BufferStream)</code>  
+**Kind**: instance method of [<code>BufferStream</code>](#module_ScramjetCore..BufferStream)  
 **Returns**: <code>BufferStream</code> - substream  
 
 | Param | Type | Description |
@@ -70,7 +70,7 @@ the given number of bytes.
 #### bufferStream.split(splitter) ⇒ <code>BufferStream</code>
 Splits the buffer stream into buffer objects
 
-**Kind**: instance method of <code>[BufferStream](#module_ScramjetCore..BufferStream)</code>  
+**Kind**: instance method of [<code>BufferStream</code>](#module_ScramjetCore..BufferStream)  
 **Returns**: <code>BufferStream</code> - the re-splitted buffer stream.  
 **Todo**
 
@@ -79,7 +79,7 @@ Splits the buffer stream into buffer objects
 
 | Param | Type | Description |
 | --- | --- | --- |
-| splitter | <code>String</code> &#124; <code>Buffer</code> | the buffer or string that the stream                                  should be split by. |
+| splitter | <code>String</code> \| <code>Buffer</code> | the buffer or string that the stream                                  should be split by. |
 
 **Example**  
 ```js
@@ -90,7 +90,7 @@ Splits the buffer stream into buffer objects
 #### bufferStream.breakup(number) ⇒ <code>BufferStream</code>
 Breaks up a stream apart into chunks of the specified length
 
-**Kind**: instance method of <code>[BufferStream](#module_ScramjetCore..BufferStream)</code>  
+**Kind**: instance method of [<code>BufferStream</code>](#module_ScramjetCore..BufferStream)  
 **Returns**: <code>BufferStream</code> - the resulting buffer stream.  
 
 | Param | Type | Description |
@@ -109,7 +109,7 @@ Creates a string stream from the given buffer stream
 Still it returns a DataStream derivative and isn't the typical node.js
 stream so you can do all your transforms when you like.
 
-**Kind**: instance method of <code>[BufferStream](#module_ScramjetCore..BufferStream)</code>  
+**Kind**: instance method of [<code>BufferStream</code>](#module_ScramjetCore..BufferStream)  
 **Returns**: <code>StringStream</code> - The converted stream.  
 
 | Param | Type | Description |
@@ -128,7 +128,7 @@ Parses every buffer to object
 The method MUST parse EVERY buffer into a single object, so the buffer
 stream here should already be splitted or broken up.
 
-**Kind**: instance method of <code>[BufferStream](#module_ScramjetCore..BufferStream)</code>  
+**Kind**: instance method of [<code>BufferStream</code>](#module_ScramjetCore..BufferStream)  
 **Returns**: <code>DataStream</code> - The parsed objects stream.  
 
 | Param | Type | Description |
@@ -144,19 +144,19 @@ stream here should already be splitted or broken up.
 ### ScramjetCore~toStringStream()
 Alias for [BufferStream#stringify](BufferStream#stringify)
 
-**Kind**: inner method of <code>[ScramjetCore](#module_ScramjetCore)</code>  
+**Kind**: inner method of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 <a name="module_ScramjetCore..toDataStream"></a>
 
 ### ScramjetCore~toDataStream()
 Alias for [BufferStream#parse](BufferStream#parse)
 
-**Kind**: inner method of <code>[ScramjetCore](#module_ScramjetCore)</code>  
+**Kind**: inner method of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 <a name="module_ScramjetCore..PopCallback"></a>
 
 ### ScramjetCore~PopCallback : <code>function</code>
 Pop callback
 
-**Kind**: inner typedef of <code>[ScramjetCore](#module_ScramjetCore)</code>  
+**Kind**: inner typedef of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -165,7 +165,7 @@ Pop callback
 <a name="module_ScramjetCore..ParseCallback"></a>
 
 ### ScramjetCore~ParseCallback ⇒ <code>Promise</code>
-**Kind**: inner typedef of <code>[ScramjetCore](#module_ScramjetCore)</code>  
+**Kind**: inner typedef of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 **Returns**: <code>Promise</code> - the promise should be resolved with the parsed object  
 
 | Param | Type | Description |

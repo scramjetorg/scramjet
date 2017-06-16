@@ -1,6 +1,6 @@
-![Scramjet Logo](docs/scramjet-logo-light.svg)
+![Scramjet Logo](https://signicode.com/scramjet-logo-light.svg)
 
-** Version 3 **
+**Version 3**
 
 [![Master Build Status](https://travis-ci.org/signicode/scramjet.svg?branch=master)](https://travis-ci.org/signicode/scramjet)
 [![Develop Build Status](https://travis-ci.org/signicode/scramjet.svg?branch=develop)](https://travis-ci.org/signicode/scramjet)
