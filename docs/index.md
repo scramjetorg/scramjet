@@ -36,37 +36,37 @@
 ### ScramjetCore.BufferStream
 Provides a lazy-load accessor to BufferStream
 
-**Kind**: static property of <code>[ScramjetCore](#module_ScramjetCore)</code>  
+**Kind**: static property of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 <a name="module_ScramjetCore.DataStream"></a>
 
 ### ScramjetCore.DataStream
 Provides a lazy-load accessor to DataStream
 
-**Kind**: static property of <code>[ScramjetCore](#module_ScramjetCore)</code>  
+**Kind**: static property of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 <a name="module_ScramjetCore.MultiStream"></a>
 
 ### ScramjetCore.MultiStream
 Provides a lazy-load accessor to MultiStream
 
-**Kind**: static property of <code>[ScramjetCore](#module_ScramjetCore)</code>  
+**Kind**: static property of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 <a name="module_ScramjetCore.StringStream"></a>
 
 ### ScramjetCore.StringStream
 Provides a lazy-load accessor to StringStream
 
-**Kind**: static property of <code>[ScramjetCore](#module_ScramjetCore)</code>  
+**Kind**: static property of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 <a name="module_ScramjetCore.PromiseTransformStream"></a>
 
 ### ScramjetCore.PromiseTransformStream
 Provides a lazy-load accessor to PromiseTransformStream
 
-**Kind**: static property of <code>[ScramjetCore](#module_ScramjetCore)</code>  
+**Kind**: static property of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 <a name="module_ScramjetCore.plugin"></a>
 
 ### ScramjetCore.plugin(mixin) ↩︎
 Add a global plugin to scramjet - injects mixins into prototypes.
 
-**Kind**: static method of <code>[ScramjetCore](#module_ScramjetCore)</code>  
+**Kind**: static method of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 **Chainable**  
 
 | Param | Type | Description |
@@ -82,7 +82,7 @@ Add a global plugin to scramjet - injects mixins into prototypes.
 ### ScramjetCore.API(version)
 Gets an API version (this may be important for future use)
 
-**Kind**: static method of <code>[ScramjetCore](#module_ScramjetCore)</code>  
+**Kind**: static method of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -93,13 +93,13 @@ Gets an API version (this may be important for future use)
 ### ScramjetCore~scramjet : <code>Object</code>
 Exports
 
-**Kind**: inner property of <code>[ScramjetCore](#module_ScramjetCore)</code>  
+**Kind**: inner property of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 <a name="module_ScramjetCore..StreamMixin"></a>
 
 ### ScramjetCore~StreamMixin : <code>Object</code>
 Definition of a single mixin for a specific Scramjet class
 
-**Kind**: inner typedef of <code>[ScramjetCore](#module_ScramjetCore)</code>  
+**Kind**: inner typedef of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 **Properties**
 
 | Name | Type | Description |
@@ -112,7 +112,7 @@ Definition of a single mixin for a specific Scramjet class
 ### ScramjetCore~ScramjetPlugin : <code>Object</code>
 Definition of a plugin in Scramjet
 
-**Kind**: inner typedef of <code>[ScramjetCore](#module_ScramjetCore)</code>  
+**Kind**: inner typedef of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 **Properties**
 
 | Name | Type | Description |
