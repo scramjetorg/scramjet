@@ -1,5 +1,7 @@
 language: node_js
 node_js:
-  - "node"
+  - "newest"
   - "6"
+before_script:
+ - npm update -g npm
 script: npm test
