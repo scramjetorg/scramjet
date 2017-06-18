@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const nodeunit = require('../lib/reporter');
 const {unhandledRejectionHandler} = require("./handlers");
+const corepath = path.dirname(require.resolve("scramjet-core"));
 
 const matrix = [
     ["buffer", scramjet.BufferStream],
@@ -17,7 +18,6 @@ const matrix = [
 console.log("Samples testing");
 
 process.on("unhandledRejection", unhandledRejectionHandler);
-
 module.exports = scramjet.fromArray(
     matrix.map(
         (item) => ({
@@ -25,6 +25,14 @@ module.exports = scramjet.fromArray(
             srcpath:
                 path.resolve(__dirname, "../../lib/", typeof item[1] === "string" ? item[1] : item[0] + '-stream.js')
         })
+    ).concat(
+        matrix.map(
+            (item) => ({
+                cls: item[0],
+                srcpath:
+                    path.resolve(corepath, typeof item[1] === "string" ? item[1] : item[0] + '-stream.js')
+            })
+        )
     )
 ).remap(
     (emit, item) => {

@@ -1,4 +1,5 @@
 const gulp = require("gulp");
+const env = require('gulp-env');
 const path = require("path");
 const gutil = require("gulp-util");
 const rename = require("gulp-rename");
@@ -10,6 +11,7 @@ const cache = require('gulp-cached');
 const remember = require('gulp-remember');
 
 const {Transform} = require('stream');
+const corepath = path.dirname(require.resolve("scramjet-core"));
 
 gulp.task('lint', function() {
   return gulp.src('./lib/*.js')
@@ -22,7 +24,13 @@ gulp.task('lint', function() {
 });
 
 gulp.task("test_legacy", function () {
-    return gulp.src(path.resolve(require.resolve("scramjet-core"), "../../test/v1/*.js"))
+
+    return gulp.src(path.resolve(corepath, "../test/v1/*.js"))
+        .pipe(env({
+            vars: {
+                SCRAMJET_TEST_HOME: __dirname
+            }
+        }))
         .pipe(nodeunit_runner({reporter: "verbose"}))
     ;
 });
@@ -68,8 +76,12 @@ gulp.task("readme", function() {
         );
 });
 
-gulp.task("docs", ["readme"], function() {
-    const corepath = path.dirname(require.resolve("scramjet-core"));
+gulp.task("copy_docs", function() {
+    return gulp.src(path.resolve(corepath, "../docs/*"))
+        .pipe(gulp.dest("docs/"));
+});
+
+gulp.task("docs", ["copy_docs", "readme"], function() {
     const jsdoc2md = require('jsdoc-to-markdown');
 
     return gulp.src(["lib/*.js"])
