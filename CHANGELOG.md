@@ -7,6 +7,15 @@ for plugin development.
 
 Scramjet itself now consitst of most common plugins and extends core.
 
+# Scramjet 3.1.0
+
+Added new methods (with the dependecy to `scramjet-core v3.2.0`):
+
+* `while` - ends the stream as soon as the condition returns a falsy value (no more items will be processed)
+* `until` - works the other way around
+
+Test now also checks if files lint properly.
+
 # Scramjet 3.0.0
 
 Initial release of Scramjet 3.

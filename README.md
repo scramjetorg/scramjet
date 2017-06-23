@@ -78,6 +78,8 @@ The quick reference of the exposed classes:
 | dataStream.each(func) ↩︎ | Performs an operation on every chunk, without changing the stream |  |
 | dataStream.map(func, Clazz) ⇒ <code>DataStream</code> | Transforms stream objects into new ones, just like Array.prototype.map | [map example](../samples/data-stream-map.js) |
 | dataStream.filter(func) ⇒ <code>DataStream</code> | Filters object based on the function outcome, just like | [filter example](../samples/data-stream-filter.js) |
+| dataStream.while(func) ⇒ <code>DataStream</code> | Reads the stream while the function outcome is truthy. |  |
+| dataStream.until(func) ⇒ <code>DataStream</code> | Reads the stream until the function outcome is truthy. |  |
 | dataStream.pipe(to, options) ⇒ <code>Writable</code> | Override of node.js Readable pipe. |  |
 | dataStream.toBufferStream(serializer) ⇒ <code>BufferStream</code> | Creates a BufferStream | [toBufferStream example](../samples/data-stream-tobufferstream.js) |
 | dataStream.stringify(serializer) ⇒ <code>StringStream</code> | Creates a StringStream | [stringify example](../samples/data-stream-tostringstream.js) |
