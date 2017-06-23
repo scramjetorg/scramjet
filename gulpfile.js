@@ -117,6 +117,6 @@ gulp.task("docs", ["copy_docs", "readme"], function() {
         );
 });
 
-gulp.task("test", ["test_legacy", "test_samples"]);
+gulp.task("test", ["lint", "test_legacy", "test_samples"]);
 gulp.task("default", ["readme", "docs", "test_legacy", "test_samples", "lint"]);
 gulp.task("prerelease", ["scm_clean"]);
