@@ -4,12 +4,8 @@
 const DataStream = require('../').DataStream;
 exports.log = console.log.bind(console);
 
-let ref;
 DataStream.fromArray([[1,2,20], [3,4,21], [5,6,22], [7,8,23], [9,10,24]])
     .on("end", () => exports.log("end1"))
-    .debug((stream) => {
-        exports.log((ref = stream)._writableState.ended);
-    })
     .remap((emit, item) => {
         emit(item[0]);
         return new Promise((s) => (process.nextTick(() => {

@@ -1,7 +1,7 @@
 {
   "name": "scramjet",
-  "version": "3.1.0",
-  "description": "Simple yet powerful live or real-time data computation framework like event-stream, but written in ES6 and using streams2",
+  "version": "4.0.0-rc1",
+  "description": "Lightweight and fast live or real-time data computation framework like event-stream, written in ES6 using async await",
   "main": "lib/index.js",
   "directories": {
     "lib": "lib/",
@@ -20,7 +20,10 @@
     "map",
     "apache",
     "spark",
+    "async",
+    "await",
     "apex",
+    "flink",
     "highland",
     "log",
     "functional programming",
@@ -36,11 +39,15 @@
     "url": "https://github.com/signicode/scramjet.git"
   },
   "engines": {
-    "node": ">=6"
+    "node": ">=8"
   },
   "author": "Signicode / Michał Czapracki <cz@signicode.com>",
   "license": "MIT",
   "devDependencies": {
+    "dmd": "^3.0.6",
+    "eslint": "^4.10.0",
+    "eslint-config-defaults": "^9.0.0",
+    "eslint-plugin-node": "^5.2.1",
     "freeport": "^1.0.5",
     "fs-promise": "^2.0.0",
     "fs-then-native": "^2.0.0",
@@ -48,15 +55,16 @@
     "gulp-cached": "^1.1.1",
     "gulp-concat": "^2.6.0",
     "gulp-env": "^0.4.0",
+    "gulp-eslint": "^4.0.0",
     "gulp-exec": "^2.1.3",
     "gulp-jshint": "^2.0.4",
     "gulp-nodeunit-runner": "^0.2.2",
     "gulp-remember": "^0.3.1",
     "gulp-rename": "^1.2.2",
     "gulp-util": "^3.0.7",
-    "jsdoc-to-markdown": "^3.0.0",
-    "jshint": "^2.9.4",
-    "jshint-stylish": "^2.2.1",
+    "jsdoc": "^3.5.5",
+    "jsdoc-api": "^4.0.0",
+    "jsdoc-parse": "^3.0.0",
     "longjohn": "^0.2.12",
     "nodeunit": "^0.11.0",
     "request": "^2.79.0",
@@ -64,6 +72,6 @@
     "through2": "^2.0.3"
   },
   "dependencies": {
-    "scramjet-core": "^3.2.0"
+    "scramjet-core": "^4.0.0"
   }
 }

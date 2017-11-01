@@ -29,7 +29,6 @@ exports.test = {
     filterAll: (test) => {
 
         test.expect(1);
-        debugger;
         DataStream.fromArray([1,2,3,4,5])
             .filter(() => 0)
             .map(() => test.ok(false, "No data should be outputted even on merged transforms"))
