@@ -1,6 +1,6 @@
 ![Scramjet Logo](https://signicode.com/scramjet-logo-light.svg)
 
-**Version 3**
+**Version 4**
 
 [![Master Build Status](https://travis-ci.org/signicode/scramjet.svg?branch=master)](https://travis-ci.org/signicode/scramjet)
 [![Develop Build Status](https://travis-ci.org/signicode/scramjet.svg?branch=develop)](https://travis-ci.org/signicode/scramjet)
@@ -8,11 +8,11 @@
 [![Dev Dependencies](https://david-dm.org/signicode/scramjet/dev-status.svg)](https://david-dm.org/signicode/scramjet?type=dev)
 [![Known Vulnerabilities](https://snyk.io/test/github/signicode/scramjet/badge.svg)](https://snyk.io/test/github/signicode/scramjet)
 
-## What is scramjet
+## What does it do?
 
-Scramjet is a powerful, yet simple functional stream programming framework written on top of node.js object streams that
+Scramjet is a fast and simple functional stream programming framework written on top of node.js object streams. It
 exposes a standards inspired javascript API and written fully in native ES6. Thanks to it some built in optimizations
-scramjet is much faster than similar frameworks in asynchronous operations (like for instance calling an API).
+scramjet is much faster and much much simpler than similar frameworks when using asynchronous operations.
 
 It is built upon the logic behind three well known javascript array operations - namingly map, filter and reduce. This
 means that if you've ever performed operations on an Array in JavaScript - you already know Scramjet like the back of
@@ -41,6 +41,52 @@ request.get("http://www.wroclaw.pl/open-data/opendata/its/parkingi/parkingi.csv"
     .map((data) => columns.reduce((acc, id, i) => (acc[id] = data[i], acc), {}))
     .on("data", console.log.bind(console))
 ```
+
+## Usage
+
+Scramjet uses functional programming to run transformations on your data streams in a fashion very similar to the well
+known event-stream node module. Most transformations are done by passing a transform function. You can write your
+function in three ways:
+
+1. Synchronous
+
+ Example: a simple stream transform that outputs a stream of objects of the same id property and the length of the value string.
+
+ ```javascript
+    datastream.map(
+        (item) => ({id: item.id, length: item.value.length})
+    )
+ ```
+
+2. Asynchronous using ES2015 async await
+
+Example: A simple stream that uses Fetch API to get all the contents of all entries in the stream
+
+```javascript
+datastream.map(
+    async (item) => fetch(item)
+)
+```
+
+3. Asynchronous using Promises
+
+ Example: A simple stream that fetches an url mentioned in the incoming object
+
+ ```javascript
+    datastream.map(
+        (item) => new Promise((resolve, reject) => {
+            request(item.url, (err, res, data) => {
+                if (err)
+                    reject(err); // will emit an "error" event on the stream
+                else
+                    resolve(data);
+            });
+        })
+    )
+ ```
+
+The actual logic of this transform function is as if you passed your function to the ```then``` method of a Promise
+resolved with the data from the input stream.
 
 ## API Docs
 
@@ -175,41 +221,6 @@ If you need your scramjet version for the browser, grab browserify and just run:
 ```
 
 With this you can run your transformations in the browser, use websockets to send them back and forth. If you do and fail for some reason, please remember to be issuing those issues - as no one person can test all the use cases and I am but one person.
-
-## Usage
-
-Scramjet uses functional programming to run transformations on your data streams in a fashion very similar to the well known event-stream node module. Most transformations are done by passing a transform function. You can write your function in two ways:
-
-1. Synchronous
-
- Example: a simple stream transform that outputs a stream of objects of the same id property and the length of the value string.
-
- ```javascript
-    datastream.map(
-        (item) => ({id: item.id, length: item.value.length})
-    )
- ```
-
-2. Asynchronous (using Promises)
-
- Example: A simple stream that fetches an url mentioned in the incoming object
-
- ```javascript
-    datastream.map(
-        (item) => new Promise((resolve, reject) => {
-            request(item.url, (err, res, data) => {
-                if (err)
-                    reject(err); // will emit an "error" event on the stream
-                else
-                    resolve(data);
-            });
-        })
-    )
- ```
-
-The actual logic of this transform function is as if you passed your function
-to the ```then``` method of a Promise resolved with the data from the input
-stream.
 
 ## License and contributions
 
