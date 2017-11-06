@@ -72,6 +72,6 @@
     "through2": "^2.0.3"
   },
   "dependencies": {
-    "scramjet-core": "^4.0.0"
+    "scramjet-core": "^4.0.1"
   }
 }
