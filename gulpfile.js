@@ -1,27 +1,30 @@
+/* eslint-disable node/no-unpublished-require */
 const gulp = require("gulp");
 const env = require('gulp-env');
 const path = require("path");
 const gutil = require("gulp-util");
 const rename = require("gulp-rename");
 const nodeunit_runner = require("gulp-nodeunit-runner");
-const jshint = require('gulp-jshint');
+const eslint = require('gulp-eslint');
 const exec = require('gulp-exec');
 const execp = require('child_process').exec;
-const cache = require('gulp-cached');
-const remember = require('gulp-remember');
+const fs = require('fs-then-native');
+const jsdoc = require('jsdoc-api');
+const jsdocParse = require('jsdoc-parse');
+const dmd = require('dmd');
+const {DataStream} = require("./");
+// const cache = require('gulp-cached');
+// const remember = require('gulp-remember');
 
-const {Transform} = require('stream');
 const corepath = path.dirname(require.resolve("scramjet-core"));
 
-gulp.task('lint', function() {
-  return gulp.src('./lib/*.js')
-    .pipe(cache('lint')) // only pass through changed files
-    .pipe(jshint())
-    .pipe(remember('lint')) // add back all files to the stream
-    .pipe(jshint.reporter('jshint-stylish'))
-    .pipe(jshint.reporter('fail'))
-    ;
+gulp.task('lint', () => {
+    return gulp.src(['**/*.js','!node_modules/**'])
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
 });
+
 
 gulp.task("test_legacy", function () {
 
@@ -54,11 +57,19 @@ gulp.task("test_samples", ['docs'], function() {
         ;
 });
 
-gulp.task("readme", function() {
-    const fs = require('fs-then-native');
-    const jsdoc2md = require('jsdoc-to-markdown');
+const jsdoc2md = async ({files, plugin}) => {
 
-    return jsdoc2md.render({
+    const data = await jsdoc.explain({files});
+    const parsed = await jsdocParse(data);
+    const output = await dmd.async(parsed, {plugin});
+
+    return output;
+};
+
+gulp.task("readme", async () => {
+    return fs.writeFile(
+        path.join(__dirname, 'README.md'),
+        await jsdoc2md({
             files: [
                 path.dirname(require.resolve("scramjet-core")) + "/data-stream.js",
                 path.dirname(require.resolve("scramjet-core")) + "/string-stream.js",
@@ -71,9 +82,7 @@ gulp.task("readme", function() {
             ],
             plugin: "jsdoc2md/plugin.js"
         })
-        .then(
-            (output) => fs.writeFile(path.join(__dirname, 'README.md'), output)
-        );
+    );
 });
 
 gulp.task("copy_docs", function() {
@@ -81,31 +90,14 @@ gulp.task("copy_docs", function() {
         .pipe(gulp.dest("docs/"));
 });
 
-gulp.task("docs", ["copy_docs", "readme"], function() {
-    const jsdoc2md = require('jsdoc-to-markdown');
-
-    return gulp.src(["lib/*.js"])
-        .pipe(new Transform({
-            objectMode: true,
-            transform(file, encoding, callback) {
-                jsdoc2md.render({
-                        files: [
-                            path.resolve(corepath, path.basename(file.path)),
-                            file.path
-                        ]
-                    })
-                    .then(
-                        (contents) => {
-                            const newFile = file.clone();
-                            newFile.contents = Buffer.from(contents);
-                            return newFile;
-                        }
-                    )
-                    .then(
-                        (file) => callback(null, file)
-                    );
-            }
-        }))
+gulp.task("docs", ["copy_docs", "readme"],
+    () => gulp.src(["lib/*.js"])
+        .pipe(new DataStream())
+        .map(async (file) => {
+            const output = await jsdoc2md({files: [file.path]});
+            file.contents = Buffer.from(output);
+            return file;
+        })
         .on("error", function(err) {
             gutil.log(gutil.colors.red("jsdoc2md failed"), err.message);
         })
@@ -114,8 +106,8 @@ gulp.task("docs", ["copy_docs", "readme"], function() {
         }))
         .pipe(
             gulp.dest("docs/")
-        );
-});
+        )
+);
 
 gulp.task("test", ["lint", "test_legacy", "test_samples"]);
 gulp.task("default", ["readme", "docs", "test_legacy", "test_samples", "lint"]);

@@ -1,0 +1,7 @@
+{
+    "rules": {
+        "node/exports-style": 0,
+        "node/shebang": 0,
+        "no-console": 0
+    }
+}
