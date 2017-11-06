@@ -94,7 +94,10 @@ gulp.task("docs", ["copy_docs", "readme"],
     () => gulp.src(["lib/*.js"])
         .pipe(new DataStream())
         .map(async (file) => {
-            const output = await jsdoc2md({files: [file.path]});
+            const output = await jsdoc2md({files: [
+                path.resolve(corepath, path.basename(file.path)),
+                file.path,
+            ]});
             file.contents = Buffer.from(output);
             return file;
         })
