@@ -10,7 +10,7 @@ const iter = (function* () {
 const test = DataStream.fromIterator(iter)
 //    .each((item) => console.log('pushing', item))
     .distribute(
-        StreamWorker.fork(3),
+        item => hash(JSON.stringify(item)),
         (stream) => stream.map((chunk) => {
             let {terms} = chunk;
             let pi = 0
@@ -24,7 +24,6 @@ const test = DataStream.fromIterator(iter)
             }
             return {pi};
         }),
-        item => hash(JSON.stringify(item))
     )
     .each((item) => console.log('got back', item))
     .JSONStringify()
