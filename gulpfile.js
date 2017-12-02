@@ -12,6 +12,7 @@ const fs = require('fs-then-native');
 const jsdoc = require('jsdoc-api');
 const jsdocParse = require('jsdoc-parse');
 const dmd = require('dmd');
+const thenify = require('thenify');
 const {DataStream} = require("./");
 // const cache = require('gulp-cached');
 // const remember = require('gulp-remember');
@@ -94,11 +95,16 @@ gulp.task("docs", ["copy_docs", "readme"],
     () => gulp.src(["lib/*.js"])
         .pipe(new DataStream())
         .map(async (file) => {
-            const output = await jsdoc2md({files: [
-                path.resolve(corepath, path.basename(file.path)),
-                file.path,
-            ]});
+            const files = [file.path];
+            const corefile = path.resolve(corepath, path.basename(file.path));
+
+            const isCoreExtension = await new Promise((res) => fs.access(corefile, fs.constants.R_OK, (err) => res(!err)));
+            if (isCoreExtension)
+                files.unshift(corefile);
+
+            const output = await jsdoc2md({files});
             file.contents = Buffer.from(output);
+
             return file;
         })
         .on("error", function(err) {

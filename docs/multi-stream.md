@@ -11,6 +11,7 @@
         * [.mux(cmp)](#module_ScramjetCore..MultiStream+mux) ⇒ <code>DataStream</code>
         * [.add(stream)](#module_ScramjetCore..MultiStream+add)
         * [.remove(stream)](#module_ScramjetCore..MultiStream+remove)
+        * [.route([policy], [count])](#module_ScramjetCore..MultiStream+route) ⇒ <code>MultiStream</code>
 
 <a name="module_ScramjetCore..MultiStream"></a>
 
@@ -27,6 +28,7 @@ An object consisting of multiple streams than can be refined or muxed.
     * [.mux(cmp)](#module_ScramjetCore..MultiStream+mux) ⇒ <code>DataStream</code>
     * [.add(stream)](#module_ScramjetCore..MultiStream+add)
     * [.remove(stream)](#module_ScramjetCore..MultiStream+remove)
+    * [.route([policy], [count])](#module_ScramjetCore..MultiStream+route) ⇒ <code>MultiStream</code>
 
 <a name="new_module_ScramjetCore..MultiStream_new"></a>
 
@@ -146,3 +148,20 @@ streams.
 ```js
 [../samples/multi-stream-remove.js](../samples/multi-stream-remove.js)
 ```
+<a name="module_ScramjetCore..MultiStream+route"></a>
+
+#### multiStream.route([policy], [count]) ⇒ <code>MultiStream</code>
+Re-routes streams to a new MultiStream of specified size
+
+**Kind**: instance method of [<code>MultiStream</code>](#module_ScramjetCore..MultiStream)  
+**Returns**: <code>MultiStream</code> - [description]  
+**Todo**
+
+- [ ] NYI: not yet implemented
+
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [policy] | <code>function</code> | <code>Affinity.RoundRobin</code> | [description] |
+| [count] | <code>number</code> | <code>os.cpus().length</code> | [description] |
+

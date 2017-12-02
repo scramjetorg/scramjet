@@ -1,3 +1,18 @@
+## Modules
+
+<dl>
+<dt><a href="#module_ScramjetCore">ScramjetCore</a></dt>
+<dd></dd>
+</dl>
+
+## Members
+
+<dl>
+<dt><a href="#scramjet">scramjet</a> : <code>Object</code></dt>
+<dd><p>Exports</p>
+</dd>
+</dl>
+
 <a name="module_ScramjetCore"></a>
 
 ## ScramjetCore
@@ -107,3 +122,9 @@ Definition of a plugin in Scramjet
 | MultiStream | <code>StreamMixin</code> | definition of constructor and properties for the MultiStream prototype. |
 | StringStream | <code>StreamMixin</code> | definition of constructor and properties for the StringStream prototype. |
 
+<a name="scramjet"></a>
+
+## scramjet : <code>Object</code>
+Exports
+
+**Kind**: global variable  
