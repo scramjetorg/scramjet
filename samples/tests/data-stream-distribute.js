@@ -7,10 +7,12 @@ const iter = (function* () {
     }
 })();
 
+process.on('unhandledRejection', console.error);
+
 const test = DataStream.fromIterator(iter)
 //    .each((item) => console.log('pushing', item))
     .distribute(
-        item => hash(JSON.stringify(item)),
+        item => hash(JSON.stringify(item)) % 16,
         (stream) => stream.map((chunk) => {
             let {terms} = chunk;
             let pi = 0
@@ -25,7 +27,8 @@ const test = DataStream.fromIterator(iter)
             return {pi};
         }),
     )
-    .each((item) => console.log('got back', item))
+    .on('error', console.error)
+    .on('end', console.log.bind(console, 'end'))
     .JSONStringify()
     .pipe(process.stdout)
 ;

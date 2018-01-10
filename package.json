@@ -48,7 +48,6 @@
     "eslint": "^4.12.1",
     "eslint-config-defaults": "^9.0.0",
     "eslint-plugin-node": "^5.2.1",
-    "freeport": "^1.0.5",
     "fs-promise": "^2.0.3",
     "fs-then-native": "^2.0.0",
     "gulp": "^3.9.1",
