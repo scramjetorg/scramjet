@@ -14,8 +14,6 @@ const jsdocParse = require('jsdoc-parse');
 const dmd = require('dmd');
 const thenify = require('thenify');
 const {DataStream} = require("./");
-// const cache = require('gulp-cached');
-// const remember = require('gulp-remember');
 
 const corepath = path.dirname(require.resolve("scramjet-core"));
 

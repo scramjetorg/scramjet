@@ -6,7 +6,9 @@
     * [~MultiStream](#module_ScramjetCore..MultiStream)
         * [new MultiStream(streams, options)](#new_module_ScramjetCore..MultiStream_new)
         * [.streams](#module_ScramjetCore..MultiStream+streams) : <code>Array</code>
+        * [.length](#module_ScramjetCore..MultiStream+length) ⇒ <code>number</code>
         * [.map(aFunc)](#module_ScramjetCore..MultiStream+map) ⇒ <code>MultiStream</code>
+        * [.find(...args)](#module_ScramjetCore..MultiStream+find) ⇒ <code>DataStream</code>
         * [.filter(func)](#module_ScramjetCore..MultiStream+filter) ⇒ <code>MultiStream</code>
         * [.mux(cmp)](#module_ScramjetCore..MultiStream+mux) ⇒ <code>DataStream</code>
         * [.add(stream)](#module_ScramjetCore..MultiStream+add)
@@ -23,7 +25,9 @@ An object consisting of multiple streams than can be refined or muxed.
 * [~MultiStream](#module_ScramjetCore..MultiStream)
     * [new MultiStream(streams, options)](#new_module_ScramjetCore..MultiStream_new)
     * [.streams](#module_ScramjetCore..MultiStream+streams) : <code>Array</code>
+    * [.length](#module_ScramjetCore..MultiStream+length) ⇒ <code>number</code>
     * [.map(aFunc)](#module_ScramjetCore..MultiStream+map) ⇒ <code>MultiStream</code>
+    * [.find(...args)](#module_ScramjetCore..MultiStream+find) ⇒ <code>DataStream</code>
     * [.filter(func)](#module_ScramjetCore..MultiStream+filter) ⇒ <code>MultiStream</code>
     * [.mux(cmp)](#module_ScramjetCore..MultiStream+mux) ⇒ <code>DataStream</code>
     * [.add(stream)](#module_ScramjetCore..MultiStream+add)
@@ -45,6 +49,12 @@ Crates an instance of MultiStream with the specified stream list
 
 #### multiStream.streams : <code>Array</code>
 Array of all streams
+
+**Kind**: instance property of [<code>MultiStream</code>](#module_ScramjetCore..MultiStream)  
+<a name="module_ScramjetCore..MultiStream+length"></a>
+
+#### multiStream.length ⇒ <code>number</code>
+Returns the current stream length
 
 **Kind**: instance property of [<code>MultiStream</code>](#module_ScramjetCore..MultiStream)  
 <a name="module_ScramjetCore..MultiStream+map"></a>
@@ -72,6 +82,18 @@ currently return the same instance!
 ```js
 [../samples/multi-stream-map.js](../samples/multi-stream-map.js)
 ```
+<a name="module_ScramjetCore..MultiStream+find"></a>
+
+#### multiStream.find(...args) ⇒ <code>DataStream</code>
+Calls Array.prototype.find on the streams
+
+**Kind**: instance method of [<code>MultiStream</code>](#module_ScramjetCore..MultiStream)  
+**Returns**: <code>DataStream</code> - found DataStream  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| ...args | <code>Arguments</code> | arguments for |
+
 <a name="module_ScramjetCore..MultiStream+filter"></a>
 
 #### multiStream.filter(func) ⇒ <code>MultiStream</code>

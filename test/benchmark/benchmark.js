@@ -1,5 +1,5 @@
 const scramjet = require('../..');
-const rp = require("request-promise");
+const rp = require("request-promise-native");
 
 let seq = 0;
 
