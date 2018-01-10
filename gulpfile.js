@@ -13,8 +13,6 @@ const jsdoc = require('jsdoc-api');
 const jsdocParse = require('jsdoc-parse');
 const dmd = require('dmd');
 const {DataStream} = require("./");
-// const cache = require('gulp-cached');
-// const remember = require('gulp-remember');
 
 const corepath = path.dirname(require.resolve("scramjet-core"));
 

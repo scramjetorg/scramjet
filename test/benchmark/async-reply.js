@@ -6,11 +6,9 @@ const md5 = (string) => {
 
 module.exports = (ref) => {
     return new Promise((solve) => {
-        require("freeport")((err, port) => {
-            require("http").createServer((req, res) => {
-                // console.log("X", ref, req.url);
-                res.end(md5(ref + ':' + req.url));
-            }).listen(port, IP, () => solve(IP + ':' + port));
+        const server = require("http").createServer((req, res) => {
+            res.end(md5(ref + ':' + req.url));
         });
+        server.listen(0, IP, () => solve(IP + ':' + server.address().port));
     });
 };

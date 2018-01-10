@@ -195,7 +195,9 @@ An object consisting of multiple streams than can be refined or muxed.
 |--------|-------------|---------
 | new MultiStream(streams, options) | Crates an instance of MultiStream with the specified stream list |  |
 | multiStream.streams : <code>Array</code> | Array of all streams |  |
+| multiStream.length ⇒ <code>number</code> | Returns the current stream length |  |
 | multiStream.map(aFunc) ⇒ <code>MultiStream</code> | Returns new MultiStream with the streams returned by the tranform. | [map example](../samples/multi-stream-map.js) |
+| multiStream.find(...args) ⇒ <code>DataStream</code> | Calls Array.prototype.find on the streams |  |
 | multiStream.filter(func) ⇒ <code>MultiStream</code> | Filters the stream list and returns a new MultiStream with only the | [filter example](../samples/multi-stream-filter.js) |
 | multiStream.mux(cmp) ⇒ <code>DataStream</code> | Muxes the streams into a single one | [mux example](../samples/multi-stream-mux.js) |
 | multiStream.add(stream) | Adds a stream to the MultiStream | [add example](../samples/multi-stream-add.js) |
