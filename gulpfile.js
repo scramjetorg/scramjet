@@ -1,4 +1,4 @@
-/* eslint-disable node/no-unpublished-require */
+/* eslint-disable */
 const gulp = require("gulp");
 const env = require('gulp-env');
 const path = require("path");

@@ -179,7 +179,8 @@ Re-routes streams to a new MultiStream of specified size
 **Returns**: <code>MultiStream</code> - [description]  
 **Todo**
 
-- [ ] NYI: not yet implemented
+- [ ] NYT: not yet tested
+- [ ] NYD: not yet documented
 
 
 | Param | Type | Default | Description |
