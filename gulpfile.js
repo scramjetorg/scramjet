@@ -26,7 +26,6 @@ gulp.task('lint', () => {
         .pipe(eslint.failAfterError());
 });
 
-
 gulp.task("test_legacy", function () {
 
     return gulp.src(path.resolve(corepath, "../test/v1/*.js"))
