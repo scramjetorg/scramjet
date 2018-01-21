@@ -1,6 +1,6 @@
 {
   "name": "scramjet",
-  "version": "4.1.1",
+  "version": "4.2.0",
   "description": "Lightweight and fast live or real-time data computation framework like event-stream, written in ES6 using async await",
   "main": "lib/index.js",
   "directories": {
