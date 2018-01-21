@@ -19,10 +19,12 @@
             * [.stringify(serializer)](#module_ScramjetCore..DataStream+stringify) ⇒ <code>StringStream</code>
             * [.toArray(initial)](#module_ScramjetCore..DataStream+toArray) ⇒ <code>Promise</code>
             * [.debug(func)](#module_ScramjetCore..DataStream+debug) ⇒ <code>DataStream</code>
-            * [.cluster(hashFunc, count, stringify, parse)](#module_ScramjetCore..DataStream+cluster) ⇒ <code>ClusteredDataStream</code>
-            * [.separate(func, createOptions)](#module_ScramjetCore..DataStream+separate) ⇒ <code>DataStream</code>
+            * [.distribute(affinity, clusterFunc, options)](#module_ScramjetCore..DataStream+distribute) ↩︎
+            * [.separateInto(streams, affinity)](#module_ScramjetCore..DataStream+separateInto) ↩︎
+            * [.separate(affinity, createOptions)](#module_ScramjetCore..DataStream+separate) ⇒ <code>DataStream</code>
             * [.slice(start, end, func)](#module_ScramjetCore..DataStream+slice) ⇒ <code>DataStream</code>
             * [.accumulate(func, into)](#module_ScramjetCore..DataStream+accumulate) ⇒ <code>Promise</code>
+            * [.consume(func)](#module_ScramjetCore..DataStream+consume) ⇒ <code>Promise</code>
             * [.reduceNow(func, into)](#module_ScramjetCore..DataStream+reduceNow) ⇒ <code>\*</code>
             * [.remap(func, Clazz)](#module_ScramjetCore..DataStream+remap) ⇒ <code>DataStream</code>
             * [.flatMap(func, Clazz)](#module_ScramjetCore..DataStream+flatMap) ⇒ <code>DataStream</code>
@@ -45,8 +47,8 @@
     * [~ReduceCallback](#module_ScramjetCore..ReduceCallback) ⇒ <code>Promise</code> \| <code>\*</code>
     * [~MapCallback](#module_ScramjetCore..MapCallback) ⇒ <code>Promise</code> \| <code>\*</code>
     * [~FilterCallback](#module_ScramjetCore..FilterCallback) ⇒ <code>Promise</code> \| <code>Boolean</code>
-    * [~GroupCallback](#module_ScramjetCore..GroupCallback) ⇒ <code>Promise</code> \| <code>Object</code>
     * [~AccumulateCallback](#module_ScramjetCore..AccumulateCallback) ⇒ <code>Promise</code> \| <code>\*</code>
+    * [~ConsumeCallback](#module_ScramjetCore..ConsumeCallback) ⇒ <code>Promise</code> \| <code>\*</code>
     * [~RemapCallback](#module_ScramjetCore..RemapCallback) ⇒ <code>Promise</code> \| <code>\*</code>
     * [~FlatMapCallback](#module_ScramjetCore..FlatMapCallback) ⇒ <code>Promise.&lt;Iterable&gt;</code> \| <code>Iterable</code>
     * [~ShiftCallback](#module_ScramjetCore..ShiftCallback) : <code>function</code>
@@ -73,10 +75,12 @@
         * [.stringify(serializer)](#module_ScramjetCore..DataStream+stringify) ⇒ <code>StringStream</code>
         * [.toArray(initial)](#module_ScramjetCore..DataStream+toArray) ⇒ <code>Promise</code>
         * [.debug(func)](#module_ScramjetCore..DataStream+debug) ⇒ <code>DataStream</code>
-        * [.cluster(hashFunc, count, stringify, parse)](#module_ScramjetCore..DataStream+cluster) ⇒ <code>ClusteredDataStream</code>
-        * [.separate(func, createOptions)](#module_ScramjetCore..DataStream+separate) ⇒ <code>DataStream</code>
+        * [.distribute(affinity, clusterFunc, options)](#module_ScramjetCore..DataStream+distribute) ↩︎
+        * [.separateInto(streams, affinity)](#module_ScramjetCore..DataStream+separateInto) ↩︎
+        * [.separate(affinity, createOptions)](#module_ScramjetCore..DataStream+separate) ⇒ <code>DataStream</code>
         * [.slice(start, end, func)](#module_ScramjetCore..DataStream+slice) ⇒ <code>DataStream</code>
         * [.accumulate(func, into)](#module_ScramjetCore..DataStream+accumulate) ⇒ <code>Promise</code>
+        * [.consume(func)](#module_ScramjetCore..DataStream+consume) ⇒ <code>Promise</code>
         * [.reduceNow(func, into)](#module_ScramjetCore..DataStream+reduceNow) ⇒ <code>\*</code>
         * [.remap(func, Clazz)](#module_ScramjetCore..DataStream+remap) ⇒ <code>DataStream</code>
         * [.flatMap(func, Clazz)](#module_ScramjetCore..DataStream+flatMap) ⇒ <code>DataStream</code>
@@ -314,28 +318,44 @@ Injects a ```debugger``` statement when called.
 ```js
 [../samples/data-stream-debug.js](../samples/data-stream-debug.js)
 ```
-<a name="module_ScramjetCore..DataStream+cluster"></a>
+<a name="module_ScramjetCore..DataStream+distribute"></a>
 
-#### dataStream.cluster(hashFunc, count, stringify, parse) ⇒ <code>ClusteredDataStream</code>
-[NYI] Distributes processing to multiple forked subprocesses.
+#### dataStream.distribute(affinity, clusterFunc, options) ↩︎
+Distributes processing into multiple subprocesses or threads if you like.
 
 **Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
-**Returns**: <code>ClusteredDataStream</code> - the clustered DataStream  
+**Chainable**  
 **Todo**
 
-- [ ] Not yet implemented!
+- [ ] Make sure we keep order
+- [ ] use fini to compare and mark item order
+- [ ] allow passing serialize/deserialize methods for child_process
+- [ ] does not push all values
+- [ ] does not forward errors correctly
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| hashFunc | <code>GroupCallback</code> | a hashing function that calculates a hash for chunks. |
-| count | <code>Number</code> | (Optional) number of threads to use (num of cpus by default) |
-| stringify | <code>function</code> | (Optional) serialization method (JSON.stringify by default) |
-| parse | <code>function</code> | (Optional) deserialization method (JSON.parse by default) |
+| affinity | <code>AffinityCallback</code> | the callback function that affixes the item to specific streams which must exist in the object for each chunk. |
+| clusterFunc | <code>MultiStream#ClusterCallback</code> | stream transforms similar to {@see DataStream#use method} |
+| options | <code>Object</code> | Options |
+
+<a name="module_ScramjetCore..DataStream+separateInto"></a>
+
+#### dataStream.separateInto(streams, affinity) ↩︎
+Seprates stream into a hash of streams. Does not create new streams!
+
+**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
+**Chainable**  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| streams | <code>Object.&lt;DataStream&gt;</code> | the object hash of streams. Keys must be the outputs of the affinity function |
+| affinity | <code>AffinityCallback</code> | the callback function that affixes the item to specific streams which must exist in the object for each chunk. |
 
 <a name="module_ScramjetCore..DataStream+separate"></a>
 
-#### dataStream.separate(func, createOptions) ⇒ <code>DataStream</code>
+#### dataStream.separate(affinity, createOptions) ⇒ <code>DataStream</code>
 Separates execution to multiple streams using the hashes returned by the passed callback.
 
 Calls the given callback for a hash, then makes sure all items with the same hash are processed within a single
@@ -346,7 +366,7 @@ stream. Thanks to that streams can be distributed to multiple threads.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>GroupCallback</code> | the callback function |
+| affinity | <code>AffinityCallback</code> | the callback function |
 | createOptions | <code>Object</code> | options to use to create the separated streams |
 
 **Example**  
@@ -404,6 +424,18 @@ Method is parallel
 ```js
 [../samples/data-stream-accumulate.js](../samples/data-stream-accumulate.js)
 ```
+<a name="module_ScramjetCore..DataStream+consume"></a>
+
+#### dataStream.consume(func) ⇒ <code>Promise</code>
+Consumes the array by running each method
+
+**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
+**Returns**: <code>Promise</code> - resolved on end, rejected on error  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| func | <code>function</code> | the consument |
+
 <a name="module_ScramjetCore..DataStream+reduceNow"></a>
 
 #### dataStream.reduceNow(func, into) ⇒ <code>\*</code>
@@ -691,16 +723,6 @@ Standard options for scramjet streams.
 | --- | --- | --- |
 | chunk | <code>\*</code> | the chunk to be filtered or not |
 
-<a name="module_ScramjetCore..GroupCallback"></a>
-
-### ScramjetCore~GroupCallback ⇒ <code>Promise</code> \| <code>Object</code>
-**Kind**: inner typedef of [<code>ScramjetCore</code>](#module_ScramjetCore)  
-**Returns**: <code>Promise</code> \| <code>Object</code> - the key to hash by (key is used in a Map)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| chunk | <code>Object</code> | a the object |
-
 <a name="module_ScramjetCore..AccumulateCallback"></a>
 
 ### ScramjetCore~AccumulateCallback ⇒ <code>Promise</code> \| <code>\*</code>
@@ -710,6 +732,16 @@ Standard options for scramjet streams.
 | Param | Type | Description |
 | --- | --- | --- |
 | acc | <code>\*</code> | Accumulator passed to accumulate function |
+| chunk | <code>\*</code> | the stream chunk |
+
+<a name="module_ScramjetCore..ConsumeCallback"></a>
+
+### ScramjetCore~ConsumeCallback ⇒ <code>Promise</code> \| <code>\*</code>
+**Kind**: inner typedef of [<code>ScramjetCore</code>](#module_ScramjetCore)  
+**Returns**: <code>Promise</code> \| <code>\*</code> - resolved when all operations are completed  
+
+| Param | Type | Description |
+| --- | --- | --- |
 | chunk | <code>\*</code> | the stream chunk |
 
 <a name="module_ScramjetCore..RemapCallback"></a>
