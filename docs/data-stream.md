@@ -19,6 +19,7 @@
             * [.stringify(serializer)](#module_ScramjetCore..DataStream+stringify) ⇒ <code>StringStream</code>
             * [.toArray(initial)](#module_ScramjetCore..DataStream+toArray) ⇒ <code>Promise</code>
             * [.debug(func)](#module_ScramjetCore..DataStream+debug) ⇒ <code>DataStream</code>
+            * [.distribute(affinity, clusterFunc, options)](#module_ScramjetCore..DataStream+distribute) ↩︎
             * [.separateInto(streams, affinity)](#module_ScramjetCore..DataStream+separateInto) ↩︎
             * [.separate(affinity, createOptions)](#module_ScramjetCore..DataStream+separate) ⇒ <code>DataStream</code>
             * [.slice(start, end, func)](#module_ScramjetCore..DataStream+slice) ⇒ <code>DataStream</code>
@@ -74,6 +75,7 @@
         * [.stringify(serializer)](#module_ScramjetCore..DataStream+stringify) ⇒ <code>StringStream</code>
         * [.toArray(initial)](#module_ScramjetCore..DataStream+toArray) ⇒ <code>Promise</code>
         * [.debug(func)](#module_ScramjetCore..DataStream+debug) ⇒ <code>DataStream</code>
+        * [.distribute(affinity, clusterFunc, options)](#module_ScramjetCore..DataStream+distribute) ↩︎
         * [.separateInto(streams, affinity)](#module_ScramjetCore..DataStream+separateInto) ↩︎
         * [.separate(affinity, createOptions)](#module_ScramjetCore..DataStream+separate) ⇒ <code>DataStream</code>
         * [.slice(start, end, func)](#module_ScramjetCore..DataStream+slice) ⇒ <code>DataStream</code>
@@ -316,6 +318,28 @@ Injects a ```debugger``` statement when called.
 ```js
 [../samples/data-stream-debug.js](../samples/data-stream-debug.js)
 ```
+<a name="module_ScramjetCore..DataStream+distribute"></a>
+
+#### dataStream.distribute(affinity, clusterFunc, options) ↩︎
+Distributes processing into multiple subprocesses or threads if you like.
+
+**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
+**Chainable**  
+**Todo**
+
+- [ ] Make sure we keep order
+- [ ] use fini to compare and mark item order
+- [ ] allow passing serialize/deserialize methods for child_process
+- [ ] does not push all values
+- [ ] does not forward errors correctly
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| affinity | <code>AffinityCallback</code> | the callback function that affixes the item to specific streams which must exist in the object for each chunk. |
+| clusterFunc | <code>MultiStream#ClusterCallback</code> | stream transforms similar to {@see DataStream#use method} |
+| options | <code>Object</code> | Options |
+
 <a name="module_ScramjetCore..DataStream+separateInto"></a>
 
 #### dataStream.separateInto(streams, affinity) ↩︎
