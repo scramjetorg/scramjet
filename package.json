@@ -70,6 +70,6 @@
     "csv-parse": "^2.0.0",
     "csv-stringify": "^2.0.0",
     "infinite-sequence-generator": "^1.0.0",
-    "scramjet-core": "^4.0.1"
+    "scramjet-core": "^4.1.2"
   }
 }
