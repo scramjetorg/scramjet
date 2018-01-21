@@ -1,7 +1,7 @@
 {
   "name": "scramjet",
-  "version": "4.2.0",
-  "description": "Lightweight and fast live or real-time data computation framework like event-stream, written in ES6 using async await",
+  "version": "4.2.1",
+  "description": "Lightweight and real-time data functional stream programming framework like event-stream, written in ES6 using async await with multi-threading support",
   "main": "lib/index.js",
   "directories": {
     "lib": "lib/",
@@ -11,22 +11,26 @@
   "keywords": [
     "stream",
     "es6",
+    "async",
+    "await",
+    "multithreading",
+    "multithreaded",
+    "threads",
     "transform",
     "transmux",
     "mux",
-    "live data",
+    "merge",
+    "livedata",
     "realtime",
     "filter",
     "map",
     "apache",
     "spark",
-    "async",
-    "await",
     "apex",
     "flink",
     "highland",
     "log",
-    "functional programming",
+    "functional",
     "parser"
   ],
   "scripts": {
@@ -69,7 +73,6 @@
   "dependencies": {
     "csv-parse": "^2.0.0",
     "csv-stringify": "^2.0.0",
-    "infinite-sequence-generator": "^1.0.0",
     "scramjet-core": "^4.1.2"
   }
 }
