@@ -25,7 +25,7 @@ exports.test = {
                 }
             );
     },
-    addRemove(test) {
+    async addRemove(test) {
         let odd = DataStream.fromArray([1,3,5,7,9]);
         let even = DataStream.fromArray([0,2,4,6,8]);
         let z = exports.stream();
@@ -46,6 +46,25 @@ exports.test = {
             );
 
         z.add(odd).add(even);
+    },
+    async end(test) {
+        test.expect(1);
+
+        const hold = new DataStream();
+        const added = new DataStream();
+        const finished = DataStream.fromArray([1,3,5,7,9]);
+
+        const mux = exports.stream([hold, finished]);
+        const stream = mux.mux();
+
+        process.nextTick(() => hold.end(11));
+        setTimeout(() => added.end(13), 100);
+
+        mux.add(added);
+        const items = await stream.toArray();
+
+        test.equals(items.length, 7, 'Should wait for items');
+        test.done();
     }
 };
 

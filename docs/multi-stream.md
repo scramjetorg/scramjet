@@ -13,6 +13,9 @@
         * [.mux(cmp)](#module_ScramjetCore..MultiStream+mux) ⇒ <code>DataStream</code>
         * [.add(stream)](#module_ScramjetCore..MultiStream+add)
         * [.remove(stream)](#module_ScramjetCore..MultiStream+remove)
+        * [.route([policy], [count])](#module_ScramjetCore..MultiStream+route) ⇒ <code>MultiStream</code>
+        * [.smap(transform)](#module_ScramjetCore..MultiStream+smap) ⇒ <code>MultiStream</code>
+        * [.cluster(clusterFunc, options)](#module_ScramjetCore..MultiStream+cluster) ⇒ <code>MultiStream</code>
 
 <a name="module_ScramjetCore..MultiStream"></a>
 
@@ -31,6 +34,9 @@ An object consisting of multiple streams than can be refined or muxed.
     * [.mux(cmp)](#module_ScramjetCore..MultiStream+mux) ⇒ <code>DataStream</code>
     * [.add(stream)](#module_ScramjetCore..MultiStream+add)
     * [.remove(stream)](#module_ScramjetCore..MultiStream+remove)
+    * [.route([policy], [count])](#module_ScramjetCore..MultiStream+route) ⇒ <code>MultiStream</code>
+    * [.smap(transform)](#module_ScramjetCore..MultiStream+smap) ⇒ <code>MultiStream</code>
+    * [.cluster(clusterFunc, options)](#module_ScramjetCore..MultiStream+cluster) ⇒ <code>MultiStream</code>
 
 <a name="new_module_ScramjetCore..MultiStream_new"></a>
 
@@ -168,3 +174,50 @@ streams.
 ```js
 [../samples/multi-stream-remove.js](../samples/multi-stream-remove.js)
 ```
+<a name="module_ScramjetCore..MultiStream+route"></a>
+
+#### multiStream.route([policy], [count]) ⇒ <code>MultiStream</code>
+Re-routes streams to a new MultiStream of specified size
+
+**Kind**: instance method of [<code>MultiStream</code>](#module_ScramjetCore..MultiStream)  
+**Returns**: <code>MultiStream</code> - [description]  
+**Todo**
+
+- [ ] NYT: not yet tested
+- [ ] NYD: not yet documented
+
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [policy] | <code>function</code> | <code>Affinity.RoundRobin</code> | [description] |
+| [count] | <code>number</code> | <code>os.cpus().length</code> | [description] |
+
+<a name="module_ScramjetCore..MultiStream+smap"></a>
+
+#### multiStream.smap(transform) ⇒ <code>MultiStream</code>
+Map stream synchronously
+
+**Kind**: instance method of [<code>MultiStream</code>](#module_ScramjetCore..MultiStream)  
+**Returns**: <code>MultiStream</code> - mapped multistream  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| transform | <code>function</code> | mapping function ran on every stream (SYNCHRONOUS!) |
+
+<a name="module_ScramjetCore..MultiStream+cluster"></a>
+
+#### multiStream.cluster(clusterFunc, options) ⇒ <code>MultiStream</code>
+[Beta] Distributes processing to multiple forked subprocesses.
+
+**Kind**: instance method of [<code>MultiStream</code>](#module_ScramjetCore..MultiStream)  
+**Returns**: <code>MultiStream</code> - the resulting stream  
+**Todo**
+
+- [ ] BETA
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| clusterFunc | <code>ClusterCallback</code> | a cluster callback with all operations working similarily to DataStream::use |
+| options | <code>DistributeOptions</code> |  |
+

@@ -10,9 +10,9 @@
 
 ## What does it do?
 
-Scramjet is a fast and simple functional stream programming framework written on top of node.js object streams. It
-exposes a standards inspired javascript API and written fully in native ES6. Thanks to it some built in optimizations
-scramjet is much faster and much much simpler than similar frameworks when using asynchronous operations.
+Scramjet is a fast, simple, multi-threaded functional stream programming framework written on top of node.js object
+streams. It exposes a standards inspired javascript API and written fully in native ES6. Thanks to it some built in
+optimizations scramjet is much faster and much much simpler than similar frameworks when using asynchronous operations.
 
 It is built upon the logic behind three well known javascript array operations - namingly map, filter and reduce. This
 means that if you've ever performed operations on an Array in JavaScript - you already know Scramjet like the back of
@@ -32,14 +32,10 @@ How about a CSV parser of all the parkings in the city of Wrocław from http://w
 const request = require("request");
 const StringStream = require("scramjet").StringStream;
 
-let columns = null;
 request.get("http://www.wroclaw.pl/open-data/opendata/its/parkingi/parkingi.csv")
     .pipe(new StringStream())
-    .split("\n")
-    .parse((line) => line.split(";"))
-    .pop(1, (data) => columns = data)
-    .map((data) => columns.reduce((acc, id, i) => (acc[id] = data[i], acc), {}))
-    .on("data", console.log.bind(console))
+    .CSVParse()
+    .each(console.log)
 ```
 
 ## Usage
@@ -88,6 +84,21 @@ datastream.map(
 The actual logic of this transform function is as if you passed your function to the ```then``` method of a Promise
 resolved with the data from the input stream.
 
+
+4. Streams with multi-Threading
+
+To distribute your code among the processor cores, just use the method ```distribute```:
+
+ ```javascript
+    datastream.distribute(
+        (item) => item.value % 4            // distribution method,
+        (stream) => {
+            // multi-threaded code goes here.
+            // it MUST return a valid stream back to the main thread.
+        }
+    )
+ ```
+
 ## API Docs
 
 Here's the list of the exposed classes and methods, please review the specific documentation for details:
@@ -104,12 +115,6 @@ Note that:
 * Most of the methods take a callback argument that operates on the stream items.
 * The callback, unless it's stated otherwise, will receive an argument with the next chunk.
 * If you want to perform your operations asynchronously, return a Promise, otherwise just return the right value.
-
-The quick reference of the exposed classes:
-
-{{#classes ~}}
-{{>stream-class}}
-{{/classes}}
 
 ## Browserifying
 

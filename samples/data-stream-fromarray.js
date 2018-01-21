@@ -12,7 +12,7 @@ exports.test = (test) => {
 
     const returned = exports.stream();
     dat.push(5);
-    
+
     returned
         .on("data", (num) => {
             test.equals(num, dat.shift(), "Items should be pushed in order " + num);
