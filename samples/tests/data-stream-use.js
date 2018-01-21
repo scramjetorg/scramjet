@@ -12,8 +12,7 @@ let z = 0;
 
 const test = DataStream.fromIterator(iter)
 //    .each((item) => console.log('pushing', item))
-    .distribute(
-        item => item.terms % 8,
+    .use(
         (stream) => stream.map((chunk) => {
             let {terms} = chunk;
             let pi = 0
