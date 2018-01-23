@@ -10,6 +10,7 @@
             * [.delegate(input, delegateFunc, [plugins])](#module_ScramjetCore..StreamWorker+delegate) ⇒ <code>DataStream</code>
         * _static_
             * [.fork([count])](#module_ScramjetCore..StreamWorker.fork) ⇒ <code>Array.&lt;StreamWorker&gt;</code>
+            * [._getWorker()](#module_ScramjetCore..StreamWorker._getWorker) ⇒ <code>StreamWorker</code>
 
 <a name="module_ScramjetCore..StreamWorker"></a>
 
@@ -31,6 +32,7 @@ This class provides control over the subprocesses, incl:
         * [.delegate(input, delegateFunc, [plugins])](#module_ScramjetCore..StreamWorker+delegate) ⇒ <code>DataStream</code>
     * _static_
         * [.fork([count])](#module_ScramjetCore..StreamWorker.fork) ⇒ <code>Array.&lt;StreamWorker&gt;</code>
+        * [._getWorker()](#module_ScramjetCore..StreamWorker._getWorker) ⇒ <code>StreamWorker</code>
 
 <a name="new_module_ScramjetCore..StreamWorker_new"></a>
 
@@ -73,3 +75,9 @@ Spawns (Preforks) a given number of subprocesses and returns the worker asynchro
 | --- | --- | --- | --- |
 | [count] | <code>Number</code> | <code>os.cpus().length</code> | Number of processes to spawn. If other subprocesses are active only the missing ones will be spawned. |
 
+<a name="module_ScramjetCore..StreamWorker._getWorker"></a>
+
+#### StreamWorker._getWorker() ⇒ <code>StreamWorker</code>
+Picks next worker (not necessarly free one!)
+
+**Kind**: static method of [<code>StreamWorker</code>](#module_ScramjetCore..StreamWorker)  
