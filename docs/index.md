@@ -1,18 +1,3 @@
-## Modules
-
-<dl>
-<dt><a href="#module_ScramjetCore">ScramjetCore</a></dt>
-<dd></dd>
-</dl>
-
-## Members
-
-<dl>
-<dt><a href="#scramjet">scramjet</a> : <code>Object</code></dt>
-<dd><p>Exports</p>
-</dd>
-</dl>
-
 <a name="module_ScramjetCore"></a>
 
 ## ScramjetCore
@@ -24,6 +9,7 @@
         * [.MultiStream](#module_ScramjetCore.MultiStream)
         * [.StringStream](#module_ScramjetCore.StringStream)
         * [.PromiseTransformStream](#module_ScramjetCore.PromiseTransformStream)
+        * [.module.exports](#module_ScramjetCore.module.exports) ⇒ <code>StreamWorker</code>
         * [.plugin(mixin)](#module_ScramjetCore.plugin) ↩︎
         * [.API(version)](#module_ScramjetCore.API)
     * _inner_
@@ -61,6 +47,13 @@ Provides a lazy-load accessor to StringStream
 Provides a lazy-load accessor to PromiseTransformStream
 
 **Kind**: static property of [<code>ScramjetCore</code>](#module_ScramjetCore)  
+<a name="module_ScramjetCore.module.exports"></a>
+
+### ScramjetCore.module.exports ⇒ <code>StreamWorker</code>
+A Stream Worker class
+
+**Kind**: static property of [<code>ScramjetCore</code>](#module_ScramjetCore)  
+**Returns**: <code>StreamWorker</code> - the resulting stream  
 <a name="module_ScramjetCore.plugin"></a>
 
 ### ScramjetCore.plugin(mixin) ↩︎
@@ -122,9 +115,3 @@ Definition of a plugin in Scramjet
 | MultiStream | <code>StreamMixin</code> | definition of constructor and properties for the MultiStream prototype. |
 | StringStream | <code>StreamMixin</code> | definition of constructor and properties for the StringStream prototype. |
 
-<a name="scramjet"></a>
-
-## scramjet : <code>Object</code>
-Exports
-
-**Kind**: global variable  
