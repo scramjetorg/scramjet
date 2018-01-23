@@ -26,7 +26,10 @@ gulp.task('lint', () => {
 
 gulp.task("test_legacy", function () {
 
-    return gulp.src(path.resolve(corepath, "../test/v1/*.js"))
+    return gulp.src([
+        path.resolve(corepath, "../test/v1/*.js"),
+        'test/v1/*.js'
+    ])
         .pipe(env({
             vars: {
                 SCRAMJET_TEST_HOME: __dirname
