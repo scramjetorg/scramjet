@@ -23,30 +23,35 @@
 Provides a lazy-load accessor to BufferStream
 
 **Kind**: static property of [<code>ScramjetCore</code>](#module_ScramjetCore)  
+**See**: module:ScramjetCore~BufferStream#  
 <a name="module_ScramjetCore.DataStream"></a>
 
 ### ScramjetCore.DataStream
 Provides a lazy-load accessor to DataStream
 
 **Kind**: static property of [<code>ScramjetCore</code>](#module_ScramjetCore)  
+**See**: module:ScramjetCore~DataStream#  
 <a name="module_ScramjetCore.MultiStream"></a>
 
 ### ScramjetCore.MultiStream
 Provides a lazy-load accessor to MultiStream
 
 **Kind**: static property of [<code>ScramjetCore</code>](#module_ScramjetCore)  
+**See**: module:ScramjetCore~MultiStream#  
 <a name="module_ScramjetCore.StringStream"></a>
 
 ### ScramjetCore.StringStream
 Provides a lazy-load accessor to StringStream
 
 **Kind**: static property of [<code>ScramjetCore</code>](#module_ScramjetCore)  
+**See**: module:ScramjetCore~StringStream#  
 <a name="module_ScramjetCore.PromiseTransformStream"></a>
 
 ### ScramjetCore.PromiseTransformStream
 Provides a lazy-load accessor to PromiseTransformStream
 
 **Kind**: static property of [<code>ScramjetCore</code>](#module_ScramjetCore)  
+**See**: module:ScramjetCore~PromiseTransformStream#  
 <a name="module_ScramjetCore.module.exports"></a>
 
 ### ScramjetCore.module.exports ⇒ <code>StreamWorker</code>

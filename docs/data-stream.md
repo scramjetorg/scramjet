@@ -27,6 +27,7 @@
             * [.toBufferStream(serializer)](#module_ScramjetCore..DataStream+toBufferStream) ⇒ <code>BufferStream</code>
             * [.stringify(serializer)](#module_ScramjetCore..DataStream+stringify) ⇒ <code>StringStream</code>
             * [.toArray(initial)](#module_ScramjetCore..DataStream+toArray) ⇒ <code>Promise</code>
+            * [.toGenerator()](#module_ScramjetCore..DataStream+toGenerator) ⇒ <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code>
             * [.debug(func)](#module_ScramjetCore..DataStream+debug) ⇒ <code>DataStream</code>
             * [.JSONStringify([endline])](#module_ScramjetCore..DataStream+JSONStringify) ⇒ <code>StringStream</code>
             * [.CSVStringify(options)](#module_ScramjetCore..DataStream+CSVStringify) ⇒ <code>StringStream</code>
@@ -87,6 +88,7 @@
         * [.toBufferStream(serializer)](#module_ScramjetCore..DataStream+toBufferStream) ⇒ <code>BufferStream</code>
         * [.stringify(serializer)](#module_ScramjetCore..DataStream+stringify) ⇒ <code>StringStream</code>
         * [.toArray(initial)](#module_ScramjetCore..DataStream+toArray) ⇒ <code>Promise</code>
+        * [.toGenerator()](#module_ScramjetCore..DataStream+toGenerator) ⇒ <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code>
         * [.debug(func)](#module_ScramjetCore..DataStream+debug) ⇒ <code>DataStream</code>
         * [.JSONStringify([endline])](#module_ScramjetCore..DataStream+JSONStringify) ⇒ <code>StringStream</code>
         * [.CSVStringify(options)](#module_ScramjetCore..DataStream+CSVStringify) ⇒ <code>StringStream</code>
@@ -319,6 +321,15 @@ In fact it's just a shorthand for reducing the stream into an Array.
 | --- | --- | --- |
 | initial | <code>Array</code> | Optional array to begin with. |
 
+<a name="module_ScramjetCore..DataStream+toGenerator"></a>
+
+#### dataStream.toGenerator() ⇒ <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code>
+Returns an async generator
+
+Ready for https://github.com/tc39/proposal-async-iteration
+
+**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
+**Returns**: <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code> - Returns an iterator that returns a promise for each item.  
 <a name="module_ScramjetCore..DataStream+debug"></a>
 
 #### dataStream.debug(func) ⇒ <code>DataStream</code>
@@ -869,6 +880,7 @@ Shift callback
             * [.toBufferStream(serializer)](#module_ScramjetCore..DataStream+toBufferStream) ⇒ <code>BufferStream</code>
             * [.stringify(serializer)](#module_ScramjetCore..DataStream+stringify) ⇒ <code>StringStream</code>
             * [.toArray(initial)](#module_ScramjetCore..DataStream+toArray) ⇒ <code>Promise</code>
+            * [.toGenerator()](#module_ScramjetCore..DataStream+toGenerator) ⇒ <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code>
             * [.debug(func)](#module_ScramjetCore..DataStream+debug) ⇒ <code>DataStream</code>
             * [.JSONStringify([endline])](#module_ScramjetCore..DataStream+JSONStringify) ⇒ <code>StringStream</code>
             * [.CSVStringify(options)](#module_ScramjetCore..DataStream+CSVStringify) ⇒ <code>StringStream</code>
@@ -929,6 +941,7 @@ Shift callback
         * [.toBufferStream(serializer)](#module_ScramjetCore..DataStream+toBufferStream) ⇒ <code>BufferStream</code>
         * [.stringify(serializer)](#module_ScramjetCore..DataStream+stringify) ⇒ <code>StringStream</code>
         * [.toArray(initial)](#module_ScramjetCore..DataStream+toArray) ⇒ <code>Promise</code>
+        * [.toGenerator()](#module_ScramjetCore..DataStream+toGenerator) ⇒ <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code>
         * [.debug(func)](#module_ScramjetCore..DataStream+debug) ⇒ <code>DataStream</code>
         * [.JSONStringify([endline])](#module_ScramjetCore..DataStream+JSONStringify) ⇒ <code>StringStream</code>
         * [.CSVStringify(options)](#module_ScramjetCore..DataStream+CSVStringify) ⇒ <code>StringStream</code>
@@ -1161,6 +1174,15 @@ In fact it's just a shorthand for reducing the stream into an Array.
 | --- | --- | --- |
 | initial | <code>Array</code> | Optional array to begin with. |
 
+<a name="module_ScramjetCore..DataStream+toGenerator"></a>
+
+#### dataStream.toGenerator() ⇒ <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code>
+Returns an async generator
+
+Ready for https://github.com/tc39/proposal-async-iteration
+
+**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
+**Returns**: <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code> - Returns an iterator that returns a promise for each item.  
 <a name="module_ScramjetCore..DataStream+debug"></a>
 
 #### dataStream.debug(func) ⇒ <code>DataStream</code>
