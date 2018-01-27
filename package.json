@@ -37,7 +37,7 @@
     "test": "./node_modules/gulp/bin/gulp.js test",
     "preversion": "./node_modules/gulp/bin/gulp.js prerelease"
   },
-  "homepage": "http://scramjet.io/",
+  "homepage": "http://scramjet.eu/",
   "repository": {
     "type": "git",
     "url": "https://github.com/signicode/scramjet.git"
