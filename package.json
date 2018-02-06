@@ -49,9 +49,9 @@
   "license": "MIT",
   "devDependencies": {
     "dmd": "^3.0.9",
-    "eslint": "^4.15.0",
+    "eslint": "^4.17.0",
     "eslint-config-defaults": "^9.0.0",
-    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-node": "^6.0.0",
     "fs-promise": "^2.0.0",
     "fs-then-native": "^2.0.0",
     "gulp": "^3.9.1",
@@ -71,8 +71,7 @@
     "through2": "^2.0.3"
   },
   "dependencies": {
-    "csv-parse": "^2.0.0",
-    "csv-stringify": "^2.0.0",
-    "scramjet-core": "^4.1.2"
+    "papaparse": "^4.3.7",
+    "scramjet-core": "^4.3.0"
   }
 }

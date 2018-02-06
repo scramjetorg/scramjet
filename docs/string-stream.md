@@ -188,15 +188,19 @@ Ignores empty lines
 <a name="module_ScramjetCore..StringStream+CSVParse"></a>
 
 #### stringStream.CSVParse(options) ⇒ <code>DataStream</code>
-Parses CSV to DataString using 'csv-parse' module.
+Parses CSV to DataString using 'papaparse' module.
 
 **Kind**: instance method of [<code>StringStream</code>](#module_ScramjetCore..StringStream)  
 **Returns**: <code>DataStream</code> - stream of parsed items  
 
 | Param | Description |
 | --- | --- |
-| options | options for the csv-parse module. |
+| options | options for the papaparse.parse method. |
 
+**Example**  
+```js
+[../samples/data-stream-separate.js](../samples/data-stream-separate.js)
+```
 <a name="module_ScramjetCore..StringStream+append"></a>
 
 #### stringStream.append(arg) ⇒ <code>StringStream</code>
