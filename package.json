@@ -34,8 +34,8 @@
     "parser"
   ],
   "scripts": {
-    "test": "./node_modules/gulp/bin/gulp.js test",
-    "preversion": "./node_modules/gulp/bin/gulp.js prerelease"
+    "test": "./node_modules/.bin/gulp test",
+    "preversion": "./node_modules/.bin/gulp prerelease"
   },
   "homepage": "http://scramjet.eu/",
   "repository": {
