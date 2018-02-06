@@ -53,7 +53,8 @@
             * [.fromIterator(iter)](#module_ScramjetCore..DataStream.fromIterator) ⇒ <code>DataStream</code>
     * [~tap()](#module_ScramjetCore..tap)
     * [~whenRead()](#module_ScramjetCore..whenRead) ⇒ <code>Promise.&lt;Object&gt;</code>
-    * [~whenWrote()](#module_ScramjetCore..whenWrote) ⇒ <code>Promise.&lt;Object&gt;</code>
+    * [~whenWrote()](#module_ScramjetCore..whenWrote) ⇒ <code>Promise</code>
+    * [~whenDrained()](#module_ScramjetCore..whenDrained) ⇒ <code>Promise</code>
     * [~setOptions(options)](#module_ScramjetCore..setOptions) ↩︎
     * [~toStringStream()](#module_ScramjetCore..toStringStream)
     * [~StreamOptions](#module_ScramjetCore..StreamOptions) : <code>Object</code>
@@ -361,15 +362,19 @@ Returns a StringStream containing JSON per item with optional end line
 <a name="module_ScramjetCore..DataStream+CSVStringify"></a>
 
 #### dataStream.CSVStringify(options) ⇒ <code>StringStream</code>
-Stringifies CSV to DataString using 'csv-parse' module.
+Stringifies CSV to DataString using 'papaparse' module.
 
 **Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
 **Returns**: <code>StringStream</code> - stream of parsed items  
 
 | Param | Description |
 | --- | --- |
-| options | options for the csv-parse module. |
+| options | options for the papaparse.unparse module. |
 
+**Example**  
+```js
+[../samples/data-stream-csv.js](../samples/data-stream-csv.js)
+```
 <a name="module_ScramjetCore..DataStream+distribute"></a>
 
 #### dataStream.distribute(affinity, clusterFunc, options) ↩︎
@@ -730,11 +735,16 @@ Reads a chunk from the stream and resolves the promise when read.
 **Returns**: <code>Promise.&lt;Object&gt;</code> - the read item  
 <a name="module_ScramjetCore..whenWrote"></a>
 
-### ScramjetCore~whenWrote() ⇒ <code>Promise.&lt;Object&gt;</code>
+### ScramjetCore~whenWrote() ⇒ <code>Promise</code>
 Writes a chunk to the stream and returns a Promise resolved when more chunks can be written.
 
 **Kind**: inner method of [<code>ScramjetCore</code>](#module_ScramjetCore)  
-**Returns**: <code>Promise.&lt;Object&gt;</code> - the read item  
+<a name="module_ScramjetCore..whenDrained"></a>
+
+### ScramjetCore~whenDrained() ⇒ <code>Promise</code>
+Returns a promise that resolves when the stream is drained/
+
+**Kind**: inner method of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 <a name="module_ScramjetCore..setOptions"></a>
 
 ### ScramjetCore~setOptions(options) ↩︎
@@ -906,7 +916,8 @@ Shift callback
             * [.fromIterator(iter)](#module_ScramjetCore..DataStream.fromIterator) ⇒ <code>DataStream</code>
     * [~tap()](#module_ScramjetCore..tap)
     * [~whenRead()](#module_ScramjetCore..whenRead) ⇒ <code>Promise.&lt;Object&gt;</code>
-    * [~whenWrote()](#module_ScramjetCore..whenWrote) ⇒ <code>Promise.&lt;Object&gt;</code>
+    * [~whenWrote()](#module_ScramjetCore..whenWrote) ⇒ <code>Promise</code>
+    * [~whenDrained()](#module_ScramjetCore..whenDrained) ⇒ <code>Promise</code>
     * [~setOptions(options)](#module_ScramjetCore..setOptions) ↩︎
     * [~toStringStream()](#module_ScramjetCore..toStringStream)
     * [~StreamOptions](#module_ScramjetCore..StreamOptions) : <code>Object</code>
@@ -1214,15 +1225,19 @@ Returns a StringStream containing JSON per item with optional end line
 <a name="module_ScramjetCore..DataStream+CSVStringify"></a>
 
 #### dataStream.CSVStringify(options) ⇒ <code>StringStream</code>
-Stringifies CSV to DataString using 'csv-parse' module.
+Stringifies CSV to DataString using 'papaparse' module.
 
 **Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
 **Returns**: <code>StringStream</code> - stream of parsed items  
 
 | Param | Description |
 | --- | --- |
-| options | options for the csv-parse module. |
+| options | options for the papaparse.unparse module. |
 
+**Example**  
+```js
+[../samples/data-stream-csv.js](../samples/data-stream-csv.js)
+```
 <a name="module_ScramjetCore..DataStream+distribute"></a>
 
 #### dataStream.distribute(affinity, clusterFunc, options) ↩︎
@@ -1583,11 +1598,16 @@ Reads a chunk from the stream and resolves the promise when read.
 **Returns**: <code>Promise.&lt;Object&gt;</code> - the read item  
 <a name="module_ScramjetCore..whenWrote"></a>
 
-### ScramjetCore~whenWrote() ⇒ <code>Promise.&lt;Object&gt;</code>
+### ScramjetCore~whenWrote() ⇒ <code>Promise</code>
 Writes a chunk to the stream and returns a Promise resolved when more chunks can be written.
 
 **Kind**: inner method of [<code>ScramjetCore</code>](#module_ScramjetCore)  
-**Returns**: <code>Promise.&lt;Object&gt;</code> - the read item  
+<a name="module_ScramjetCore..whenDrained"></a>
+
+### ScramjetCore~whenDrained() ⇒ <code>Promise</code>
+Returns a promise that resolves when the stream is drained/
+
+**Kind**: inner method of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 <a name="module_ScramjetCore..setOptions"></a>
 
 ### ScramjetCore~setOptions(options) ↩︎
