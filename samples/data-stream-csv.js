@@ -11,7 +11,7 @@ exports.test = async (test) => {
     try {
         const withEol = await fs.createReadStream(__dirname + '/data/test.csv')
             .pipe(new StringStream('utf-8'))
-            .CSVParse({header: true})
+            .CSVParse({header: true, newline: '\r\n'})
             .toArray();
 
         test.deepEqual(withEol, [
@@ -23,7 +23,7 @@ exports.test = async (test) => {
         ], "CSV should be read");
 
         const out = DataStream.fromArray(withEol)
-            .CSVStringify();
+            .CSVStringify({newline: '\r\n', header: true});
 
         const aggr = await out.toArray();
 
