@@ -8,11 +8,12 @@ const nodeunit_runner = require("gulp-nodeunit-runner");
 const eslint = require('gulp-eslint');
 const exec = require('gulp-exec');
 const execp = require('child_process').exec;
-const fs = require('fs-then-native');
 const jsdoc = require('jsdoc-api');
 const jsdocParse = require('jsdoc-parse');
 const dmd = require('dmd');
-const thenify = require('thenify');
+const {promisify} = require('util');
+const fs = require('fs');
+
 const {DataStream} = require("./");
 
 const corepath = path.dirname(require.resolve("scramjet-core"));
@@ -68,7 +69,7 @@ const jsdoc2md = async ({files, plugin}) => {
 };
 
 gulp.task("readme", async () => {
-    return fs.writeFile(
+    return promisify(fs.writeFile)(
         path.join(__dirname, 'README.md'),
         await jsdoc2md({
             files: [
@@ -98,7 +99,7 @@ gulp.task("docs", ["copy_docs", "readme"],
             const files = [file.path];
             const corefile = path.resolve(corepath, path.basename(file.path));
 
-            const isCoreExtension = await new Promise((res) => fs.access(corefile, fs.constants.R_OK, (err) => res(!err)));
+            const isCoreExtension = await (promisify(fs.access)(corefile, fs.constants.R_OK).then(() => true, () => false));
             if (isCoreExtension)
                 files.unshift(corefile);
 

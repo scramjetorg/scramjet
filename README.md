@@ -116,25 +116,18 @@ Note that:
 * The callback, unless it's stated otherwise, will receive an argument with the next chunk.
 * If you want to perform your operations asynchronously, return a Promise, otherwise just return the right value.
 
-## Browserifying
+## CLI
 
-Scramjet works in the browser too, there's a nice, self-contained sample in here, just run it:
+Check out the command line interface for simplified scramjet usage with [scramjet-cli](https://www.npmjs.com/package/scramjet-cli)
 
-```bash
-    git clone https://github.com/signicode/scramjet.git
-    cd scramjet
-    npm install .
-    cd samples/browser
-    npm start # point your browser to http://localhost:30035 and open console
-```
+    $ sjr -i http://datasource.org/file.csv ./transform-module-1 ./transform-module-1 | gzip > logs.gz
 
-If you need your scramjet version for the browser, grab browserify and just run:
+## Scramjet core
 
-```bash
-    browserify lib/index -standalone scramjet -o /path/to/your/browserified-scramjet.js
-```
+Don't like dependencies? Scramjet packs just a couple of those, but if you are really really annoyed by second depth of
+deps, please try [scramjet-core](https://www.npmjs.com/package/scramjet-core).
 
-With this you can run your transformations in the browser, use websockets to send them back and forth. If you do and fail for some reason, please remember to be issuing those issues - as no one person can test all the use cases and I am but one person.
+Only the most vital methods there, but the library is dependency free.
 
 ## License and contributions
 
