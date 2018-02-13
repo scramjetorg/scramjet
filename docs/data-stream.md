@@ -15,19 +15,21 @@
     * [~DataStream](#module_ScramjetCore..DataStream) ⇐ <code>stream.PassThrough</code>
         * [new DataStream(opts)](#new_module_ScramjetCore..DataStream_new)
         * _instance_
-            * [.use(func)](#module_ScramjetCore..DataStream+use) ⇒ <code>\*</code>
-            * [.tee(func)](#module_ScramjetCore..DataStream+tee) ⇒ <code>DataStream</code>
-            * [.reduce(func, into)](#module_ScramjetCore..DataStream+reduce) ⇒ <code>Promise</code>
-            * [.each(func)](#module_ScramjetCore..DataStream+each) ↩︎
             * [.map(func, Clazz)](#module_ScramjetCore..DataStream+map) ⇒ <code>DataStream</code>
             * [.filter(func)](#module_ScramjetCore..DataStream+filter) ⇒ <code>DataStream</code>
+            * [.reduce(func, into)](#module_ScramjetCore..DataStream+reduce) ⇒ <code>Promise</code>
+            * [.use(func)](#module_ScramjetCore..DataStream+use) ⇒ <code>\*</code>
+            * [.tee(func)](#module_ScramjetCore..DataStream+tee) ⇒ <code>DataStream</code>
+            * [.each(func)](#module_ScramjetCore..DataStream+each) ↩︎
             * [.while(func)](#module_ScramjetCore..DataStream+while) ⇒ <code>DataStream</code>
             * [.until(func)](#module_ScramjetCore..DataStream+until) ⇒ <code>DataStream</code>
+            * [.catch(callback)](#module_ScramjetCore..DataStream+catch) ↩︎
             * [.pipe(to, options)](#module_ScramjetCore..DataStream+pipe) ⇒ <code>Writable</code>
-            * [.toBufferStream(serializer)](#module_ScramjetCore..DataStream+toBufferStream) ⇒ <code>BufferStream</code>
+            * [.bufferify(serializer)](#module_ScramjetCore..DataStream+bufferify) ⇒ <code>BufferStream</code>
             * [.stringify(serializer)](#module_ScramjetCore..DataStream+stringify) ⇒ <code>StringStream</code>
             * [.toArray(initial)](#module_ScramjetCore..DataStream+toArray) ⇒ <code>Promise</code>
             * [.toGenerator()](#module_ScramjetCore..DataStream+toGenerator) ⇒ <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code>
+            * [._selfInstance()](#module_ScramjetCore..DataStream+_selfInstance) ⇒ <code>DataStream</code>
             * [.debug(func)](#module_ScramjetCore..DataStream+debug) ⇒ <code>DataStream</code>
             * [.JSONStringify([endline])](#module_ScramjetCore..DataStream+JSONStringify) ⇒ <code>StringStream</code>
             * [.CSVStringify(options)](#module_ScramjetCore..DataStream+CSVStringify) ⇒ <code>StringStream</code>
@@ -51,17 +53,17 @@
         * _static_
             * [.fromArray(arr)](#module_ScramjetCore..DataStream.fromArray) ⇒ <code>DataStream</code>
             * [.fromIterator(iter)](#module_ScramjetCore..DataStream.fromIterator) ⇒ <code>DataStream</code>
+    * [~toStringStream()](#module_ScramjetCore..toStringStream)
     * [~tap()](#module_ScramjetCore..tap)
     * [~whenRead()](#module_ScramjetCore..whenRead) ⇒ <code>Promise.&lt;Object&gt;</code>
     * [~whenWrote()](#module_ScramjetCore..whenWrote) ⇒ <code>Promise</code>
     * [~whenDrained()](#module_ScramjetCore..whenDrained) ⇒ <code>Promise</code>
     * [~setOptions(options)](#module_ScramjetCore..setOptions) ↩︎
-    * [~toStringStream()](#module_ScramjetCore..toStringStream)
     * [~StreamOptions](#module_ScramjetCore..StreamOptions) : <code>Object</code>
-    * [~TeeCallback](#module_ScramjetCore..TeeCallback) : <code>function</code>
-    * [~ReduceCallback](#module_ScramjetCore..ReduceCallback) ⇒ <code>Promise</code> \| <code>\*</code>
     * [~MapCallback](#module_ScramjetCore..MapCallback) ⇒ <code>Promise</code> \| <code>\*</code>
     * [~FilterCallback](#module_ScramjetCore..FilterCallback) ⇒ <code>Promise</code> \| <code>Boolean</code>
+    * [~ReduceCallback](#module_ScramjetCore..ReduceCallback) ⇒ <code>Promise</code> \| <code>\*</code>
+    * [~TeeCallback](#module_ScramjetCore..TeeCallback) : <code>function</code>
     * [~AccumulateCallback](#module_ScramjetCore..AccumulateCallback) ⇒ <code>Promise</code> \| <code>\*</code>
     * [~ConsumeCallback](#module_ScramjetCore..ConsumeCallback) ⇒ <code>Promise</code> \| <code>\*</code>
     * [~RemapCallback](#module_ScramjetCore..RemapCallback) ⇒ <code>Promise</code> \| <code>\*</code>
@@ -77,19 +79,21 @@
 * [~DataStream](#module_ScramjetCore..DataStream) ⇐ <code>stream.PassThrough</code>
     * [new DataStream(opts)](#new_module_ScramjetCore..DataStream_new)
     * _instance_
-        * [.use(func)](#module_ScramjetCore..DataStream+use) ⇒ <code>\*</code>
-        * [.tee(func)](#module_ScramjetCore..DataStream+tee) ⇒ <code>DataStream</code>
-        * [.reduce(func, into)](#module_ScramjetCore..DataStream+reduce) ⇒ <code>Promise</code>
-        * [.each(func)](#module_ScramjetCore..DataStream+each) ↩︎
         * [.map(func, Clazz)](#module_ScramjetCore..DataStream+map) ⇒ <code>DataStream</code>
         * [.filter(func)](#module_ScramjetCore..DataStream+filter) ⇒ <code>DataStream</code>
+        * [.reduce(func, into)](#module_ScramjetCore..DataStream+reduce) ⇒ <code>Promise</code>
+        * [.use(func)](#module_ScramjetCore..DataStream+use) ⇒ <code>\*</code>
+        * [.tee(func)](#module_ScramjetCore..DataStream+tee) ⇒ <code>DataStream</code>
+        * [.each(func)](#module_ScramjetCore..DataStream+each) ↩︎
         * [.while(func)](#module_ScramjetCore..DataStream+while) ⇒ <code>DataStream</code>
         * [.until(func)](#module_ScramjetCore..DataStream+until) ⇒ <code>DataStream</code>
+        * [.catch(callback)](#module_ScramjetCore..DataStream+catch) ↩︎
         * [.pipe(to, options)](#module_ScramjetCore..DataStream+pipe) ⇒ <code>Writable</code>
-        * [.toBufferStream(serializer)](#module_ScramjetCore..DataStream+toBufferStream) ⇒ <code>BufferStream</code>
+        * [.bufferify(serializer)](#module_ScramjetCore..DataStream+bufferify) ⇒ <code>BufferStream</code>
         * [.stringify(serializer)](#module_ScramjetCore..DataStream+stringify) ⇒ <code>StringStream</code>
         * [.toArray(initial)](#module_ScramjetCore..DataStream+toArray) ⇒ <code>Promise</code>
         * [.toGenerator()](#module_ScramjetCore..DataStream+toGenerator) ⇒ <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code>
+        * [._selfInstance()](#module_ScramjetCore..DataStream+_selfInstance) ⇒ <code>DataStream</code>
         * [.debug(func)](#module_ScramjetCore..DataStream+debug) ⇒ <code>DataStream</code>
         * [.JSONStringify([endline])](#module_ScramjetCore..DataStream+JSONStringify) ⇒ <code>StringStream</code>
         * [.CSVStringify(options)](#module_ScramjetCore..DataStream+CSVStringify) ⇒ <code>StringStream</code>
@@ -123,79 +127,6 @@ Create the DataStream.
 | Param | Type | Description |
 | --- | --- | --- |
 | opts | <code>StreamOptions</code> | Stream options passed to superclass |
-
-<a name="module_ScramjetCore..DataStream+use"></a>
-
-#### dataStream.use(func) ⇒ <code>\*</code>
-Calls the passed in place with the stream as first argument, returns result.
-
-**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
-**Returns**: <code>\*</code> - anything the passed function returns  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| func | <code>function</code> | if passed, the function will be called on self                         to add an option to inspect the stream in place,                         while not breaking the transform chain |
-
-**Example**  
-```js
-[../samples/data-stream-use.js](../samples/data-stream-use.js)
-```
-<a name="module_ScramjetCore..DataStream+tee"></a>
-
-#### dataStream.tee(func) ⇒ <code>DataStream</code>
-Duplicate the stream
-
-Creates a duplicate stream instance and pases it to the callback.
-
-**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
-**Returns**: <code>DataStream</code> - self  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| func | <code>TeeCallback</code> | The duplicate stream will be passed as first argument. |
-
-**Example**  
-```js
-[../samples/data-stream-tee.js](../samples/data-stream-tee.js)
-```
-<a name="module_ScramjetCore..DataStream+reduce"></a>
-
-#### dataStream.reduce(func, into) ⇒ <code>Promise</code>
-Reduces the stream into a given accumulator
-
-Works similarily to Array.prototype.reduce, so whatever you return in the
-former operation will be the first operand to the latter.
-
-This method is serial - meaning that any processing on an entry will
-occur only after the previous entry is fully processed. This does mean
-it's much slower than parallel functions.
-
-**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
-**Returns**: <code>Promise</code> - Promise resolved by the last object returned by the
-call of the transform function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| func | <code>TransformFunction</code> | The into object will be passed as the first argument, the data object from the stream as the second. |
-| into | <code>Object</code> | Any object passed initally to the transform function |
-
-**Example**  
-```js
-[../samples/data-stream-reduce.js](../samples/data-stream-reduce.js)
-```
-<a name="module_ScramjetCore..DataStream+each"></a>
-
-#### dataStream.each(func) ↩︎
-Performs an operation on every chunk, without changing the stream
-
-This is a shorthand for ```stream.on("data", func)```
-
-**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
-**Chainable**  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| func | <code>MapCallback</code> | a callback called for each chunk. |
 
 <a name="module_ScramjetCore..DataStream+map"></a>
 
@@ -232,6 +163,80 @@ Array.prototype.filter.
 ```js
 [../samples/data-stream-filter.js](../samples/data-stream-filter.js)
 ```
+<a name="module_ScramjetCore..DataStream+reduce"></a>
+
+#### dataStream.reduce(func, into) ⇒ <code>Promise</code>
+Reduces the stream into a given accumulator
+
+Works similarily to Array.prototype.reduce, so whatever you return in the
+former operation will be the first operand to the latter.
+
+This method is serial - meaning that any processing on an entry will
+occur only after the previous entry is fully processed. This does mean
+it's much slower than parallel functions.
+
+**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
+**Returns**: <code>Promise</code> - Promise resolved by the last object returned by the
+call of the transform function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| func | <code>TransformFunction</code> | The into object will be passed as the first argument, the data object from the stream as the second. |
+| into | <code>Object</code> | Any object passed initally to the transform function |
+
+**Example**  
+```js
+[../samples/data-stream-reduce.js](../samples/data-stream-reduce.js)
+```
+<a name="module_ScramjetCore..DataStream+use"></a>
+
+#### dataStream.use(func) ⇒ <code>\*</code>
+Calls the passed in place with the stream as first argument, returns result.
+
+**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
+**Returns**: <code>\*</code> - anything the passed function returns  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| func | <code>function</code> | if passed, the function will be called on self                         to add an option to inspect the stream in place,                         while not breaking the transform chain |
+
+**Example**  
+```js
+[../samples/data-stream-use.js](../samples/data-stream-use.js)
+```
+<a name="module_ScramjetCore..DataStream+tee"></a>
+
+#### dataStream.tee(func) ⇒ <code>DataStream</code>
+Duplicate the stream
+
+Creates a duplicate stream instance and pases it to the callback.
+
+**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
+**Returns**: <code>DataStream</code> - self  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| func | <code>TeeCallback</code> | The duplicate stream will be passed as first argument. |
+
+**Example**  
+```js
+[../samples/data-stream-tee.js](../samples/data-stream-tee.js)
+```
+<a name="module_ScramjetCore..DataStream+each"></a>
+
+#### dataStream.each(func) ↩︎
+Performs an operation on every chunk, without changing the stream
+
+This is a shorthand for ```stream.on("data", func)``` but with flow control.
+Warning: this resumes the stream!
+
+**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
+**Chainable**  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| func | <code>MapCallback</code> | a callback called for each chunk. |
+
 <a name="module_ScramjetCore..DataStream+while"></a>
 
 #### dataStream.while(func) ⇒ <code>DataStream</code>
@@ -260,6 +265,18 @@ Works oposite of while.
 | --- | --- | --- |
 | func | <code>FilterCallback</code> | The condition check |
 
+<a name="module_ScramjetCore..DataStream+catch"></a>
+
+#### dataStream.catch(callback) ↩︎
+Provides an way to catch errors in chanined streams.
+
+**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
+**Chainable**  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| callback | <code>function</code> | Error callback |
+
 <a name="module_ScramjetCore..DataStream+pipe"></a>
 
 #### dataStream.pipe(to, options) ⇒ <code>Writable</code>
@@ -275,9 +292,9 @@ Except for calling overriden method it proxies errors to piped stream.
 | to | <code>Writable</code> | Writable stream to write to |
 | options | <code>WritableOptions</code> |  |
 
-<a name="module_ScramjetCore..DataStream+toBufferStream"></a>
+<a name="module_ScramjetCore..DataStream+bufferify"></a>
 
-#### dataStream.toBufferStream(serializer) ⇒ <code>BufferStream</code>
+#### dataStream.bufferify(serializer) ⇒ <code>BufferStream</code>
 Creates a BufferStream
 
 **Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
@@ -315,8 +332,7 @@ Aggregates the stream into a single Array
 In fact it's just a shorthand for reducing the stream into an Array.
 
 **Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
-**Returns**: <code>Promise</code> - Promise resolved with the resulting array on stream
-                   end.  
+**Returns**: <code>Promise</code> - Promise resolved with the resulting array on stream end.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -331,6 +347,22 @@ Ready for https://github.com/tc39/proposal-async-iteration
 
 **Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
 **Returns**: <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code> - Returns an iterator that returns a promise for each item.  
+<a name="module_ScramjetCore..DataStream+_selfInstance"></a>
+
+#### dataStream._selfInstance() ⇒ <code>DataStream</code>
+Returns a new instance of self.
+
+Normally this doesn't have to be overridden.
+When the constructor would use some special arguments this may be used to
+override the object construction in [tee](tee)...
+
+**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
+**Returns**: <code>DataStream</code> - an empty instance of the same class.  
+**Internal**:   
+**Example**  
+```js
+[../samples/data-stream-selfinstance.js](../samples/data-stream-selfinstance.js)
+```
 <a name="module_ScramjetCore..DataStream+debug"></a>
 
 #### dataStream.debug(func) ⇒ <code>DataStream</code>
@@ -716,6 +748,12 @@ Doesn't end the stream until it reaches end of the iterator.
 ```js
 [../samples/data-stream-fromiterator.js](../samples/data-stream-fromiterator.js)
 ```
+<a name="module_ScramjetCore..toStringStream"></a>
+
+### ScramjetCore~toStringStream()
+Alias for [DataStream#stringify](DataStream#stringify)
+
+**Kind**: inner method of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 <a name="module_ScramjetCore..tap"></a>
 
 ### ScramjetCore~tap()
@@ -750,19 +788,20 @@ Returns a promise that resolves when the stream is drained/
 ### ScramjetCore~setOptions(options) ↩︎
 Allows resetting stream options.
 
+It's much easier to use this in chain than constructing new stream:
+
+```javascript
+    stream.map(myMapper).filter(myFilter).setOptions({maxParallel: 2})
+```
+
 **Kind**: inner method of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 **Chainable**  
+**Meta.conds**: keep-order,chain  
 
 | Param | Type |
 | --- | --- |
 | options | <code>StreamOptions</code> | 
 
-<a name="module_ScramjetCore..toStringStream"></a>
-
-### ScramjetCore~toStringStream()
-Alias for [DataStream#stringify](DataStream#stringify)
-
-**Kind**: inner method of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 <a name="module_ScramjetCore..StreamOptions"></a>
 
 ### ScramjetCore~StreamOptions : <code>Object</code>
@@ -775,26 +814,6 @@ Standard options for scramjet streams.
 | --- | --- | --- |
 | maxParallel | <code>Number</code> | the number of transforms done in parallel |
 | referrer | <code>DataStream</code> | a referring stream to point to (if possible the transforms will be pushed to it                                 instead of creating a new stream) |
-
-<a name="module_ScramjetCore..TeeCallback"></a>
-
-### ScramjetCore~TeeCallback : <code>function</code>
-**Kind**: inner typedef of [<code>ScramjetCore</code>](#module_ScramjetCore)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| teed | <code>DataStream</code> | The teed stream |
-
-<a name="module_ScramjetCore..ReduceCallback"></a>
-
-### ScramjetCore~ReduceCallback ⇒ <code>Promise</code> \| <code>\*</code>
-**Kind**: inner typedef of [<code>ScramjetCore</code>](#module_ScramjetCore)  
-**Returns**: <code>Promise</code> \| <code>\*</code> - accumulator for the next pass  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| acc | <code>\*</code> | the accumulator - the object initially passed or retuned                by the previous reduce operation |
-| chunk | <code>Object</code> | the stream chunk. |
 
 <a name="module_ScramjetCore..MapCallback"></a>
 
@@ -816,6 +835,26 @@ Standard options for scramjet streams.
 | Param | Type | Description |
 | --- | --- | --- |
 | chunk | <code>\*</code> | the chunk to be filtered or not |
+
+<a name="module_ScramjetCore..ReduceCallback"></a>
+
+### ScramjetCore~ReduceCallback ⇒ <code>Promise</code> \| <code>\*</code>
+**Kind**: inner typedef of [<code>ScramjetCore</code>](#module_ScramjetCore)  
+**Returns**: <code>Promise</code> \| <code>\*</code> - accumulator for the next pass  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| acc | <code>\*</code> | the accumulator - the object initially passed or retuned                by the previous reduce operation |
+| chunk | <code>Object</code> | the stream chunk. |
+
+<a name="module_ScramjetCore..TeeCallback"></a>
+
+### ScramjetCore~TeeCallback : <code>function</code>
+**Kind**: inner typedef of [<code>ScramjetCore</code>](#module_ScramjetCore)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| teed | <code>DataStream</code> | The teed stream |
 
 <a name="module_ScramjetCore..AccumulateCallback"></a>
 
@@ -878,19 +917,21 @@ Shift callback
     * [~DataStream](#module_ScramjetCore..DataStream) ⇐ <code>stream.PassThrough</code>
         * [new DataStream(opts)](#new_module_ScramjetCore..DataStream_new)
         * _instance_
-            * [.use(func)](#module_ScramjetCore..DataStream+use) ⇒ <code>\*</code>
-            * [.tee(func)](#module_ScramjetCore..DataStream+tee) ⇒ <code>DataStream</code>
-            * [.reduce(func, into)](#module_ScramjetCore..DataStream+reduce) ⇒ <code>Promise</code>
-            * [.each(func)](#module_ScramjetCore..DataStream+each) ↩︎
             * [.map(func, Clazz)](#module_ScramjetCore..DataStream+map) ⇒ <code>DataStream</code>
             * [.filter(func)](#module_ScramjetCore..DataStream+filter) ⇒ <code>DataStream</code>
+            * [.reduce(func, into)](#module_ScramjetCore..DataStream+reduce) ⇒ <code>Promise</code>
+            * [.use(func)](#module_ScramjetCore..DataStream+use) ⇒ <code>\*</code>
+            * [.tee(func)](#module_ScramjetCore..DataStream+tee) ⇒ <code>DataStream</code>
+            * [.each(func)](#module_ScramjetCore..DataStream+each) ↩︎
             * [.while(func)](#module_ScramjetCore..DataStream+while) ⇒ <code>DataStream</code>
             * [.until(func)](#module_ScramjetCore..DataStream+until) ⇒ <code>DataStream</code>
+            * [.catch(callback)](#module_ScramjetCore..DataStream+catch) ↩︎
             * [.pipe(to, options)](#module_ScramjetCore..DataStream+pipe) ⇒ <code>Writable</code>
-            * [.toBufferStream(serializer)](#module_ScramjetCore..DataStream+toBufferStream) ⇒ <code>BufferStream</code>
+            * [.bufferify(serializer)](#module_ScramjetCore..DataStream+bufferify) ⇒ <code>BufferStream</code>
             * [.stringify(serializer)](#module_ScramjetCore..DataStream+stringify) ⇒ <code>StringStream</code>
             * [.toArray(initial)](#module_ScramjetCore..DataStream+toArray) ⇒ <code>Promise</code>
             * [.toGenerator()](#module_ScramjetCore..DataStream+toGenerator) ⇒ <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code>
+            * [._selfInstance()](#module_ScramjetCore..DataStream+_selfInstance) ⇒ <code>DataStream</code>
             * [.debug(func)](#module_ScramjetCore..DataStream+debug) ⇒ <code>DataStream</code>
             * [.JSONStringify([endline])](#module_ScramjetCore..DataStream+JSONStringify) ⇒ <code>StringStream</code>
             * [.CSVStringify(options)](#module_ScramjetCore..DataStream+CSVStringify) ⇒ <code>StringStream</code>
@@ -914,17 +955,17 @@ Shift callback
         * _static_
             * [.fromArray(arr)](#module_ScramjetCore..DataStream.fromArray) ⇒ <code>DataStream</code>
             * [.fromIterator(iter)](#module_ScramjetCore..DataStream.fromIterator) ⇒ <code>DataStream</code>
+    * [~toStringStream()](#module_ScramjetCore..toStringStream)
     * [~tap()](#module_ScramjetCore..tap)
     * [~whenRead()](#module_ScramjetCore..whenRead) ⇒ <code>Promise.&lt;Object&gt;</code>
     * [~whenWrote()](#module_ScramjetCore..whenWrote) ⇒ <code>Promise</code>
     * [~whenDrained()](#module_ScramjetCore..whenDrained) ⇒ <code>Promise</code>
     * [~setOptions(options)](#module_ScramjetCore..setOptions) ↩︎
-    * [~toStringStream()](#module_ScramjetCore..toStringStream)
     * [~StreamOptions](#module_ScramjetCore..StreamOptions) : <code>Object</code>
-    * [~TeeCallback](#module_ScramjetCore..TeeCallback) : <code>function</code>
-    * [~ReduceCallback](#module_ScramjetCore..ReduceCallback) ⇒ <code>Promise</code> \| <code>\*</code>
     * [~MapCallback](#module_ScramjetCore..MapCallback) ⇒ <code>Promise</code> \| <code>\*</code>
     * [~FilterCallback](#module_ScramjetCore..FilterCallback) ⇒ <code>Promise</code> \| <code>Boolean</code>
+    * [~ReduceCallback](#module_ScramjetCore..ReduceCallback) ⇒ <code>Promise</code> \| <code>\*</code>
+    * [~TeeCallback](#module_ScramjetCore..TeeCallback) : <code>function</code>
     * [~AccumulateCallback](#module_ScramjetCore..AccumulateCallback) ⇒ <code>Promise</code> \| <code>\*</code>
     * [~ConsumeCallback](#module_ScramjetCore..ConsumeCallback) ⇒ <code>Promise</code> \| <code>\*</code>
     * [~RemapCallback](#module_ScramjetCore..RemapCallback) ⇒ <code>Promise</code> \| <code>\*</code>
@@ -940,19 +981,21 @@ Shift callback
 * [~DataStream](#module_ScramjetCore..DataStream) ⇐ <code>stream.PassThrough</code>
     * [new DataStream(opts)](#new_module_ScramjetCore..DataStream_new)
     * _instance_
-        * [.use(func)](#module_ScramjetCore..DataStream+use) ⇒ <code>\*</code>
-        * [.tee(func)](#module_ScramjetCore..DataStream+tee) ⇒ <code>DataStream</code>
-        * [.reduce(func, into)](#module_ScramjetCore..DataStream+reduce) ⇒ <code>Promise</code>
-        * [.each(func)](#module_ScramjetCore..DataStream+each) ↩︎
         * [.map(func, Clazz)](#module_ScramjetCore..DataStream+map) ⇒ <code>DataStream</code>
         * [.filter(func)](#module_ScramjetCore..DataStream+filter) ⇒ <code>DataStream</code>
+        * [.reduce(func, into)](#module_ScramjetCore..DataStream+reduce) ⇒ <code>Promise</code>
+        * [.use(func)](#module_ScramjetCore..DataStream+use) ⇒ <code>\*</code>
+        * [.tee(func)](#module_ScramjetCore..DataStream+tee) ⇒ <code>DataStream</code>
+        * [.each(func)](#module_ScramjetCore..DataStream+each) ↩︎
         * [.while(func)](#module_ScramjetCore..DataStream+while) ⇒ <code>DataStream</code>
         * [.until(func)](#module_ScramjetCore..DataStream+until) ⇒ <code>DataStream</code>
+        * [.catch(callback)](#module_ScramjetCore..DataStream+catch) ↩︎
         * [.pipe(to, options)](#module_ScramjetCore..DataStream+pipe) ⇒ <code>Writable</code>
-        * [.toBufferStream(serializer)](#module_ScramjetCore..DataStream+toBufferStream) ⇒ <code>BufferStream</code>
+        * [.bufferify(serializer)](#module_ScramjetCore..DataStream+bufferify) ⇒ <code>BufferStream</code>
         * [.stringify(serializer)](#module_ScramjetCore..DataStream+stringify) ⇒ <code>StringStream</code>
         * [.toArray(initial)](#module_ScramjetCore..DataStream+toArray) ⇒ <code>Promise</code>
         * [.toGenerator()](#module_ScramjetCore..DataStream+toGenerator) ⇒ <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code>
+        * [._selfInstance()](#module_ScramjetCore..DataStream+_selfInstance) ⇒ <code>DataStream</code>
         * [.debug(func)](#module_ScramjetCore..DataStream+debug) ⇒ <code>DataStream</code>
         * [.JSONStringify([endline])](#module_ScramjetCore..DataStream+JSONStringify) ⇒ <code>StringStream</code>
         * [.CSVStringify(options)](#module_ScramjetCore..DataStream+CSVStringify) ⇒ <code>StringStream</code>
@@ -986,79 +1029,6 @@ Create the DataStream.
 | Param | Type | Description |
 | --- | --- | --- |
 | opts | <code>StreamOptions</code> | Stream options passed to superclass |
-
-<a name="module_ScramjetCore..DataStream+use"></a>
-
-#### dataStream.use(func) ⇒ <code>\*</code>
-Calls the passed in place with the stream as first argument, returns result.
-
-**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
-**Returns**: <code>\*</code> - anything the passed function returns  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| func | <code>function</code> | if passed, the function will be called on self                         to add an option to inspect the stream in place,                         while not breaking the transform chain |
-
-**Example**  
-```js
-[../samples/data-stream-use.js](../samples/data-stream-use.js)
-```
-<a name="module_ScramjetCore..DataStream+tee"></a>
-
-#### dataStream.tee(func) ⇒ <code>DataStream</code>
-Duplicate the stream
-
-Creates a duplicate stream instance and pases it to the callback.
-
-**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
-**Returns**: <code>DataStream</code> - self  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| func | <code>TeeCallback</code> | The duplicate stream will be passed as first argument. |
-
-**Example**  
-```js
-[../samples/data-stream-tee.js](../samples/data-stream-tee.js)
-```
-<a name="module_ScramjetCore..DataStream+reduce"></a>
-
-#### dataStream.reduce(func, into) ⇒ <code>Promise</code>
-Reduces the stream into a given accumulator
-
-Works similarily to Array.prototype.reduce, so whatever you return in the
-former operation will be the first operand to the latter.
-
-This method is serial - meaning that any processing on an entry will
-occur only after the previous entry is fully processed. This does mean
-it's much slower than parallel functions.
-
-**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
-**Returns**: <code>Promise</code> - Promise resolved by the last object returned by the
-call of the transform function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| func | <code>TransformFunction</code> | The into object will be passed as the first argument, the data object from the stream as the second. |
-| into | <code>Object</code> | Any object passed initally to the transform function |
-
-**Example**  
-```js
-[../samples/data-stream-reduce.js](../samples/data-stream-reduce.js)
-```
-<a name="module_ScramjetCore..DataStream+each"></a>
-
-#### dataStream.each(func) ↩︎
-Performs an operation on every chunk, without changing the stream
-
-This is a shorthand for ```stream.on("data", func)```
-
-**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
-**Chainable**  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| func | <code>MapCallback</code> | a callback called for each chunk. |
 
 <a name="module_ScramjetCore..DataStream+map"></a>
 
@@ -1095,6 +1065,80 @@ Array.prototype.filter.
 ```js
 [../samples/data-stream-filter.js](../samples/data-stream-filter.js)
 ```
+<a name="module_ScramjetCore..DataStream+reduce"></a>
+
+#### dataStream.reduce(func, into) ⇒ <code>Promise</code>
+Reduces the stream into a given accumulator
+
+Works similarily to Array.prototype.reduce, so whatever you return in the
+former operation will be the first operand to the latter.
+
+This method is serial - meaning that any processing on an entry will
+occur only after the previous entry is fully processed. This does mean
+it's much slower than parallel functions.
+
+**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
+**Returns**: <code>Promise</code> - Promise resolved by the last object returned by the
+call of the transform function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| func | <code>TransformFunction</code> | The into object will be passed as the first argument, the data object from the stream as the second. |
+| into | <code>Object</code> | Any object passed initally to the transform function |
+
+**Example**  
+```js
+[../samples/data-stream-reduce.js](../samples/data-stream-reduce.js)
+```
+<a name="module_ScramjetCore..DataStream+use"></a>
+
+#### dataStream.use(func) ⇒ <code>\*</code>
+Calls the passed in place with the stream as first argument, returns result.
+
+**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
+**Returns**: <code>\*</code> - anything the passed function returns  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| func | <code>function</code> | if passed, the function will be called on self                         to add an option to inspect the stream in place,                         while not breaking the transform chain |
+
+**Example**  
+```js
+[../samples/data-stream-use.js](../samples/data-stream-use.js)
+```
+<a name="module_ScramjetCore..DataStream+tee"></a>
+
+#### dataStream.tee(func) ⇒ <code>DataStream</code>
+Duplicate the stream
+
+Creates a duplicate stream instance and pases it to the callback.
+
+**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
+**Returns**: <code>DataStream</code> - self  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| func | <code>TeeCallback</code> | The duplicate stream will be passed as first argument. |
+
+**Example**  
+```js
+[../samples/data-stream-tee.js](../samples/data-stream-tee.js)
+```
+<a name="module_ScramjetCore..DataStream+each"></a>
+
+#### dataStream.each(func) ↩︎
+Performs an operation on every chunk, without changing the stream
+
+This is a shorthand for ```stream.on("data", func)``` but with flow control.
+Warning: this resumes the stream!
+
+**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
+**Chainable**  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| func | <code>MapCallback</code> | a callback called for each chunk. |
+
 <a name="module_ScramjetCore..DataStream+while"></a>
 
 #### dataStream.while(func) ⇒ <code>DataStream</code>
@@ -1123,6 +1167,18 @@ Works oposite of while.
 | --- | --- | --- |
 | func | <code>FilterCallback</code> | The condition check |
 
+<a name="module_ScramjetCore..DataStream+catch"></a>
+
+#### dataStream.catch(callback) ↩︎
+Provides an way to catch errors in chanined streams.
+
+**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
+**Chainable**  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| callback | <code>function</code> | Error callback |
+
 <a name="module_ScramjetCore..DataStream+pipe"></a>
 
 #### dataStream.pipe(to, options) ⇒ <code>Writable</code>
@@ -1138,9 +1194,9 @@ Except for calling overriden method it proxies errors to piped stream.
 | to | <code>Writable</code> | Writable stream to write to |
 | options | <code>WritableOptions</code> |  |
 
-<a name="module_ScramjetCore..DataStream+toBufferStream"></a>
+<a name="module_ScramjetCore..DataStream+bufferify"></a>
 
-#### dataStream.toBufferStream(serializer) ⇒ <code>BufferStream</code>
+#### dataStream.bufferify(serializer) ⇒ <code>BufferStream</code>
 Creates a BufferStream
 
 **Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
@@ -1178,8 +1234,7 @@ Aggregates the stream into a single Array
 In fact it's just a shorthand for reducing the stream into an Array.
 
 **Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
-**Returns**: <code>Promise</code> - Promise resolved with the resulting array on stream
-                   end.  
+**Returns**: <code>Promise</code> - Promise resolved with the resulting array on stream end.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -1194,6 +1249,22 @@ Ready for https://github.com/tc39/proposal-async-iteration
 
 **Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
 **Returns**: <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code> - Returns an iterator that returns a promise for each item.  
+<a name="module_ScramjetCore..DataStream+_selfInstance"></a>
+
+#### dataStream._selfInstance() ⇒ <code>DataStream</code>
+Returns a new instance of self.
+
+Normally this doesn't have to be overridden.
+When the constructor would use some special arguments this may be used to
+override the object construction in [tee](tee)...
+
+**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
+**Returns**: <code>DataStream</code> - an empty instance of the same class.  
+**Internal**:   
+**Example**  
+```js
+[../samples/data-stream-selfinstance.js](../samples/data-stream-selfinstance.js)
+```
 <a name="module_ScramjetCore..DataStream+debug"></a>
 
 #### dataStream.debug(func) ⇒ <code>DataStream</code>
@@ -1579,6 +1650,12 @@ Doesn't end the stream until it reaches end of the iterator.
 ```js
 [../samples/data-stream-fromiterator.js](../samples/data-stream-fromiterator.js)
 ```
+<a name="module_ScramjetCore..toStringStream"></a>
+
+### ScramjetCore~toStringStream()
+Alias for [DataStream#stringify](DataStream#stringify)
+
+**Kind**: inner method of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 <a name="module_ScramjetCore..tap"></a>
 
 ### ScramjetCore~tap()
@@ -1613,19 +1690,20 @@ Returns a promise that resolves when the stream is drained/
 ### ScramjetCore~setOptions(options) ↩︎
 Allows resetting stream options.
 
+It's much easier to use this in chain than constructing new stream:
+
+```javascript
+    stream.map(myMapper).filter(myFilter).setOptions({maxParallel: 2})
+```
+
 **Kind**: inner method of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 **Chainable**  
+**Meta.conds**: keep-order,chain  
 
 | Param | Type |
 | --- | --- |
 | options | <code>StreamOptions</code> | 
 
-<a name="module_ScramjetCore..toStringStream"></a>
-
-### ScramjetCore~toStringStream()
-Alias for [DataStream#stringify](DataStream#stringify)
-
-**Kind**: inner method of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 <a name="module_ScramjetCore..StreamOptions"></a>
 
 ### ScramjetCore~StreamOptions : <code>Object</code>
@@ -1638,26 +1716,6 @@ Standard options for scramjet streams.
 | --- | --- | --- |
 | maxParallel | <code>Number</code> | the number of transforms done in parallel |
 | referrer | <code>DataStream</code> | a referring stream to point to (if possible the transforms will be pushed to it                                 instead of creating a new stream) |
-
-<a name="module_ScramjetCore..TeeCallback"></a>
-
-### ScramjetCore~TeeCallback : <code>function</code>
-**Kind**: inner typedef of [<code>ScramjetCore</code>](#module_ScramjetCore)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| teed | <code>DataStream</code> | The teed stream |
-
-<a name="module_ScramjetCore..ReduceCallback"></a>
-
-### ScramjetCore~ReduceCallback ⇒ <code>Promise</code> \| <code>\*</code>
-**Kind**: inner typedef of [<code>ScramjetCore</code>](#module_ScramjetCore)  
-**Returns**: <code>Promise</code> \| <code>\*</code> - accumulator for the next pass  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| acc | <code>\*</code> | the accumulator - the object initially passed or retuned                by the previous reduce operation |
-| chunk | <code>Object</code> | the stream chunk. |
 
 <a name="module_ScramjetCore..MapCallback"></a>
 
@@ -1679,6 +1737,26 @@ Standard options for scramjet streams.
 | Param | Type | Description |
 | --- | --- | --- |
 | chunk | <code>\*</code> | the chunk to be filtered or not |
+
+<a name="module_ScramjetCore..ReduceCallback"></a>
+
+### ScramjetCore~ReduceCallback ⇒ <code>Promise</code> \| <code>\*</code>
+**Kind**: inner typedef of [<code>ScramjetCore</code>](#module_ScramjetCore)  
+**Returns**: <code>Promise</code> \| <code>\*</code> - accumulator for the next pass  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| acc | <code>\*</code> | the accumulator - the object initially passed or retuned                by the previous reduce operation |
+| chunk | <code>Object</code> | the stream chunk. |
+
+<a name="module_ScramjetCore..TeeCallback"></a>
+
+### ScramjetCore~TeeCallback : <code>function</code>
+**Kind**: inner typedef of [<code>ScramjetCore</code>](#module_ScramjetCore)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| teed | <code>DataStream</code> | The teed stream |
 
 <a name="module_ScramjetCore..AccumulateCallback"></a>
 

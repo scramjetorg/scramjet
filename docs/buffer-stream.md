@@ -2,7 +2,19 @@
 
 <dl>
 <dt><a href="#BufferStream">BufferStream</a> ⇐ <code>DataStream</code></dt>
-<dd><p>A factilitation stream created for easy splitting or parsing buffers</p>
+<dd><p>A factilitation stream created for easy splitting or parsing buffers.</p>
+<p>Useful for working on built-in Node.js streams from files, parsing binary formats etc.</p>
+<p>A simple use case would be:</p>
+<pre><code class="lang-javascript"> fs.createReadStream(&#39;pixels.rgba&#39;)
+     .pipe(new BufferStream)         // pipe a buffer stream into scramjet
+     .breakup(4)                     // split into 4 byte fragments
+     .parse(buf =&gt; [
+         buf.readInt8(0),            // the output is a stream of R,G,B and Alpha
+         buf.readInt8(1),            // values from 0-255 in an array.
+         buf.readInt8(2),
+         buf.readInt8(3)
+     ]);
+</code></pre>
 </dd>
 </dl>
 
@@ -30,7 +42,23 @@
 <a name="BufferStream"></a>
 
 ## BufferStream ⇐ <code>DataStream</code>
-A factilitation stream created for easy splitting or parsing buffers
+A factilitation stream created for easy splitting or parsing buffers.
+
+Useful for working on built-in Node.js streams from files, parsing binary formats etc.
+
+A simple use case would be:
+
+```javascript
+ fs.createReadStream('pixels.rgba')
+     .pipe(new BufferStream)         // pipe a buffer stream into scramjet
+     .breakup(4)                     // split into 4 byte fragments
+     .parse(buf => [
+         buf.readInt8(0),            // the output is a stream of R,G,B and Alpha
+         buf.readInt8(1),            // values from 0-255 in an array.
+         buf.readInt8(2),
+         buf.readInt8(3)
+     ]);
+```
 
 **Kind**: global class  
 **Extends**: <code>DataStream</code>  

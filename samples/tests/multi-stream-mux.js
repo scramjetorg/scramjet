@@ -5,7 +5,8 @@ const MultiStream = require('../../').MultiStream;
 const DataStream = require('../../').DataStream;
 const StringStream = require('../../').StringStream;
 
-const fsp = require('fs-promise');
+const {promisify} = require("util");
+const fs = require('fs-promise');
 
 const getStream = (n, z, k) => {
     z = z || 100;
@@ -36,12 +37,12 @@ Promise.all(
         (off, idx, arr) => {
             const fname = __dirname + '/../generated-data/long-stream-' + off + '.jsl';
             const k = arr.length;
-            return fsp.ensureFile(fname)
-                .then(() => new Promise((res, rej) => fsp.truncate(fname, (err) => err ? rej() : res())))
+            return promisify(fs.stat)(fname)
+                .then(() => promisify(fs.truncate)(fname), () => 0)
                 .then(() => getStream(off, 10000, k)
                     .stringify((item) => JSON.stringify(item) + '\n')
                 )
-                .then((stream) => stream.pipe(fsp.createWriteStream(fname)))
+                .then((stream) => stream.pipe(fs.createWriteStream(fname)))
                 .then((stream) => new Promise((res) => stream.on('finish', res)))
                 .then(() => fname);
         }
@@ -49,7 +50,7 @@ Promise.all(
 ).then(
     (files) => new MultiStream(
         files.map(
-            (file) => fsp.createReadStream(file)
+            (file) => fs.createReadStream(file)
                 .pipe(new StringStream())
                 .split("\n")
                 .filter((a) => a)
@@ -64,7 +65,7 @@ Promise.all(
     )
     .on("end", () => console.log("Took", (Date.now() - ts) + 'ms'))
     .pipe(
-        fsp.createWriteStream(__dirname + '/../generated-data/long-stream-out.jsl')
+        fs.createWriteStream(__dirname + '/../generated-data/long-stream-out.jsl')
     )
 
 );
