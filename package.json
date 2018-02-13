@@ -38,8 +38,8 @@
     "sjr": "bin/scramjet-run"
   },
   "scripts": {
-    "test": "./node_modules/.bin/gulp test",
-    "preversion": "./node_modules/.bin/gulp prerelease"
+    "test": "gulp test",
+    "preversion": "gulp prerelease"
   },
   "homepage": "https://scramjet.eu/",
   "repository": {
@@ -72,7 +72,8 @@
     "nodeunit": "^0.11.0",
     "request": "^2.79.0",
     "request-promise-native": "^1.0.5",
-    "through2": "^2.0.3"
+    "through2": "^2.0.3",
+    "gulp-cli": "^2.0.1"
   },
   "dependencies": {
     "papaparse": "^4.3.7",
