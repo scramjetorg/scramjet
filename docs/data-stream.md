@@ -417,9 +417,11 @@ Stringifies CSV to DataString using 'papaparse' module.
 
 **Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
 **Chainable**  
+**See**: [../samples/data-stream-distribute.js](../samples/data-stream-distribute.js)  
 **Todo**
 
 - [ ] Currently order is not kept.
+- [ ] Example test breaks travis build
 
 
 | Param | Type | Description |
@@ -428,10 +430,6 @@ Stringifies CSV to DataString using 'papaparse' module.
 | clusterFunc | <code>MultiStream#ClusterCallback</code> | stream transforms similar to {@see DataStream#use method} |
 | options | <code>Object</code> | Options |
 
-**Example**  
-```js
-[../samples/data-stream-distribute.js](../samples/data-stream-distribute.js)
-```
 <a name="module_ScramjetCore..DataStream+separateInto"></a>
 
 #### dataStream.separateInto(streams, affinity) ↩︎
@@ -1322,9 +1320,11 @@ Stringifies CSV to DataString using 'papaparse' module.
 
 **Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
 **Chainable**  
+**See**: [../samples/data-stream-distribute.js](../samples/data-stream-distribute.js)  
 **Todo**
 
 - [ ] Currently order is not kept.
+- [ ] Example test breaks travis build
 
 
 | Param | Type | Description |
@@ -1333,10 +1333,6 @@ Stringifies CSV to DataString using 'papaparse' module.
 | clusterFunc | <code>MultiStream#ClusterCallback</code> | stream transforms similar to {@see DataStream#use method} |
 | options | <code>Object</code> | Options |
 
-**Example**  
-```js
-[../samples/data-stream-distribute.js](../samples/data-stream-distribute.js)
-```
 <a name="module_ScramjetCore..DataStream+separateInto"></a>
 
 #### dataStream.separateInto(streams, affinity) ↩︎
