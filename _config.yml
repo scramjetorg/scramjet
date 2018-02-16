@@ -1,1 +1,4 @@
 theme: jekyll-theme-architect
+title: Scramjet
+description: Scramjet is a fast, simple, multi-threaded ES7+ stream programming framework.
+google_analytics: UA-90621047-2
