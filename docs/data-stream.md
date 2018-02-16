@@ -424,10 +424,14 @@ Stringifies CSV to DataString using 'papaparse' module.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [affinity] | <code>AffinityCallback</code> \| <code>Number</code> | Number that runs round-robin the callback function that affixes the item to specific streams which must exist in the object for each chunk. Defaults to Round Robin to number of cpu threads. |
+| [affinity] | <code>AffinityCallback</code> \| <code>Number</code> | Number that runs round-robin the callback function that affixes the item to specific streams which must exist in the object for each chunk. Defaults to Round Robin to twice the number of cpu threads. |
 | clusterFunc | <code>MultiStream#ClusterCallback</code> | stream transforms similar to {@see DataStream#use method} |
 | options | <code>Object</code> | Options |
 
+**Example**  
+```js
+[../samples/data-stream-distribute.js](../samples/data-stream-distribute.js)
+```
 <a name="module_ScramjetCore..DataStream+separateInto"></a>
 
 #### dataStream.separateInto(streams, affinity) ↩︎
@@ -1325,10 +1329,14 @@ Stringifies CSV to DataString using 'papaparse' module.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [affinity] | <code>AffinityCallback</code> \| <code>Number</code> | Number that runs round-robin the callback function that affixes the item to specific streams which must exist in the object for each chunk. Defaults to Round Robin to number of cpu threads. |
+| [affinity] | <code>AffinityCallback</code> \| <code>Number</code> | Number that runs round-robin the callback function that affixes the item to specific streams which must exist in the object for each chunk. Defaults to Round Robin to twice the number of cpu threads. |
 | clusterFunc | <code>MultiStream#ClusterCallback</code> | stream transforms similar to {@see DataStream#use method} |
 | options | <code>Object</code> | Options |
 
+**Example**  
+```js
+[../samples/data-stream-distribute.js](../samples/data-stream-distribute.js)
+```
 <a name="module_ScramjetCore..DataStream+separateInto"></a>
 
 #### dataStream.separateInto(streams, affinity) ↩︎

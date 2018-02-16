@@ -85,13 +85,13 @@ The actual logic of this transform function is as if you passed your function to
 resolved with the data from the input stream.
 
 
-4. Streams with multi-Threading
+4. Streams with multi-threading
 
 To distribute your code among the processor cores, just use the method ```distribute```:
 
  ```javascript
     datastream.distribute(
-        (item) => item.value % 4            // distribution method,
+        16, // number of threads
         (stream) => {
             // multi-threaded code goes here.
             // it MUST return a valid stream back to the main thread.
