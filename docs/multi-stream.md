@@ -227,7 +227,7 @@ Map stream synchronously
 
 | Param | Type | Description |
 | --- | --- | --- |
-| clusterFunc | <code>ClusterCallback</code> | a cluster callback with all operations working similarily to DataStream::use |
+| clusterFunc | <code>Array.&lt;ClusterCallback&gt;</code> | a cluster callback with all operations working similarily to DataStream::use |
 | options | <code>DistributeOptions</code> |  |
 
 <a name="module_ScramjetCore"></a>
@@ -450,6 +450,6 @@ Map stream synchronously
 
 | Param | Type | Description |
 | --- | --- | --- |
-| clusterFunc | <code>ClusterCallback</code> | a cluster callback with all operations working similarily to DataStream::use |
+| clusterFunc | <code>Array.&lt;ClusterCallback&gt;</code> | a cluster callback with all operations working similarily to DataStream::use |
 | options | <code>DistributeOptions</code> |  |
 

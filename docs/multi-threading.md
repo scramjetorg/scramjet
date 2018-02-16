@@ -12,7 +12,38 @@ Scramjet version 4.2.0 introduces parallel procesing on multiple cores via the f
 * [MultiStream.cluster(clusterFunc, options)](multi-stream.md#module_ScramjetCore..MultiStream+cluster) ↩︎
 * [DataStream.distribute(affinity, clusterFunc, options)](data-stream.md#module_ScramjetCore..DataStream+distribute) ↩︎
 
-Example - multi-threaded node.js PI number calculation:
+### Example 1 - multi-threaded prime numbers filter
+
+Let's create our thread.js file:
+
+```javascript
+module.exports = (stream) =>
+    stream.filter(num => {
+        if (num < 2) return false;
+        if (num == 2) return true;
+        for(var i = 2; i < num/2; i++) {
+          if (num % i === 0) return false;
+        }
+    })
+;
+```
+
+And now let's give it couple thousands of numbers to crunch around 2^48:
+
+```javascript
+function* gen() {
+    for (let z = 0; z < 4e3; z++)
+        yield z+2^48;
+};
+
+DataStream.fromIterator(gen)
+    .distribute(i => i % 16, "./thread.js")
+    .pipe(process.stdout);
+```
+
+And you get a stream of prime numbers only. :)
+
+### Example 2 - multi-threaded node.js PI number calculation:
 
 ```javascript
 

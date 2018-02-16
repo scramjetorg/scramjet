@@ -6,7 +6,7 @@ const DataStream = require('../../').DataStream;
 const StringStream = require('../../').StringStream;
 
 const {promisify} = require("util");
-const fs = require('fs-promise');
+const fs = require('fs');
 
 const getStream = (n, z, k) => {
     z = z || 100;
