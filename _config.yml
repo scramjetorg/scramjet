@@ -1,4 +1,4 @@
 theme: jekyll-theme-architect
-title: Scramjet - multi-threaded, asynchronous ES7+ streaming framework
-description: Scramjet is a fast, simple, multi-threaded functional stream programming framework written on top of node.js object streams. It exposes a standards inspired javascript API and written fully in native ES6. Thanks to it some built in optimizations scramjet is much faster and much much simpler than similar frameworks when using asynchronous operations.
+title: Scramjet
+description: Scramjet is a fast, simple, multi-threaded ES7+ stream programming framework.
 google_analytics: UA-90621047-2
