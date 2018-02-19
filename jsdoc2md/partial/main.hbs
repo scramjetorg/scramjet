@@ -32,11 +32,17 @@ How about a CSV parser of all the parkings in the city of Wrocław from http://w
 const request = require("request");
 const StringStream = require("scramjet").StringStream;
 
+let columns = null;
 request.get("http://www.wroclaw.pl/open-data/opendata/its/parkingi/parkingi.csv")
     .pipe(new StringStream())
-    .CSVParse()
+    .split("\n")
+    .parse((line) => line.split(";"))
+    .shift(1, (data) => columns = data)
+    .map((data) => columns.reduce((acc, id, i) => (acc[id] = data[i], acc), {}))
     .each(console.log)
 ```
+
+Of course you can also use the simple `CSVParse` method to do that. :)
 
 ## Usage
 

@@ -27,6 +27,7 @@
                 * [.while(func)](#module_ScramjetCore..DataStream+while) ⇒ <code>DataStream</code>
                 * [.until(func)](#module_ScramjetCore..DataStream+until) ⇒ <code>DataStream</code>
                 * [.catch(callback)](#module_ScramjetCore..DataStream+catch) ↩︎
+                * [.raise(err)](#module_ScramjetCore..DataStream+raise) ⇒ <code>Promise</code>
                 * [.pipe(to, options)](#module_ScramjetCore..DataStream+pipe) ⇒ <code>Writable</code>
                 * [.bufferify(serializer)](#module_ScramjetCore..DataStream+bufferify) ⇒ <code>BufferStream</code>
                 * [.stringify(serializer)](#module_ScramjetCore..DataStream+stringify) ⇒ <code>StringStream</code>
@@ -76,15 +77,23 @@
 <a name="module_ScramjetCore.empty"></a>
 
 ### ScramjetCore.empty(callback) ↩︎
-Called when the stream ends without passing any items
+[Beta] Called when the stream ends without passing any items
 
 **Kind**: static method of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 **Chainable**  
+**Todo**
+
+- [ ] test
+
 
 | Param | Type | Description |
 | --- | --- | --- |
 | callback | <code>function</code> | Function called when stream ends |
 
+**Example**  
+```js
+[../samples/data-stream-empty.js](../samples/data-stream-empty.js)
+```
 <a name="module_ScramjetCore..DataStream"></a>
 
 ### ScramjetCore~DataStream ⇐ <code>stream.PassThrough</code>
@@ -103,6 +112,7 @@ Called when the stream ends without passing any items
         * [.while(func)](#module_ScramjetCore..DataStream+while) ⇒ <code>DataStream</code>
         * [.until(func)](#module_ScramjetCore..DataStream+until) ⇒ <code>DataStream</code>
         * [.catch(callback)](#module_ScramjetCore..DataStream+catch) ↩︎
+        * [.raise(err)](#module_ScramjetCore..DataStream+raise) ⇒ <code>Promise</code>
         * [.pipe(to, options)](#module_ScramjetCore..DataStream+pipe) ⇒ <code>Writable</code>
         * [.bufferify(serializer)](#module_ScramjetCore..DataStream+bufferify) ⇒ <code>BufferStream</code>
         * [.stringify(serializer)](#module_ScramjetCore..DataStream+stringify) ⇒ <code>StringStream</code>
@@ -289,12 +299,32 @@ Works oposite of while.
 #### dataStream.catch(callback) ↩︎
 Provides an way to catch errors in chanined streams.
 
+The handler will be called as asynchronous
+ - if it resolves then the error will be muted.
+ - if it rejects then the error will be passed to the next handler
+
+If no handlers will resolve the error, an `error` event will be emitted
+
 **Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
 **Chainable**  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| callback | <code>function</code> | Error callback |
+| callback | <code>function</code> | Error handler (async function) |
+
+<a name="module_ScramjetCore..DataStream+raise"></a>
+
+#### dataStream.raise(err) ⇒ <code>Promise</code>
+Executes all error handlers and if none resolves, then emits an error.
+
+The returned promise will always be resolved even if there are no succesful handers.
+
+**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
+**Returns**: <code>Promise</code> - the promise that will be resolved when the error is handled.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| err | <code>Error</code> | The thrown error |
 
 <a name="module_ScramjetCore..DataStream+pipe"></a>
 
@@ -717,10 +747,16 @@ The original objects are unaltered.
 <a name="module_ScramjetCore..DataStream+peek"></a>
 
 #### dataStream.peek(count, func) ↩︎
-Allows previewing some of the streams data without removing them from the stream.
+[Beta] Allows previewing some of the streams data without removing them from the stream.
+
+Important: Peek does not resume the flow.
 
 **Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
 **Chainable**  
+**Todo**
+
+- [ ] Test.
+
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -948,6 +984,7 @@ Standard options for scramjet streams.
                 * [.while(func)](#module_ScramjetCore..DataStream+while) ⇒ <code>DataStream</code>
                 * [.until(func)](#module_ScramjetCore..DataStream+until) ⇒ <code>DataStream</code>
                 * [.catch(callback)](#module_ScramjetCore..DataStream+catch) ↩︎
+                * [.raise(err)](#module_ScramjetCore..DataStream+raise) ⇒ <code>Promise</code>
                 * [.pipe(to, options)](#module_ScramjetCore..DataStream+pipe) ⇒ <code>Writable</code>
                 * [.bufferify(serializer)](#module_ScramjetCore..DataStream+bufferify) ⇒ <code>BufferStream</code>
                 * [.stringify(serializer)](#module_ScramjetCore..DataStream+stringify) ⇒ <code>StringStream</code>
@@ -997,15 +1034,23 @@ Standard options for scramjet streams.
 <a name="module_ScramjetCore.empty"></a>
 
 ### ScramjetCore.empty(callback) ↩︎
-Called when the stream ends without passing any items
+[Beta] Called when the stream ends without passing any items
 
 **Kind**: static method of [<code>ScramjetCore</code>](#module_ScramjetCore)  
 **Chainable**  
+**Todo**
+
+- [ ] test
+
 
 | Param | Type | Description |
 | --- | --- | --- |
 | callback | <code>function</code> | Function called when stream ends |
 
+**Example**  
+```js
+[../samples/data-stream-empty.js](../samples/data-stream-empty.js)
+```
 <a name="module_ScramjetCore..DataStream"></a>
 
 ### ScramjetCore~DataStream ⇐ <code>stream.PassThrough</code>
@@ -1024,6 +1069,7 @@ Called when the stream ends without passing any items
         * [.while(func)](#module_ScramjetCore..DataStream+while) ⇒ <code>DataStream</code>
         * [.until(func)](#module_ScramjetCore..DataStream+until) ⇒ <code>DataStream</code>
         * [.catch(callback)](#module_ScramjetCore..DataStream+catch) ↩︎
+        * [.raise(err)](#module_ScramjetCore..DataStream+raise) ⇒ <code>Promise</code>
         * [.pipe(to, options)](#module_ScramjetCore..DataStream+pipe) ⇒ <code>Writable</code>
         * [.bufferify(serializer)](#module_ScramjetCore..DataStream+bufferify) ⇒ <code>BufferStream</code>
         * [.stringify(serializer)](#module_ScramjetCore..DataStream+stringify) ⇒ <code>StringStream</code>
@@ -1210,12 +1256,32 @@ Works oposite of while.
 #### dataStream.catch(callback) ↩︎
 Provides an way to catch errors in chanined streams.
 
+The handler will be called as asynchronous
+ - if it resolves then the error will be muted.
+ - if it rejects then the error will be passed to the next handler
+
+If no handlers will resolve the error, an `error` event will be emitted
+
 **Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
 **Chainable**  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| callback | <code>function</code> | Error callback |
+| callback | <code>function</code> | Error handler (async function) |
+
+<a name="module_ScramjetCore..DataStream+raise"></a>
+
+#### dataStream.raise(err) ⇒ <code>Promise</code>
+Executes all error handlers and if none resolves, then emits an error.
+
+The returned promise will always be resolved even if there are no succesful handers.
+
+**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
+**Returns**: <code>Promise</code> - the promise that will be resolved when the error is handled.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| err | <code>Error</code> | The thrown error |
 
 <a name="module_ScramjetCore..DataStream+pipe"></a>
 
@@ -1638,10 +1704,16 @@ The original objects are unaltered.
 <a name="module_ScramjetCore..DataStream+peek"></a>
 
 #### dataStream.peek(count, func) ↩︎
-Allows previewing some of the streams data without removing them from the stream.
+[Beta] Allows previewing some of the streams data without removing them from the stream.
+
+Important: Peek does not resume the flow.
 
 **Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
 **Chainable**  
+**Todo**
+
+- [ ] Test.
+
 
 | Param | Type | Description |
 | --- | --- | --- |
