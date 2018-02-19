@@ -12,63 +12,78 @@
 ## ScramjetCore
 
 * [ScramjetCore](#module_ScramjetCore)
-    * [~DataStream](#module_ScramjetCore..DataStream) ⇐ <code>stream.PassThrough</code>
-        * [new DataStream(opts)](#new_module_ScramjetCore..DataStream_new)
-        * _instance_
-            * [.map(func, Clazz)](#module_ScramjetCore..DataStream+map) ⇒ <code>DataStream</code>
-            * [.filter(func)](#module_ScramjetCore..DataStream+filter) ⇒ <code>DataStream</code>
-            * [.reduce(func, into)](#module_ScramjetCore..DataStream+reduce) ⇒ <code>Promise</code>
-            * [.use(func)](#module_ScramjetCore..DataStream+use) ⇒ <code>\*</code>
-            * [.tee(func)](#module_ScramjetCore..DataStream+tee) ⇒ <code>DataStream</code>
-            * [.each(func)](#module_ScramjetCore..DataStream+each) ↩︎
-            * [.while(func)](#module_ScramjetCore..DataStream+while) ⇒ <code>DataStream</code>
-            * [.until(func)](#module_ScramjetCore..DataStream+until) ⇒ <code>DataStream</code>
-            * [.catch(callback)](#module_ScramjetCore..DataStream+catch) ↩︎
-            * [.pipe(to, options)](#module_ScramjetCore..DataStream+pipe) ⇒ <code>Writable</code>
-            * [.bufferify(serializer)](#module_ScramjetCore..DataStream+bufferify) ⇒ <code>BufferStream</code>
-            * [.stringify(serializer)](#module_ScramjetCore..DataStream+stringify) ⇒ <code>StringStream</code>
-            * [.toArray(initial)](#module_ScramjetCore..DataStream+toArray) ⇒ <code>Promise</code>
-            * [.toGenerator()](#module_ScramjetCore..DataStream+toGenerator) ⇒ <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code>
-            * [._selfInstance()](#module_ScramjetCore..DataStream+_selfInstance) ⇒ <code>DataStream</code>
-            * [.debug(func)](#module_ScramjetCore..DataStream+debug) ⇒ <code>DataStream</code>
-            * [.JSONStringify([endline])](#module_ScramjetCore..DataStream+JSONStringify) ⇒ <code>StringStream</code>
-            * [.CSVStringify(options)](#module_ScramjetCore..DataStream+CSVStringify) ⇒ <code>StringStream</code>
-            * [.distribute([affinity], clusterFunc, options)](#module_ScramjetCore..DataStream+distribute) ↩︎
-            * [.separateInto(streams, affinity)](#module_ScramjetCore..DataStream+separateInto) ↩︎
-            * [.separate(affinity, createOptions)](#module_ScramjetCore..DataStream+separate) ⇒ <code>DataStream</code>
-            * [.delegate(delegateFunc, worker, [plugins])](#module_ScramjetCore..DataStream+delegate) ↩︎
-            * [.slice(start, end, func)](#module_ScramjetCore..DataStream+slice) ⇒ <code>DataStream</code>
-            * [.accumulate(func, into)](#module_ScramjetCore..DataStream+accumulate) ⇒ <code>Promise</code>
-            * [.consume(func)](#module_ScramjetCore..DataStream+consume) ⇒ <code>Promise</code>
-            * [.reduceNow(func, into)](#module_ScramjetCore..DataStream+reduceNow) ⇒ <code>\*</code>
-            * [.remap(func, Clazz)](#module_ScramjetCore..DataStream+remap) ⇒ <code>DataStream</code>
-            * [.flatMap(func, Clazz)](#module_ScramjetCore..DataStream+flatMap) ⇒ <code>DataStream</code>
-            * [.unshift(item)](#module_ScramjetCore..DataStream+unshift) ↩︎
-            * [.flatten()](#module_ScramjetCore..DataStream+flatten) ⇒ <code>DataStream</code>
-            * [.batch(count)](#module_ScramjetCore..DataStream+batch) ⇒ <code>DataStream</code>
-            * [.timeBatch(ms, count)](#module_ScramjetCore..DataStream+timeBatch) ⇒ <code>DataStream</code>
-            * [.nagle([size], [ms])](#module_ScramjetCore..DataStream+nagle) ↩︎
-            * [.assign(func)](#module_ScramjetCore..DataStream+assign) ⇒ <code>DataStream</code>
-            * [.shift(count, func)](#module_ScramjetCore..DataStream+shift) ⇒ <code>DataStream</code>
-        * _static_
-            * [.fromArray(arr)](#module_ScramjetCore..DataStream.fromArray) ⇒ <code>DataStream</code>
-            * [.fromIterator(iter)](#module_ScramjetCore..DataStream.fromIterator) ⇒ <code>DataStream</code>
-    * [~toStringStream()](#module_ScramjetCore..toStringStream)
-    * [~tap()](#module_ScramjetCore..tap)
-    * [~whenRead()](#module_ScramjetCore..whenRead) ⇒ <code>Promise.&lt;Object&gt;</code>
-    * [~whenWrote()](#module_ScramjetCore..whenWrote) ⇒ <code>Promise</code>
-    * [~whenDrained()](#module_ScramjetCore..whenDrained) ⇒ <code>Promise</code>
-    * [~setOptions(options)](#module_ScramjetCore..setOptions) ↩︎
-    * [~StreamOptions](#module_ScramjetCore..StreamOptions) : <code>Object</code>
-    * [~MapCallback](#module_ScramjetCore..MapCallback) ⇒ <code>Promise</code> \| <code>\*</code>
-    * [~FilterCallback](#module_ScramjetCore..FilterCallback) ⇒ <code>Promise</code> \| <code>Boolean</code>
-    * [~ReduceCallback](#module_ScramjetCore..ReduceCallback) ⇒ <code>Promise</code> \| <code>\*</code>
-    * [~TeeCallback](#module_ScramjetCore..TeeCallback) : <code>function</code>
-    * [~AccumulateCallback](#module_ScramjetCore..AccumulateCallback) ⇒ <code>Promise</code> \| <code>\*</code>
-    * [~ConsumeCallback](#module_ScramjetCore..ConsumeCallback) ⇒ <code>Promise</code> \| <code>\*</code>
-    * [~RemapCallback](#module_ScramjetCore..RemapCallback) ⇒ <code>Promise</code> \| <code>\*</code>
-    * [~FlatMapCallback](#module_ScramjetCore..FlatMapCallback) ⇒ <code>Promise.&lt;Iterable&gt;</code> \| <code>Iterable</code>
-    * [~ShiftCallback](#module_ScramjetCore..ShiftCallback) : <code>function</code>
+    * _static_
+        * [.empty(callback)](#module_ScramjetCore.empty) ↩︎
+    * _inner_
+        * [~DataStream](#module_ScramjetCore..DataStream) ⇐ <code>stream.PassThrough</code>
+            * [new DataStream(opts)](#new_module_ScramjetCore..DataStream_new)
+            * _instance_
+                * [.map(func, Clazz)](#module_ScramjetCore..DataStream+map) ⇒ <code>DataStream</code>
+                * [.filter(func)](#module_ScramjetCore..DataStream+filter) ⇒ <code>DataStream</code>
+                * [.reduce(func, into)](#module_ScramjetCore..DataStream+reduce) ⇒ <code>Promise</code>
+                * [.use(func)](#module_ScramjetCore..DataStream+use) ⇒ <code>\*</code>
+                * [.tee(func)](#module_ScramjetCore..DataStream+tee) ⇒ <code>DataStream</code>
+                * [.each(func)](#module_ScramjetCore..DataStream+each) ↩︎
+                * [.while(func)](#module_ScramjetCore..DataStream+while) ⇒ <code>DataStream</code>
+                * [.until(func)](#module_ScramjetCore..DataStream+until) ⇒ <code>DataStream</code>
+                * [.catch(callback)](#module_ScramjetCore..DataStream+catch) ↩︎
+                * [.pipe(to, options)](#module_ScramjetCore..DataStream+pipe) ⇒ <code>Writable</code>
+                * [.bufferify(serializer)](#module_ScramjetCore..DataStream+bufferify) ⇒ <code>BufferStream</code>
+                * [.stringify(serializer)](#module_ScramjetCore..DataStream+stringify) ⇒ <code>StringStream</code>
+                * [.toArray(initial)](#module_ScramjetCore..DataStream+toArray) ⇒ <code>Promise</code>
+                * [.toGenerator()](#module_ScramjetCore..DataStream+toGenerator) ⇒ <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code>
+                * [._selfInstance()](#module_ScramjetCore..DataStream+_selfInstance) ⇒ <code>DataStream</code>
+                * [.debug(func)](#module_ScramjetCore..DataStream+debug) ⇒ <code>DataStream</code>
+                * [.JSONStringify([endline])](#module_ScramjetCore..DataStream+JSONStringify) ⇒ <code>StringStream</code>
+                * [.CSVStringify(options)](#module_ScramjetCore..DataStream+CSVStringify) ⇒ <code>StringStream</code>
+                * [.distribute([affinity], clusterFunc, options)](#module_ScramjetCore..DataStream+distribute) ↩︎
+                * [.separateInto(streams, affinity)](#module_ScramjetCore..DataStream+separateInto) ↩︎
+                * [.separate(affinity, createOptions)](#module_ScramjetCore..DataStream+separate) ⇒ <code>DataStream</code>
+                * [.delegate(delegateFunc, worker, [plugins])](#module_ScramjetCore..DataStream+delegate) ↩︎
+                * [.slice(start, end, func)](#module_ScramjetCore..DataStream+slice) ⇒ <code>DataStream</code>
+                * [.accumulate(func, into)](#module_ScramjetCore..DataStream+accumulate) ⇒ <code>Promise</code>
+                * [.consume(func)](#module_ScramjetCore..DataStream+consume) ⇒ <code>Promise</code>
+                * [.reduceNow(func, into)](#module_ScramjetCore..DataStream+reduceNow) ⇒ <code>\*</code>
+                * [.remap(func, Clazz)](#module_ScramjetCore..DataStream+remap) ⇒ <code>DataStream</code>
+                * [.flatMap(func, Clazz)](#module_ScramjetCore..DataStream+flatMap) ⇒ <code>DataStream</code>
+                * [.unshift(item)](#module_ScramjetCore..DataStream+unshift) ↩︎
+                * [.flatten()](#module_ScramjetCore..DataStream+flatten) ⇒ <code>DataStream</code>
+                * [.batch(count)](#module_ScramjetCore..DataStream+batch) ⇒ <code>DataStream</code>
+                * [.timeBatch(ms, count)](#module_ScramjetCore..DataStream+timeBatch) ⇒ <code>DataStream</code>
+                * [.nagle([size], [ms])](#module_ScramjetCore..DataStream+nagle) ↩︎
+                * [.assign(func)](#module_ScramjetCore..DataStream+assign) ⇒ <code>DataStream</code>
+                * [.peek(count, func)](#module_ScramjetCore..DataStream+peek) ↩︎
+                * [.shift(count, func)](#module_ScramjetCore..DataStream+shift) ⇒ <code>DataStream</code>
+            * _static_
+                * [.fromArray(arr)](#module_ScramjetCore..DataStream.fromArray) ⇒ <code>DataStream</code>
+                * [.fromIterator(iter)](#module_ScramjetCore..DataStream.fromIterator) ⇒ <code>DataStream</code>
+        * [~toStringStream()](#module_ScramjetCore..toStringStream)
+        * [~tap()](#module_ScramjetCore..tap)
+        * [~whenRead()](#module_ScramjetCore..whenRead) ⇒ <code>Promise.&lt;Object&gt;</code>
+        * [~whenWrote()](#module_ScramjetCore..whenWrote) ⇒ <code>Promise</code>
+        * [~whenDrained()](#module_ScramjetCore..whenDrained) ⇒ <code>Promise</code>
+        * [~setOptions(options)](#module_ScramjetCore..setOptions) ↩︎
+        * [~StreamOptions](#module_ScramjetCore..StreamOptions) : <code>Object</code>
+        * [~MapCallback](#module_ScramjetCore..MapCallback) ⇒ <code>Promise</code> \| <code>\*</code>
+        * [~FilterCallback](#module_ScramjetCore..FilterCallback) ⇒ <code>Promise</code> \| <code>Boolean</code>
+        * [~ReduceCallback](#module_ScramjetCore..ReduceCallback) ⇒ <code>Promise</code> \| <code>\*</code>
+        * [~TeeCallback](#module_ScramjetCore..TeeCallback) : <code>function</code>
+        * [~AccumulateCallback](#module_ScramjetCore..AccumulateCallback) ⇒ <code>Promise</code> \| <code>\*</code>
+        * [~ConsumeCallback](#module_ScramjetCore..ConsumeCallback) ⇒ <code>Promise</code> \| <code>\*</code>
+        * [~RemapCallback](#module_ScramjetCore..RemapCallback) ⇒ <code>Promise</code> \| <code>\*</code>
+        * [~FlatMapCallback](#module_ScramjetCore..FlatMapCallback) ⇒ <code>Promise.&lt;Iterable&gt;</code> \| <code>Iterable</code>
+
+<a name="module_ScramjetCore.empty"></a>
+
+### ScramjetCore.empty(callback) ↩︎
+Called when the stream ends without passing any items
+
+**Kind**: static method of [<code>ScramjetCore</code>](#module_ScramjetCore)  
+**Chainable**  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| callback | <code>function</code> | Function called when stream ends |
 
 <a name="module_ScramjetCore..DataStream"></a>
 
@@ -113,6 +128,7 @@
         * [.timeBatch(ms, count)](#module_ScramjetCore..DataStream+timeBatch) ⇒ <code>DataStream</code>
         * [.nagle([size], [ms])](#module_ScramjetCore..DataStream+nagle) ↩︎
         * [.assign(func)](#module_ScramjetCore..DataStream+assign) ⇒ <code>DataStream</code>
+        * [.peek(count, func)](#module_ScramjetCore..DataStream+peek) ↩︎
         * [.shift(count, func)](#module_ScramjetCore..DataStream+shift) ⇒ <code>DataStream</code>
     * _static_
         * [.fromArray(arr)](#module_ScramjetCore..DataStream.fromArray) ⇒ <code>DataStream</code>
@@ -698,6 +714,19 @@ The original objects are unaltered.
 ```js
 [../samples/data-stream-assign.js](../samples/data-stream-assign.js)
 ```
+<a name="module_ScramjetCore..DataStream+peek"></a>
+
+#### dataStream.peek(count, func) ↩︎
+Allows previewing some of the streams data without removing them from the stream.
+
+**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
+**Chainable**  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| count | <code>Number</code> | The number of items to view before |
+| func | <code>ShiftCallback</code> | Function called before other streams |
+
 <a name="module_ScramjetCore..DataStream+shift"></a>
 
 #### dataStream.shift(count, func) ⇒ <code>DataStream</code>
@@ -898,80 +927,84 @@ Standard options for scramjet streams.
 | Param | Type | Description |
 | --- | --- | --- |
 | chunk | <code>\*</code> | the chunk from the original stream |
-
-<a name="module_ScramjetCore..ShiftCallback"></a>
-
-### ScramjetCore~ShiftCallback : <code>function</code>
-Shift callback
-
-**Kind**: inner typedef of [<code>ScramjetCore</code>](#module_ScramjetCore)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| shifted | <code>Array.&lt;Object&gt;</code> | an array of shifted chunks |
 
 <a name="module_ScramjetCore"></a>
 
 ## ScramjetCore
 
 * [ScramjetCore](#module_ScramjetCore)
-    * [~DataStream](#module_ScramjetCore..DataStream) ⇐ <code>stream.PassThrough</code>
-        * [new DataStream(opts)](#new_module_ScramjetCore..DataStream_new)
-        * _instance_
-            * [.map(func, Clazz)](#module_ScramjetCore..DataStream+map) ⇒ <code>DataStream</code>
-            * [.filter(func)](#module_ScramjetCore..DataStream+filter) ⇒ <code>DataStream</code>
-            * [.reduce(func, into)](#module_ScramjetCore..DataStream+reduce) ⇒ <code>Promise</code>
-            * [.use(func)](#module_ScramjetCore..DataStream+use) ⇒ <code>\*</code>
-            * [.tee(func)](#module_ScramjetCore..DataStream+tee) ⇒ <code>DataStream</code>
-            * [.each(func)](#module_ScramjetCore..DataStream+each) ↩︎
-            * [.while(func)](#module_ScramjetCore..DataStream+while) ⇒ <code>DataStream</code>
-            * [.until(func)](#module_ScramjetCore..DataStream+until) ⇒ <code>DataStream</code>
-            * [.catch(callback)](#module_ScramjetCore..DataStream+catch) ↩︎
-            * [.pipe(to, options)](#module_ScramjetCore..DataStream+pipe) ⇒ <code>Writable</code>
-            * [.bufferify(serializer)](#module_ScramjetCore..DataStream+bufferify) ⇒ <code>BufferStream</code>
-            * [.stringify(serializer)](#module_ScramjetCore..DataStream+stringify) ⇒ <code>StringStream</code>
-            * [.toArray(initial)](#module_ScramjetCore..DataStream+toArray) ⇒ <code>Promise</code>
-            * [.toGenerator()](#module_ScramjetCore..DataStream+toGenerator) ⇒ <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code>
-            * [._selfInstance()](#module_ScramjetCore..DataStream+_selfInstance) ⇒ <code>DataStream</code>
-            * [.debug(func)](#module_ScramjetCore..DataStream+debug) ⇒ <code>DataStream</code>
-            * [.JSONStringify([endline])](#module_ScramjetCore..DataStream+JSONStringify) ⇒ <code>StringStream</code>
-            * [.CSVStringify(options)](#module_ScramjetCore..DataStream+CSVStringify) ⇒ <code>StringStream</code>
-            * [.distribute([affinity], clusterFunc, options)](#module_ScramjetCore..DataStream+distribute) ↩︎
-            * [.separateInto(streams, affinity)](#module_ScramjetCore..DataStream+separateInto) ↩︎
-            * [.separate(affinity, createOptions)](#module_ScramjetCore..DataStream+separate) ⇒ <code>DataStream</code>
-            * [.delegate(delegateFunc, worker, [plugins])](#module_ScramjetCore..DataStream+delegate) ↩︎
-            * [.slice(start, end, func)](#module_ScramjetCore..DataStream+slice) ⇒ <code>DataStream</code>
-            * [.accumulate(func, into)](#module_ScramjetCore..DataStream+accumulate) ⇒ <code>Promise</code>
-            * [.consume(func)](#module_ScramjetCore..DataStream+consume) ⇒ <code>Promise</code>
-            * [.reduceNow(func, into)](#module_ScramjetCore..DataStream+reduceNow) ⇒ <code>\*</code>
-            * [.remap(func, Clazz)](#module_ScramjetCore..DataStream+remap) ⇒ <code>DataStream</code>
-            * [.flatMap(func, Clazz)](#module_ScramjetCore..DataStream+flatMap) ⇒ <code>DataStream</code>
-            * [.unshift(item)](#module_ScramjetCore..DataStream+unshift) ↩︎
-            * [.flatten()](#module_ScramjetCore..DataStream+flatten) ⇒ <code>DataStream</code>
-            * [.batch(count)](#module_ScramjetCore..DataStream+batch) ⇒ <code>DataStream</code>
-            * [.timeBatch(ms, count)](#module_ScramjetCore..DataStream+timeBatch) ⇒ <code>DataStream</code>
-            * [.nagle([size], [ms])](#module_ScramjetCore..DataStream+nagle) ↩︎
-            * [.assign(func)](#module_ScramjetCore..DataStream+assign) ⇒ <code>DataStream</code>
-            * [.shift(count, func)](#module_ScramjetCore..DataStream+shift) ⇒ <code>DataStream</code>
-        * _static_
-            * [.fromArray(arr)](#module_ScramjetCore..DataStream.fromArray) ⇒ <code>DataStream</code>
-            * [.fromIterator(iter)](#module_ScramjetCore..DataStream.fromIterator) ⇒ <code>DataStream</code>
-    * [~toStringStream()](#module_ScramjetCore..toStringStream)
-    * [~tap()](#module_ScramjetCore..tap)
-    * [~whenRead()](#module_ScramjetCore..whenRead) ⇒ <code>Promise.&lt;Object&gt;</code>
-    * [~whenWrote()](#module_ScramjetCore..whenWrote) ⇒ <code>Promise</code>
-    * [~whenDrained()](#module_ScramjetCore..whenDrained) ⇒ <code>Promise</code>
-    * [~setOptions(options)](#module_ScramjetCore..setOptions) ↩︎
-    * [~StreamOptions](#module_ScramjetCore..StreamOptions) : <code>Object</code>
-    * [~MapCallback](#module_ScramjetCore..MapCallback) ⇒ <code>Promise</code> \| <code>\*</code>
-    * [~FilterCallback](#module_ScramjetCore..FilterCallback) ⇒ <code>Promise</code> \| <code>Boolean</code>
-    * [~ReduceCallback](#module_ScramjetCore..ReduceCallback) ⇒ <code>Promise</code> \| <code>\*</code>
-    * [~TeeCallback](#module_ScramjetCore..TeeCallback) : <code>function</code>
-    * [~AccumulateCallback](#module_ScramjetCore..AccumulateCallback) ⇒ <code>Promise</code> \| <code>\*</code>
-    * [~ConsumeCallback](#module_ScramjetCore..ConsumeCallback) ⇒ <code>Promise</code> \| <code>\*</code>
-    * [~RemapCallback](#module_ScramjetCore..RemapCallback) ⇒ <code>Promise</code> \| <code>\*</code>
-    * [~FlatMapCallback](#module_ScramjetCore..FlatMapCallback) ⇒ <code>Promise.&lt;Iterable&gt;</code> \| <code>Iterable</code>
-    * [~ShiftCallback](#module_ScramjetCore..ShiftCallback) : <code>function</code>
+    * _static_
+        * [.empty(callback)](#module_ScramjetCore.empty) ↩︎
+    * _inner_
+        * [~DataStream](#module_ScramjetCore..DataStream) ⇐ <code>stream.PassThrough</code>
+            * [new DataStream(opts)](#new_module_ScramjetCore..DataStream_new)
+            * _instance_
+                * [.map(func, Clazz)](#module_ScramjetCore..DataStream+map) ⇒ <code>DataStream</code>
+                * [.filter(func)](#module_ScramjetCore..DataStream+filter) ⇒ <code>DataStream</code>
+                * [.reduce(func, into)](#module_ScramjetCore..DataStream+reduce) ⇒ <code>Promise</code>
+                * [.use(func)](#module_ScramjetCore..DataStream+use) ⇒ <code>\*</code>
+                * [.tee(func)](#module_ScramjetCore..DataStream+tee) ⇒ <code>DataStream</code>
+                * [.each(func)](#module_ScramjetCore..DataStream+each) ↩︎
+                * [.while(func)](#module_ScramjetCore..DataStream+while) ⇒ <code>DataStream</code>
+                * [.until(func)](#module_ScramjetCore..DataStream+until) ⇒ <code>DataStream</code>
+                * [.catch(callback)](#module_ScramjetCore..DataStream+catch) ↩︎
+                * [.pipe(to, options)](#module_ScramjetCore..DataStream+pipe) ⇒ <code>Writable</code>
+                * [.bufferify(serializer)](#module_ScramjetCore..DataStream+bufferify) ⇒ <code>BufferStream</code>
+                * [.stringify(serializer)](#module_ScramjetCore..DataStream+stringify) ⇒ <code>StringStream</code>
+                * [.toArray(initial)](#module_ScramjetCore..DataStream+toArray) ⇒ <code>Promise</code>
+                * [.toGenerator()](#module_ScramjetCore..DataStream+toGenerator) ⇒ <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code>
+                * [._selfInstance()](#module_ScramjetCore..DataStream+_selfInstance) ⇒ <code>DataStream</code>
+                * [.debug(func)](#module_ScramjetCore..DataStream+debug) ⇒ <code>DataStream</code>
+                * [.JSONStringify([endline])](#module_ScramjetCore..DataStream+JSONStringify) ⇒ <code>StringStream</code>
+                * [.CSVStringify(options)](#module_ScramjetCore..DataStream+CSVStringify) ⇒ <code>StringStream</code>
+                * [.distribute([affinity], clusterFunc, options)](#module_ScramjetCore..DataStream+distribute) ↩︎
+                * [.separateInto(streams, affinity)](#module_ScramjetCore..DataStream+separateInto) ↩︎
+                * [.separate(affinity, createOptions)](#module_ScramjetCore..DataStream+separate) ⇒ <code>DataStream</code>
+                * [.delegate(delegateFunc, worker, [plugins])](#module_ScramjetCore..DataStream+delegate) ↩︎
+                * [.slice(start, end, func)](#module_ScramjetCore..DataStream+slice) ⇒ <code>DataStream</code>
+                * [.accumulate(func, into)](#module_ScramjetCore..DataStream+accumulate) ⇒ <code>Promise</code>
+                * [.consume(func)](#module_ScramjetCore..DataStream+consume) ⇒ <code>Promise</code>
+                * [.reduceNow(func, into)](#module_ScramjetCore..DataStream+reduceNow) ⇒ <code>\*</code>
+                * [.remap(func, Clazz)](#module_ScramjetCore..DataStream+remap) ⇒ <code>DataStream</code>
+                * [.flatMap(func, Clazz)](#module_ScramjetCore..DataStream+flatMap) ⇒ <code>DataStream</code>
+                * [.unshift(item)](#module_ScramjetCore..DataStream+unshift) ↩︎
+                * [.flatten()](#module_ScramjetCore..DataStream+flatten) ⇒ <code>DataStream</code>
+                * [.batch(count)](#module_ScramjetCore..DataStream+batch) ⇒ <code>DataStream</code>
+                * [.timeBatch(ms, count)](#module_ScramjetCore..DataStream+timeBatch) ⇒ <code>DataStream</code>
+                * [.nagle([size], [ms])](#module_ScramjetCore..DataStream+nagle) ↩︎
+                * [.assign(func)](#module_ScramjetCore..DataStream+assign) ⇒ <code>DataStream</code>
+                * [.peek(count, func)](#module_ScramjetCore..DataStream+peek) ↩︎
+                * [.shift(count, func)](#module_ScramjetCore..DataStream+shift) ⇒ <code>DataStream</code>
+            * _static_
+                * [.fromArray(arr)](#module_ScramjetCore..DataStream.fromArray) ⇒ <code>DataStream</code>
+                * [.fromIterator(iter)](#module_ScramjetCore..DataStream.fromIterator) ⇒ <code>DataStream</code>
+        * [~toStringStream()](#module_ScramjetCore..toStringStream)
+        * [~tap()](#module_ScramjetCore..tap)
+        * [~whenRead()](#module_ScramjetCore..whenRead) ⇒ <code>Promise.&lt;Object&gt;</code>
+        * [~whenWrote()](#module_ScramjetCore..whenWrote) ⇒ <code>Promise</code>
+        * [~whenDrained()](#module_ScramjetCore..whenDrained) ⇒ <code>Promise</code>
+        * [~setOptions(options)](#module_ScramjetCore..setOptions) ↩︎
+        * [~StreamOptions](#module_ScramjetCore..StreamOptions) : <code>Object</code>
+        * [~MapCallback](#module_ScramjetCore..MapCallback) ⇒ <code>Promise</code> \| <code>\*</code>
+        * [~FilterCallback](#module_ScramjetCore..FilterCallback) ⇒ <code>Promise</code> \| <code>Boolean</code>
+        * [~ReduceCallback](#module_ScramjetCore..ReduceCallback) ⇒ <code>Promise</code> \| <code>\*</code>
+        * [~TeeCallback](#module_ScramjetCore..TeeCallback) : <code>function</code>
+        * [~AccumulateCallback](#module_ScramjetCore..AccumulateCallback) ⇒ <code>Promise</code> \| <code>\*</code>
+        * [~ConsumeCallback](#module_ScramjetCore..ConsumeCallback) ⇒ <code>Promise</code> \| <code>\*</code>
+        * [~RemapCallback](#module_ScramjetCore..RemapCallback) ⇒ <code>Promise</code> \| <code>\*</code>
+        * [~FlatMapCallback](#module_ScramjetCore..FlatMapCallback) ⇒ <code>Promise.&lt;Iterable&gt;</code> \| <code>Iterable</code>
+
+<a name="module_ScramjetCore.empty"></a>
+
+### ScramjetCore.empty(callback) ↩︎
+Called when the stream ends without passing any items
+
+**Kind**: static method of [<code>ScramjetCore</code>](#module_ScramjetCore)  
+**Chainable**  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| callback | <code>function</code> | Function called when stream ends |
 
 <a name="module_ScramjetCore..DataStream"></a>
 
@@ -1016,6 +1049,7 @@ Shift callback
         * [.timeBatch(ms, count)](#module_ScramjetCore..DataStream+timeBatch) ⇒ <code>DataStream</code>
         * [.nagle([size], [ms])](#module_ScramjetCore..DataStream+nagle) ↩︎
         * [.assign(func)](#module_ScramjetCore..DataStream+assign) ⇒ <code>DataStream</code>
+        * [.peek(count, func)](#module_ScramjetCore..DataStream+peek) ↩︎
         * [.shift(count, func)](#module_ScramjetCore..DataStream+shift) ⇒ <code>DataStream</code>
     * _static_
         * [.fromArray(arr)](#module_ScramjetCore..DataStream.fromArray) ⇒ <code>DataStream</code>
@@ -1601,6 +1635,19 @@ The original objects are unaltered.
 ```js
 [../samples/data-stream-assign.js](../samples/data-stream-assign.js)
 ```
+<a name="module_ScramjetCore..DataStream+peek"></a>
+
+#### dataStream.peek(count, func) ↩︎
+Allows previewing some of the streams data without removing them from the stream.
+
+**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
+**Chainable**  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| count | <code>Number</code> | The number of items to view before |
+| func | <code>ShiftCallback</code> | Function called before other streams |
+
 <a name="module_ScramjetCore..DataStream+shift"></a>
 
 #### dataStream.shift(count, func) ⇒ <code>DataStream</code>
@@ -1801,15 +1848,4 @@ Standard options for scramjet streams.
 | Param | Type | Description |
 | --- | --- | --- |
 | chunk | <code>\*</code> | the chunk from the original stream |
-
-<a name="module_ScramjetCore..ShiftCallback"></a>
-
-### ScramjetCore~ShiftCallback : <code>function</code>
-Shift callback
-
-**Kind**: inner typedef of [<code>ScramjetCore</code>](#module_ScramjetCore)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| shifted | <code>Array.&lt;Object&gt;</code> | an array of shifted chunks |
 
