@@ -73,6 +73,6 @@
   },
   "dependencies": {
     "papaparse": "^4.3.7",
-    "scramjet-core": "^4.4.1"
+    "scramjet-core": "^4.5.0"
   }
 }
