@@ -35,8 +35,10 @@
     "parser"
   ],
   "scripts": {
-    "test": "gulp test",
+    "test": "gulp fulltest",
+    "quicktest": "gulp test",
     "docs": "gulp docs",
+    "lint": "gulp lint",
     "preversion": "gulp prerelease"
   },
   "homepage": "https://scramjet.eu/",
@@ -50,10 +52,10 @@
   "author": "Signicode / Michał Czapracki <cz@signicode.com>",
   "license": "MIT",
   "devDependencies": {
-    "dmd": "^3.0.9",
-    "eslint": "^4.17.0",
+    "dmd": "^3.0.11",
+    "eslint": "^4.18.1",
     "eslint-config-defaults": "^9.0.0",
-    "eslint-plugin-node": "^6.0.0",
+    "eslint-plugin-node": "^6.0.1",
     "gulp": "^3.9.1",
     "gulp-cli": "^2.0.1",
     "gulp-concat": "^2.6.0",
@@ -64,9 +66,9 @@
     "gulp-rename": "^1.2.2",
     "gulp-util": "^3.0.8",
     "jsdoc": "^3.5.5",
-    "jsdoc-api": "^4.0.2",
+    "jsdoc-api": "^4.0.3",
     "jsdoc-parse": "^3.0.1",
-    "nodeunit": "^0.11.0",
+    "nodeunit": "^0.11.2",
     "request": "^2.79.0",
     "request-promise-native": "^1.0.5",
     "through2": "^2.0.3"

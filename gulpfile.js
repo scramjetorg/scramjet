@@ -119,6 +119,7 @@ gulp.task("docs", ["copy_docs", "readme"],
         )
 );
 
-gulp.task("test", ["lint", "test_legacy", "test_samples"]);
+gulp.task("fulltest", ["lint", "test_legacy", "test_samples"]);
+gulp.task("test", ["test_legacy", "test_samples"]);
 gulp.task("default", ["readme", "docs", "test_legacy", "test_samples", "lint"]);
 gulp.task("prerelease", ["scm_clean"]);

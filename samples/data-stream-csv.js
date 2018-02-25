@@ -22,11 +22,11 @@ exports.test = async (test) => {
             { col1: "a a5,", col2: 60, col3: 0 }
         ], "CSV should be read");
 
+
         const out = DataStream.fromArray(withEol)
             .CSVStringify({newline: '\r\n', header: true});
 
         const aggr = await out.toArray();
-
         test.equals(aggr.join(''), 'col1,col2,col3\r\n"a a1,",20,0\r\n"a a2,",30,0\r\n"a a3,",40,0\r\n"a a4,",50,0\r\n"a a5,",60,0\r\n', "CSV should be written");
     } catch(e) {
         test.ok(false, "Should not throw: " + e.stack);

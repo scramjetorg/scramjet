@@ -6,11 +6,11 @@ const DataStream = require('../').DataStream;   // eslint-disable-line
 
 exports.test = function(test) {
     test.expect(1);
-    DataStream.fromArray([1,2,3,4,5,6,7,8,9,0])
-        .slice(3,3)
+    DataStream.fromArray([1,2,3])
+        .join(0)
         .toArray()
         .then(arr => {
-            test.deepEqual(arr, [4,5,6], 'Shifted items should be starting with fourth element');
+            test.deepEqual(arr, [1,0,2,0,3], 'join items should be added between items');
             test.done();
         });
 };
