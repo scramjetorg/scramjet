@@ -32,9 +32,6 @@ exports.test = (test) => {
                         (acc[item.strId] = acc[item.strId] || []).push(item.chunk);
                     }, {}
                 )
-                .then(
-                    (a) => (console.log("then"), a)
-                )
                 .catch(
                     (e) => console.log(e)
                 )
