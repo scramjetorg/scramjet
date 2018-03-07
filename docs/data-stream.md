@@ -51,7 +51,7 @@
                 * [.flatten()](#module_ScramjetCore..DataStream+flatten) ⇒ <code>DataStream</code>
                 * [.distribute([affinity], clusterFunc, options)](#module_ScramjetCore..DataStream+distribute) ↩︎
                 * [.separateInto(streams, affinity)](#module_ScramjetCore..DataStream+separateInto) ↩︎
-                * [.separate(affinity, createOptions)](#module_ScramjetCore..DataStream+separate) ⇒ <code>DataStream</code>
+                * [.separate(affinity, createOptions)](#module_ScramjetCore..DataStream+separate) ⇒ <code>MultiStream</code>
                 * [.delegate(delegateFunc, worker, [plugins])](#module_ScramjetCore..DataStream+delegate) ↩︎
                 * [.batch(count)](#module_ScramjetCore..DataStream+batch) ⇒ <code>DataStream</code>
                 * [.timeBatch(ms, count)](#module_ScramjetCore..DataStream+timeBatch) ⇒ <code>DataStream</code>
@@ -184,7 +184,7 @@ Transforms the stream to a streamed JSON object.
         * [.flatten()](#module_ScramjetCore..DataStream+flatten) ⇒ <code>DataStream</code>
         * [.distribute([affinity], clusterFunc, options)](#module_ScramjetCore..DataStream+distribute) ↩︎
         * [.separateInto(streams, affinity)](#module_ScramjetCore..DataStream+separateInto) ↩︎
-        * [.separate(affinity, createOptions)](#module_ScramjetCore..DataStream+separate) ⇒ <code>DataStream</code>
+        * [.separate(affinity, createOptions)](#module_ScramjetCore..DataStream+separate) ⇒ <code>MultiStream</code>
         * [.delegate(delegateFunc, worker, [plugins])](#module_ScramjetCore..DataStream+delegate) ↩︎
         * [.batch(count)](#module_ScramjetCore..DataStream+batch) ⇒ <code>DataStream</code>
         * [.timeBatch(ms, count)](#module_ScramjetCore..DataStream+timeBatch) ⇒ <code>DataStream</code>
@@ -682,11 +682,11 @@ Seprates stream into a hash of streams. Does not create new streams!
 
 <a name="module_ScramjetCore..DataStream+separate"></a>
 
-#### dataStream.separate(affinity, createOptions) ⇒ <code>DataStream</code>
+#### dataStream.separate(affinity, createOptions) ⇒ <code>MultiStream</code>
 Separates execution to multiple streams using the hashes returned by the passed callback.Calls the given callback for a hash, then makes sure all items with the same hash are processed within a singlestream. Thanks to that streams can be distributed to multiple threads.
 
 **Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
-**Returns**: <code>DataStream</code> - self  
+**Returns**: <code>MultiStream</code> - separated stream  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -1071,7 +1071,7 @@ Shift callback
                 * [.flatten()](#module_ScramjetCore..DataStream+flatten) ⇒ <code>DataStream</code>
                 * [.distribute([affinity], clusterFunc, options)](#module_ScramjetCore..DataStream+distribute) ↩︎
                 * [.separateInto(streams, affinity)](#module_ScramjetCore..DataStream+separateInto) ↩︎
-                * [.separate(affinity, createOptions)](#module_ScramjetCore..DataStream+separate) ⇒ <code>DataStream</code>
+                * [.separate(affinity, createOptions)](#module_ScramjetCore..DataStream+separate) ⇒ <code>MultiStream</code>
                 * [.delegate(delegateFunc, worker, [plugins])](#module_ScramjetCore..DataStream+delegate) ↩︎
                 * [.batch(count)](#module_ScramjetCore..DataStream+batch) ⇒ <code>DataStream</code>
                 * [.timeBatch(ms, count)](#module_ScramjetCore..DataStream+timeBatch) ⇒ <code>DataStream</code>
@@ -1204,7 +1204,7 @@ Transforms the stream to a streamed JSON object.
         * [.flatten()](#module_ScramjetCore..DataStream+flatten) ⇒ <code>DataStream</code>
         * [.distribute([affinity], clusterFunc, options)](#module_ScramjetCore..DataStream+distribute) ↩︎
         * [.separateInto(streams, affinity)](#module_ScramjetCore..DataStream+separateInto) ↩︎
-        * [.separate(affinity, createOptions)](#module_ScramjetCore..DataStream+separate) ⇒ <code>DataStream</code>
+        * [.separate(affinity, createOptions)](#module_ScramjetCore..DataStream+separate) ⇒ <code>MultiStream</code>
         * [.delegate(delegateFunc, worker, [plugins])](#module_ScramjetCore..DataStream+delegate) ↩︎
         * [.batch(count)](#module_ScramjetCore..DataStream+batch) ⇒ <code>DataStream</code>
         * [.timeBatch(ms, count)](#module_ScramjetCore..DataStream+timeBatch) ⇒ <code>DataStream</code>
@@ -1702,11 +1702,11 @@ Seprates stream into a hash of streams. Does not create new streams!
 
 <a name="module_ScramjetCore..DataStream+separate"></a>
 
-#### dataStream.separate(affinity, createOptions) ⇒ <code>DataStream</code>
+#### dataStream.separate(affinity, createOptions) ⇒ <code>MultiStream</code>
 Separates execution to multiple streams using the hashes returned by the passed callback.Calls the given callback for a hash, then makes sure all items with the same hash are processed within a singlestream. Thanks to that streams can be distributed to multiple threads.
 
 **Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
-**Returns**: <code>DataStream</code> - self  
+**Returns**: <code>MultiStream</code> - separated stream  
 
 | Param | Type | Description |
 | --- | --- | --- |
