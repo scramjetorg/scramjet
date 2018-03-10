@@ -3,7 +3,9 @@
     "extends": ["eslint:recommended", "plugin:node/recommended"],
     "rules": {
         "node/exports-style": ["error", "module.exports"],
-        "semi": ["error", "always"]
+        "semi": [2, "always"],
+        "no-extra-semi": 2,
+        "semi-spacing": [2, { "before": false, "after": true }]
     },
     "env": {
         "node": true
