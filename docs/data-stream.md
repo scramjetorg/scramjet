@@ -34,6 +34,7 @@
                 * [.pipe(to, options)](#module_ScramjetCore..DataStream+pipe) ⇒ <code>Writable</code>
                 * [.bufferify(serializer)](#module_ScramjetCore..DataStream+bufferify) ⇒ <code>BufferStream</code>
                 * [.stringify(serializer)](#module_ScramjetCore..DataStream+stringify) ⇒ <code>StringStream</code>
+                * [.run()](#module_ScramjetCore..DataStream+run) ⇒ <code>Promise</code>
                 * [.toArray(initial)](#module_ScramjetCore..DataStream+toArray) ⇒ <code>Promise</code>
                 * [.toGenerator()](#module_ScramjetCore..DataStream+toGenerator) ⇒ <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code>
                 * [._selfInstance()](#module_ScramjetCore..DataStream+_selfInstance) ⇒ <code>DataStream</code>
@@ -168,6 +169,7 @@ Transforms the stream to a streamed JSON object.
         * [.pipe(to, options)](#module_ScramjetCore..DataStream+pipe) ⇒ <code>Writable</code>
         * [.bufferify(serializer)](#module_ScramjetCore..DataStream+bufferify) ⇒ <code>BufferStream</code>
         * [.stringify(serializer)](#module_ScramjetCore..DataStream+stringify) ⇒ <code>StringStream</code>
+        * [.run()](#module_ScramjetCore..DataStream+run) ⇒ <code>Promise</code>
         * [.toArray(initial)](#module_ScramjetCore..DataStream+toArray) ⇒ <code>Promise</code>
         * [.toGenerator()](#module_ScramjetCore..DataStream+toGenerator) ⇒ <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code>
         * [._selfInstance()](#module_ScramjetCore..DataStream+_selfInstance) ⇒ <code>DataStream</code>
@@ -426,6 +428,13 @@ Creates a StringStream
 ```js
 [../samples/data-stream-tostringstream.js](../samples/data-stream-tostringstream.js)
 ```
+<a name="module_ScramjetCore..DataStream+run"></a>
+
+#### dataStream.run() ⇒ <code>Promise</code>
+Consumes all stream items without doing anything
+
+**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
+**Returns**: <code>Promise</code> - Resolved when the whole stream is read  
 <a name="module_ScramjetCore..DataStream+toArray"></a>
 
 #### dataStream.toArray(initial) ⇒ <code>Promise</code>
@@ -1061,6 +1070,7 @@ Shift callback
                 * [.pipe(to, options)](#module_ScramjetCore..DataStream+pipe) ⇒ <code>Writable</code>
                 * [.bufferify(serializer)](#module_ScramjetCore..DataStream+bufferify) ⇒ <code>BufferStream</code>
                 * [.stringify(serializer)](#module_ScramjetCore..DataStream+stringify) ⇒ <code>StringStream</code>
+                * [.run()](#module_ScramjetCore..DataStream+run) ⇒ <code>Promise</code>
                 * [.toArray(initial)](#module_ScramjetCore..DataStream+toArray) ⇒ <code>Promise</code>
                 * [.toGenerator()](#module_ScramjetCore..DataStream+toGenerator) ⇒ <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code>
                 * [._selfInstance()](#module_ScramjetCore..DataStream+_selfInstance) ⇒ <code>DataStream</code>
@@ -1195,6 +1205,7 @@ Transforms the stream to a streamed JSON object.
         * [.pipe(to, options)](#module_ScramjetCore..DataStream+pipe) ⇒ <code>Writable</code>
         * [.bufferify(serializer)](#module_ScramjetCore..DataStream+bufferify) ⇒ <code>BufferStream</code>
         * [.stringify(serializer)](#module_ScramjetCore..DataStream+stringify) ⇒ <code>StringStream</code>
+        * [.run()](#module_ScramjetCore..DataStream+run) ⇒ <code>Promise</code>
         * [.toArray(initial)](#module_ScramjetCore..DataStream+toArray) ⇒ <code>Promise</code>
         * [.toGenerator()](#module_ScramjetCore..DataStream+toGenerator) ⇒ <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code>
         * [._selfInstance()](#module_ScramjetCore..DataStream+_selfInstance) ⇒ <code>DataStream</code>
@@ -1453,6 +1464,13 @@ Creates a StringStream
 ```js
 [../samples/data-stream-tostringstream.js](../samples/data-stream-tostringstream.js)
 ```
+<a name="module_ScramjetCore..DataStream+run"></a>
+
+#### dataStream.run() ⇒ <code>Promise</code>
+Consumes all stream items without doing anything
+
+**Kind**: instance method of [<code>DataStream</code>](#module_ScramjetCore..DataStream)  
+**Returns**: <code>Promise</code> - Resolved when the whole stream is read  
 <a name="module_ScramjetCore..DataStream+toArray"></a>
 
 #### dataStream.toArray(initial) ⇒ <code>Promise</code>
