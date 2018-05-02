@@ -2,9 +2,8 @@
 const gulp = require("gulp");
 const env = require('gulp-env');
 const path = require("path");
-const gutil = require("gulp-util");
 const rename = require("gulp-rename");
-const nodeunit_runner = require("gulp-nodeunit-runner");
+const tape_nodeunit_runner = require("scramjet-core/test/tape-runner");
 const eslint = require('gulp-eslint');
 const exec = require('gulp-exec');
 const execp = require('child_process').exec;
@@ -28,15 +27,15 @@ gulp.task('lint', () => {
 gulp.task("test_legacy", function () {
 
     return gulp.src([
-        path.resolve(corepath, "../test/v1/*.js"),
-        'test/v1/*.js'
-    ])
+            path.resolve(corepath, "../test/v1/*.js"),
+            'test/v1/*.js'
+        ])
         .pipe(env({
             vars: {
                 SCRAMJET_TEST_HOME: __dirname
             }
         }))
-        .pipe(nodeunit_runner({reporter: "verbose"}))
+        .pipe(tape_nodeunit_runner({timeout: 5000}))
     ;
 });
 
@@ -109,7 +108,7 @@ gulp.task("docs", ["copy_docs", "readme"],
             return file;
         })
         .on("error", function(err) {
-            gutil.log(gutil.colors.red("jsdoc2md failed"), err.message);
+            log.error("jsdoc2md failed", err.stack);
         })
         .pipe(rename(function(path) {
             path.extname = ".md";

@@ -21,9 +21,7 @@ exports.test = async (test) => {
     setTimeout(() => {
         x.write(6);
         x.end(7);
-    }, 250);
-
-
+    }, 450);
 
     const out = await x.timeBatch(100, 2)
         .toArray();

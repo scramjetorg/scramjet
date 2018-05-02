@@ -11,7 +11,6 @@ process.on('unhandledRejection', console.error);
 let z = 0;
 
 const test = DataStream.fromIterator(iter)
-//    .each((item) => console.log('pushing', item))
     .distribute(
         item => item.terms % 8,
         (stream) => stream.map((chunk) => {
@@ -31,6 +30,8 @@ const test = DataStream.fromIterator(iter)
     .JSONStringify()
     .map((x) => (z++ + '>> ' + x))
     .on('error', console.error)
-    .on('end', () => console.log('xx end'))
+    .on('end', () => exports.log('xx end'))
     .pipe(process.stdout)
 ;
+
+exports.log = console.log.bind(console);

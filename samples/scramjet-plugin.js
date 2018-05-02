@@ -18,12 +18,12 @@ const {DataStream, StringStream} = require('../').plugin(
         StringStream: {
             constructor({xSymbol: optionsX}) {
                 if (optionsX === xSymbol) {
-                    console.log("abc");
+                    exports.log("abc");
                     return {
                         x: xSymbol
                     };
                 } else {
-                    console.log("cba");
+                    exports.log("cba");
                 }
             }
         }
@@ -51,3 +51,5 @@ exports.test = (test) => {
     test.done();
 
 };
+
+exports.log = console.log.bind(console);
