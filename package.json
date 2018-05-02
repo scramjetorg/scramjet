@@ -68,11 +68,11 @@
     "jsdoc-parse": "^3.0.1",
     "request": "^2.85.0",
     "request-promise-native": "^1.0.5",
-    "through2": "^2.0.3"
+    "through2": "^2.0.3",
+    "tape": "^4.9.0"
   },
   "dependencies": {
     "papaparse": "^4.3.7",
-    "scramjet-core": "^4.9.1",
-    "tape": "^4.9.0"
+    "scramjet-core": "^4.9.2"
   }
 }
