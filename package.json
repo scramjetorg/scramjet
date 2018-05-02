@@ -62,19 +62,17 @@
     "gulp-env": "^0.4.0",
     "gulp-eslint": "^4.0.1",
     "gulp-exec": "^3.0.1",
-    "gulp-nodeunit-runner": "^0.2.2",
     "gulp-rename": "^1.2.2",
-    "gulp-util": "^3.0.8",
     "jsdoc": "^3.5.5",
     "jsdoc-api": "^4.0.3",
     "jsdoc-parse": "^3.0.1",
-    "nodeunit": "^0.11.2",
     "request": "^2.85.0",
     "request-promise-native": "^1.0.5",
     "through2": "^2.0.3"
   },
   "dependencies": {
     "papaparse": "^4.3.7",
-    "scramjet-core": "^4.9.0"
+    "scramjet-core": "^4.9.1",
+    "tape": "^4.9.0"
   }
 }

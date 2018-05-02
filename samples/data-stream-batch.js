@@ -11,7 +11,7 @@ exports.test = (test) => {
         .each(
             (item) => {
                 test.ok("Items except for the last one must be length of 3", item[0] === 10 || item.length === 3);
-                console.log(item);
+                exports.log(item);
             }
         )
         .toArray()
@@ -29,3 +29,5 @@ exports.test = (test) => {
             }
         );
 };
+
+exports.log = console.log.bind(console);

@@ -6,7 +6,7 @@ const StringStream = require('../').StringStream;
 exports.stream = () => require("./buffer-stream-split")
     .stream()                                                                   // get BufferStream from another example
     .toStringStream('ascii')                                                    // read as strings
-    .each(console.log)
+    .each(exports.log)
     .map(
         (b64) => Buffer.from(b64, "base64").toString()
     );

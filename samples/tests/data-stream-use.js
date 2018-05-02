@@ -30,6 +30,8 @@ const test = DataStream.fromIterator(iter)
     .JSONStringify()
     .map((x) => (z++ + '>> ' + x))
     .on('error', console.error)
-    .on('end', () => console.log('xx end'))
+    .on('end', () => exports.log('xx end'))
     .pipe(process.stdout)
 ;
+
+exports.log = console.log.bind(console);

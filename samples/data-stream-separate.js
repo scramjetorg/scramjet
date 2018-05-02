@@ -33,7 +33,7 @@ exports.test = (test) => {
                     }, {}
                 )
                 .catch(
-                    (e) => console.log(e)
+                    (e) => exports.log(e)
                 )
         )
         .then(

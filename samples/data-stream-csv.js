@@ -15,11 +15,11 @@ exports.test = async (test) => {
             .toArray();
 
         test.deepEqual(withEol, [
-            { col1: "a a1,", col2: 20, col3: 0 },
-            { col1: "a a2,", col2: 30, col3: 0 },
-            { col1: "a a3,", col2: 40, col3: 0 },
-            { col1: "a a4,", col2: 50, col3: 0 },
-            { col1: "a a5,", col2: 60, col3: 0 }
+            { col1: "a a1,", col2: '20', col3: '0' },
+            { col1: "a a2,", col2: '30', col3: '0' },
+            { col1: "a a3,", col2: '40', col3: '0' },
+            { col1: "a a4,", col2: '50', col3: '0' },
+            { col1: "a a5,", col2: '60', col3: '0' }
         ], "CSV should be read");
 
 

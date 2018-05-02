@@ -1,18 +1,21 @@
 #!/usr/bin/env node
 
 const path = require('path');
-const nodeunit = require('../lib/reporter');
-const stream = require(path.resolve(process.cwd(), process.argv[2]));
+const runner = require("scramjet-core/test/tape-runner");
+const {DataStream} = require('../../');
+const file = path.resolve(process.cwd(), process.argv[2]);
 
 const {unhandledRejectionHandler} = require("./handlers");
 
 process.on("unhandledRejection", unhandledRejectionHandler);
 
-nodeunit.run(process.argv[2], {
-    stream: stream.test
-}, null, (err) => {
-    if (err) {
-        console.error(err);
-        process.exit(127);
-    }
-});
+DataStream.fromArray([{
+        path: file
+    }])
+    .pipe(runner({}))
+    .catch(
+        (err) => {
+            console.error(err);
+            process.exit(127);
+        }
+    );

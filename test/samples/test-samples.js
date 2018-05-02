@@ -3,10 +3,10 @@
 const scramjet = require("../../");
 const fs = require('fs');
 const path = require('path');
-const nodeunit = require('../lib/reporter');
 const {unhandledRejectionHandler} = require("./handlers");
 const corepath = path.dirname(require.resolve("scramjet-core"));
 const {promisify} = require('util');
+const {runTests, flattenTests} = require("scramjet-core/test/tape-runner");
 
 const matrix = [
     ["buffer", scramjet.BufferStream],
@@ -52,65 +52,73 @@ module.exports = scramjet.fromArray(
         return arr;
     }
 )
-.catch(e => console.error(e && e.stack))
 .assign(async (test) => {
-    const {file, method} = test;
+    const {file, cls, method} = test;
+
+    const prefix = cls + '-stream';
 
     try {
         await access(file, fs.constants.R_OK);
     } catch (err) {
-        return {err: err, test: (test) => {
-            test.ok(false, "Sample for "+method+" is inaccessible!");
-            test.done();
+        return {prefix, tests: {
+            [method](test) {
+                test.fail(err, "Sample for "+method+" is inaccessible!");
+                test.done();
+            }
         }};
     }
 
     try {
         const out = require(file);
+        const tests = out.test ? {[method]: out.test} : [];
+        out.log = () => 0;
 
-        return {log() {}, test: out.test || ((test) => {
-            test.ok(true, "Sample exists but there's no test.");
-            test.done();
-        })};
+        return {prefix, tests: {
+            [method]: tests || ((test) => {
+                test.ok(true, "Sample exists but there's no test.");
+                test.done();
+            })
+        }};
     } catch(err) {
-        return {err: err, test: (test) => {
-            test.ok(false, "Test is failed to load: \n" + err && err.stack);
-            test.done();
+        return {prefix, tests: {
+            [method](test) {
+                test.fail(err, "Test is failed to load: \n" + err && err.stack);
+                test.done();
+            }
         }};
     }
 })
-.reduce(
-    (acc, item) => {
-        const base = item.cls + ":" + item.method;
-        acc[base] = item.test;
-        return acc;
-    },
-    {}
-).then(
-    async (tests) => {
-        tests = Object.keys(tests).sort().reduce(
-            (acc, key) => (acc[key] = tests[key], acc),
-            {}
-        );
-        const outcome = await promisify(nodeunit.run)("samples_test", tests, null);
-
-        const errs = outcome.map(({error}) => error)
-            .filter(e => e)
-        ;
-
-        if (errs.length) {
-            throw new Error(errs.length + " errors found");
-        }
-    }
-).then(
-    () => console.log("Tests succeeded!"),
+.assign(
+    flattenTests
+)
+.assign(
+    runTests
+)
+.catch(
     (e) => {
-        console.error("Some tests failed", e.message);
+        console.error('ERRROR', e && e.stack);
+        process.exit(103);
+    }
+)
+.filter(
+    (test) => !test.ok
+)
+.toArray()
+.then(
+    (arr) => {
+        if (!arr.length)
+            return console.error("Tests succeeded!");
+
+        arr.forEach(
+            test => console.error(test)
+        );
+
         process.exit(101);
     }
-).catch(
+)
+.catch(
     (error) => {
-        console.log("Error", error);
+        console.error("Error", error);
         process.exit(100);
     }
 );
