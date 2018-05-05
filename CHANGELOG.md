@@ -2,6 +2,12 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augementation and on...
 
+## Scramjet 4.11.0 - Method improvements and addition of into.
+
+* Allow `separate` to send a single chunk into multiple output streams.
+* Update scramjet-core, introduction of `into` method.
+* Documentation fixes and a new example in main readme.
+
 ## Scramjet 4.10.1 - Remove nodeunit dependency in favor of tap
 
 * Dependency update to remove vunerablity
