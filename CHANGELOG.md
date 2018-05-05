@@ -1,3 +1,70 @@
+# Scramjet 4.x
+
+Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augementation and on...
+
+## Scramjet 4.11.0 - Method improvements and addition of into.
+
+* Allow `separate` to send a single chunk into multiple output streams.
+* Update scramjet-core, introduction of `into` method.
+* Documentation fixes and a new example in main readme.
+
+## Scramjet 4.10.1 - Remove nodeunit dependency in favor of tap
+
+* Dependency update to remove vunerablity
+* Removal of nodeunit in favor of tape
+* Scramjet-core 4.9.1
+
+## Scramjet 4.10.0 - Nodejs v10 compatibility fix
+
+* Node.js v10 compatibility
+* Node.js v9 tests
+
+## Scramjet 4.9.0
+
+* Adds `whenError` method to all stream
+* Fixes `consume` method
+* Update `scramjet-core`
+
+## Scramjet 4.6.0
+
+* Major fixes in multiple methods, fixed tests, better coverage
+* Reorganization of methods, many additions:
+  * `DataStream::slice` method added for getting data from in between streams
+  * `DataStream::endWith` method added to push something onto the end of the stream
+  * `DataStream::concat` method added to append streams one after another
+  * `DataStream::join` method added to add chunk inbetween items
+  * `DataStream::toJSONArray` method added to output streamed JSON array
+  * `DataStream::toJSONObject` method added to output streamed JSON object
+
+## Scramjet 4.5.0
+
+* New `peek` and `empty` methods on DataStream
+* Update `scramjet-core`
+* Allow loading modules just by passing their paths, increase default threads
+* Dependency removal
+* Affinity callback optional on `distribute`
+
+## Scramjet 4.4.0
+
+* improved multi-threading
+
+## Scramjet 4.3.0
+
+* Using `papaparse` for CSV parse/serialization
+* Dependency updates
+
+## Scramjet 4.2.0
+
+* Fully functional multi-threading
+
+## Scramjet 4.0.0
+
+* Node.js v6 no longer supported
+* Initial multi-threading support
+* New docs and changelogs
+* New linting
+* Dependent on `scramjet-core 4.x`
+
 # Scramjet 3.x
 
 The intreface is still the same as previous 2.x version, but now Scramjet is plugin based.
@@ -7,7 +74,7 @@ for plugin development.
 
 Scramjet itself now consitst of most common plugins and extends core.
 
-# Scramjet 3.1.0
+## Scramjet 3.1.0
 
 Added new methods (with the dependecy to `scramjet-core v3.2.0`):
 
@@ -16,7 +83,7 @@ Added new methods (with the dependecy to `scramjet-core v3.2.0`):
 
 Test now also checks if files lint properly.
 
-# Scramjet 3.0.0
+## Scramjet 3.0.0
 
 Initial release of Scramjet 3.
 

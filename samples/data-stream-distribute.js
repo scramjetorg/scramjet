@@ -10,19 +10,21 @@ function* gen() {
         yield z;
 }
 
-exports.test = (test) => {
-    test.expect(3);
+exports.test = {
+    distribute(test) {
+        test.expect(3);
 
-    DataStream.fromIterator(gen())
-        .distribute(
-            i => i % cpus,
-            require.resolve("./tests/prime.js")
-        )
-        .toArray()
-        .then((arr) => {
-            test.equal(arr.length, 169, "169 prime numbers must be found");
-            test.ok(arr.includes(13), "13 is prime");
-            test.ok(!arr.includes(30), "30 isn't prime");
-            test.done();
-        });
+        DataStream.fromIterator(gen())
+            .distribute(
+                i => i % cpus,
+                require.resolve("./tests/prime.js")
+            )
+            .toArray()
+            .then((arr) => {
+                test.equal(arr.length, 169, "169 prime numbers must be found");
+                test.ok(arr.includes(13), "13 is prime");
+                test.ok(!arr.includes(30), "30 isn't prime");
+                test.done();
+            });
+    }
 };

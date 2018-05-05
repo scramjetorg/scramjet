@@ -26,20 +26,35 @@ The benchmarks are published in the [scramjet-benchmark repo](https://github.com
 
 ## Example
 
-How about a CSV parser of all the parkings in the city of Wrocław from http://www.wroclaw.pl/open-data/...
+How about a full API to API migration, reading a long list of items from one API and checking them one after another,
+pushing them to another API? With simultaneous request control? And outputting the log of the conversion? Easy!
 
 ```javascript
 const request = require("request");
-const StringStream = require("scramjet").StringStream;
+const rp = require("request-promise-native");
+const { StringStream } = require("scramjet");
 
-let columns = null;
-request.get("http://www.wroclaw.pl/open-data/opendata/its/parkingi/parkingi.csv")
-    .pipe(new StringStream())
-    .split("\n")
-    .parse((line) => line.split(";"))
-    .shift(1, (data) => columns = data)
-    .map((data) => columns.reduce((acc, id, i) => (acc[id] = data[i], acc), {}))
-    .each(console.log)
+request('https://api.example.org/v1/shows/list')   // fetch your API data
+    .pipe(new StringStream)                        // pipe to a scramjet stream
+    .setOptions({maxParallel: 4})                  // set your options
+    .lines()                                       // split the stream by line
+    .parse(theirShow => {                          // parse to your requirement
+        return {
+            id: theirShow.id,
+            title: theirShow.name,
+            url: theirShow.url
+        }
+    })
+    .map(myShow => rp({                            // parse to your requirement
+        method: "POST",
+        simple: true,
+        uri: `http://api.local/set/${myshow.id}`,
+        body: JSON.stringify(myShow)
+    })
+    .map(resp => `+ Update succeeded ${err.uri}`)  // make your logs
+    .catch(err => `! Error occured ${err.uri}`)
+    .append('\n')
+    .pipe(process.stdout);                         // pipe to any output
 ```
 
 Of course you can also use the simple `CSVParse` method to do that. :)

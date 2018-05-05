@@ -33,7 +33,7 @@
 
 <dl>
 <dt><a href="#ShiftCallback">ShiftCallback</a> : <code>function</code></dt>
-<dd><p>Pop callback</p>
+<dd><p>Shift callback</p>
 </dd>
 <dt><a href="#ParseCallback">ParseCallback</a> ⇒ <code>Promise</code></dt>
 <dd></dd>
@@ -191,7 +191,7 @@ Alias for [parse](#BufferStream+parse)
 <a name="ShiftCallback"></a>
 
 ## ShiftCallback : <code>function</code>
-Pop callback
+Shift callback
 
 **Kind**: global typedef  
 
