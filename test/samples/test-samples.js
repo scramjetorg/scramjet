@@ -70,7 +70,7 @@ module.exports = scramjet.fromArray(
 
     try {
         const out = require(file);
-        const tests = out.test ? {[method]: out.test} : [];
+        const tests = out.test ? {[method]: out.test} : {};
         out.log = () => 0;
 
         return {prefix, tests: {
