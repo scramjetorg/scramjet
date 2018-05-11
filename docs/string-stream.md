@@ -1,56 +1,56 @@
-<a name="module_ScramjetCore"></a>
+## Classes
 
-## ScramjetCore
+<dl>
+<dt><a href="#StringStream">StringStream</a> ⇐ <code>DataStream</code></dt>
+<dd><p>A stream of string objects for further transformation on top of DataStream.</p>
+</dd>
+</dl>
 
-* [ScramjetCore](#module_ScramjetCore)
-    * [~StringStream](#module_ScramjetCore..StringStream) ⇐ <code>DataStream</code>
-        * [new StringStream(encoding)](#new_module_ScramjetCore..StringStream_new)
-        * _instance_
-            * [.shift(bytes, func)](#module_ScramjetCore..StringStream+shift) ⇒ <code>StringStream</code>
-            * [.split(splitter)](#module_ScramjetCore..StringStream+split) ⇒ <code>StringStream</code>
-            * [.match(splitter)](#module_ScramjetCore..StringStream+match) ⇒ <code>StringStream</code>
-            * [.toBufferStream()](#module_ScramjetCore..StringStream+toBufferStream) ⇒ <code>StringStream</code>
-            * [.parse(parser)](#module_ScramjetCore..StringStream+parse) ⇒ <code>DataStream</code>
-            * [.lines([eol])](#module_ScramjetCore..StringStream+lines) ⇒ <code>StringStream</code>
-            * [.JSONParse(perLine)](#module_ScramjetCore..StringStream+JSONParse) ⇒ <code>DataStream</code>
-            * [.CSVParse(options)](#module_ScramjetCore..StringStream+CSVParse) ⇒ <code>DataStream</code>
-            * [.append(arg)](#module_ScramjetCore..StringStream+append) ⇒ <code>StringStream</code>
-            * [.prepend(arg)](#module_ScramjetCore..StringStream+prepend) ⇒ <code>StringStream</code>
-        * _static_
-            * [.SPLIT_LINE](#module_ScramjetCore..StringStream.SPLIT_LINE)
-            * [.fromString(str, encoding)](#module_ScramjetCore..StringStream.fromString) ⇒ <code>StringStream</code>
-    * [~toDataStream()](#module_ScramjetCore..toDataStream)
-    * [~ShiftCallback](#module_ScramjetCore..ShiftCallback) : <code>function</code>
-    * [~ParseCallback](#module_ScramjetCore..ParseCallback) ⇒ <code>Promise</code>
+## Functions
 
-<a name="module_ScramjetCore..StringStream"></a>
+<dl>
+<dt><a href="#toDataStream">toDataStream()</a></dt>
+<dd><p>Alias for <a href="#StringStream+parse">parse</a></p>
+</dd>
+</dl>
 
-### ScramjetCore~StringStream ⇐ <code>DataStream</code>
+## Typedefs
+
+<dl>
+<dt><a href="#ShiftCallback">ShiftCallback</a> : <code>function</code></dt>
+<dd></dd>
+<dt><a href="#ParseCallback">ParseCallback</a> ⇒ <code>Promise</code></dt>
+<dd></dd>
+</dl>
+
+<a name="StringStream"></a>
+
+## StringStream ⇐ <code>DataStream</code>
 A stream of string objects for further transformation on top of DataStream.
 
-**Kind**: inner class of [<code>ScramjetCore</code>](#module_ScramjetCore)  
+**Kind**: global class  
 **Extends**: <code>DataStream</code>  
 
-* [~StringStream](#module_ScramjetCore..StringStream) ⇐ <code>DataStream</code>
-    * [new StringStream(encoding)](#new_module_ScramjetCore..StringStream_new)
+* [StringStream](#StringStream) ⇐ <code>DataStream</code>
+    * [new StringStream(encoding)](#new_StringStream_new)
     * _instance_
-        * [.shift(bytes, func)](#module_ScramjetCore..StringStream+shift) ⇒ <code>StringStream</code>
-        * [.split(splitter)](#module_ScramjetCore..StringStream+split) ⇒ <code>StringStream</code>
-        * [.match(splitter)](#module_ScramjetCore..StringStream+match) ⇒ <code>StringStream</code>
-        * [.toBufferStream()](#module_ScramjetCore..StringStream+toBufferStream) ⇒ <code>StringStream</code>
-        * [.parse(parser)](#module_ScramjetCore..StringStream+parse) ⇒ <code>DataStream</code>
-        * [.lines([eol])](#module_ScramjetCore..StringStream+lines) ⇒ <code>StringStream</code>
-        * [.JSONParse(perLine)](#module_ScramjetCore..StringStream+JSONParse) ⇒ <code>DataStream</code>
-        * [.CSVParse(options)](#module_ScramjetCore..StringStream+CSVParse) ⇒ <code>DataStream</code>
-        * [.append(arg)](#module_ScramjetCore..StringStream+append) ⇒ <code>StringStream</code>
-        * [.prepend(arg)](#module_ScramjetCore..StringStream+prepend) ⇒ <code>StringStream</code>
+        * [.shift(bytes, func)](#StringStream+shift) ⇒ [<code>StringStream</code>](#StringStream)
+        * [.split(splitter)](#StringStream+split) ⇒ [<code>StringStream</code>](#StringStream)
+        * [.match(splitter)](#StringStream+match) ⇒ [<code>StringStream</code>](#StringStream)
+        * [.toBufferStream()](#StringStream+toBufferStream) ⇒ [<code>StringStream</code>](#StringStream)
+        * [.parse(parser)](#StringStream+parse) ⇒ <code>DataStream</code>
+        * [.lines([eol])](#StringStream+lines) ⇒ [<code>StringStream</code>](#StringStream)
+        * [.JSONParse(perLine)](#StringStream+JSONParse) ⇒ <code>DataStream</code>
+        * [.CSVParse(options)](#StringStream+CSVParse) ⇒ <code>DataStream</code>
+        * [.append(arg)](#StringStream+append) ⇒ [<code>StringStream</code>](#StringStream)
+        * [.prepend(arg)](#StringStream+prepend) ⇒ [<code>StringStream</code>](#StringStream)
     * _static_
-        * [.SPLIT_LINE](#module_ScramjetCore..StringStream.SPLIT_LINE)
-        * [.fromString(str, encoding)](#module_ScramjetCore..StringStream.fromString) ⇒ <code>StringStream</code>
+        * [.SPLIT_LINE](#StringStream.SPLIT_LINE)
+        * [.fromString(str, encoding)](#StringStream.fromString) ⇒ [<code>StringStream</code>](#StringStream)
 
-<a name="new_module_ScramjetCore..StringStream_new"></a>
+<a name="new_StringStream_new"></a>
 
-#### new StringStream(encoding)
+### new StringStream(encoding)
 Constructs the stream with the given encoding
 
 
@@ -58,33 +58,33 @@ Constructs the stream with the given encoding
 | --- | --- | --- |
 | encoding | <code>String</code> | the encoding to use |
 
-<a name="module_ScramjetCore..StringStream+shift"></a>
+<a name="StringStream+shift"></a>
 
-#### stringStream.shift(bytes, func) ⇒ <code>StringStream</code>
+### stringStream.shift(bytes, func) ⇒ [<code>StringStream</code>](#StringStream)
 Shifts given length of chars from the original stream
 
 Works the same way as {@see DataStream.shift}, but in this case extracts
 the given number of characters.
 
-**Kind**: instance method of [<code>StringStream</code>](#module_ScramjetCore..StringStream)  
-**Returns**: <code>StringStream</code> - substream.  
+**Kind**: instance method of [<code>StringStream</code>](#StringStream)  
+**Returns**: [<code>StringStream</code>](#StringStream) - substream.  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | bytes | <code>Number</code> | The number of characters to shift. |
-| func | <code>ShiftCallback</code> | Function that receives a string of shifted                                 chars. |
+| func | [<code>ShiftCallback</code>](#ShiftCallback) | Function that receives a string of shifted                                 chars. |
 
 **Example**  
 ```js
 [../samples/string-stream-shift.js](../samples/string-stream-shift.js)
 ```
-<a name="module_ScramjetCore..StringStream+split"></a>
+<a name="StringStream+split"></a>
 
-#### stringStream.split(splitter) ⇒ <code>StringStream</code>
+### stringStream.split(splitter) ⇒ [<code>StringStream</code>](#StringStream)
 Splits the string stream by the specified regexp or string
 
-**Kind**: instance method of [<code>StringStream</code>](#module_ScramjetCore..StringStream)  
-**Returns**: <code>StringStream</code> - the re-splitted string stream.  
+**Kind**: instance method of [<code>StringStream</code>](#StringStream)  
+**Returns**: [<code>StringStream</code>](#StringStream) - the re-splitted string stream.  
 **Todo**
 
 - [ ] implement splitting by buffer or string
@@ -98,13 +98,13 @@ Splits the string stream by the specified regexp or string
 ```js
 [../samples/string-stream-split.js](../samples/string-stream-split.js)
 ```
-<a name="module_ScramjetCore..StringStream+match"></a>
+<a name="StringStream+match"></a>
 
-#### stringStream.match(splitter) ⇒ <code>StringStream</code>
+### stringStream.match(splitter) ⇒ [<code>StringStream</code>](#StringStream)
 Finds matches in the string stream and streams the match results
 
-**Kind**: instance method of [<code>StringStream</code>](#module_ScramjetCore..StringStream)  
-**Returns**: <code>StringStream</code> - string stream of matches.  
+**Kind**: instance method of [<code>StringStream</code>](#StringStream)  
+**Returns**: [<code>StringStream</code>](#StringStream) - string stream of matches.  
 **Todo**
 
 - [ ] implement splitting by buffer or string
@@ -118,47 +118,47 @@ Finds matches in the string stream and streams the match results
 ```js
 [../samples/string-stream-match.js](../samples/string-stream-match.js)
 ```
-<a name="module_ScramjetCore..StringStream+toBufferStream"></a>
+<a name="StringStream+toBufferStream"></a>
 
-#### stringStream.toBufferStream() ⇒ <code>StringStream</code>
+### stringStream.toBufferStream() ⇒ [<code>StringStream</code>](#StringStream)
 Transforms the StringStream to BufferStream
 
 Creates a buffer stream from the given string stream. Still it returns a
 DataStream derivative and isn't the typical node.js stream so you can do
 all your transforms when you like.
 
-**Kind**: instance method of [<code>StringStream</code>](#module_ScramjetCore..StringStream)  
-**Returns**: <code>StringStream</code> - The converted stream.  
+**Kind**: instance method of [<code>StringStream</code>](#StringStream)  
+**Returns**: [<code>StringStream</code>](#StringStream) - The converted stream.  
 **Example**  
 ```js
 [../samples/string-stream-tobufferstream.js](../samples/string-stream-tobufferstream.js)
 ```
-<a name="module_ScramjetCore..StringStream+parse"></a>
+<a name="StringStream+parse"></a>
 
-#### stringStream.parse(parser) ⇒ <code>DataStream</code>
+### stringStream.parse(parser) ⇒ <code>DataStream</code>
 Parses every string to object
 
 The method MUST parse EVERY string into a single object, so the string
 stream here should already be splitted.
 
-**Kind**: instance method of [<code>StringStream</code>](#module_ScramjetCore..StringStream)  
+**Kind**: instance method of [<code>StringStream</code>](#StringStream)  
 **Returns**: <code>DataStream</code> - The parsed objects stream.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| parser | <code>ParseCallback</code> | The transform function |
+| parser | [<code>ParseCallback</code>](#ParseCallback) | The transform function |
 
 **Example**  
 ```js
 [../samples/string-stream-parse.js](../samples/string-stream-parse.js)
 ```
-<a name="module_ScramjetCore..StringStream+lines"></a>
+<a name="StringStream+lines"></a>
 
-#### stringStream.lines([eol]) ⇒ <code>StringStream</code>
+### stringStream.lines([eol]) ⇒ [<code>StringStream</code>](#StringStream)
 Splits the string stream by the specified regexp or string
 
-**Kind**: instance method of [<code>StringStream</code>](#module_ScramjetCore..StringStream)  
-**Returns**: <code>StringStream</code> - the re-splitted string stream.  
+**Kind**: instance method of [<code>StringStream</code>](#StringStream)  
+**Returns**: [<code>StringStream</code>](#StringStream) - the re-splitted string stream.  
 **Todo**
 
 - [ ] implement splitting by buffer or string
@@ -172,25 +172,25 @@ Splits the string stream by the specified regexp or string
 ```js
 [../samples/string-stream-split.js](../samples/string-stream-split.js)
 ```
-<a name="module_ScramjetCore..StringStream+JSONParse"></a>
+<a name="StringStream+JSONParse"></a>
 
-#### stringStream.JSONParse(perLine) ⇒ <code>DataStream</code>
+### stringStream.JSONParse(perLine) ⇒ <code>DataStream</code>
 Parses each entry as JSON.
 Ignores empty lines
 
-**Kind**: instance method of [<code>StringStream</code>](#module_ScramjetCore..StringStream)  
+**Kind**: instance method of [<code>StringStream</code>](#StringStream)  
 **Returns**: <code>DataStream</code> - stream of parsed items  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | perLine | <code>Boolean</code> | instructs to split per line |
 
-<a name="module_ScramjetCore..StringStream+CSVParse"></a>
+<a name="StringStream+CSVParse"></a>
 
-#### stringStream.CSVParse(options) ⇒ <code>DataStream</code>
+### stringStream.CSVParse(options) ⇒ <code>DataStream</code>
 Parses CSV to DataString using 'papaparse' module.
 
-**Kind**: instance method of [<code>StringStream</code>](#module_ScramjetCore..StringStream)  
+**Kind**: instance method of [<code>StringStream</code>](#StringStream)  
 **Returns**: <code>DataStream</code> - stream of parsed items  
 
 | Param | Description |
@@ -201,13 +201,13 @@ Parses CSV to DataString using 'papaparse' module.
 ```js
 [../samples/data-stream-separate.js](../samples/data-stream-separate.js)
 ```
-<a name="module_ScramjetCore..StringStream+append"></a>
+<a name="StringStream+append"></a>
 
-#### stringStream.append(arg) ⇒ <code>StringStream</code>
+### stringStream.append(arg) ⇒ [<code>StringStream</code>](#StringStream)
 Appends given argument to all the items.
 
-**Kind**: instance method of [<code>StringStream</code>](#module_ScramjetCore..StringStream)  
-**Returns**: <code>StringStream</code> - the resulting stream  
+**Kind**: instance method of [<code>StringStream</code>](#StringStream)  
+**Returns**: [<code>StringStream</code>](#StringStream) - the resulting stream  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -217,13 +217,13 @@ Appends given argument to all the items.
 ```js
 [../samples/string-stream-append.js](../samples/string-stream-append.js)
 ```
-<a name="module_ScramjetCore..StringStream+prepend"></a>
+<a name="StringStream+prepend"></a>
 
-#### stringStream.prepend(arg) ⇒ <code>StringStream</code>
+### stringStream.prepend(arg) ⇒ [<code>StringStream</code>](#StringStream)
 Prepends given argument to all the items.
 
-**Kind**: instance method of [<code>StringStream</code>](#module_ScramjetCore..StringStream)  
-**Returns**: <code>StringStream</code> - the resulting stream  
+**Kind**: instance method of [<code>StringStream</code>](#StringStream)  
+**Returns**: [<code>StringStream</code>](#StringStream) - the resulting stream  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -233,44 +233,44 @@ Prepends given argument to all the items.
 ```js
 [../samples/string-stream-prepend.js](../samples/string-stream-prepend.js)
 ```
-<a name="module_ScramjetCore..StringStream.SPLIT_LINE"></a>
+<a name="StringStream.SPLIT_LINE"></a>
 
-#### StringStream.SPLIT_LINE
+### StringStream.SPLIT_LINE
 A handly split by line regex to quickly get a line-by-line stream
 
-**Kind**: static property of [<code>StringStream</code>](#module_ScramjetCore..StringStream)  
-<a name="module_ScramjetCore..StringStream.fromString"></a>
+**Kind**: static property of [<code>StringStream</code>](#StringStream)  
+<a name="StringStream.fromString"></a>
 
-#### StringStream.fromString(str, encoding) ⇒ <code>StringStream</code>
+### StringStream.fromString(str, encoding) ⇒ [<code>StringStream</code>](#StringStream)
 Creates a StringStream and writes a specific string.
 
-**Kind**: static method of [<code>StringStream</code>](#module_ScramjetCore..StringStream)  
-**Returns**: <code>StringStream</code> - new StringStream.  
+**Kind**: static method of [<code>StringStream</code>](#StringStream)  
+**Returns**: [<code>StringStream</code>](#StringStream) - new StringStream.  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | str | <code>String</code> | the string to push the your stream |
 | encoding | <code>String</code> | optional encoding |
 
-<a name="module_ScramjetCore..toDataStream"></a>
+<a name="toDataStream"></a>
 
-### ScramjetCore~toDataStream()
-Alias for [StringStream#parse](StringStream#parse)
+## toDataStream()
+Alias for [parse](#StringStream+parse)
 
-**Kind**: inner method of [<code>ScramjetCore</code>](#module_ScramjetCore)  
-<a name="module_ScramjetCore..ShiftCallback"></a>
+**Kind**: global function  
+<a name="ShiftCallback"></a>
 
-### ScramjetCore~ShiftCallback : <code>function</code>
-**Kind**: inner typedef of [<code>ScramjetCore</code>](#module_ScramjetCore)  
+## ShiftCallback : <code>function</code>
+**Kind**: global typedef  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | shifted | <code>String</code> | Pooped chars |
 
-<a name="module_ScramjetCore..ParseCallback"></a>
+<a name="ParseCallback"></a>
 
-### ScramjetCore~ParseCallback ⇒ <code>Promise</code>
-**Kind**: inner typedef of [<code>ScramjetCore</code>](#module_ScramjetCore)  
+## ParseCallback ⇒ <code>Promise</code>
+**Kind**: global typedef  
 **Returns**: <code>Promise</code> - the promise should be resolved with the parsed object  
 
 | Param | Type | Description |
