@@ -301,6 +301,21 @@ An object consisting of multiple streams than can be refined or muxed.
 | multiStream.cluster(clusterFunc, options) ⇒ [<code>MultiStream</code>](#MultiStream) | Distributes processing to multiple forked subprocesses. |  |
 
 
+<a name="NumberStream"></a>
+### NumberStream ⇐ DataStream
+
+Simple scramjet stream that by default contains numbers or other containing with `valueOf` method. The streams
+provides simple methods like `sum`, `average`. It derives from DataStream so it's still fully supporting all `map`,
+`reduce` etc.
+
+[Detailed NumberStream docs here](docs/number-stream.md)
+
+| Method | Description | Example
+|--------|-------------|---------
+| numberStream.sum() ⇒ <code>Promise.&lt;Number&gt;</code> | Calculates the sum of all items in the stream. |  |
+| numberStream.avg() ⇒ <code>Promise.&lt;Number&gt;</code> | Calculates the sum of all items in the stream. |  |
+
+
 
 ## Scramjet core
 
