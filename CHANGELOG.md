@@ -2,6 +2,12 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augementation and on...
 
+## Scramjet 4.12.0
+
+* New NumberStream class
+* Better docs generation
+* Allow pushing more than one argument to `whenWrote`
+
 ## Scramjet 4.11.0 - Method improvements and addition of into.
 
 * Allow `separate` to send a single chunk into multiple output streams.
