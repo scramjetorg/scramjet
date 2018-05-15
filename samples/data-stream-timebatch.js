@@ -16,12 +16,12 @@ exports.test = async (test) => {
     setTimeout(() => {
         x.write(4);
         x.write(5);
-    }, 50);
 
-    setTimeout(() => {
-        x.write(6);
-        x.end(7);
-    }, 450);
+        setTimeout(() => {
+            x.write(6);
+            x.end(7);
+        }, 450);
+    }, 50);
 
     const out = await x.timeBatch(100, 2)
         .toArray();
