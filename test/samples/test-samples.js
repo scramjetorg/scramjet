@@ -4,19 +4,19 @@ const scramjet = require("../../");
 const fs = require('fs');
 const path = require('path');
 const {unhandledRejectionHandler} = require("./handlers");
-const corepath = path.dirname(require.resolve("scramjet-core"));
+const corePath = path.dirname(require.resolve("scramjet-core"));
 const {promisify} = require('util');
 const {runTests, flattenTests} = require("scramjet-core/test/tape-runner");
+const access = promisify(fs.access);
 
 const matrix = [
     ["buffer", scramjet.BufferStream],
-    ["string", scramjet.StrinStream],
+    ["string", scramjet.StringStream],
     ["multi", scramjet.MultiStream],
     ["data", scramjet.DataStream],
     ["scramjet", "index.js"]
 ];
 
-const access = promisify(fs.access);
 
 process.on("unhandledRejection", unhandledRejectionHandler);
 module.exports = scramjet.fromArray(
@@ -31,7 +31,7 @@ module.exports = scramjet.fromArray(
             (item) => ({
                 cls: item[0],
                 srcpath:
-                    path.resolve(corepath, typeof item[1] === "string" ? item[1] : item[0] + '-stream.js')
+                    path.resolve(corePath, typeof item[1] === "string" ? item[1] : item[0] + '-stream.js')
             })
         )
     )
@@ -45,7 +45,9 @@ module.exports = scramjet.fromArray(
                 const file = path.resolve(__dirname, "../../lib/", match);
                 const method = file.match(/([^-]+).js/)[1];
 
-                return Object.assign({}, item, {file, method});
+                const prefix = item.cls + '-stream';
+
+                return Object.assign({}, item, {file, prefix, method});
             })
             .toArray());
 
@@ -53,9 +55,7 @@ module.exports = scramjet.fromArray(
     }
 )
 .assign(async (test) => {
-    const {file, cls, method} = test;
-
-    const prefix = cls + '-stream';
+    const {file, prefix, method} = test;
 
     try {
         await access(file, fs.constants.R_OK);
