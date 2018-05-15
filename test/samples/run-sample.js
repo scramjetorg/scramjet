@@ -1,18 +1,67 @@
 #!/usr/bin/env node
 
 const path = require('path');
-const runner = require("scramjet-core/test/tape-runner");
+const fs = require('fs');
+const { unhandledRejectionHandler } = require("./handlers");
+const { promisify } = require('util');
+const { runTests, flattenTests } = require("scramjet-core/test/tape-runner");
 const {DataStream} = require('../../');
 const file = path.resolve(process.cwd(), process.argv[2]);
-
-const {unhandledRejectionHandler} = require("./handlers");
+const access = promisify(fs.access);
 
 process.on("unhandledRejection", unhandledRejectionHandler);
 
 DataStream.fromArray([{
-        path: file
+        file,
+        prefix: process.argv[2].replace(/[^\w\d]+/g, '-'),
+        method: 'run-sample'
     }])
-    .pipe(runner({}))
+    .assign(async (test) => {
+        const { file, prefix, method } = test;
+
+        try {
+            await access(file, fs.constants.R_OK);
+        } catch (err) {
+            return {
+                prefix, tests: {
+                    [method](test) {
+                        test.fail(err, "Sample for " + method + " is inaccessible!");
+                        test.done();
+                    }
+                }
+            };
+        }
+
+        try {
+            const out = require(file);
+            const tests = out.test ? { [method]: out.test } : {};
+            out.log = () => 0;
+
+            return {
+                prefix, tests: {
+                    [method]: tests || ((test) => {
+                        test.ok(true, "Sample exists but there's no test.");
+                        test.done();
+                    })
+                }
+            };
+        } catch (err) {
+            return {
+                prefix, conf: { timeout: 1000 }, tests: {
+                    [method](test) {
+                        test.fail(err, "Test is failed to load: \n" + err && err.stack);
+                        test.done();
+                    }
+                }
+            };
+        }
+    })
+    .assign(
+        flattenTests
+    )
+    .assign(
+        runTests
+    )
     .catch(
         (err) => {
             console.error(err);
