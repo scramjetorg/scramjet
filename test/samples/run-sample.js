@@ -5,7 +5,7 @@ const fs = require('fs');
 const { unhandledRejectionHandler } = require("./handlers");
 const { promisify } = require('util');
 const { runTests, flattenTests } = require("scramjet-core/test/tape-runner");
-const {DataStream} = require('../../');
+const { DataStream } = require('../../');
 const file = path.resolve(process.cwd(), process.argv[2]);
 const access = promisify(fs.access);
 
@@ -35,7 +35,6 @@ DataStream.fromArray([{
         try {
             const out = require(file);
             const tests = out.test ? { [method]: out.test } : {};
-            out.log = () => 0;
 
             return {
                 prefix, tests: {
@@ -62,6 +61,16 @@ DataStream.fromArray([{
     .assign(
         runTests
     )
+    .catch(
+        (e) => {
+            console.error('ERRROR', e && e.stack);
+            process.exit(103);
+        }
+    )
+    .filter(
+        (test) => !test.ok
+    )
+    .toArray()
     .catch(
         (err) => {
             console.error(err);
