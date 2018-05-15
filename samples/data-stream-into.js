@@ -8,8 +8,9 @@ exports.test = async (test) => {
     test.expect(1);
 
     const remapped = await DataStream.fromArray([[1,2,20], [3,4,21], [5,6,22], [7,8,23], [9,10,24]])
+        .setOptions({maxParallel: 1})
         .into(async (out, item) => {
-            exports.log(item);
+            exports.log('it', item);
             await out.whenWrote(item[0]);
             return new Promise(s => process.nextTick(() => {
                 out.whenWrote(item[1]).then(s);
