@@ -175,7 +175,7 @@ streamed through your flow.
 | dataStream.each(func) ↩︎ | Performs an operation on every chunk, without changing the stream |  |
 | dataStream.while(func) ⇒ [<code>DataStream</code>](#DataStream) | Reads the stream while the function outcome is truthy. |  |
 | dataStream.until(func) ⇒ [<code>DataStream</code>](#DataStream) | Reads the stream until the function outcome is truthy. |  |
-| dataStream.catch(callback) ↩︎ | Provides an way to catch errors in chanined streams. |  |
+| dataStream.catch(callback) ↩︎ | Provides a way to catch errors in chained streams. |  |
 | dataStream.raise(err) ⇒ <code>Promise</code> | Executes all error handlers and if none resolves, then emits an error. |  |
 | dataStream.pipe(to, options) ⇒ <code>Writable</code> | Override of node.js Readable pipe. |  |
 | dataStream.bufferify(serializer) ⇒ [<code>BufferStream</code>](#BufferStream) | Creates a BufferStream | [bufferify example](../samples/data-stream-tobufferstream.js) |

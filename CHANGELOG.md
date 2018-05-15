@@ -1,6 +1,11 @@
 # Scramjet 4.x
 
-Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augementation and on...
+Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
+
+## Scramjet 4.12.2
+
+* Fix of the `into` method in scramjet-core.
+* Fix test runners so unfinished tests now fail.
 
 ## Scramjet 4.12.1
 

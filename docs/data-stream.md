@@ -221,7 +221,7 @@ from the command line.
 ### dataStream.tee(func) ⇒ [<code>DataStream</code>](#DataStream)
 Duplicate the stream
 
-Creates a duplicate stream instance and pases it to the callback.
+Creates a duplicate stream instance and passes it to the callback.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Returns**: [<code>DataStream</code>](#DataStream) - self  
@@ -268,7 +268,7 @@ Stops reading and emits end as soon as it ends.
 ### dataStream.until(func) ⇒ [<code>DataStream</code>](#DataStream)
 Reads the stream until the function outcome is truthy.
 
-Works oposite of while.
+Works opposite of while.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Returns**: [<code>DataStream</code>](#DataStream) - the shortened stream  
@@ -280,7 +280,7 @@ Works oposite of while.
 <a name="DataStream+catch"></a>
 
 ### dataStream.catch(callback) ↩︎
-Provides an way to catch errors in chanined streams.
+Provides a way to catch errors in chained streams.
 
 The handler will be called as asynchronous
  - if it resolves then the error will be muted.
@@ -300,7 +300,7 @@ If no handlers will resolve the error, an `error` event will be emitted
 ### dataStream.raise(err) ⇒ <code>Promise</code>
 Executes all error handlers and if none resolves, then emits an error.
 
-The returned promise will always be resolved even if there are no succesful handers.
+The returned promise will always be resolved even if there are no successful handlers.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Returns**: <code>Promise</code> - the promise that will be resolved when the error is handled.  
@@ -314,7 +314,7 @@ The returned promise will always be resolved even if there are no succesful hand
 ### dataStream.pipe(to, options) ⇒ <code>Writable</code>
 Override of node.js Readable pipe.
 
-Except for calling overriden method it proxies errors to piped stream.
+Except for calling overridden method it proxies errors to piped stream.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Returns**: <code>Writable</code> - the `to` stream  
@@ -445,7 +445,7 @@ It's much easier to use this in chain than constructing new stream:
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
-**Meta.conds**: keep-order,chain  
+**Meta.conditions**: keep-order,chain  
 
 | Param | Type |
 | --- | --- |
