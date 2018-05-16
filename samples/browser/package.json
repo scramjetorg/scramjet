@@ -18,11 +18,11 @@
   "license": "GPL-3.0",
   "devDependencies": {
     "express": "^4.14.0",
-    "socket.io": "^1.5.1",
+    "socket.io": "^2.1.0",
     "windows-cpu": "^0.1.4"
   },
   "dependencies": {
-    "browserify": "^13.1.1",
+    "browserify": "^16.2.2",
     "mergesort-stream": "^1.0.1"
   }
 }
