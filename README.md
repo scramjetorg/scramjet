@@ -10,6 +10,8 @@
 
 ## What does it do?
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/signicode/scramjet.svg)](https://greenkeeper.io/)
+
 Scramjet is a fast, simple, multi-threaded functional stream programming framework written on top of node.js object
 streams. It exposes a standards inspired javascript API and written fully in native ES6. Thanks to it some built in
 optimizations scramjet is much faster and much much simpler than similar frameworks when using asynchronous operations.
