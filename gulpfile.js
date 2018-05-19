@@ -83,7 +83,10 @@ gulp.task("readme", async () => {
                 "lib/window-stream.js",
                 "lib/multi-stream.js"
             ],
-            plugin: "jsdoc2md/plugin.js"
+            plugin: [
+                "scramjet-core/jsdoc2md/plugin.js",
+                "jsdoc2md/plugin.js",
+            ]
         })
     );
 });
