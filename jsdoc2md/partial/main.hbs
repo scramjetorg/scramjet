@@ -35,8 +35,9 @@ const request = require("request");
 const rp = require("request-promise-native");
 const { StringStream } = require("scramjet");
 
-request('https://api.example.org/v1/shows/list')   // fetch your API data
-    .pipe(new StringStream)                        // pipe to a scramjet stream
+StringStream.from(                                 // fetch your API to a scramjet stream
+        request('https://api.example.org/v1/shows/list')
+    )
     .setOptions({maxParallel: 4})                  // set your options
     .lines()                                       // split the stream by line
     .parse(theirShow => {                          // parse to your requirement
