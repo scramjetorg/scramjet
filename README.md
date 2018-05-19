@@ -169,6 +169,13 @@ streamed through your flow.
 * `dataStream.filter(func) ⇒ [<code>DataStream</code>](#DataStream)` - Filters object based on the function outcome, just like [filter example](../samples/data-stream-filter.js)
 * `dataStream.reduce(func, into) ⇒ <code>Promise</code>` - Reduces the stream into a given accumulator [reduce example](../samples/data-stream-reduce.js)
 * `dataStream.into(func, into) ⇒ [<code>DataStream</code>](#DataStream)` - Pushes the data into another scramjet stream while keeping flow control and 
+* `dataStream.tap()` - Stops merging transform callbacks at the current place in the command chain. [tap example](../samples/data-stream-tap.js)
+* `dataStream.whenRead() ⇒ <code>Promise.&lt;Object&gt;</code>` - Reads a chunk from the stream and resolves the promise when read. 
+* `dataStream.whenWrote(...data) ⇒ <code>Promise</code>` - Writes a chunk to the stream and returns a Promise resolved when more chunks can be written. 
+* `dataStream.whenEnd() ⇒ <code>Promise</code>` - Resolves when stream ends - rejects on uncaught error 
+* `dataStream.whenDrained() ⇒ <code>Promise</code>` - Returns a promise that resolves when the stream is drained 
+* `dataStream.whenError() ⇒ <code>Promise</code>` - Returns a promise that resolves (!) when the stream is errors 
+* `dataStream.setOptions(options) ↩︎` - Allows resetting stream options. 
 * `dataStream.use(func) ⇒ <code>\*</code>` - Calls the passed method in place with the stream as first argument, returns result. [use example](../samples/data-stream-use.js)
 * `dataStream.tee(func) ⇒ [<code>DataStream</code>](#DataStream)` - Duplicate the stream [tee example](../samples/data-stream-tee.js)
 * `dataStream.each(func) ↩︎` - Performs an operation on every chunk, without changing the stream 
@@ -182,29 +189,34 @@ streamed through your flow.
 * `dataStream.run() ⇒ <code>Promise</code>` - Consumes all stream items without doing anything 
 * `dataStream.toArray(initial) ⇒ <code>Promise</code>` - Aggregates the stream into a single Array 
 * `dataStream.toGenerator() ⇒ <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code>` - Returns an async generator 
-* `dataStream.tap()` - Stops merging transform callbacks at the current place in the command chain. [tap example](../samples/data-stream-tap.js)
-* `dataStream.whenRead() ⇒ <code>Promise.&lt;Object&gt;</code>` - Reads a chunk from the stream and resolves the promise when read. 
-* `dataStream.whenWrote(...data) ⇒ <code>Promise</code>` - Writes a chunk to the stream and returns a Promise resolved when more chunks can be written. 
-* `dataStream.whenEnd() ⇒ <code>Promise</code>` - Resolves when stream ends - rejects on uncaught error 
-* `dataStream.whenDrained() ⇒ <code>Promise</code>` - Returns a promise that resolves when the stream is drained 
-* `dataStream.whenError() ⇒ <code>Promise</code>` - Returns a promise that resolves (!) when the stream is errors 
-* `dataStream.setOptions(options) ↩︎` - Allows resetting stream options. 
 * `dataStream.shift(count, func) ⇒ [<code>DataStream</code>](#DataStream)` - Shifts the first n items from the stream and pipes the other [shift example](../samples/data-stream-shift.js)
 * `dataStream.peek(count, func) ↩︎` - Allows previewing some of the streams data without removing them from the stream. 
 * `dataStream.slice([start], [length]) ⇒ [<code>DataStream</code>](#DataStream)` - Gets a slice of the stream to the callback function. [slice example](../samples/data-stream-slice.js)
 * `dataStream.assign(func) ⇒ [<code>DataStream</code>](#DataStream)` - Transforms stream objects by assigning the properties from the returned [assign example](../samples/data-stream-assign.js)
 * `dataStream.empty(callback) ↩︎` - Called when the stream ends without passing any items [empty example](../samples/data-stream-empty.js)
 * `dataStream.unshift(item) ↩︎` - Pushes any data at call time (essentially at the begining of the stream) 
+* `dataStream.endWith(item) ↩︎` - Pushes any data at end of stream [endWith example](../samples/data-stream-endwith.js)
 * `dataStream.accumulate(func, into) ⇒ <code>Promise</code>` - Accumulates data into the object. [accumulate example](../samples/data-stream-accumulate.js)
 * `~~dataStream.consume(func) ⇒ <code>Promise</code>~~` - Consumes the stream by running each callback 
+* `dataStream.reduceNow(func, into) ⇒ <code>\*</code>` - Reduces the stream into the given object, returning it immediately. [reduceNow example](../samples/data-stream-reduceNow.js)
+* `dataStream.remap(func, Clazz) ⇒ [<code>DataStream</code>](#DataStream)` - Remaps the stream into a new stream. [remap example](../samples/data-stream-remap.js)
 * `dataStream.flatMap(func, Clazz) ⇒ [<code>DataStream</code>](#DataStream)` - Takes any method that returns any iterable and flattens the result. [flatMap example](../samples/data-stream-flatmap.js)
 * `dataStream.flatten() ⇒ [<code>DataStream</code>](#DataStream)` - A shorthand for streams of Arrays to flatten them. [flatten example](../samples/data-stream-flatten.js)
 * `dataStream.concat(streams) ↩︎` - Returns a new stream that will append the passed streams to the callee [concat example](../samples/data-stream-concat.js)
 * `dataStream.join(item) ↩︎` - Method will put the passed object between items. It can also be a function call. [join example](../samples/data-stream-join.js)
 * `dataStream.distribute([affinity], clusterFunc, options) ↩︎` - Distributes processing into multiple subprocesses or threads if you like. 
+* `dataStream.separateInto(streams, affinity) ↩︎` - Seprates stream into a hash of streams. Does not create new streams! 
+* `dataStream.separate(affinity, createOptions) ⇒ [<code>MultiStream</code>](#MultiStream)` - Separates execution to multiple streams using the hashes returned by the passed callback. [separate example](../samples/data-stream-separate.js)
+* `dataStream.delegate(delegateFunc, worker, [plugins]) ↩︎` - Delegates work to a specified worker. 
 * `dataStream.batch(count) ⇒ [<code>DataStream</code>](#DataStream)` - Aggregates chunks in arrays given number of number of items long. [batch example](../samples/data-stream-batch.js)
+* `dataStream.timeBatch(ms, count) ⇒ [<code>DataStream</code>](#DataStream)` - Aggregates chunks to arrays not delaying output by more than the given number of ms. [timeBatch example](../samples/data-stream-timebatch.js)
+* `dataStream.nagle([size], [ms]) ↩︎` - Performs the Nagle's algorithm on the data. In essence it waits until we receive some more data and releases them 
 * `dataStream.toJSONArray([enclosure]) ⇒ [<code>StringStream</code>](#StringStream)` - Transforms the stream to a streamed JSON array. [toJSONArray example](../samples/data-stream-tojsonarray.js)
+* `dataStream.toJSONObject([entryCallback], [enclosure]) ⇒ [<code>StringStream</code>](#StringStream)` - Transforms the stream to a streamed JSON object. [toJSONObject example](../samples/data-stream-tojsonobject.js)
+* `dataStream.JSONStringify([endline]) ⇒ [<code>StringStream</code>](#StringStream)` - Returns a StringStream containing JSON per item with optional end line 
 * `dataStream.CSVStringify(options) ⇒ [<code>StringStream</code>](#StringStream)` - Stringifies CSV to DataString using 'papaparse' module. [CSVStringify example](../samples/data-stream-csv.js)
+* `dataStream.debug(func) ⇒ [<code>DataStream</code>](#DataStream)` - Injects a ```debugger``` statement when called. [debug example](../samples/data-stream-debug.js)
+* `DataStream.from(stream, options) ⇒ <code>self</code>` - Returns a DataStream from any node.js Readable Stream 
 * `DataStream.fromArray(arr) ⇒ [<code>DataStream</code>](#DataStream)` - Create a DataStream from an Array [fromArray example](../samples/data-stream-fromarray.js)
 * `DataStream.fromIterator(iter) ⇒ [<code>DataStream</code>](#DataStream)` - Create a DataStream from an Iterator [fromIterator example](../samples/data-stream-fromiterator.js)
 [Detailed DataStream docs here](docs/data-stream.md)
@@ -278,6 +290,7 @@ An object consisting of multiple streams than can be refined or muxed.
 * `multiStream.mux(cmp) ⇒ [<code>DataStream</code>](#DataStream)` - Muxes the streams into a single one [mux example](../samples/multi-stream-mux.js)
 * `multiStream.add(stream)` - Adds a stream to the MultiStream [add example](../samples/multi-stream-add.js)
 * `multiStream.remove(stream)` - Removes a stream from the MultiStream [remove example](../samples/multi-stream-remove.js)
+* `multiStream.route([policy], [count]) ⇒ [<code>MultiStream</code>](#MultiStream)` - Re-routes streams to a new MultiStream of specified size 
 * `multiStream.smap(transform) ⇒ [<code>MultiStream</code>](#MultiStream)` - Map stream synchronously 
 * `multiStream.cluster(clusterFunc, options) ⇒ [<code>MultiStream</code>](#MultiStream)` - Distributes processing to multiple forked subprocesses. 
 [Detailed MultiStream docs here](docs/multi-stream.md)

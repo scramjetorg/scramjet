@@ -1,44 +1,3 @@
-## Classes
-
-<dl>
-<dt><a href="#DataStream">DataStream</a> ⇐ <code>stream.PassThrough</code></dt>
-<dd><p>DataStream is the primary stream type for Scramjet. When you parse your
-stream, just pipe it you can then perform calculations on the data objects
-streamed through your flow.</p>
-<pre><code class="lang-javascript"> await (DataStream.fromArray([1,2,3,4,5]) // create a DataStream
-     .map(readFile)                       // read some data asynchronously
-     .map(sendToApi)                      // send the data somewhere
-     .whenEnd());                         // wait until end
-</code></pre>
-</dd>
-</dl>
-
-## Functions
-
-<dl>
-<dt><a href="#toStringStream">toStringStream()</a></dt>
-<dd><p>Alias for <a href="#DataStream+stringify">stringify</a></p>
-</dd>
-</dl>
-
-## Typedefs
-
-<dl>
-<dt><a href="#MapCallback">MapCallback</a> ⇒ <code>Promise</code> | <code>*</code></dt>
-<dd></dd>
-<dt><a href="#FilterCallback">FilterCallback</a> ⇒ <code>Promise</code> | <code>Boolean</code></dt>
-<dd></dd>
-<dt><a href="#ReduceCallback">ReduceCallback</a> ⇒ <code>Promise</code> | <code>*</code></dt>
-<dd></dd>
-<dt><a href="#IntoCallback">IntoCallback</a> ⇒ <code>*</code></dt>
-<dd></dd>
-<dt><a href="#TeeCallback">TeeCallback</a> : <code>function</code></dt>
-<dd></dd>
-<dt><a href="#StreamOptions">StreamOptions</a> : <code>Object</code></dt>
-<dd><p>Standard options for scramjet streams.</p>
-</dd>
-</dl>
-
 <a name="DataStream"></a>
 
 ## DataStream ⇐ <code>stream.PassThrough</code>
@@ -63,6 +22,13 @@ streamed through your flow.
         * [.filter(func)](#DataStream+filter) ⇒ [<code>DataStream</code>](#DataStream)
         * [.reduce(func, into)](#DataStream+reduce) ⇒ <code>Promise</code>
         * [.into(func, into)](#DataStream+into) ⇒ [<code>DataStream</code>](#DataStream)
+        * [.tap()](#DataStream+tap)
+        * [.whenRead()](#DataStream+whenRead) ⇒ <code>Promise.&lt;Object&gt;</code>
+        * [.whenWrote(...data)](#DataStream+whenWrote) ⇒ <code>Promise</code>
+        * [.whenEnd()](#DataStream+whenEnd) ⇒ <code>Promise</code>
+        * [.whenDrained()](#DataStream+whenDrained) ⇒ <code>Promise</code>
+        * [.whenError()](#DataStream+whenError) ⇒ <code>Promise</code>
+        * [.setOptions(options)](#DataStream+setOptions) ↩︎
         * [.use(func)](#DataStream+use) ⇒ <code>\*</code>
         * [.tee(func)](#DataStream+tee) ⇒ [<code>DataStream</code>](#DataStream)
         * [.each(func)](#DataStream+each) ↩︎
@@ -76,13 +42,6 @@ streamed through your flow.
         * [.run()](#DataStream+run) ⇒ <code>Promise</code>
         * [.toArray(initial)](#DataStream+toArray) ⇒ <code>Promise</code>
         * [.toGenerator()](#DataStream+toGenerator) ⇒ <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code>
-        * [.tap()](#DataStream+tap)
-        * [.whenRead()](#DataStream+whenRead) ⇒ <code>Promise.&lt;Object&gt;</code>
-        * [.whenWrote(...data)](#DataStream+whenWrote) ⇒ <code>Promise</code>
-        * [.whenEnd()](#DataStream+whenEnd) ⇒ <code>Promise</code>
-        * [.whenDrained()](#DataStream+whenDrained) ⇒ <code>Promise</code>
-        * [.whenError()](#DataStream+whenError) ⇒ <code>Promise</code>
-        * [.setOptions(options)](#DataStream+setOptions) ↩︎
         * [.shift(count, func)](#DataStream+shift) ⇒ [<code>DataStream</code>](#DataStream)
         * [.peek(count, func)](#DataStream+peek) ↩︎
         * [.slice([start], [length])](#DataStream+slice) ⇒ [<code>DataStream</code>](#DataStream)
@@ -111,6 +70,7 @@ streamed through your flow.
         * [.CSVStringify(options)](#DataStream+CSVStringify) ⇒ <code>StringStream</code>
         * [.debug(func)](#DataStream+debug) ⇒ [<code>DataStream</code>](#DataStream)
     * _static_
+        * [.from(stream, options)](#DataStream.from) ⇒ <code>self</code>
         * [.fromArray(arr)](#DataStream.fromArray) ⇒ [<code>DataStream</code>](#DataStream)
         * [.fromIterator(iter)](#DataStream.fromIterator) ⇒ [<code>DataStream</code>](#DataStream)
 
@@ -164,7 +124,7 @@ Array.prototype.filter.
 ### dataStream.reduce(func, into) ⇒ <code>Promise</code>
 Reduces the stream into a given accumulator
 
-Works similarily to Array.prototype.reduce, so whatever you return in the
+Works similarly to Array.prototype.reduce, so whatever you return in the
 former operation will be the first operand to the latter.
 
 This method is serial - meaning that any processing on an entry will
@@ -176,8 +136,8 @@ it's much slower than parallel functions.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>TransformFunction</code> | The into object will be passed as the  first argument, the data object from the stream as the second. |
-| into | <code>Object</code> | Any object passed initally to the transform function |
+| func | [<code>ReduceCallback</code>](#ReduceCallback) | The into object will be passed as the  first argument, the data object from the stream as the second. |
+| into | <code>Object</code> | Any object passed initially to the transform function |
 
 **Example**  
 ```js
@@ -193,8 +153,73 @@ Pushes the data into another scramjet stream while keeping flow control and
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func |  | [description] |
-| into | [<code>DataStream</code>](#DataStream) | [description] |
+| func | [<code>IntoCallback</code>](#IntoCallback) | the method that processes incoming chunks |
+| into | [<code>DataStream</code>](#DataStream) | the DataStream derived class |
+
+<a name="DataStream+tap"></a>
+
+### dataStream.tap()
+Stops merging transform callbacks at the current place in the command chain.
+
+**Kind**: instance method of [<code>DataStream</code>](#DataStream)  
+**Example**  
+```js
+[../samples/data-stream-tap.js](../samples/data-stream-tap.js)
+```
+<a name="DataStream+whenRead"></a>
+
+### dataStream.whenRead() ⇒ <code>Promise.&lt;Object&gt;</code>
+Reads a chunk from the stream and resolves the promise when read.
+
+**Kind**: instance method of [<code>DataStream</code>](#DataStream)  
+**Returns**: <code>Promise.&lt;Object&gt;</code> - the read item  
+<a name="DataStream+whenWrote"></a>
+
+### dataStream.whenWrote(...data) ⇒ <code>Promise</code>
+Writes a chunk to the stream and returns a Promise resolved when more chunks can be written.
+
+**Kind**: instance method of [<code>DataStream</code>](#DataStream)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| ...data | <code>\*</code> | Chunk(s) to be written before resolving. |
+
+<a name="DataStream+whenEnd"></a>
+
+### dataStream.whenEnd() ⇒ <code>Promise</code>
+Resolves when stream ends - rejects on uncaught error
+
+**Kind**: instance method of [<code>DataStream</code>](#DataStream)  
+<a name="DataStream+whenDrained"></a>
+
+### dataStream.whenDrained() ⇒ <code>Promise</code>
+Returns a promise that resolves when the stream is drained
+
+**Kind**: instance method of [<code>DataStream</code>](#DataStream)  
+<a name="DataStream+whenError"></a>
+
+### dataStream.whenError() ⇒ <code>Promise</code>
+Returns a promise that resolves (!) when the stream is errors
+
+**Kind**: instance method of [<code>DataStream</code>](#DataStream)  
+<a name="DataStream+setOptions"></a>
+
+### dataStream.setOptions(options) ↩︎
+Allows resetting stream options.
+
+It's much easier to use this in chain than constructing new stream:
+
+```javascript
+    stream.map(myMapper).filter(myFilter).setOptions({maxParallel: 2})
+```
+
+**Kind**: instance method of [<code>DataStream</code>](#DataStream)  
+**Chainable**  
+**Meta.conditions**: keep-order,chain  
+
+| Param | Type |
+| --- | --- |
+| options | [<code>StreamOptions</code>](#StreamOptions) | 
 
 <a name="DataStream+use"></a>
 
@@ -331,6 +356,7 @@ Creates a BufferStream
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Returns**: <code>BufferStream</code> - the resulting stream  
+**Meta.noreadme**:   
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -386,78 +412,13 @@ Ready for https://github.com/tc39/proposal-async-iteration
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Returns**: <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code> - Returns an iterator that returns a promise for each item.  
-<a name="DataStream+tap"></a>
-
-### dataStream.tap()
-Stops merging transform callbacks at the current place in the command chain.
-
-**Kind**: instance method of [<code>DataStream</code>](#DataStream)  
-**Example**  
-```js
-[../samples/data-stream-tap.js](../samples/data-stream-tap.js)
-```
-<a name="DataStream+whenRead"></a>
-
-### dataStream.whenRead() ⇒ <code>Promise.&lt;Object&gt;</code>
-Reads a chunk from the stream and resolves the promise when read.
-
-**Kind**: instance method of [<code>DataStream</code>](#DataStream)  
-**Returns**: <code>Promise.&lt;Object&gt;</code> - the read item  
-<a name="DataStream+whenWrote"></a>
-
-### dataStream.whenWrote(...data) ⇒ <code>Promise</code>
-Writes a chunk to the stream and returns a Promise resolved when more chunks can be written.
-
-**Kind**: instance method of [<code>DataStream</code>](#DataStream)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| ...data | <code>\*</code> | Chunk(s) to be written before resolving. |
-
-<a name="DataStream+whenEnd"></a>
-
-### dataStream.whenEnd() ⇒ <code>Promise</code>
-Resolves when stream ends - rejects on uncaught error
-
-**Kind**: instance method of [<code>DataStream</code>](#DataStream)  
-<a name="DataStream+whenDrained"></a>
-
-### dataStream.whenDrained() ⇒ <code>Promise</code>
-Returns a promise that resolves when the stream is drained
-
-**Kind**: instance method of [<code>DataStream</code>](#DataStream)  
-<a name="DataStream+whenError"></a>
-
-### dataStream.whenError() ⇒ <code>Promise</code>
-Returns a promise that resolves (!) when the stream is errors
-
-**Kind**: instance method of [<code>DataStream</code>](#DataStream)  
-<a name="DataStream+setOptions"></a>
-
-### dataStream.setOptions(options) ↩︎
-Allows resetting stream options.
-
-It's much easier to use this in chain than constructing new stream:
-
-```javascript
-    stream.map(myMapper).filter(myFilter).setOptions({maxParallel: 2})
-```
-
-**Kind**: instance method of [<code>DataStream</code>](#DataStream)  
-**Chainable**  
-**Meta.conditions**: keep-order,chain  
-
-| Param | Type |
-| --- | --- |
-| options | [<code>StreamOptions</code>](#StreamOptions) | 
-
 <a name="DataStream+shift"></a>
 
 ### dataStream.shift(count, func) ⇒ [<code>DataStream</code>](#DataStream)
 Shifts the first n items from the stream and pipes the other
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
-**Returns**: [<code>DataStream</code>](#DataStream) - substream.  
+**Returns**: [<code>DataStream</code>](#DataStream) - sub-stream.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -471,7 +432,9 @@ Shifts the first n items from the stream and pipes the other
 <a name="DataStream+peek"></a>
 
 ### dataStream.peek(count, func) ↩︎
-Allows previewing some of the streams data without removing them from the stream.Important: Peek does not resume the flow.
+Allows previewing some of the streams data without removing them from the stream.
+
+Important: Peek does not resume the flow.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
@@ -484,7 +447,14 @@ Allows previewing some of the streams data without removing them from the stream
 <a name="DataStream+slice"></a>
 
 ### dataStream.slice([start], [length]) ⇒ [<code>DataStream</code>](#DataStream)
-Gets a slice of the stream to the callback function.Returns a stream consisting of an array of items with `0` to `start`omitted and `length` items after `start` included. Works similarily toArray.prototype.slice.Takes count from the moment it's called. Any previous items will not betaken into account.
+Gets a slice of the stream to the callback function.
+
+Returns a stream consisting of an array of items with `0` to `start`
+omitted and `length` items after `start` included. Works similarily to
+Array.prototype.slice.
+
+Takes count from the moment it's called. Any previous items will not be
+taken into account.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Returns**: [<code>DataStream</code>](#DataStream) - the affected stream  
@@ -501,7 +471,10 @@ Gets a slice of the stream to the callback function.Returns a stream consistin
 <a name="DataStream+assign"></a>
 
 ### dataStream.assign(func) ⇒ [<code>DataStream</code>](#DataStream)
-Transforms stream objects by assigning the properties from the returneddata along with data from original ones.The original objects are unaltered.
+Transforms stream objects by assigning the properties from the returned
+data along with data from original ones.
+
+The original objects are unaltered.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Returns**: [<code>DataStream</code>](#DataStream) - mapped stream  
@@ -549,6 +522,7 @@ Pushes any data at end of stream
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
+**Meta.noreadme**:   
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -561,7 +535,12 @@ Pushes any data at end of stream
 <a name="DataStream+accumulate"></a>
 
 ### dataStream.accumulate(func, into) ⇒ <code>Promise</code>
-Accumulates data into the object.Works very similarily to reduce, but result of previous operations haveno influence over the accumulator in the next one.Method is parallel
+Accumulates data into the object.
+
+Works very similarily to reduce, but result of previous operations have
+no influence over the accumulator in the next one.
+
+Method is parallel
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Returns**: <code>Promise</code> - resolved with the "into" object on stream end.  
@@ -592,10 +571,21 @@ Consumes the stream by running each callback
 <a name="DataStream+reduceNow"></a>
 
 ### dataStream.reduceNow(func, into) ⇒ <code>\*</code>
-Reduces the stream into the given object, returning it immediately.The main difference to reduce is that only the first object will bereturned at once (however the method will be called with the previousentry).If the object is an instance of EventEmitter then it will propagate theerror from the previous stream.This method is serial - meaning that any processing on an entry willoccur only after the previous entry is fully processed. This does meanit's much slower than parallel functions.
+Reduces the stream into the given object, returning it immediately.
+
+The main difference to reduce is that only the first object will be
+returned at once (however the method will be called with the previous
+entry).
+If the object is an instance of EventEmitter then it will propagate the
+error from the previous stream.
+
+This method is serial - meaning that any processing on an entry will
+occur only after the previous entry is fully processed. This does mean
+it's much slower than parallel functions.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Returns**: <code>\*</code> - whatever was passed as into  
+**Meta.noreadme**:   
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -609,10 +599,13 @@ Reduces the stream into the given object, returning it immediately.The main di
 <a name="DataStream+remap"></a>
 
 ### dataStream.remap(func, Clazz) ⇒ [<code>DataStream</code>](#DataStream)
-Remaps the stream into a new stream.This means that every item may emit as many other items as we like.
+Remaps the stream into a new stream.
+
+This means that every item may emit as many other items as we like.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Returns**: [<code>DataStream</code>](#DataStream) - a new DataStream of the given class with new chunks  
+**Meta.noreadme**:   
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -626,7 +619,10 @@ Remaps the stream into a new stream.This means that every item may emit as man
 <a name="DataStream+flatMap"></a>
 
 ### dataStream.flatMap(func, Clazz) ⇒ [<code>DataStream</code>](#DataStream)
-Takes any method that returns any iterable and flattens the result.The passed callback must return an iterable (otherwise an error will be emitted). The resulting stream willconsist of all the items of the returned iterables, one iterable after another.
+Takes any method that returns any iterable and flattens the result.
+
+The passed callback must return an iterable (otherwise an error will be emitted). The resulting stream will
+consist of all the items of the returned iterables, one iterable after another.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Returns**: [<code>DataStream</code>](#DataStream) - a new DataStream of the given class with new chunks  
@@ -643,7 +639,9 @@ Takes any method that returns any iterable and flattens the result.The passed 
 <a name="DataStream+flatten"></a>
 
 ### dataStream.flatten() ⇒ [<code>DataStream</code>](#DataStream)
-A shorthand for streams of Arrays to flatten them.Runs: .flatmap(i => i);
+A shorthand for streams of Arrays to flatten them.
+
+Runs: .flatmap(i => i);
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Example**  
@@ -709,6 +707,7 @@ Seprates stream into a hash of streams. Does not create new streams!
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
+**Meta.noreadme**:   
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -718,10 +717,14 @@ Seprates stream into a hash of streams. Does not create new streams!
 <a name="DataStream+separate"></a>
 
 ### dataStream.separate(affinity, createOptions) ⇒ <code>MultiStream</code>
-Separates execution to multiple streams using the hashes returned by the passed callback.Calls the given callback for a hash, then makes sure all items with the same hash are processed within a singlestream. Thanks to that streams can be distributed to multiple threads.
+Separates execution to multiple streams using the hashes returned by the passed callback.
+
+Calls the given callback for a hash, then makes sure all items with the same hash are processed within a single
+stream. Thanks to that streams can be distributed to multiple threads.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Returns**: <code>MultiStream</code> - separated stream  
+**Meta.noreadme**:   
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -739,6 +742,7 @@ Delegates work to a specified worker.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
+**Meta.noreadme**:   
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -749,7 +753,9 @@ Delegates work to a specified worker.
 <a name="DataStream+batch"></a>
 
 ### dataStream.batch(count) ⇒ [<code>DataStream</code>](#DataStream)
-Aggregates chunks in arrays given number of number of items long.This can be used for microbatch processing.
+Aggregates chunks in arrays given number of number of items long.
+
+This can be used for microbatch processing.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Returns**: [<code>DataStream</code>](#DataStream) - the stream of arrays  
@@ -769,6 +775,7 @@ Aggregates chunks to arrays not delaying output by more than the given number of
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Returns**: [<code>DataStream</code>](#DataStream) - the stream of arrays  
+**Meta.noreadme**:   
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -782,10 +789,12 @@ Aggregates chunks to arrays not delaying output by more than the given number of
 <a name="DataStream+nagle"></a>
 
 ### dataStream.nagle([size], [ms]) ↩︎
-Performs the Nagle's algorithm on the data. In essence it waits until we receive some more data and releases themin bulk.
+Performs the Nagle's algorithm on the data. In essence it waits until we receive some more data and releases them
+in bulk.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
+**Meta.noreadme**:   
 **Todo**
 
 - [ ] needs more work, for now it's simply waiting some time, not checking the queues.
@@ -818,6 +827,7 @@ Transforms the stream to a streamed JSON object.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Returns**: <code>StringStream</code> - [description]  
+**Meta.noreadme**:   
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -835,6 +845,7 @@ Returns a StringStream containing JSON per item with optional end line
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Returns**: <code>StringStream</code> - output stream  
+**Meta.noreadme**:   
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -863,6 +874,7 @@ Injects a ```debugger``` statement when called.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Returns**: [<code>DataStream</code>](#DataStream) - self  
+**Meta.noreadme**:   
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -872,6 +884,19 @@ Injects a ```debugger``` statement when called.
 ```js
 [../samples/data-stream-debug.js](../samples/data-stream-debug.js)
 ```
+<a name="DataStream.from"></a>
+
+### DataStream.from(stream, options) ⇒ <code>self</code>
+Returns a DataStream from any node.js Readable Stream
+
+**Kind**: static method of [<code>DataStream</code>](#DataStream)  
+**Returns**: <code>self</code> - new instance of a scramjet stream  
+
+| Param | Type |
+| --- | --- |
+| stream | <code>ReadableStream</code> | 
+| options | [<code>StreamOptions</code>](#StreamOptions) | 
+
 <a name="DataStream.fromArray"></a>
 
 ### DataStream.fromArray(arr) ⇒ [<code>DataStream</code>](#DataStream)
@@ -941,7 +966,7 @@ Alias for [stringify](#DataStream+stringify)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| acc | <code>\*</code> | the accumulator - the object initially passed or retuned                by the previous reduce operation |
+| acc | <code>\*</code> | the accumulator - the object initially passed or returned                by the previous reduce operation |
 | chunk | <code>Object</code> | the stream chunk. |
 
 <a name="IntoCallback"></a>

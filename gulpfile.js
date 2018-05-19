@@ -107,7 +107,7 @@ gulp.task("docs", ["copy_docs", "readme"],
             if (isCoreExtension)
                 files.unshift(corefile);
 
-            const output = await jsdoc2md({files});
+            const output = await jsdoc2md({ files, plugin: "scramjet-core/jsdoc2md/plugin-docs.js",});
             file.contents = Buffer.from(output);
 
             return file;

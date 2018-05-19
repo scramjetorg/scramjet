@@ -1,28 +1,3 @@
-## Classes
-
-<dl>
-<dt><a href="#StringStream">StringStream</a> ⇐ <code>DataStream</code></dt>
-<dd><p>A stream of string objects for further transformation on top of DataStream.</p>
-</dd>
-</dl>
-
-## Functions
-
-<dl>
-<dt><a href="#toDataStream">toDataStream()</a></dt>
-<dd><p>Alias for <a href="#StringStream+parse">parse</a></p>
-</dd>
-</dl>
-
-## Typedefs
-
-<dl>
-<dt><a href="#ShiftCallback">ShiftCallback</a> : <code>function</code></dt>
-<dd></dd>
-<dt><a href="#ParseCallback">ParseCallback</a> ⇒ <code>Promise</code></dt>
-<dd></dd>
-</dl>
-
 <a name="StringStream"></a>
 
 ## StringStream ⇐ <code>DataStream</code>

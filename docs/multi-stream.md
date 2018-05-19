@@ -162,6 +162,7 @@ Re-routes streams to a new MultiStream of specified size
 
 **Kind**: instance method of [<code>MultiStream</code>](#MultiStream)  
 **Returns**: [<code>MultiStream</code>](#MultiStream) - [description]  
+**Meta.noreadme**:   
 **Todo**
 
 - [ ] NYT: not yet tested
