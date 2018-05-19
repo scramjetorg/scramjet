@@ -56,6 +56,7 @@ streamed through your flow.
         * [.flatMap(func, Clazz)](#DataStream+flatMap) ⇒ [<code>DataStream</code>](#DataStream)
         * [.flatten()](#DataStream+flatten) ⇒ [<code>DataStream</code>](#DataStream)
         * [.concat(streams)](#DataStream+concat) ↩︎
+        * [.pull(incoming)](#DataStream+pull) ⇒ <code>Number</code>
         * [.join(item)](#DataStream+join) ↩︎
         * [.distribute([affinity], clusterFunc, options)](#DataStream+distribute) ↩︎
         * [.separateInto(streams, affinity)](#DataStream+separateInto) ↩︎
@@ -663,6 +664,24 @@ Returns a new stream that will append the passed streams to the callee
 **Example**  
 ```js
 [../samples/data-stream-concat.js](../samples/data-stream-concat.js)
+```
+<a name="DataStream+pull"></a>
+
+### dataStream.pull(incoming) ⇒ <code>Number</code>
+Pulls in any Readable stream, resolves when the pulled stream ends.
+
+Does not preserve order, does not end this stream.
+
+**Kind**: instance method of [<code>DataStream</code>](#DataStream)  
+**Returns**: <code>Number</code> - resolved when incoming stream ends, rejects on incoming error  
+
+| Param | Type |
+| --- | --- |
+| incoming | <code>Readable</code> | 
+
+**Example**  
+```js
+[../samples/data-stream-pull.js](../samples/data-stream-pull.js)
 ```
 <a name="DataStream+join"></a>
 

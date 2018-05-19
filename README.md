@@ -204,6 +204,7 @@ streamed through your flow.
 * `dataStream.flatMap(func, Clazz) ⇒ [<code>DataStream</code>](#DataStream)` - Takes any method that returns any iterable and flattens the result. [flatMap example](../samples/data-stream-flatmap.js)
 * `dataStream.flatten() ⇒ [<code>DataStream</code>](#DataStream)` - A shorthand for streams of Arrays to flatten them. [flatten example](../samples/data-stream-flatten.js)
 * `dataStream.concat(streams) ↩︎` - Returns a new stream that will append the passed streams to the callee [concat example](../samples/data-stream-concat.js)
+* `dataStream.pull(incoming) ⇒ <code>Number</code>` - Pulls in any Readable stream, resolves when the pulled stream ends. [pull example](../samples/data-stream-pull.js)
 * `dataStream.join(item) ↩︎` - Method will put the passed object between items. It can also be a function call. [join example](../samples/data-stream-join.js)
 * `dataStream.distribute([affinity], clusterFunc, options) ↩︎` - Distributes processing into multiple subprocesses or threads if you like. 
 * `dataStream.separateInto(streams, affinity) ↩︎` - Seprates stream into a hash of streams. Does not create new streams! 
