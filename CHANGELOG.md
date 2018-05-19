@@ -2,6 +2,18 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
+## Scramjet 4.13.0 - Introduce `from` and `pull` methods.
+
+* Cleaner documentation
+* Introduction of the static `from` method
+* Introduction of the `pull` method
+* Add Greenkeeper
+
+## Scramjet 4.12.3 - Fix test for timeBatch
+
+* 14ede09 - fix timebatch test
+* e012de2 - docs and changelog
+
 ## Scramjet 4.12.2
 
 * Fix of the `into` method in scramjet-core.
