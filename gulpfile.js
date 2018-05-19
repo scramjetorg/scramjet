@@ -80,6 +80,7 @@ gulp.task("readme", async () => {
                 "lib/string-stream.js",
                 "lib/buffer-stream.js",
                 "lib/number-stream.js",
+                "lib/window-stream.js",
                 "lib/multi-stream.js"
             ],
             plugin: "jsdoc2md/plugin.js"

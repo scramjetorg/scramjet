@@ -1,7 +1,9 @@
 {{#children ~}}
 {{#unless inherited ~}}
 {{#unless private ~}}
-| {{>sig-name}} | {{{cutcr description}}} | {{#hasExample}}[{{{name}}} example]({{{linkvalue examples}}}){{/hasExample}} |
+{{#forReadme}}
+* `{{>sig-name}}` - {{{cutcr description}}} {{#hasExample}}[{{{name}}} example]({{{linkvalue examples}}}){{/hasExample}} |
+{{/forReadme}}
 {{/unless}}
 {{~/unless}}
 {{~/children}}
