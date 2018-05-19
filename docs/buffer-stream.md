@@ -1,44 +1,3 @@
-## Classes
-
-<dl>
-<dt><a href="#BufferStream">BufferStream</a> ⇐ <code>DataStream</code></dt>
-<dd><p>A factilitation stream created for easy splitting or parsing buffers.</p>
-<p>Useful for working on built-in Node.js streams from files, parsing binary formats etc.</p>
-<p>A simple use case would be:</p>
-<pre><code class="lang-javascript"> fs.createReadStream(&#39;pixels.rgba&#39;)
-     .pipe(new BufferStream)         // pipe a buffer stream into scramjet
-     .breakup(4)                     // split into 4 byte fragments
-     .parse(buf =&gt; [
-         buf.readInt8(0),            // the output is a stream of R,G,B and Alpha
-         buf.readInt8(1),            // values from 0-255 in an array.
-         buf.readInt8(2),
-         buf.readInt8(3)
-     ]);
-</code></pre>
-</dd>
-</dl>
-
-## Functions
-
-<dl>
-<dt><a href="#toStringStream">toStringStream()</a></dt>
-<dd><p>Alias for <a href="#BufferStream+stringify">stringify</a></p>
-</dd>
-<dt><a href="#toDataStream">toDataStream()</a></dt>
-<dd><p>Alias for <a href="#BufferStream+parse">parse</a></p>
-</dd>
-</dl>
-
-## Typedefs
-
-<dl>
-<dt><a href="#ShiftCallback">ShiftCallback</a> : <code>function</code></dt>
-<dd><p>Shift callback</p>
-</dd>
-<dt><a href="#ParseCallback">ParseCallback</a> ⇒ <code>Promise</code></dt>
-<dd></dd>
-</dl>
-
 <a name="BufferStream"></a>
 
 ## BufferStream ⇐ <code>DataStream</code>
@@ -107,7 +66,7 @@ the given number of bytes.
 Splits the buffer stream into buffer objects
 
 **Kind**: instance method of [<code>BufferStream</code>](#BufferStream)  
-**Returns**: [<code>BufferStream</code>](#BufferStream) - the re-splitted buffer stream.  
+**Returns**: [<code>BufferStream</code>](#BufferStream) - the re-split buffer stream.  
 **Todo**
 
 - [ ] implement splitting by function
@@ -163,7 +122,7 @@ stream so you can do all your transforms when you like.
 Parses every buffer to object
 
 The method MUST parse EVERY buffer into a single object, so the buffer
-stream here should already be splitted or broken up.
+stream here should already be split or broken up.
 
 **Kind**: instance method of [<code>BufferStream</code>](#BufferStream)  
 **Returns**: <code>DataStream</code> - The parsed objects stream.  

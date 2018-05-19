@@ -1,22 +1,3 @@
-## Members
-
-<dl>
-<dt><a href="#scramjet">scramjet</a> : <code>Object</code></dt>
-<dd><p>Exports</p>
-</dd>
-</dl>
-
-## Typedefs
-
-<dl>
-<dt><a href="#StreamMixin">StreamMixin</a> : <code>Object</code></dt>
-<dd><p>Definition of a single mixin for a specific Scramjet class</p>
-</dd>
-<dt><a href="#ScramjetPlugin">ScramjetPlugin</a> : <code>Object</code></dt>
-<dd><p>Definition of a plugin in Scramjet</p>
-</dd>
-</dl>
-
 <a name="scramjet"></a>
 
 ## scramjet : <code>Object</code>
