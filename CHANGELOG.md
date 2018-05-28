@@ -2,6 +2,13 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
+## Scramjet 4.14.1 - Readable and Writable only streams possible
+
+* Readable and Writable only streams possible
+* Update package dependencies
+* Fix for `empty` method
+* New documentation
+
 ## Scramjet 4.13.0 - Introduce `from` and `pull` methods.
 
 * Cleaner documentation
