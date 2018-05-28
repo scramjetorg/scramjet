@@ -556,7 +556,7 @@ Called when the stream ends without passing any items
 <a name="DataStream+unshift"></a>
 
 ### dataStream.unshift(item) ↺
-Pushes any data at call time (essentially at the begining of the stream)
+Pushes any data at call time (essentially at the beginning of the stream)
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
