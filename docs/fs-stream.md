@@ -1,6 +1,8 @@
+![Scramjet Logo](https://signicode.com/scramjet-logo-light.svg)
+
 <a name="FSStream"></a>
 
-## FSStream ⇐ <code>DataStream</code>
+## FSStream : DataStream
 A scramjet stream that items point to filesystem items like files, directories etc. Provides methods like `stat`,
 `contents`.
 
