@@ -1,11 +1,12 @@
-/* eslint-disable */
+/* eslint-disable node/no-unpublished-require */
 const gulp = require("gulp");
 const env = require('gulp-env');
 const path = require("path");
 const rename = require("gulp-rename");
 const tape_nodeunit_runner = require("scramjet-core/test/tape-runner");
 const eslint = require('gulp-eslint');
-const exec = require('gulp-exec');
+const shell = require('gulp-shell');
+const log = require("fancy-log");
 const execp = require('child_process').exec;
 const jsdoc = require('jsdoc-api');
 const jsdocParse = require('jsdoc-parse');
@@ -51,12 +52,7 @@ gulp.task("scm_clean", ["default"], function(cb){
     });
 });
 
-gulp.task("test_samples", ['docs'], function() {
-    return gulp.src("test/samples/test-*.js")
-        .pipe(exec("node <%= file.path %>"))
-        .pipe(exec.reporter())
-        ;
-});
+gulp.task('test_samples', shell.task("node test/samples/test-samples"));
 
 const jsdoc2md = async ({files, plugin}) => {
 
