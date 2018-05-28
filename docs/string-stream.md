@@ -1,27 +1,35 @@
+![Scramjet Logo](https://signicode.com/scramjet-logo-light.svg)
+
 <a name="StringStream"></a>
 
-## StringStream ⇐ <code>DataStream</code>
+## StringStream : DataStream
 A stream of string objects for further transformation on top of DataStream.
+
+Example:
+
+```javascript
+StringStream.fromString()
+```
 
 **Kind**: global class  
 **Extends**: <code>DataStream</code>  
 
-* [StringStream](#StringStream) ⇐ <code>DataStream</code>
+* [StringStream](#StringStream)  <code>DataStream</code>
     * [new StringStream(encoding)](#new_StringStream_new)
     * _instance_
-        * [.shift(bytes, func)](#StringStream+shift) ⇒ [<code>StringStream</code>](#StringStream)
-        * [.split(splitter)](#StringStream+split) ⇒ [<code>StringStream</code>](#StringStream)
-        * [.match(splitter)](#StringStream+match) ⇒ [<code>StringStream</code>](#StringStream)
-        * [.toBufferStream()](#StringStream+toBufferStream) ⇒ [<code>StringStream</code>](#StringStream)
-        * [.parse(parser)](#StringStream+parse) ⇒ <code>DataStream</code>
-        * [.lines([eol])](#StringStream+lines) ⇒ [<code>StringStream</code>](#StringStream)
-        * [.JSONParse(perLine)](#StringStream+JSONParse) ⇒ <code>DataStream</code>
-        * [.CSVParse(options)](#StringStream+CSVParse) ⇒ <code>DataStream</code>
-        * [.append(arg)](#StringStream+append) ⇒ [<code>StringStream</code>](#StringStream)
-        * [.prepend(arg)](#StringStream+prepend) ⇒ [<code>StringStream</code>](#StringStream)
+        * [.shift(bytes, func)](#StringStream+shift) ↺
+        * [.split(splitter)](#StringStream+split) ↺
+        * [.match(matcher)](#StringStream+match) ↺
+        * [.toBufferStream()](#StringStream+toBufferStream) ↺ <code>BufferStream</code>
+        * [.parse(parser)](#StringStream+parse) ↺ <code>DataStream</code>
+        * [.lines([eol])](#StringStream+lines) ↺
+        * [.JSONParse(perLine)](#StringStream+JSONParse) ↺ <code>DataStream</code>
+        * [.CSVParse(options)](#StringStream+CSVParse) ↺ <code>DataStream</code>
+        * [.append(arg)](#StringStream+append) ↺
+        * [.prepend(arg)](#StringStream+prepend) ↺
     * _static_
-        * [.SPLIT_LINE](#StringStream.SPLIT_LINE)
-        * [.fromString(str, encoding)](#StringStream.fromString) ⇒ [<code>StringStream</code>](#StringStream)
+        * [:SPLIT_LINE](#StringStream.SPLIT_LINE)
+        * [:fromString(str, encoding)](#StringStream.fromString)  [<code>StringStream</code>](#StringStream)
 
 <a name="new_StringStream_new"></a>
 
@@ -35,19 +43,19 @@ Constructs the stream with the given encoding
 
 <a name="StringStream+shift"></a>
 
-### stringStream.shift(bytes, func) ⇒ [<code>StringStream</code>](#StringStream)
+### stringStream.shift(bytes, func) ↺
 Shifts given length of chars from the original stream
 
 Works the same way as {@see DataStream.shift}, but in this case extracts
 the given number of characters.
 
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
-**Returns**: [<code>StringStream</code>](#StringStream) - substream.  
+**Chainable**  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | bytes | <code>Number</code> | The number of characters to shift. |
-| func | [<code>ShiftCallback</code>](#ShiftCallback) | Function that receives a string of shifted                                 chars. |
+| func | [<code>ShiftCallback</code>](#ShiftCallback) | Function that receives a string of shifted chars. |
 
 **Example**  
 ```js
@@ -55,15 +63,11 @@ the given number of characters.
 ```
 <a name="StringStream+split"></a>
 
-### stringStream.split(splitter) ⇒ [<code>StringStream</code>](#StringStream)
+### stringStream.split(splitter) ↺
 Splits the string stream by the specified regexp or string
 
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
-**Returns**: [<code>StringStream</code>](#StringStream) - the re-splitted string stream.  
-**Todo**
-
-- [ ] implement splitting by buffer or string
-
+**Chainable**  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -75,19 +79,15 @@ Splits the string stream by the specified regexp or string
 ```
 <a name="StringStream+match"></a>
 
-### stringStream.match(splitter) ⇒ [<code>StringStream</code>](#StringStream)
+### stringStream.match(matcher) ↺
 Finds matches in the string stream and streams the match results
 
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
-**Returns**: [<code>StringStream</code>](#StringStream) - string stream of matches.  
-**Todo**
-
-- [ ] implement splitting by buffer or string
-
+**Chainable**  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| splitter | <code>RegExp</code> | A function that will be called for every                             stream chunk. |
+| matcher | <code>RegExp</code> | A function that will be called for every                             stream chunk. |
 
 **Example**  
 ```js
@@ -95,7 +95,7 @@ Finds matches in the string stream and streams the match results
 ```
 <a name="StringStream+toBufferStream"></a>
 
-### stringStream.toBufferStream() ⇒ [<code>StringStream</code>](#StringStream)
+### stringStream.toBufferStream() : BufferStream ↺
 Transforms the StringStream to BufferStream
 
 Creates a buffer stream from the given string stream. Still it returns a
@@ -103,20 +103,23 @@ DataStream derivative and isn't the typical node.js stream so you can do
 all your transforms when you like.
 
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
-**Returns**: [<code>StringStream</code>](#StringStream) - The converted stream.  
+**Chainable**  
+**Returns**: <code>BufferStream</code> - The converted stream.  
+**Meta.noreadme**:   
 **Example**  
 ```js
 [../samples/string-stream-tobufferstream.js](../samples/string-stream-tobufferstream.js)
 ```
 <a name="StringStream+parse"></a>
 
-### stringStream.parse(parser) ⇒ <code>DataStream</code>
+### stringStream.parse(parser) : DataStream ↺
 Parses every string to object
 
 The method MUST parse EVERY string into a single object, so the string
-stream here should already be splitted.
+stream here should already be split.
 
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
+**Chainable**  
 **Returns**: <code>DataStream</code> - The parsed objects stream.  
 
 | Param | Type | Description |
@@ -129,11 +132,11 @@ stream here should already be splitted.
 ```
 <a name="StringStream+lines"></a>
 
-### stringStream.lines([eol]) ⇒ [<code>StringStream</code>](#StringStream)
+### stringStream.lines([eol]) ↺
 Splits the string stream by the specified regexp or string
 
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
-**Returns**: [<code>StringStream</code>](#StringStream) - the re-splitted string stream.  
+**Chainable**  
 **Todo**
 
 - [ ] implement splitting by buffer or string
@@ -149,11 +152,12 @@ Splits the string stream by the specified regexp or string
 ```
 <a name="StringStream+JSONParse"></a>
 
-### stringStream.JSONParse(perLine) ⇒ <code>DataStream</code>
+### stringStream.JSONParse(perLine) : DataStream ↺
 Parses each entry as JSON.
 Ignores empty lines
 
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
+**Chainable**  
 **Returns**: <code>DataStream</code> - stream of parsed items  
 
 | Param | Type | Description |
@@ -162,10 +166,11 @@ Ignores empty lines
 
 <a name="StringStream+CSVParse"></a>
 
-### stringStream.CSVParse(options) ⇒ <code>DataStream</code>
+### stringStream.CSVParse(options) : DataStream ↺
 Parses CSV to DataString using 'papaparse' module.
 
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
+**Chainable**  
 **Returns**: <code>DataStream</code> - stream of parsed items  
 
 | Param | Description |
@@ -178,15 +183,15 @@ Parses CSV to DataString using 'papaparse' module.
 ```
 <a name="StringStream+append"></a>
 
-### stringStream.append(arg) ⇒ [<code>StringStream</code>](#StringStream)
+### stringStream.append(arg) ↺
 Appends given argument to all the items.
 
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
-**Returns**: [<code>StringStream</code>](#StringStream) - the resulting stream  
+**Chainable**  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| arg | <code>function</code> \| <code>String</code> | the argument to append. If function passed then it will be called and resolved                              and the resolution will be appended. |
+| arg | <code>function</code> \| <code>String</code> | the argument to append. If function passed then it will be called and resolved and the resolution will be appended. |
 
 **Example**  
 ```js
@@ -194,11 +199,11 @@ Appends given argument to all the items.
 ```
 <a name="StringStream+prepend"></a>
 
-### stringStream.prepend(arg) ⇒ [<code>StringStream</code>](#StringStream)
+### stringStream.prepend(arg) ↺
 Prepends given argument to all the items.
 
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
-**Returns**: [<code>StringStream</code>](#StringStream) - the resulting stream  
+**Chainable**  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -210,13 +215,13 @@ Prepends given argument to all the items.
 ```
 <a name="StringStream.SPLIT_LINE"></a>
 
-### StringStream.SPLIT_LINE
+### StringStream:SPLIT_LINE
 A handly split by line regex to quickly get a line-by-line stream
 
 **Kind**: static property of [<code>StringStream</code>](#StringStream)  
 <a name="StringStream.fromString"></a>
 
-### StringStream.fromString(str, encoding) ⇒ [<code>StringStream</code>](#StringStream)
+### StringStream:fromString(str, encoding) : StringStream
 Creates a StringStream and writes a specific string.
 
 **Kind**: static method of [<code>StringStream</code>](#StringStream)  
@@ -235,7 +240,7 @@ Alias for [parse](#StringStream+parse)
 **Kind**: global function  
 <a name="ShiftCallback"></a>
 
-## ShiftCallback : <code>function</code>
+## ShiftCallback : function
 **Kind**: global typedef  
 
 | Param | Type | Description |
@@ -244,7 +249,7 @@ Alias for [parse](#StringStream+parse)
 
 <a name="ParseCallback"></a>
 
-## ParseCallback ⇒ <code>Promise</code>
+## ParseCallback : Promise
 **Kind**: global typedef  
 **Returns**: <code>Promise</code> - the promise should be resolved with the parsed object  
 

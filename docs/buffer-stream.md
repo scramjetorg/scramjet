@@ -1,6 +1,8 @@
+![Scramjet Logo](https://signicode.com/scramjet-logo-light.svg)
+
 <a name="BufferStream"></a>
 
-## BufferStream ⇐ <code>DataStream</code>
+## BufferStream : DataStream
 A factilitation stream created for easy splitting or parsing buffers.
 
 Useful for working on built-in Node.js streams from files, parsing binary formats etc.
@@ -22,13 +24,13 @@ A simple use case would be:
 **Kind**: global class  
 **Extends**: <code>DataStream</code>  
 
-* [BufferStream](#BufferStream) ⇐ <code>DataStream</code>
+* [BufferStream](#BufferStream)  <code>DataStream</code>
     * [new BufferStream(opts)](#new_BufferStream_new)
-    * [.shift(chars, func)](#BufferStream+shift) ⇒ [<code>BufferStream</code>](#BufferStream)
-    * [.split(splitter)](#BufferStream+split) ⇒ [<code>BufferStream</code>](#BufferStream)
-    * [.breakup(number)](#BufferStream+breakup) ⇒ [<code>BufferStream</code>](#BufferStream)
-    * [.stringify(encoding)](#BufferStream+stringify) ⇒ <code>StringStream</code>
-    * [.parse(parser)](#BufferStream+parse) ⇒ <code>DataStream</code>
+    * [.shift(chars, func)](#BufferStream+shift) ↺ [<code>BufferStream</code>](#BufferStream)
+    * [.split(splitter)](#BufferStream+split) ↺ [<code>BufferStream</code>](#BufferStream)
+    * [.breakup(number)](#BufferStream+breakup) ↺ [<code>BufferStream</code>](#BufferStream)
+    * [.stringify(encoding)](#BufferStream+stringify)  <code>StringStream</code>
+    * [.parse(parser)](#BufferStream+parse)  <code>DataStream</code>
 
 <a name="new_BufferStream_new"></a>
 
@@ -42,13 +44,14 @@ Creates the BufferStream
 
 <a name="BufferStream+shift"></a>
 
-### bufferStream.shift(chars, func) ⇒ [<code>BufferStream</code>](#BufferStream)
+### bufferStream.shift(chars, func) : BufferStream ↺
 Shift given number of bytes from the original stream
 
 Works the same way as {@see DataStream.shift}, but in this case extracts
 the given number of bytes.
 
 **Kind**: instance method of [<code>BufferStream</code>](#BufferStream)  
+**Chainable**  
 **Returns**: [<code>BufferStream</code>](#BufferStream) - substream  
 
 | Param | Type | Description |
@@ -62,16 +65,12 @@ the given number of bytes.
 ```
 <a name="BufferStream+split"></a>
 
-### bufferStream.split(splitter) ⇒ [<code>BufferStream</code>](#BufferStream)
+### bufferStream.split(splitter) : BufferStream ↺
 Splits the buffer stream into buffer objects
 
 **Kind**: instance method of [<code>BufferStream</code>](#BufferStream)  
+**Chainable**  
 **Returns**: [<code>BufferStream</code>](#BufferStream) - the re-split buffer stream.  
-**Todo**
-
-- [ ] implement splitting by function
-- [ ] implement asynchronous splitter
-
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -83,10 +82,11 @@ Splits the buffer stream into buffer objects
 ```
 <a name="BufferStream+breakup"></a>
 
-### bufferStream.breakup(number) ⇒ [<code>BufferStream</code>](#BufferStream)
+### bufferStream.breakup(number) : BufferStream ↺
 Breaks up a stream apart into chunks of the specified length
 
 **Kind**: instance method of [<code>BufferStream</code>](#BufferStream)  
+**Chainable**  
 **Returns**: [<code>BufferStream</code>](#BufferStream) - the resulting buffer stream.  
 
 | Param | Type | Description |
@@ -99,7 +99,7 @@ Breaks up a stream apart into chunks of the specified length
 ```
 <a name="BufferStream+stringify"></a>
 
-### bufferStream.stringify(encoding) ⇒ <code>StringStream</code>
+### bufferStream.stringify(encoding) : StringStream
 Creates a string stream from the given buffer stream
 
 Still it returns a DataStream derivative and isn't the typical node.js
@@ -118,7 +118,7 @@ stream so you can do all your transforms when you like.
 ```
 <a name="BufferStream+parse"></a>
 
-### bufferStream.parse(parser) ⇒ <code>DataStream</code>
+### bufferStream.parse(parser) : DataStream
 Parses every buffer to object
 
 The method MUST parse EVERY buffer into a single object, so the buffer
@@ -149,7 +149,7 @@ Alias for [parse](#BufferStream+parse)
 **Kind**: global function  
 <a name="ShiftCallback"></a>
 
-## ShiftCallback : <code>function</code>
+## ShiftCallback : function
 Shift callback
 
 **Kind**: global typedef  
@@ -160,7 +160,7 @@ Shift callback
 
 <a name="ParseCallback"></a>
 
-## ParseCallback ⇒ <code>Promise</code>
+## ParseCallback : Promise
 **Kind**: global typedef  
 **Returns**: <code>Promise</code> - the promise should be resolved with the parsed object  
 

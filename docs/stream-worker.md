@@ -1,3 +1,5 @@
+![Scramjet Logo](https://signicode.com/scramjet-logo-light.svg)
+
 <a name="module_ScramjetCore"></a>
 
 ## ScramjetCore
@@ -6,11 +8,11 @@
     * [~StreamWorker](#module_ScramjetCore..StreamWorker)
         * [new StreamWorker()](#new_module_ScramjetCore..StreamWorker_new)
         * _instance_
-            * [.spawn()](#module_ScramjetCore..StreamWorker+spawn) ⇒ <code>StreamWorker</code>
-            * [.delegate(input, delegateFunc, [plugins])](#module_ScramjetCore..StreamWorker+delegate) ⇒ <code>DataStream</code>
+            * [.spawn()](#module_ScramjetCore..StreamWorker+spawn) ⇄ <code>StreamWorker</code>
+            * [.delegate(input, delegateFunc, [plugins])](#module_ScramjetCore..StreamWorker+delegate)  <code>DataStream</code>
         * _static_
-            * [.fork([count])](#module_ScramjetCore..StreamWorker.fork) ⇒ <code>Array.&lt;StreamWorker&gt;</code>
-            * [._getWorker()](#module_ScramjetCore..StreamWorker._getWorker) ⇒ <code>StreamWorker</code>
+            * [:fork([count])](#module_ScramjetCore..StreamWorker.fork) ⇄ <code>Array.&lt;StreamWorker&gt;</code>
+            * [:_getWorker()](#module_ScramjetCore..StreamWorker._getWorker) ⇄ <code>StreamWorker</code>
 
 <a name="module_ScramjetCore..StreamWorker"></a>
 
@@ -28,11 +30,11 @@ This class provides control over the subprocesses, incl:
 * [~StreamWorker](#module_ScramjetCore..StreamWorker)
     * [new StreamWorker()](#new_module_ScramjetCore..StreamWorker_new)
     * _instance_
-        * [.spawn()](#module_ScramjetCore..StreamWorker+spawn) ⇒ <code>StreamWorker</code>
-        * [.delegate(input, delegateFunc, [plugins])](#module_ScramjetCore..StreamWorker+delegate) ⇒ <code>DataStream</code>
+        * [.spawn()](#module_ScramjetCore..StreamWorker+spawn) ⇄ <code>StreamWorker</code>
+        * [.delegate(input, delegateFunc, [plugins])](#module_ScramjetCore..StreamWorker+delegate)  <code>DataStream</code>
     * _static_
-        * [.fork([count])](#module_ScramjetCore..StreamWorker.fork) ⇒ <code>Array.&lt;StreamWorker&gt;</code>
-        * [._getWorker()](#module_ScramjetCore..StreamWorker._getWorker) ⇒ <code>StreamWorker</code>
+        * [:fork([count])](#module_ScramjetCore..StreamWorker.fork) ⇄ <code>Array.&lt;StreamWorker&gt;</code>
+        * [:_getWorker()](#module_ScramjetCore..StreamWorker._getWorker) ⇄ <code>StreamWorker</code>
 
 <a name="new_module_ScramjetCore..StreamWorker_new"></a>
 
@@ -41,13 +43,13 @@ Private constructor
 
 <a name="module_ScramjetCore..StreamWorker+spawn"></a>
 
-#### streamWorker.spawn() ⇒ <code>StreamWorker</code>
+#### streamWorker.spawn() : StreamWorker ⇄
 Spawns the worker if necessary and provides the port information to it.
 
 **Kind**: instance method of [<code>StreamWorker</code>](#module_ScramjetCore..StreamWorker)  
 <a name="module_ScramjetCore..StreamWorker+delegate"></a>
 
-#### streamWorker.delegate(input, delegateFunc, [plugins]) ⇒ <code>DataStream</code>
+#### streamWorker.delegate(input, delegateFunc, [plugins]) : DataStream
 Delegates a stream to the child using tcp socket.
 
 The stream gets serialized using JSON and passed on to the subprocess.
@@ -65,7 +67,7 @@ The stream gets deserialized and outputted to the returned DataStream.
 
 <a name="module_ScramjetCore..StreamWorker.fork"></a>
 
-#### StreamWorker.fork([count]) ⇒ <code>Array.&lt;StreamWorker&gt;</code>
+#### StreamWorker:fork([count]) : Array.<StreamWorker> ⇄
 Spawns (Preforks) a given number of subprocesses and returns the worker asynchronously.
 
 **Kind**: static method of [<code>StreamWorker</code>](#module_ScramjetCore..StreamWorker)  
@@ -77,7 +79,7 @@ Spawns (Preforks) a given number of subprocesses and returns the worker asynchro
 
 <a name="module_ScramjetCore..StreamWorker._getWorker"></a>
 
-#### StreamWorker._getWorker() ⇒ <code>StreamWorker</code>
+#### StreamWorker:_getWorker() : StreamWorker ⇄
 Picks next worker (not necessarly free one!)
 
 **Kind**: static method of [<code>StreamWorker</code>](#module_ScramjetCore..StreamWorker)  
