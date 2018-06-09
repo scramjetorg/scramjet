@@ -766,7 +766,7 @@ Keep a buffer of n-chunks for use with {@see DataStream..rewind}
 <a name="DataStream+rewind"></a>
 
 ### dataStream.rewind(count) ↺
-Rewinds the buffered chunks the specified length backwards. Requires a call to {@see DataStream..keep}
+Rewinds the buffered chunks the specified length backwards. Requires a prior call to {@see DataStream..keep}
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  

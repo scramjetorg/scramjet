@@ -19,6 +19,7 @@ See [node.js API for stream implementers for details](https://nodejs.org/api/str
 
 * [scramjet](#module_scramjet)  <code>Object</code>
     * _static_
+        * [:errors](#module_scramjet.errors)  <code>ScramjetErrors</code>
         * [:BufferStream](#module_scramjet.BufferStream)  <code>BufferStream</code>
         * [:DataStream](#module_scramjet.DataStream)  <code>DataStream</code>
         * [:MultiStream](#module_scramjet.MultiStream)  <code>MultiStream</code>
@@ -35,6 +36,13 @@ See [node.js API for stream implementers for details](https://nodejs.org/api/str
         * [~StreamMixin](#module_scramjet..StreamMixin)  <code>Object</code>
         * [~ScramjetPlugin](#module_scramjet..ScramjetPlugin)  <code>Object</code>
 
+<a name="module_scramjet.errors"></a>
+
+### scramjet:errors : ScramjetErrors
+Exposes error classes (undocumented)
+
+**Kind**: static property of [<code>scramjet</code>](#module_scramjet)  
+**Read only**: true  
 <a name="module_scramjet.BufferStream"></a>
 
 ### scramjet:BufferStream : BufferStream

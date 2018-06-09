@@ -273,7 +273,7 @@ declare class DataStream {
     keep(count: number): DataStream;
 
     /**
-     * Rewinds the buffered chunks the specified length backwards. Requires a call to {@see DataStream..keep}
+     * Rewinds the buffered chunks the specified length backwards. Requires a prior call to {@see DataStream..keep}
      * @param count Number of objects or -1 for all the buffer
      */
     rewind(count: number): DataStream;
@@ -739,7 +739,7 @@ declare class StringStream {
     keep(count: number): DataStream;
 
     /**
-     * Rewinds the buffered chunks the specified length backwards. Requires a call to {@see DataStream..keep}
+     * Rewinds the buffered chunks the specified length backwards. Requires a prior call to {@see DataStream..keep}
      * @param count Number of objects or -1 for all the buffer
      */
     rewind(count: number): DataStream;
@@ -1132,7 +1132,7 @@ declare class BufferStream {
     keep(count: number): DataStream;
 
     /**
-     * Rewinds the buffered chunks the specified length backwards. Requires a call to {@see DataStream..keep}
+     * Rewinds the buffered chunks the specified length backwards. Requires a prior call to {@see DataStream..keep}
      * @param count Number of objects or -1 for all the buffer
      */
     rewind(count: number): DataStream;
@@ -1341,6 +1341,11 @@ declare module 'scramjet' {
      * @param args
      */
     export function fromArray(args: any): DataStream;
+
+    /**
+     * Exposes error classes (undocumented)
+     */
+    export var errors: ScramjetErrors;
 
     /**
      * Provides a lazy-load accessor to BufferStream
@@ -1680,7 +1685,7 @@ declare class NumberStream {
     keep(count: number): DataStream;
 
     /**
-     * Rewinds the buffered chunks the specified length backwards. Requires a call to {@see DataStream..keep}
+     * Rewinds the buffered chunks the specified length backwards. Requires a prior call to {@see DataStream..keep}
      * @param count Number of objects or -1 for all the buffer
      */
     rewind(count: number): DataStream;
@@ -2041,7 +2046,7 @@ declare class WindowStream {
     keep(count: number): DataStream;
 
     /**
-     * Rewinds the buffered chunks the specified length backwards. Requires a call to {@see DataStream..keep}
+     * Rewinds the buffered chunks the specified length backwards. Requires a prior call to {@see DataStream..keep}
      * @param count Number of objects or -1 for all the buffer
      */
     rewind(count: number): DataStream;

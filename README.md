@@ -211,7 +211,7 @@ await (DataStream.from(aStream) // create a DataStream
 * [`dataStream.concat(streams) ↺`](docs/data-stream.md#DataStream+concat) - Returns a new stream that will append the passed streams to the callee
 * [`dataStream.join(item) ↺`](docs/data-stream.md#DataStream+join) - Method will put the passed object between items. It can also be a function call.
 * [`dataStream.keep(count) ↺`](docs/data-stream.md#DataStream+keep) - Keep a buffer of n-chunks for use with {@see DataStream..rewind}
-* [`dataStream.rewind(count) ↺`](docs/data-stream.md#DataStream+rewind) - Rewinds the buffered chunks the specified length backwards. Requires a call to {@see DataStream..keep}
+* [`dataStream.rewind(count) ↺`](docs/data-stream.md#DataStream+rewind) - Rewinds the buffered chunks the specified length backwards. Requires a prior call to {@see DataStream..keep}
 * [`dataStream.distribute([affinity], clusterFunc, options) ↺`](docs/data-stream.md#DataStream+distribute) - Distributes processing into multiple subprocesses or threads if you like.
 * [`dataStream.separateInto(streams, affinity) ↺`](docs/data-stream.md#DataStream+separateInto) - Seprates stream into a hash of streams. Does not create new streams!
 * [`dataStream.separate(affinity, createOptions) : MultiStream ↺`](docs/data-stream.md#DataStream+separate) - Separates execution to multiple streams using the hashes returned by the passed callback.
