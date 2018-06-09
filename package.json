@@ -1,7 +1,7 @@
 {
   "name": "scramjet",
   "version": "4.14.1",
-  "description": "Lightweight and real-time data functional stream programming framework like event-stream, written in ES6 using async await with multi-threading support",
+  "description": "Lightweight and real-time data functional stream programming framework like event-stream, written in ES6 using async await with multi-threading and typescript support",
   "main": "lib/index.js",
   "directories": {
     "bin": "bin",
@@ -32,6 +32,8 @@
     "highland",
     "log",
     "functional",
+    "ts",
+    "typescript",
     "parser"
   ],
   "scripts": {
@@ -49,19 +51,22 @@
   "engines": {
     "node": ">=8"
   },
+  "types": "./.d.ts/scramjet.d.ts",
   "author": "Signicode / Michał Czapracki <cz@signicode.com>",
   "license": "MIT",
   "devDependencies": {
+    "@otris/jsdoc-tsd": "^0.8.8",
     "dmd": "^3.0.12",
     "eslint": "^4.19.1",
     "eslint-config-defaults": "^9.0.0",
     "eslint-plugin-node": "^6.0.1",
     "fancy-log": "^1.3.2",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-cli": "^2.0.1",
     "gulp-concat": "^2.6.0",
     "gulp-env": "^0.4.0",
     "gulp-eslint": "^4.0.1",
+    "gulp-jsdoc3": "^2.0.0",
     "gulp-rename": "^1.2.3",
     "gulp-shell": "^0.6.5",
     "jsdoc": "^3.5.5",
@@ -69,11 +74,12 @@
     "jsdoc-parse": "^3.0.1",
     "request": "^2.87.0",
     "request-promise-native": "^1.0.5",
-    "tape": "^4.9.0",
+    "tape": "^4.9.1",
     "through2": "^2.0.3"
   },
   "dependencies": {
-    "papaparse": "^4.3.7",
-    "scramjet-core": "^4.13.0"
+    "papaparse": "^4.5.0",
+    "rereadable-stream": "^1.1.1",
+    "scramjet-core": "^4.13.1"
   }
 }

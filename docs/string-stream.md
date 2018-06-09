@@ -27,6 +27,7 @@ StringStream.fromString()
         * [.CSVParse(options)](#StringStream+CSVParse) ↺ <code>DataStream</code>
         * [.append(arg)](#StringStream+append) ↺
         * [.prepend(arg)](#StringStream+prepend) ↺
+        * [.pop(bytes, func)](#StringStream+pop) ↺
     * _static_
         * [:SPLIT_LINE](#StringStream.SPLIT_LINE)
         * [:fromString(str, encoding)](#StringStream.fromString)  [<code>StringStream</code>](#StringStream)
@@ -212,6 +213,26 @@ Prepends given argument to all the items.
 **Example**  
 ```js
 [../samples/string-stream-prepend.js](../samples/string-stream-prepend.js)
+```
+<a name="StringStream+pop"></a>
+
+### stringStream.pop(bytes, func) ↺
+Shifts given length of chars from the original stream
+
+Works the same way as {@see DataStream.shift}, but in this case extracts
+the given number of characters.
+
+**Kind**: instance method of [<code>StringStream</code>](#StringStream)  
+**Chainable**  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| bytes | <code>Number</code> | The number of characters to shift. |
+| func | [<code>ShiftCallback</code>](#ShiftCallback) | Function that receives a string of shifted chars. |
+
+**Example**  
+```js
+[../samples/string-stream-shift.js](../samples/string-stream-shift.js)
 ```
 <a name="StringStream.SPLIT_LINE"></a>
 

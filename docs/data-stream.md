@@ -64,6 +64,8 @@ await (DataStream.from(aStream) // create a DataStream
         * [.flatten()](#DataStream+flatten) ↺ [<code>DataStream</code>](#DataStream)
         * [.concat(streams)](#DataStream+concat) ↺
         * [.join(item)](#DataStream+join) ↺
+        * [.keep(count)](#DataStream+keep) ↺
+        * [.rewind(count)](#DataStream+rewind) ↺
         * [.distribute([affinity], clusterFunc, options)](#DataStream+distribute) ↺
         * [.separateInto(streams, affinity)](#DataStream+separateInto) ↺
         * [.separate(affinity, createOptions)](#DataStream+separate) ↺ <code>MultiStream</code>
@@ -71,15 +73,24 @@ await (DataStream.from(aStream) // create a DataStream
         * [.batch(count)](#DataStream+batch) ↺
         * [.timeBatch(ms, count)](#DataStream+timeBatch) ↺
         * [.nagle([size], [ms])](#DataStream+nagle) ↺
+        * [.window(length)](#DataStream+window) ↺ <code>WindowStream</code>
         * [.toJSONArray([enclosure])](#DataStream+toJSONArray) ↺ <code>StringStream</code>
         * [.toJSONObject([entryCallback], [enclosure])](#DataStream+toJSONObject) ↺ <code>StringStream</code>
         * [.JSONStringify([endline])](#DataStream+JSONStringify) ↺ <code>StringStream</code>
         * [.CSVStringify(options)](#DataStream+CSVStringify) ↺ <code>StringStream</code>
         * [.debug(func)](#DataStream+debug) ↺ [<code>DataStream</code>](#DataStream)
+        * [.toBufferStream(serializer)](#DataStream+toBufferStream) ↺ <code>BufferStream</code>
+        * [.toStringStream(serializer)](#DataStream+toStringStream) ↺ <code>StringStream</code>
     * _static_
         * [:from(stream, options)](#DataStream.from) ↺
         * [:fromArray(arr)](#DataStream.fromArray)  [<code>DataStream</code>](#DataStream)
         * [:fromIterator(iter)](#DataStream.fromIterator)  [<code>DataStream</code>](#DataStream)
+    * _inner_
+        * [~AccumulateCallback](#DataStream..AccumulateCallback)  <code>Promise</code> \| <code>\*</code>
+        * [~ConsumeCallback](#DataStream..ConsumeCallback)  <code>Promise</code> \| <code>\*</code>
+        * [~RemapCallback](#DataStream..RemapCallback)  <code>Promise</code> \| <code>\*</code>
+        * [~FlatMapCallback](#DataStream..FlatMapCallback)  <code>Promise.&lt;Iterable&gt;</code> \| <code>Iterable</code>
+        * [~JoinCallback](#DataStream..JoinCallback)  <code>Promise.&lt;\*&gt;</code> \| <code>\*</code>
 
 <a name="new_DataStream_new"></a>
 
@@ -187,7 +198,8 @@ from the command line.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>function</code> \| <code>String</code> | if passed, the function will be called on self                         to add an option to inspect the stream in place,                         while not breaking the transform chain.                         Alternatively this can be a relative path to a scramjet-module. |
+| func | <code>function</code> \| <code>String</code> | if passed, the function will be called on self to add an option to inspect the stream in place, while not breaking the transform chain. Alternatively this can be a relative path to a scramjet-module. |
+| [...args] | <code>\*</code> | any additional args top be passed to the module |
 
 **Example**  
 ```js
@@ -695,7 +707,7 @@ consist of all the items of the returned iterables, one iterable after another.
 ### dataStream.flatten() : DataStream ↺
 A shorthand for streams of Arrays to flatten them.
 
-Runs: .flatmap(i => i);
+More efficient equivalent of: .flatmap(i => i);
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
@@ -735,6 +747,34 @@ Method will put the passed object between items. It can also be a function call.
 ```js
 [../samples/data-stream-join.js](../samples/data-stream-join.js)
 ```
+<a name="DataStream+keep"></a>
+
+### dataStream.keep(count) ↺
+Keep a buffer of n-chunks for use with {@see DataStream..rewind}
+
+**Kind**: instance method of [<code>DataStream</code>](#DataStream)  
+**Chainable**  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| count | <code>number</code> | Number of objects or -1 for all the stream |
+
+**Example**  
+```js
+[../samples/data-stream-keep.js](../samples/data-stream-keep.js)
+```
+<a name="DataStream+rewind"></a>
+
+### dataStream.rewind(count) ↺
+Rewinds the buffered chunks the specified length backwards. Requires a prior call to {@see DataStream..keep}
+
+**Kind**: instance method of [<code>DataStream</code>](#DataStream)  
+**Chainable**  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| count | <code>number</code> | Number of objects or -1 for all the buffer |
+
 <a name="DataStream+distribute"></a>
 
 ### dataStream.distribute([affinity], clusterFunc, options) ↺
@@ -752,7 +792,7 @@ Distributes processing into multiple subprocesses or threads if you like.
 | Param | Type | Description |
 | --- | --- | --- |
 | [affinity] | <code>AffinityCallback</code> \| <code>Number</code> | Number that runs round-robin the callback function that affixes the item to specific streams which must exist in the object for each chunk. Defaults to Round Robin to twice the number of cpu threads. |
-| clusterFunc | <code>MultiStream#ClusterCallback</code> | stream transforms similar to {@see DataStream#use method} |
+| clusterFunc | <code>ClusterCallback</code> | stream transforms similar to {@see DataStream#use method} |
 | options | <code>Object</code> | Options |
 
 <a name="DataStream+separateInto"></a>
@@ -861,6 +901,20 @@ in bulk.
 | [size] | <code>number</code> | <code>32</code> | maximum number of items to wait for |
 | [ms] | <code>number</code> | <code>10</code> | milliseconds to wait for more data |
 
+<a name="DataStream+window"></a>
+
+### dataStream.window(length) : WindowStream ↺
+Returns a WindowStream of the specified length
+
+**Kind**: instance method of [<code>DataStream</code>](#DataStream)  
+**Chainable**  
+**Returns**: <code>WindowStream</code> - a stream of array's  
+**Meta.noreadme**:   
+
+| Param | Type |
+| --- | --- |
+| length | <code>Number</code> | 
+
 <a name="DataStream+toJSONArray"></a>
 
 ### dataStream.toJSONArray([enclosure]) : StringStream ↺
@@ -946,6 +1000,41 @@ Injects a ```debugger``` statement when called.
 ```js
 [../samples/data-stream-debug.js](../samples/data-stream-debug.js)
 ```
+<a name="DataStream+toBufferStream"></a>
+
+### dataStream.toBufferStream(serializer) : BufferStream ↺
+Creates a BufferStream
+
+**Kind**: instance method of [<code>DataStream</code>](#DataStream)  
+**Chainable**  
+**Returns**: <code>BufferStream</code> - the resulting stream  
+**Meta.noreadme**:   
+
+| Param | Type | Description |
+| --- | --- | --- |
+| serializer | [<code>MapCallback</code>](#MapCallback) | A method that converts chunks to buffers |
+
+**Example**  
+```js
+[../samples/data-stream-tobufferstream.js](../samples/data-stream-tobufferstream.js)
+```
+<a name="DataStream+toStringStream"></a>
+
+### dataStream.toStringStream(serializer) : StringStream ↺
+Creates a StringStream
+
+**Kind**: instance method of [<code>DataStream</code>](#DataStream)  
+**Chainable**  
+**Returns**: <code>StringStream</code> - the resulting stream  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| serializer | [<code>MapCallback</code>](#MapCallback) | A method that converts chunks to strings |
+
+**Example**  
+```js
+[../samples/data-stream-tostringstream.js](../samples/data-stream-tostringstream.js)
+```
 <a name="DataStream.from"></a>
 
 ### DataStream:from(stream, options) ↺
@@ -991,12 +1080,59 @@ Doesn't end the stream until it reaches end of the iterator.
 ```js
 [../samples/data-stream-fromiterator.js](../samples/data-stream-fromiterator.js)
 ```
-<a name="toStringStream"></a>
+<a name="DataStream..AccumulateCallback"></a>
 
-## toStringStream()
-Alias for [stringify](#DataStream+stringify)
+### DataStream~AccumulateCallback : Promise | *
+**Kind**: inner typedef of [<code>DataStream</code>](#DataStream)  
+**Returns**: <code>Promise</code> \| <code>\*</code> - resolved when all operations are completed  
 
-**Kind**: global function  
+| Param | Type | Description |
+| --- | --- | --- |
+| acc | <code>\*</code> | Accumulator passed to accumulate function |
+| chunk | <code>\*</code> | the stream chunk |
+
+<a name="DataStream..ConsumeCallback"></a>
+
+### DataStream~ConsumeCallback : Promise | *
+**Kind**: inner typedef of [<code>DataStream</code>](#DataStream)  
+**Returns**: <code>Promise</code> \| <code>\*</code> - resolved when all operations are completed  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chunk | <code>\*</code> | the stream chunk |
+
+<a name="DataStream..RemapCallback"></a>
+
+### DataStream~RemapCallback : Promise | *
+**Kind**: inner typedef of [<code>DataStream</code>](#DataStream)  
+**Returns**: <code>Promise</code> \| <code>\*</code> - promise to be resolved when chunk has been processed  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| emit | <code>function</code> | a method to emit objects in the remapped stream |
+| chunk | <code>\*</code> | the chunk from the original stream |
+
+<a name="DataStream..FlatMapCallback"></a>
+
+### DataStream~FlatMapCallback : Promise.<Iterable> | Iterable
+**Kind**: inner typedef of [<code>DataStream</code>](#DataStream)  
+**Returns**: <code>Promise.&lt;Iterable&gt;</code> \| <code>Iterable</code> - promise to be resolved when chunk has been processed  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chunk | <code>\*</code> | the chunk from the original stream |
+
+<a name="DataStream..JoinCallback"></a>
+
+### DataStream~JoinCallback : Promise.<*> | *
+**Kind**: inner typedef of [<code>DataStream</code>](#DataStream)  
+**Returns**: <code>Promise.&lt;\*&gt;</code> \| <code>\*</code> - promise that is resolved with the joining item  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| prev | <code>\*</code> | the chunk before |
+| next | <code>\*</code> | the chunk after |
+
 <a name="MapCallback"></a>
 
 ## MapCallback : Promise | *

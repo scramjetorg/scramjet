@@ -2,6 +2,14 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
+## Scramjet 4.15.0 - keep and rewind methods (DVR for node streams)
+
+* Update dependencies
+* Error handling fix
+* `DataStream..keep` added - keeps a buffer of chunks to be replayed later on
+* `DataStream..rewind` added - replays the chunks from the given place
+* Add TypeScript declaration generation
+
 ## Scramjet 4.14.1 - Readable and Writable only streams possible
 
 * Readable and Writable only streams possible
