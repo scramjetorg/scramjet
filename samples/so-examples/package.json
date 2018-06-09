@@ -1,0 +1,17 @@
+{
+  "name": "scramjet-stackoverflow-examples",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Signicode <opensource@signicode.com>",
+  "license": "MIT",
+  "dependencies": {
+    "html-to-text": "^4.0.0",
+    "node-fetch": "^2.1.2",
+    "scramjet": "file:../../",
+    "wordcount": "^1.1.1"
+  }
+}
