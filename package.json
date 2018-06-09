@@ -49,6 +49,7 @@
   "engines": {
     "node": ">=8"
   },
+  "types": "./.d.ts/scramjet.d.ts",
   "author": "Signicode / Michał Czapracki <cz@signicode.com>",
   "license": "MIT",
   "devDependencies": {

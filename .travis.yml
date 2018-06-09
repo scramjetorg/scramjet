@@ -4,3 +4,7 @@ node_js:
   - "9"
   - "8"
 script: npm test
+cache:
+  apt: true
+  directories:
+  - "$HOME/.npm"
