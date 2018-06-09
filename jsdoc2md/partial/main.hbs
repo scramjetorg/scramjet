@@ -122,6 +122,11 @@ To distribute your code among the processor cores, just use the method ```distri
     )
  ```
 
+## Typescript support
+
+Scramjet aims to be fully documented and expose TypeScript declarations. First version to include  definitions in `.d.ts`
+folder is 4.15.0. More TypeScript support will be added with next versions, so feel free to report issues in GitHub.
+
 ## Detailed docs
 
 Here's the list of the exposed classes and methods, please review the specific documentation for details:
