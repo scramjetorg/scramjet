@@ -2,8 +2,9 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
-## Scramjet 4.15.1 - fix TypeScript definitions
+## Scramjet 4.15.2 - fix TypeScript definitions
 
+* Fix readable only streams
 * Fixes typescript definitions
 * Minor documentation fixes
 
