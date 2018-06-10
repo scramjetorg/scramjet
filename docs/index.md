@@ -19,22 +19,32 @@ See [node.js API for stream implementers for details](https://nodejs.org/api/str
 
 * [scramjet](#module_scramjet)  <code>Object</code>
     * _static_
+        * [:PromiseTransformStream](#module_scramjet.PromiseTransformStream)
+            * [new PromiseTransformStream()](#new_module_scramjet.PromiseTransformStream_new)
         * [:errors](#module_scramjet.errors)  <code>ScramjetErrors</code>
-        * [:BufferStream](#module_scramjet.BufferStream)  <code>BufferStream</code>
-        * [:DataStream](#module_scramjet.DataStream)  <code>DataStream</code>
-        * [:MultiStream](#module_scramjet.MultiStream)  <code>MultiStream</code>
-        * [:StringStream](#module_scramjet.StringStream)  <code>StringStream</code>
-        * [:PromiseTransformStream](#module_scramjet.PromiseTransformStream)  <code>PromiseTransformStream</code>
+        * [:BufferStream](#module_scramjet.BufferStream)
+        * [:DataStream](#module_scramjet.DataStream)
+        * [:MultiStream](#module_scramjet.MultiStream)
+        * [:StringStream](#module_scramjet.StringStream)
         * [:StreamWorker](#module_scramjet.StreamWorker)  <code>StreamWorker</code>
         * [:NumberStream](#module_scramjet.NumberStream)  <code>NumberStream</code>
-        * [:WindowStream](#module_scramjet.WindowStream)  <code>WindowStream</code>
+        * [:WindowStream](#module_scramjet.WindowStream)
         * [:from(str)](#module_scramjet.from)  <code>DataStream</code>
         * [:fromArray(args)](#module_scramjet.fromArray)  <code>DataStream</code>
-        * [:plugin(mixin)](#module_scramjet.plugin) ↺
-        * [:API(version)](#module_scramjet.API)
+        * [:plugin(mixin)](#module_scramjet.plugin)  <code>scramjet</code>
+        * [:API(version)](#module_scramjet.API)  <code>scramjet</code>
     * _inner_
         * [~StreamMixin](#module_scramjet..StreamMixin)  <code>Object</code>
         * [~ScramjetPlugin](#module_scramjet..ScramjetPlugin)  <code>Object</code>
+
+<a name="module_scramjet.PromiseTransformStream"></a>
+
+### scramjet:PromiseTransformStream
+**Kind**: static class of [<code>scramjet</code>](#module_scramjet)  
+<a name="new_module_scramjet.PromiseTransformStream_new"></a>
+
+#### new PromiseTransformStream()
+Provides a lazy-load accessor to PromiseTransformStream - the base class of scramjet streams
 
 <a name="module_scramjet.errors"></a>
 
@@ -45,58 +55,59 @@ Exposes error classes (undocumented)
 **Read only**: true  
 <a name="module_scramjet.BufferStream"></a>
 
-### scramjet:BufferStream : BufferStream
+### scramjet:BufferStream
 Provides a lazy-load accessor to BufferStream
 
 **Kind**: static property of [<code>scramjet</code>](#module_scramjet)  
 **Read only**: true  
+**Inject**: BufferStream  
 **See**: [buffer-stream.md](buffer-stream.md)  
 <a name="module_scramjet.DataStream"></a>
 
-### scramjet:DataStream : DataStream
+### scramjet:DataStream
 Provides a lazy-load accessor to DataStream
 
 **Kind**: static property of [<code>scramjet</code>](#module_scramjet)  
+**Inject**: DataStream  
 **See**: [data-stream.md](data-stream.md)  
 <a name="module_scramjet.MultiStream"></a>
 
-### scramjet:MultiStream : MultiStream
+### scramjet:MultiStream
 Provides a lazy-load accessor to MultiStream
 
 **Kind**: static property of [<code>scramjet</code>](#module_scramjet)  
+**Inject**: MultiStream  
 **See**: [multi-stream.md](multi-stream.md)  
 <a name="module_scramjet.StringStream"></a>
 
-### scramjet:StringStream : StringStream
+### scramjet:StringStream
 Provides a lazy-load accessor to StringStream
 
 **Kind**: static property of [<code>scramjet</code>](#module_scramjet)  
+**Inject**: StringStream  
 **See**: [string-stream.md](string-stream.md)  
-<a name="module_scramjet.PromiseTransformStream"></a>
-
-### scramjet:PromiseTransformStream : PromiseTransformStream
-Provides a lazy-load accessor to PromiseTransformStream - the base class of scramjet streams
-
-**Kind**: static property of [<code>scramjet</code>](#module_scramjet)  
 <a name="module_scramjet.StreamWorker"></a>
 
 ### scramjet:StreamWorker : StreamWorker
 A Stream Worker class
 
 **Kind**: static property of [<code>scramjet</code>](#module_scramjet)  
+**Inject**: StreamWorker  
 <a name="module_scramjet.NumberStream"></a>
 
 ### scramjet:NumberStream : NumberStream
 A Number stream class
 
 **Kind**: static property of [<code>scramjet</code>](#module_scramjet)  
+**Inject**: NumberStream  
 **See**: [number-stream.md](number-stream.md)  
 <a name="module_scramjet.WindowStream"></a>
 
-### scramjet:WindowStream : WindowStream
+### scramjet:WindowStream
 Window stream class
 
 **Kind**: static property of [<code>scramjet</code>](#module_scramjet)  
+**Inject**: WindowStream  
 **See**: [number-stream.md](number-stream.md)  
 <a name="module_scramjet.from"></a>
 
@@ -122,11 +133,10 @@ Creates a DataStream from an Array
 
 <a name="module_scramjet.plugin"></a>
 
-### scramjet:plugin(mixin) ↺
+### scramjet:plugin(mixin) : scramjet
 Add a global plugin to scramjet - injects mixins into prototypes.
 
 **Kind**: static method of [<code>scramjet</code>](#module_scramjet)  
-**Chainable**  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -138,7 +148,7 @@ Add a global plugin to scramjet - injects mixins into prototypes.
 ```
 <a name="module_scramjet.API"></a>
 
-### scramjet:API(version)
+### scramjet:API(version) : scramjet
 Gets an API version (this may be important for future use)
 
 **Kind**: static method of [<code>scramjet</code>](#module_scramjet)  
