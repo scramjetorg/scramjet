@@ -19,18 +19,18 @@ const {DataStream} = require("./");
 
 const corepath = path.dirname(require.resolve("scramjet-core"));
 const FILES = [
+    path.dirname(require.resolve("scramjet-core")) + "/index.js",
     path.dirname(require.resolve("scramjet-core")) + "/data-stream.js",
     path.dirname(require.resolve("scramjet-core")) + "/string-stream.js",
     path.dirname(require.resolve("scramjet-core")) + "/buffer-stream.js",
     path.dirname(require.resolve("scramjet-core")) + "/multi-stream.js",
-    path.dirname(require.resolve("scramjet-core")) + "/index.js",
+    "lib/index.js",
     "lib/data-stream.js",
     "lib/string-stream.js",
     "lib/buffer-stream.js",
     "lib/number-stream.js",
     "lib/window-stream.js",
-    "lib/multi-stream.js",
-    "lib/index.js"
+    "lib/multi-stream.js"
 ];
 
 gulp.task('lint', () => {
@@ -96,6 +96,10 @@ gulp.task("tsd", (cb) => {
         .pipe(jsdoc3({
             plugins: ['jsdoc2md/plugin-tsd.js'],
             opts: {
+                "tags": {
+                    "allowUnknownTags": true,
+                    "dictionaries": ["jsdoc","closure"]
+                },
                 template: '@otris/jsdoc-tsd/src-out/core',
                 destination: '.d.ts/scramjet.d.ts'
             }

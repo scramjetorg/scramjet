@@ -183,7 +183,7 @@ await (DataStream.from(aStream) // create a DataStream
 * [`dataStream.run() ⇄`](docs/data-stream.md#DataStream+run) - Consumes all stream items doing nothing. Resolves when the stream is ended.
 * [`dataStream.tap()`](docs/data-stream.md#DataStream+tap) - Stops merging transform callbacks at the current place in the command chain.
 * [`dataStream.whenRead() ⇄`](docs/data-stream.md#DataStream+whenRead) - Reads a chunk from the stream and resolves the promise when read.
-* [`dataStream.whenWrote(...dat) ⇄`](docs/data-stream.md#DataStream+whenWrote) - Writes a chunk to the stream and returns a Promise resolved when more chunks can be written.
+* [`dataStream.whenWrote(chunk, [...more]) ⇄`](docs/data-stream.md#DataStream+whenWrote) - Writes a chunk to the stream and returns a Promise resolved when more chunks can be written.
 * [`dataStream.whenEnd() ⇄`](docs/data-stream.md#DataStream+whenEnd) - Resolves when stream ends - rejects on uncaught error
 * [`dataStream.whenDrained() ⇄`](docs/data-stream.md#DataStream+whenDrained) - Returns a promise that resolves when the stream is drained
 * [`dataStream.whenError() ⇄`](docs/data-stream.md#DataStream+whenError) - Returns a promise that resolves (!) when the stream is errors
@@ -235,11 +235,6 @@ await (DataStream.from(aStream) // create a DataStream
 * [`DataStream:from(stream, options) ↺`](docs/data-stream.md#DataStream.from) - Returns a DataStream from any node.js Readable Stream
 * [`DataStream:fromArray(arr) : DataStream`](docs/data-stream.md#DataStream.fromArray) - Create a DataStream from an Array
 * [`DataStream:fromIterator(iter) : DataStream`](docs/data-stream.md#DataStream.fromIterator) - Create a DataStream from an Iterator
-* [`DataStream~AccumulateCallback : Promise | *`](docs/data-stream.md#DataStream..AccumulateCallback) - 
-* [`DataStream~ConsumeCallback : Promise | *`](docs/data-stream.md#DataStream..ConsumeCallback) - 
-* [`DataStream~RemapCallback : Promise | *`](docs/data-stream.md#DataStream..RemapCallback) - 
-* [`DataStream~FlatMapCallback : Promise.<Iterable> | Iterable`](docs/data-stream.md#DataStream..FlatMapCallback) - 
-* [`DataStream~JoinCallback : Promise.<*> | *`](docs/data-stream.md#DataStream..JoinCallback) - 
 
 ### StringStream
 
@@ -352,6 +347,16 @@ It's best used when created by the `DataStream..window`` method.
 
 * [`windowStream.sum([valueOf]) : Promise.<Number> ↺`](docs/window-stream.md#WindowStream+sum) - Calculates moving sum of items, the output stream will contain the moving sum.
 * [`windowStream.avg([valueOf]) : Promise.<Number> ↺`](docs/window-stream.md#WindowStream+avg) - Calculates the moving average of all items in the stream.
+
+### :PromiseTransformStream
+
+
+
+[Detailed :PromiseTransformStream docs here](docs/index.md)
+
+**Most popular methods:**
+
+* `new PromiseTransformStream()` - Provides a lazy-load accessor to PromiseTransformStream - the base class of scramjet streams
 
 
 

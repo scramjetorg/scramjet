@@ -3,6 +3,7 @@
     "default": {
       "packages": [
         "package.json",
+        "samples/so-examples/package.json",
         "samples/browser/package.json",
         "samples/tests/logs/package.json"
       ]

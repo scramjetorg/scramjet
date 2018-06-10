@@ -2,6 +2,11 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
+## Scramjet 4.15.1 - fix TypeScript definitions
+
+* Fixes typescript definitions
+* Minor documentation fixes
+
 ## Scramjet 4.15.0 - keep and rewind methods (DVR for node streams)
 
 * Update dependencies

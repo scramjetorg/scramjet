@@ -32,7 +32,7 @@ await (DataStream.from(aStream) // create a DataStream
         * [.run()](#DataStream+run)
         * [.tap()](#DataStream+tap)
         * [.whenRead()](#DataStream+whenRead)
-        * [.whenWrote(...dat)](#DataStream+whenWrote)
+        * [.whenWrote(chunk, [...more])](#DataStream+whenWrote)
         * [.whenEnd()](#DataStream+whenEnd)
         * [.whenDrained()](#DataStream+whenDrained)
         * [.whenError()](#DataStream+whenError)
@@ -85,12 +85,6 @@ await (DataStream.from(aStream) // create a DataStream
         * [:from(stream, options)](#DataStream.from) ↺
         * [:fromArray(arr)](#DataStream.fromArray)  [<code>DataStream</code>](#DataStream)
         * [:fromIterator(iter)](#DataStream.fromIterator)  [<code>DataStream</code>](#DataStream)
-    * _inner_
-        * [~AccumulateCallback](#DataStream..AccumulateCallback)  <code>Promise</code> \| <code>\*</code>
-        * [~ConsumeCallback](#DataStream..ConsumeCallback)  <code>Promise</code> \| <code>\*</code>
-        * [~RemapCallback](#DataStream..RemapCallback)  <code>Promise</code> \| <code>\*</code>
-        * [~FlatMapCallback](#DataStream..FlatMapCallback)  <code>Promise.&lt;Iterable&gt;</code> \| <code>Iterable</code>
-        * [~JoinCallback](#DataStream..JoinCallback)  <code>Promise.&lt;\*&gt;</code> \| <code>\*</code>
 
 <a name="new_DataStream_new"></a>
 
@@ -229,14 +223,15 @@ Reads a chunk from the stream and resolves the promise when read.
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 <a name="DataStream+whenWrote"></a>
 
-### dataStream.whenWrote(...dat) ⇄
+### dataStream.whenWrote(chunk, [...more]) ⇄
 Writes a chunk to the stream and returns a Promise resolved when more chunks can be written.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 
-| Param | Type |
-| --- | --- |
-| ...dat | <code>\*</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| chunk | <code>\*</code> | a chunk to write |
+| [...more] | <code>\*</code> | more chunks to write |
 
 <a name="DataStream+whenEnd"></a>
 
@@ -610,7 +605,7 @@ Method is parallel
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>AccumulateCallback</code> | The accumulation function |
+| func | [<code>AccumulateCallback</code>](#AccumulateCallback) | The accumulation function |
 | into | <code>\*</code> | Accumulator object |
 
 **Example**  
@@ -674,7 +669,7 @@ This means that every item may emit as many other items as we like.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>RemapCallback</code> | A callback that is called on every chunk |
+| func | [<code>RemapCallback</code>](#RemapCallback) | A callback that is called on every chunk |
 | Clazz | <code>class</code> | Optional DataStream subclass to be constructed |
 
 **Example**  
@@ -695,7 +690,7 @@ consist of all the items of the returned iterables, one iterable after another.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>FlatMapCallback</code> | A callback that is called on every chunk |
+| func | [<code>FlatMapCallback</code>](#FlatMapCallback) | A callback that is called on every chunk |
 | Clazz | <code>class</code> | Optional DataStream subclass to be constructed |
 
 **Example**  
@@ -741,7 +736,7 @@ Method will put the passed object between items. It can also be a function call.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| item | <code>\*</code> \| <code>JoinCallback</code> | An object that should be interweaved between stream items |
+| item | <code>\*</code> \| [<code>JoinCallback</code>](#JoinCallback) | An object that should be interweaved between stream items |
 
 **Example**  
 ```js
@@ -1080,59 +1075,6 @@ Doesn't end the stream until it reaches end of the iterator.
 ```js
 [../samples/data-stream-fromiterator.js](../samples/data-stream-fromiterator.js)
 ```
-<a name="DataStream..AccumulateCallback"></a>
-
-### DataStream~AccumulateCallback : Promise | *
-**Kind**: inner typedef of [<code>DataStream</code>](#DataStream)  
-**Returns**: <code>Promise</code> \| <code>\*</code> - resolved when all operations are completed  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| acc | <code>\*</code> | Accumulator passed to accumulate function |
-| chunk | <code>\*</code> | the stream chunk |
-
-<a name="DataStream..ConsumeCallback"></a>
-
-### DataStream~ConsumeCallback : Promise | *
-**Kind**: inner typedef of [<code>DataStream</code>](#DataStream)  
-**Returns**: <code>Promise</code> \| <code>\*</code> - resolved when all operations are completed  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| chunk | <code>\*</code> | the stream chunk |
-
-<a name="DataStream..RemapCallback"></a>
-
-### DataStream~RemapCallback : Promise | *
-**Kind**: inner typedef of [<code>DataStream</code>](#DataStream)  
-**Returns**: <code>Promise</code> \| <code>\*</code> - promise to be resolved when chunk has been processed  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| emit | <code>function</code> | a method to emit objects in the remapped stream |
-| chunk | <code>\*</code> | the chunk from the original stream |
-
-<a name="DataStream..FlatMapCallback"></a>
-
-### DataStream~FlatMapCallback : Promise.<Iterable> | Iterable
-**Kind**: inner typedef of [<code>DataStream</code>](#DataStream)  
-**Returns**: <code>Promise.&lt;Iterable&gt;</code> \| <code>Iterable</code> - promise to be resolved when chunk has been processed  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| chunk | <code>\*</code> | the chunk from the original stream |
-
-<a name="DataStream..JoinCallback"></a>
-
-### DataStream~JoinCallback : Promise.<*> | *
-**Kind**: inner typedef of [<code>DataStream</code>](#DataStream)  
-**Returns**: <code>Promise.&lt;\*&gt;</code> \| <code>\*</code> - promise that is resolved with the joining item  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| prev | <code>\*</code> | the chunk before |
-| next | <code>\*</code> | the chunk after |
-
 <a name="MapCallback"></a>
 
 ## MapCallback : Promise | *
@@ -1208,4 +1150,57 @@ Shift callback
 | Param | Type | Description |
 | --- | --- | --- |
 | shifted | <code>Array.&lt;Object&gt;</code> | an array of shifted chunks |
+
+<a name="AccumulateCallback"></a>
+
+## AccumulateCallback : Promise | *
+**Kind**: global typedef  
+**Returns**: <code>Promise</code> \| <code>\*</code> - resolved when all operations are completed  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| acc | <code>\*</code> | Accumulator passed to accumulate function |
+| chunk | <code>\*</code> | the stream chunk |
+
+<a name="ConsumeCallback"></a>
+
+## ConsumeCallback : Promise | *
+**Kind**: global typedef  
+**Returns**: <code>Promise</code> \| <code>\*</code> - resolved when all operations are completed  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chunk | <code>\*</code> | the stream chunk |
+
+<a name="RemapCallback"></a>
+
+## RemapCallback : Promise | *
+**Kind**: global typedef  
+**Returns**: <code>Promise</code> \| <code>\*</code> - promise to be resolved when chunk has been processed  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| emit | <code>function</code> | a method to emit objects in the remapped stream |
+| chunk | <code>\*</code> | the chunk from the original stream |
+
+<a name="FlatMapCallback"></a>
+
+## FlatMapCallback : Promise.<Iterable> | Iterable
+**Kind**: global typedef  
+**Returns**: <code>Promise.&lt;Iterable&gt;</code> \| <code>Iterable</code> - promise to be resolved when chunk has been processed  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chunk | <code>\*</code> | the chunk from the original stream |
+
+<a name="JoinCallback"></a>
+
+## JoinCallback : Promise.<*> | *
+**Kind**: global typedef  
+**Returns**: <code>Promise.&lt;\*&gt;</code> \| <code>\*</code> - promise that is resolved with the joining item  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| prev | <code>\*</code> | the chunk before |
+| next | <code>\*</code> | the chunk after |
 

@@ -197,6 +197,20 @@ Distributes processing to multiple forked subprocesses.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| clusterFunc | <code>Array.&lt;ClusterCallback&gt;</code> | a cluster callback with all operations working similarily to DataStream::use |
-| options | <code>DistributeOptions</code> |  |
+| clusterFunc | <code>function</code> \| <code>String</code> | a cluster callback with all operations working similarily to DataStream::use |
+| options | [<code>DistributeOptions</code>](#DistributeOptions) |  |
+
+<a name="DistributeOptions"></a>
+
+## DistributeOptions
+Distribute options
+
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| plugins | <code>Array</code> | a list of scramjet plugins to load (if omitted, will use just the ones in scramjet itself) |
+| StreamClass | <code>String</code> | the class to deserialize the stream to. |
+| threads | <code>Number</code> | maximum threads to use - defauls to number of processor threads in os, but it may be sensible to go over this value if you'd intend to run synchronous code. |
 
