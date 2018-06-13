@@ -1,4 +1,4 @@
-const {DataStream, StreamWorker} = require('../../');
+const {DataStream} = require('../../');
 
 const iter = (function* () {
     for (let i = 0; i < 64; i++) {
