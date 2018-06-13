@@ -48,7 +48,7 @@ DataStream.fromArray([{
             return {
                 prefix, conf: { timeout: 1000 }, tests: {
                     [method](test) {
-                        test.fail(err, "Test is failed to load: \n" + err && err.stack);
+                        test.fail(err, "Test is failed to load: \n" + (err && err.stack));
                         test.done();
                     }
                 }

@@ -96,7 +96,7 @@ exports.run = function (suite_name, tests, options, callback) {
             });
         },
         done: function (assertions, end) {
-            var end = end || new Date().getTime();
+            end = end || new Date().getTime();
             // var duration = end - start;
             if (assertions.failures()) {
                 console.log(

@@ -18,6 +18,7 @@ http.createServer(handler).listen(8080);
 class Vote extends dc.http.PostData {
 
     constructor(data) {
+        super();
 
         if (!data)
             return this;
