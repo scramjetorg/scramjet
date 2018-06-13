@@ -1,7 +1,7 @@
-const {DataStream, StreamWorker} = require('../../');
+const {DataStream} = require('../../');
 
 const iter = (function* () {
-    for (i = 0; i < 64; i++) {
+    for (let i = 0; i < 64; i++) {
         yield {terms: i + 1e7};
     }
 })();
@@ -10,7 +10,7 @@ process.on('unhandledRejection', console.error);
 
 let z = 0;
 
-const test = DataStream.fromIterator(iter)
+DataStream.fromIterator(iter)
 //    .each((item) => console.log('pushing', item))
     .use(
         (stream) => stream.map((chunk) => {

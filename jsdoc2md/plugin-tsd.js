@@ -2,7 +2,7 @@ const isChainable = (doclet) => doclet && doclet.comment.indexOf('chainable') >=
 const isClassMember = ({kind}) => (kind === 'member' || kind === 'function');
 const injected = (doclet) => (doclet.tags || []).filter(({title}) => title === "inject").map(({value}) => value.trim());
 
-const has = (doclet, tag) => doclet.comment.indexOf('@' + tag) >= 0
+// const has = (doclet, tag) => doclet.comment.indexOf('@' + tag) >= 0
 
 let tagLookup = {};
 const matchLookup = (tag) => Object.keys(tagLookup)

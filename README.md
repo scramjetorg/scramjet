@@ -8,6 +8,7 @@
 [![Dev Dependencies](https://david-dm.org/signicode/scramjet/dev-status.svg)](https://david-dm.org/signicode/scramjet?type=dev)
 [![Known Vulnerabilities](https://snyk.io/test/github/signicode/scramjet/badge.svg)](https://snyk.io/test/github/signicode/scramjet)
 [![Greenkeeper badge](https://badges.greenkeeper.io/signicode/scramjet.svg)](https://greenkeeper.io/)
+[![DeepScan grade](https://deepscan.io/api/projects/2632/branches/17801/badge/grade.svg)](https://deepscan.io/dashboard#view=project&pid=2632&bid=17801)
 
 ## What does it do?
 

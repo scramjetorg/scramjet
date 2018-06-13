@@ -13,7 +13,7 @@
         }))
         .map(async ({url, response}) => {
             const html = await response.text();
-            const text = htmlToText.fromString();
+            const text = htmlToText.fromString(html);
             const count = wordcount(text);
 
             return {
