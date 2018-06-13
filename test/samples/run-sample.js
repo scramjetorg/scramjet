@@ -34,15 +34,13 @@ DataStream.fromArray([{
 
         try {
             const out = require(file);
-            const tests = out.test ? { [method]: out.test } : {};
+            const tests = out.test ? {[method]: out.test} : {[method]: (test) => {
+                test.ok(true, "Sample exists but there's no test.");
+                test.done();
+            }};
 
             return {
-                prefix, tests: {
-                    [method]: tests || ((test) => {
-                        test.ok(true, "Sample exists but there's no test.");
-                        test.done();
-                    })
-                }
+                prefix, tests
             };
         } catch (err) {
             return {

@@ -95,8 +95,7 @@ exports.run = function (suite_name, tests, options, callback) {
               }
             });
         },
-        done: function (assertions, end) {
-            end = end || new Date().getTime();
+        done: function (assertions) {
             // var duration = end - start;
             if (assertions.failures()) {
                 console.log(

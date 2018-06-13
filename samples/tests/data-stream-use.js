@@ -10,7 +10,7 @@ process.on('unhandledRejection', console.error);
 
 let z = 0;
 
-\DataStream.fromIterator(iter)
+DataStream.fromIterator(iter)
 //    .each((item) => console.log('pushing', item))
     .use(
         (stream) => stream.map((chunk) => {
