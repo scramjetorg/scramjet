@@ -6,7 +6,7 @@ const path = require('path');
 const {unhandledRejectionHandler} = require("./handlers");
 const corePath = path.dirname(require.resolve("scramjet-core"));
 const {promisify} = require('util');
-const {runTests, flattenTests} = require("scramjet-core/test/tape-runner");
+const {runTests, flattenTests} = require("nodeunit-tape-compat");
 const access = promisify(fs.access);
 
 const matrix = [

@@ -55,7 +55,7 @@
   "author": "Signicode / Michał Czapracki <cz@signicode.com>",
   "license": "MIT",
   "devDependencies": {
-    "@otris/jsdoc-tsd": "^0.8.8",
+    "@otris/jsdoc-tsd": "^0.9.1",
     "dmd": "^3.0.12",
     "eslint": "^4.19.1",
     "eslint-config-defaults": "^9.0.0",
@@ -72,6 +72,7 @@
     "jsdoc": "^3.5.5",
     "jsdoc-api": "^4.0.3",
     "jsdoc-parse": "^3.0.1",
+    "nodeunit-tape-compat": "^1.0.0",
     "request": "^2.87.0",
     "request-promise-native": "^1.0.5",
     "tape": "^4.9.1",

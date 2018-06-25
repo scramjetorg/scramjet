@@ -2,6 +2,7 @@
     "rules": {
         "node/shebang": 0,
         "no-console": 0,
+        "node/no-unpublished-require": 0,
         "no-process-exit": 0
     }
 }
