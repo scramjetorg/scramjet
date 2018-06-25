@@ -3,7 +3,6 @@ const gulp = require("gulp");
 const env = require('gulp-env');
 const path = require("path");
 const rename = require("gulp-rename");
-const tape_nodeunit_runner = require("scramjet-core/test/tape-runner");
 const eslint = require('gulp-eslint');
 const shell = require('gulp-shell');
 const jsdoc3 = require('gulp-jsdoc3');
@@ -51,7 +50,9 @@ gulp.task("test_legacy", function () {
                 SCRAMJET_TEST_HOME: __dirname
             }
         }))
-        .pipe(tape_nodeunit_runner({timeout: 5000}))
+        .pipe(new DataStream())
+        .use("nodeunit-tape-compat", {timeout: 5000})
+        .run()
     ;
 });
 
