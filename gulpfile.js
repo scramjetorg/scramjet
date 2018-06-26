@@ -2,10 +2,9 @@
 const gulp = require("gulp");
 const path = require("path");
 const shell = require("gulp-shell");
-const jsdoc3 = require("gulp-jsdoc3");
 
 const {lint, test_legacy, readme, scm_clean} = require("scramjet-core/scripts/tasks");
-const {full_docs} = require("./scripts/tasks");
+const {full_docs, tsd} = require("./scripts/tasks");
 
 const corepath = path.dirname(require.resolve("scramjet-core"));
 const FILES = [
@@ -26,10 +25,7 @@ const FILES = [
 gulp.task("lint", lint());
 
 process.env.SCRAMJET_TEST_HOME = __dirname;
-gulp.task("test_legacy", test_legacy([
-    path.resolve(corepath, "../test/v1/*.js"),
-    "test/v1/*.js"
-]));
+gulp.task("test_legacy", test_legacy([path.resolve(corepath, "../test/v1/*.js"), "test/v1/*.js"]));
 
 gulp.task("scm_clean", scm_clean());
 
@@ -37,26 +33,20 @@ gulp.task("test_samples", shell.task("node test/samples/test-samples"));
 
 gulp.task("readme", readme({
     files: FILES.slice(),
-    plugin: [
-        "scramjet-core/jsdoc2md/plugin.js",
-        "jsdoc2md/plugin.js",
-    ]
-}));
+    plugin: ["scramjet-core/jsdoc2md/plugin.js", "jsdoc2md/plugin.js",]
+}, path.join(__dirname, "README.md")));
 
-gulp.task("tsd", (cb) => {
-    gulp.src(FILES.slice(), { read: false })
-        .pipe(jsdoc3({
-            plugins: ["jsdoc2md/plugin-tsd.js"],
-            opts: {
-                "tags": {
-                    "allowUnknownTags": true,
-                    "dictionaries": ["jsdoc","closure"]
-                },
-                template: "@otris/jsdoc-tsd/src-out/core",
-                destination: ".d.ts/scramjet.d.ts"
-            }
-        }, cb));
-});
+gulp.task("tsd", tsd(FILES.slice(), {
+    plugins: ["jsdoc2md/plugin-tsd.js"],
+    opts: {
+        "tags": {
+            "allowUnknownTags": true,
+            "dictionaries": ["jsdoc","closure"]
+        },
+        template: "@otris/jsdoc-tsd/src-out/core",
+        destination: ".d.ts/scramjet.d.ts"
+    }
+}));
 
 gulp.task("copy_docs", function() {
     return gulp.src(path.resolve(corepath, "../docs/*"))
