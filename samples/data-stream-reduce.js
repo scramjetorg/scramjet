@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // module: data-stream, method: reduce
 
-const DataStream = require('../').DataStream;
+const DataStream = require("../").DataStream;
 
 let ref;
 exports.stream = () =>

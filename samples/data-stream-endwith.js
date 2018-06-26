@@ -10,7 +10,7 @@ exports.test = function(test) {
         .endWith(4)
         .toArray()
         .then(arr => {
-            test.deepEqual(arr, [1,2,3,4], 'End with items should be added at the end');
+            test.deepEqual(arr, [1,2,3,4], "End with items should be added at the end");
             test.done();
         });
 };

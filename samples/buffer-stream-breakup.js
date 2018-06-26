@@ -5,8 +5,8 @@ const BreakupNum = 13;
 
 exports.stream = () =>
     require("./buffer-stream-constructor")
-    .stream()                                                                   // get BufferStream from another example
-    .breakup(BreakupNum);                                                       // breakup into 13-byte chunks (remember! this is an Object stream!)
+        .stream()                                                                   // get BufferStream from another example
+        .breakup(BreakupNum);                                                       // breakup into 13-byte chunks (remember! this is an Object stream!)
 
 // ------- END EXAMPLE --------
 

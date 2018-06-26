@@ -1,5 +1,5 @@
 const Readable = require("stream").Readable;
-const path = require('path');
+const path = require("path");
 
 const Generator = function* (max) {
     let next = 0;

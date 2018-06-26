@@ -1,4 +1,4 @@
-const scramjet = require('../..');
+const scramjet = require("../..");
 const rp = require("request-promise-native");
 
 let seq = 0;
@@ -25,16 +25,16 @@ module.exports = (source, maxParallel, addr1, addr2, addr3, addr4) => {
     ).on(
         "error", (e) => console.log("Error", e && e.stack)
     ).assign(
-        (item) => rp.get("http://" + addr1 + '/' + item.id)
+        (item) => rp.get("http://" + addr1 + "/" + item.id)
             .then((res) => Object.assign({}, item, {hash: res}))
     ).assign(
-        (item) => rp.get("http://" + addr2 + '/' + item.hash + '/' + item.id)
+        (item) => rp.get("http://" + addr2 + "/" + item.hash + "/" + item.id)
             .then((res) => Object.assign({}, item, {hash: res}))
     ).assign(
-        (item) => rp.get("http://" + addr3 + '/' + item.hash + '/' + item.id)
+        (item) => rp.get("http://" + addr3 + "/" + item.hash + "/" + item.id)
             .then((res) => Object.assign({}, item, {hash: res}))
     ).assign(
-        (item) => rp.get("http://" + addr4 + '/' + item.hash + '/' + item.id)
+        (item) => rp.get("http://" + addr4 + "/" + item.hash + "/" + item.id)
             .then((res) => Object.assign({}, item, {hash: res}))
     ).accumulate(
         (acc, res) => acc[res.hash.substr(0,2)] = (acc[res.hash.substr(0,2)] || 0) + 1,

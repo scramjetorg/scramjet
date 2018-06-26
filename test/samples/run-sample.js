@@ -1,21 +1,21 @@
 #!/usr/bin/env node
 
-const path = require('path');
-const fs = require('fs');
+const path = require("path");
+const fs = require("fs");
 const { unhandledRejectionHandler } = require("./handlers");
-const { promisify } = require('util');
+const { promisify } = require("util");
 const { runTests, flattenTests } = require("nodeunit-tape-compat");
-const { DataStream } = require('../../');
+const { DataStream } = require("../../");
 const file = path.resolve(process.cwd(), process.argv[2]);
 const access = promisify(fs.access);
 
 process.on("unhandledRejection", unhandledRejectionHandler);
 
 DataStream.fromArray([{
-        file,
-        prefix: process.argv[2].replace(/[^\w\d]+/g, '-'),
-        method: 'run-sample'
-    }])
+    file,
+    prefix: process.argv[2].replace(/[^\w\d]+/g, "-"),
+    method: "run-sample"
+}])
     .assign(async (test) => {
         const { file, prefix, method } = test;
 
@@ -61,7 +61,7 @@ DataStream.fromArray([{
     )
     .catch(
         (e) => {
-            console.error('ERRROR', e && e.stack);
+            console.error("ERRROR", e && e.stack);
             process.exit(103);
         }
     )

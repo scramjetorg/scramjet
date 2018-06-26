@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 // module: data-stream, method: JSONStringify
 
-const {StringStream} = require('../');
+const {StringStream} = require("../");
 exports.log = console.log.bind(console);
 
-const dat = [1,2,3,4].map((n) => `{"n":${n}}`).join('\n') + '\n';
+const dat = [1,2,3,4].map((n) => `{"n":${n}}`).join("\n") + "\n";
 
 exports.stream = () => {
     const stream = new StringStream();

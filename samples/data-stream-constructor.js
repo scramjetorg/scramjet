@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // module: data-stream, method: constructor
 
-const DataStream = require('../').DataStream;
+const DataStream = require("../").DataStream;
 
 exports.stream = () =>require("./buffer-stream-parse")
     .stream()                                                                   // get BufferStream from another example

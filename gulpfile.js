@@ -1,18 +1,18 @@
 /* eslint-disable node/no-unpublished-require */
 const gulp = require("gulp");
-const env = require('gulp-env');
+const env = require("gulp-env");
 const path = require("path");
 const rename = require("gulp-rename");
-const eslint = require('gulp-eslint');
-const shell = require('gulp-shell');
-const jsdoc3 = require('gulp-jsdoc3');
+const eslint = require("gulp-eslint");
+const shell = require("gulp-shell");
+const jsdoc3 = require("gulp-jsdoc3");
 const log = require("fancy-log");
-const execp = require('child_process').exec;
-const jsdoc = require('jsdoc-api');
-const jsdocParse = require('jsdoc-parse');
-const dmd = require('dmd');
-const {promisify} = require('util');
-const fs = require('fs');
+const execp = require("child_process").exec;
+const jsdoc = require("jsdoc-api");
+const jsdocParse = require("jsdoc-parse");
+const dmd = require("dmd");
+const {promisify} = require("util");
+const fs = require("fs");
 
 const {DataStream} = require("./");
 
@@ -32,8 +32,8 @@ const FILES = [
     "lib/multi-stream.js"
 ];
 
-gulp.task('lint', () => {
-    return gulp.src(['**/*.js','!node_modules/**'])
+gulp.task("lint", () => {
+    return gulp.src(["**/*.js","!node_modules/**"])
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(eslint.failAfterError());
@@ -42,9 +42,9 @@ gulp.task('lint', () => {
 gulp.task("test_legacy", function () {
 
     return gulp.src([
-            path.resolve(corepath, "../test/v1/*.js"),
-            'test/v1/*.js'
-        ])
+        path.resolve(corepath, "../test/v1/*.js"),
+        "test/v1/*.js"
+    ])
         .pipe(env({
             vars: {
                 SCRAMJET_TEST_HOME: __dirname
@@ -68,7 +68,7 @@ gulp.task("scm_clean", function(cb){
     });
 });
 
-gulp.task('test_samples', shell.task("node test/samples/test-samples"));
+gulp.task("test_samples", shell.task("node test/samples/test-samples"));
 
 const jsdoc2md = async ({files, plugin}) => {
 
@@ -81,7 +81,7 @@ const jsdoc2md = async ({files, plugin}) => {
 
 gulp.task("readme", async () => {
     return promisify(fs.writeFile)(
-        path.join(__dirname, 'README.md'),
+        path.join(__dirname, "README.md"),
         await jsdoc2md({
             files: FILES.slice(),
             plugin: [
@@ -95,14 +95,14 @@ gulp.task("readme", async () => {
 gulp.task("tsd", (cb) => {
     gulp.src(FILES.slice(), { read: false })
         .pipe(jsdoc3({
-            plugins: ['jsdoc2md/plugin-tsd.js'],
+            plugins: ["jsdoc2md/plugin-tsd.js"],
             opts: {
                 "tags": {
                     "allowUnknownTags": true,
                     "dictionaries": ["jsdoc","closure"]
                 },
-                template: '@otris/jsdoc-tsd/src-out/core',
-                destination: '.d.ts/scramjet.d.ts'
+                template: "@otris/jsdoc-tsd/src-out/core",
+                destination: ".d.ts/scramjet.d.ts"
             }
         }, cb));
 });
@@ -113,32 +113,32 @@ gulp.task("copy_docs", function() {
 });
 
 gulp.task("make_docs", () => gulp.src(["lib/*.js"])
-        .pipe(new DataStream())
-        .map(async (file) => {
-            const files = [file.path];
-            const corefile = path.resolve(corepath, path.basename(file.path));
+    .pipe(new DataStream())
+    .map(async (file) => {
+        const files = [file.path];
+        const corefile = path.resolve(corepath, path.basename(file.path));
 
-            const isCoreExtension = await (promisify(fs.access)(corefile, fs.constants.R_OK).then(() => true, () => false));
-            if (isCoreExtension)
-                files.unshift(corefile);
+        const isCoreExtension = await (promisify(fs.access)(corefile, fs.constants.R_OK).then(() => true, () => false));
+        if (isCoreExtension)
+            files.unshift(corefile);
 
-            const output = await jsdoc2md({
-                files,
-                plugin: "scramjet-core/jsdoc2md/plugin-docs.js"
-            });
-            file.contents = Buffer.from(output);
+        const output = await jsdoc2md({
+            files,
+            plugin: "scramjet-core/jsdoc2md/plugin-docs.js"
+        });
+        file.contents = Buffer.from(output);
 
-            return file;
-        })
-        .on("error", function(err) {
-            log.error("jsdoc2md failed", err.stack);
-        })
-        .pipe(rename(function(path) {
-            path.extname = ".md";
-        }))
-        .pipe(
-            gulp.dest("docs/")
-        )
+        return file;
+    })
+    .on("error", function(err) {
+        log.error("jsdoc2md failed", err.stack);
+    })
+    .pipe(rename(function(path) {
+        path.extname = ".md";
+    }))
+    .pipe(
+        gulp.dest("docs/")
+    )
 );
 
 gulp.task("docs", gulp.series("tsd", "readme", "copy_docs", "make_docs"));

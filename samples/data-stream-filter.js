@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 // module: data-stream, method: filter
 
-const DataStream = require('../').DataStream;
+const DataStream = require("../").DataStream;
 
 exports.stream = () => DataStream.fromArray([1,2,3,4,5,6,7,8,9,10])
     .filter((num) => num % 2 === 0)                                             // return true for even numbers
-    ;
+;
 
 exports.test = {
     normal: (test) => {
@@ -21,7 +21,7 @@ exports.test = {
             .toArray()
             .then(
                 (ret) => {
-                    test.equals(ret.toString(), '2,4,6,8,10', "Odd items need to be filtered out");
+                    test.equals(ret.toString(), "2,4,6,8,10", "Odd items need to be filtered out");
                     test.done();
                 }
             );

@@ -10,7 +10,7 @@ exports.test = function(test) {
         .unshift(1,2,3)
         .toArray()
         .then(arr => {
-            test.deepEqual(arr, [1,2,3,4,5,6], 'Shifted items should contain unshifted elements in the begining');
+            test.deepEqual(arr, [1,2,3,4,5,6], "Shifted items should contain unshifted elements in the begining");
             test.done();
         });
 };

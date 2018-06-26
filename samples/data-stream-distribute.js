@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // module: data-stream, method: constructor
 
-const DataStream = require('../').DataStream;
+const DataStream = require("../").DataStream;
 
 const cpus = require("os").cpus().length * 2;
 

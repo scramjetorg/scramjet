@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // module: data-stream, method: flatMap
 
-const DataStream = require('../').DataStream;
+const DataStream = require("../").DataStream;
 exports.log = console.log.bind(console);
 
 exports.test = async (test) => {
