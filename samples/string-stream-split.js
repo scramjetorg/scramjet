@@ -14,7 +14,7 @@ exports.test = async (test) => {
         .each(exports.log)
         .toArray();
 
-    test.ok(!arr.find(a => a.indexOf(' ') > -1));
+    test.ok(!arr.find(a => a.indexOf(" ") > -1));
     test.done();
 };
 

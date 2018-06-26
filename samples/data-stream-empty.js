@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // module: data-stream, method: map
 
-const DataStream = require('../').DataStream;
+const DataStream = require("../").DataStream;
 
 exports.stream = (n) => DataStream.fromArray(n ? [] : [1]);
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // module: data-stream, method: remap
 
-const DataStream = require('../').DataStream;
+const DataStream = require("../").DataStream;
 exports.log = console.log.bind(console);
 
 exports.test = async (test) => {
@@ -20,6 +20,6 @@ exports.test = async (test) => {
 
     exports.log("r", remapped);
 
-    test.deepEqual(remapped, [1,2,3,4,5,6,7,8,9,10], 'Emits items as programmed');
+    test.deepEqual(remapped, [1,2,3,4,5,6,7,8,9,10], "Emits items as programmed");
     test.done();
 };

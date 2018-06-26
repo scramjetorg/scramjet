@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 // module: buffer-stream, method: constructor
 
-const BufferStream = require('../').BufferStream;
+const BufferStream = require("../").BufferStream;
 
 exports.stream = () =>
     require("fs").createReadStream(
         require("path").resolve(__dirname, "./data/in-nasdaq.bin")
     )
-    .pipe(new BufferStream())                                                   // construct the BufferStream
+        .pipe(new BufferStream())                                                   // construct the BufferStream
 ;
 
 // ------- END EXAMPLE --------

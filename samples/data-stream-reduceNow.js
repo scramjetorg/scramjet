@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // module: data-stream, method: reduceNow
 
-const DataStream = require('../').DataStream;
+const DataStream = require("../").DataStream;
 
 exports.log = console.log.bind(console);
 
@@ -20,7 +20,7 @@ exports.test = async (test) => {
     await stream.whenEnd();
     await new Promise(res => process.nextTick(res));
 
-    test.equals(ret+'', "2,3,4,5", "Passes all items on next tick after original stream ends");
+    test.equals(ret+"", "2,3,4,5", "Passes all items on next tick after original stream ends");
 
     test.done();
 

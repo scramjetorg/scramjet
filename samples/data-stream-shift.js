@@ -3,7 +3,7 @@
 
 let shifted;
 
-const DataStream = require('../').DataStream;
+const DataStream = require("../").DataStream;
 
 exports.stream = () => DataStream.fromArray([1,2,3,4,5,6,7,8,9,10])
     .shift(2, (p) => {                                                            // shift 2 items
@@ -26,9 +26,9 @@ exports.test = (test) => {
             test.done();
         })
         .on("error", (e) => {
-             console.error("Error", e && e.stack);
-             test.ok(0, "Error should not occur");
-         })
+            console.error("Error", e && e.stack);
+            test.ok(0, "Error should not occur");
+        })
     ;
 
 };

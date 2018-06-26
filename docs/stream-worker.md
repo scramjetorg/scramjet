@@ -7,12 +7,10 @@
 * [ScramjetCore](#module_ScramjetCore)
     * [~StreamWorker](#module_ScramjetCore..StreamWorker)
         * [new StreamWorker()](#new_module_ScramjetCore..StreamWorker_new)
-        * _instance_
-            * [.spawn()](#module_ScramjetCore..StreamWorker+spawn) ⇄ <code>StreamWorker</code>
-            * [.delegate(input, delegateFunc, [plugins])](#module_ScramjetCore..StreamWorker+delegate)  <code>DataStream</code>
-        * _static_
-            * [:fork([count])](#module_ScramjetCore..StreamWorker.fork) ⇄ <code>Array.&lt;StreamWorker&gt;</code>
-            * [:_getWorker()](#module_ScramjetCore..StreamWorker._getWorker) ⇄ <code>StreamWorker</code>
+        * [streamWorker.spawn()](#module_ScramjetCore..StreamWorker+spawn) ⇄ <code>StreamWorker</code>
+        * [streamWorker.delegate(input, delegateFunc, [plugins])](#module_ScramjetCore..StreamWorker+delegate)  <code>DataStream</code>
+        * [StreamWorker:fork([count])](#module_ScramjetCore..StreamWorker.fork) ⇄ <code>Array.&lt;StreamWorker&gt;</code>
+        * [StreamWorker:_getWorker()](#module_ScramjetCore..StreamWorker._getWorker) ⇄ <code>StreamWorker</code>
 
 <a name="module_ScramjetCore..StreamWorker"></a>
 
@@ -29,12 +27,10 @@ This class provides control over the subprocesses, incl:
 
 * [~StreamWorker](#module_ScramjetCore..StreamWorker)
     * [new StreamWorker()](#new_module_ScramjetCore..StreamWorker_new)
-    * _instance_
-        * [.spawn()](#module_ScramjetCore..StreamWorker+spawn) ⇄ <code>StreamWorker</code>
-        * [.delegate(input, delegateFunc, [plugins])](#module_ScramjetCore..StreamWorker+delegate)  <code>DataStream</code>
-    * _static_
-        * [:fork([count])](#module_ScramjetCore..StreamWorker.fork) ⇄ <code>Array.&lt;StreamWorker&gt;</code>
-        * [:_getWorker()](#module_ScramjetCore..StreamWorker._getWorker) ⇄ <code>StreamWorker</code>
+    * [streamWorker.spawn()](#module_ScramjetCore..StreamWorker+spawn) ⇄ <code>StreamWorker</code>
+    * [streamWorker.delegate(input, delegateFunc, [plugins])](#module_ScramjetCore..StreamWorker+delegate)  <code>DataStream</code>
+    * [StreamWorker:fork([count])](#module_ScramjetCore..StreamWorker.fork) ⇄ <code>Array.&lt;StreamWorker&gt;</code>
+    * [StreamWorker:_getWorker()](#module_ScramjetCore..StreamWorker._getWorker) ⇄ <code>StreamWorker</code>
 
 <a name="new_module_ScramjetCore..StreamWorker_new"></a>
 

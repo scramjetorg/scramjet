@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // module: buffer-stream, method: shift
 
-const crypto = require('crypto');
+const crypto = require("crypto");
 
 let shifted;
 

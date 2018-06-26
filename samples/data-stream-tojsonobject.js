@@ -8,12 +8,12 @@ exports.test = async (test) => {
     test.expect(2);
     const stream = DataStream.fromArray([1,2,3,4])
         .map(a => ({a}))
-        .toJSONObject(({a}) => 'a' + a, ['{"abc":{\n','\n}}'])
+        .toJSONObject(({a}) => "a" + a, ["{\"abc\":{\n","\n}}"])
     ;
 
     test.ok(stream instanceof StringStream, "Returns a StringStream");
 
-    const stringRep = (await stream.toArray()).join('');
+    const stringRep = (await stream.toArray()).join("");
     const arr = JSON.parse(stringRep);
 
     test.deepEqual({abc:{

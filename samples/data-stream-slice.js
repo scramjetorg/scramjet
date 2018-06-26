@@ -10,7 +10,7 @@ exports.test = function(test) {
         .slice(3,3)
         .toArray()
         .then(arr => {
-            test.deepEqual(arr, [4,5,6], 'Shifted items should be starting with fourth element');
+            test.deepEqual(arr, [4,5,6], "Shifted items should be starting with fourth element");
             test.done();
         });
 };

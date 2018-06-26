@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // module: data-stream, method: map
 
-const { DataStream } = require('../');
+const { DataStream } = require("../");
 
 exports.stream = () => DataStream.fromArray([1, 2, 3, 5, 4])
     .while(x => x < 5);

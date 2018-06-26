@@ -2,6 +2,12 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
+## Scramjet 4.16.1 - expose scripts
+
+* Update dependencies
+* Remove some gulp dev dependencies
+* Expose gulp tasks for submodules
+
 ## Scramjet 4.15.2 - fix TypeScript definitions
 
 * Fix readable only streams
@@ -32,8 +38,7 @@ Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous
 
 ## Scramjet 4.12.3 - Fix test for timeBatch
 
-* 14ede09 - fix timebatch test
-* e012de2 - docs and changelog
+* Fix timebatch test
 
 ## Scramjet 4.12.2
 

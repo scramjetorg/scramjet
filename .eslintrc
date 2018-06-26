@@ -1,14 +1,4 @@
 {
-    "plugins": ["node"],
-    "extends": ["eslint:recommended", "plugin:node/recommended"],
-    "rules": {
-        "node/exports-style": ["error", "module.exports"],
-        "semi": [2, "always"],
-        "no-extra-semi": 2,
-        "semi-spacing": [2, { "before": false, "after": true }]
-    },
-    "env": {
-        "node": true
-    },
+    "extends": ["./node_modules/scramjet-core/.eslintrc"],
     "root": true
 }

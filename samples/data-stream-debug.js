@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // module: data-stream, method: constructor
 
-const DataStream = require('../').DataStream;
+const DataStream = require("../").DataStream;
 
 let assigned;
 exports.stream = () => require("./data-stream-constructor")

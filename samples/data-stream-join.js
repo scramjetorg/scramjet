@@ -10,7 +10,7 @@ exports.test = function(test) {
         .join(0)
         .toArray()
         .then(arr => {
-            test.deepEqual(arr, [1,0,2,0,3], 'join items should be added between items');
+            test.deepEqual(arr, [1,0,2,0,3], "join items should be added between items");
             test.done();
         });
 };

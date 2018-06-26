@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // module: multi-stream, method: mux
 
-const {MultiStream, DataStream} = require('../');
+const {MultiStream, DataStream} = require("../");
 
 exports.stream = (arr) => new MultiStream(arr);
 
@@ -19,7 +19,7 @@ exports.test = {
             .then(
                 (ref) => {
                     [0,1,2,3,4,5,6,7,8,9].forEach(
-                        (num) => test.ok(ref.indexOf(num +',') >= 0, "Item " +num + " is in stream")
+                        (num) => test.ok(ref.indexOf(num +",") >= 0, "Item " +num + " is in stream")
                     );
                     test.done();
                 }
@@ -39,7 +39,7 @@ exports.test = {
             .then(
                 (ref) => {
                     [0,1,2,3,4,5,6,7,8,9].forEach(
-                        (num) => test.ok(ref.indexOf(num +',') >= 0, "Item " +num + " is in stream")
+                        (num) => test.ok(ref.indexOf(num +",") >= 0, "Item " +num + " is in stream")
                     );
                     test.done();
                 }
@@ -63,7 +63,7 @@ exports.test = {
         mux.add(added);
         const items = await stream.toArray();
 
-        test.equals(items.length, 7, 'Should wait for items');
+        test.equals(items.length, 7, "Should wait for items");
         test.done();
     }
 };

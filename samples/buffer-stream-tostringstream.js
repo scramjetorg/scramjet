@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 // module: buffer-stream, method: tostringstream
 
-const StringStream = require('../').StringStream;
+const StringStream = require("../").StringStream;
 
 exports.stream = () => require("./buffer-stream-split")
     .stream()                                                                   // get BufferStream from another example
-    .toStringStream('ascii')                                                    // read as strings
+    .toStringStream("ascii")                                                    // read as strings
     .each(exports.log)
     .map(
         (b64) => Buffer.from(b64, "base64").toString()

@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 // module: buffer-stream, method: split
 
-const BufferStream = require('../').BufferStream;
-const fs = require('fs');
-const path = require('path');
+const BufferStream = require("../").BufferStream;
+const fs = require("fs");
+const path = require("path");
 
 let cnt = 0;
 
