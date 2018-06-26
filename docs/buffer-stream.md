@@ -26,14 +26,14 @@ A simple use case would be:
 
 * [BufferStream](#BufferStream)  <code>DataStream</code>
     * [new BufferStream(opts)](#new_BufferStream_new)
-    * [.shift(chars, func)](#BufferStream+shift) ↺ [<code>BufferStream</code>](#BufferStream)
-    * [.split(splitter)](#BufferStream+split) ↺ [<code>BufferStream</code>](#BufferStream)
-    * [.breakup(number)](#BufferStream+breakup) ↺ [<code>BufferStream</code>](#BufferStream)
-    * [.stringify(encoding)](#BufferStream+stringify)  <code>StringStream</code>
-    * [.parse(parser)](#BufferStream+parse)  <code>DataStream</code>
-    * [.toStringStream(encoding)](#BufferStream+toStringStream)  <code>StringStream</code>
-    * [.pop(chars, func)](#BufferStream+pop) ↺ [<code>BufferStream</code>](#BufferStream)
-    * [.toDataStream(parser)](#BufferStream+toDataStream)  <code>DataStream</code>
+    * [bufferStream.shift(chars, func)](#BufferStream+shift) ↺ [<code>BufferStream</code>](#BufferStream)
+    * [bufferStream.split(splitter)](#BufferStream+split) ↺ [<code>BufferStream</code>](#BufferStream)
+    * [bufferStream.breakup(number)](#BufferStream+breakup) ↺ [<code>BufferStream</code>](#BufferStream)
+    * [bufferStream.stringify(encoding)](#BufferStream+stringify)  <code>StringStream</code>
+    * [bufferStream.parse(parser)](#BufferStream+parse)  <code>DataStream</code>
+    * [bufferStream.toStringStream(encoding)](#BufferStream+toStringStream)  <code>StringStream</code>
+    * [bufferStream.pop(chars, func)](#BufferStream+pop) ↺ [<code>BufferStream</code>](#BufferStream)
+    * [bufferStream.toDataStream(parser)](#BufferStream+toDataStream)  <code>DataStream</code>
 
 <a name="new_BufferStream_new"></a>
 

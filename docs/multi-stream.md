@@ -9,17 +9,17 @@ An object consisting of multiple streams than can be refined or muxed.
 
 * [MultiStream](#MultiStream)
     * [new MultiStream(streams, options)](#new_MultiStream_new)
-    * [.streams](#MultiStream+streams)  <code>Array</code>
-    * [.length](#MultiStream+length)  <code>number</code>
-    * [.map(aFunc)](#MultiStream+map) ↺ [<code>MultiStream</code>](#MultiStream)
-    * [.find(...args)](#MultiStream+find)  <code>DataStream</code>
-    * [.filter(func)](#MultiStream+filter) ↺ [<code>MultiStream</code>](#MultiStream)
-    * [.mux(cmp)](#MultiStream+mux)  <code>DataStream</code>
-    * [.add(stream)](#MultiStream+add)
-    * [.remove(stream)](#MultiStream+remove)
-    * [.route([policy], [count])](#MultiStream+route)  [<code>MultiStream</code>](#MultiStream)
-    * [.smap(transform)](#MultiStream+smap) ↺
-    * [.cluster(clusterFunc, options)](#MultiStream+cluster) ↺
+    * [multiStream.streams](#MultiStream+streams)  <code>Array</code>
+    * [multiStream.length](#MultiStream+length)  <code>number</code>
+    * [multiStream.map(aFunc)](#MultiStream+map) ↺ [<code>MultiStream</code>](#MultiStream)
+    * [multiStream.find(...args)](#MultiStream+find)  <code>DataStream</code>
+    * [multiStream.filter(func)](#MultiStream+filter) ↺ [<code>MultiStream</code>](#MultiStream)
+    * [multiStream.mux(cmp)](#MultiStream+mux)  <code>DataStream</code>
+    * [multiStream.add(stream)](#MultiStream+add)
+    * [multiStream.remove(stream)](#MultiStream+remove)
+    * [multiStream.route([policy], [count])](#MultiStream+route)  [<code>MultiStream</code>](#MultiStream)
+    * [multiStream.smap(transform)](#MultiStream+smap) ↺
+    * [multiStream.cluster(clusterFunc, options)](#MultiStream+cluster) ↺
 
 <a name="new_MultiStream_new"></a>
 

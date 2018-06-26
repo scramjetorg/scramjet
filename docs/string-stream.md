@@ -16,21 +16,19 @@ StringStream.fromString()
 
 * [StringStream](#StringStream)  <code>DataStream</code>
     * [new StringStream(encoding)](#new_StringStream_new)
-    * _instance_
-        * [.shift(bytes, func)](#StringStream+shift) ↺
-        * [.split(splitter)](#StringStream+split) ↺
-        * [.match(matcher)](#StringStream+match) ↺
-        * [.toBufferStream()](#StringStream+toBufferStream) ↺ <code>BufferStream</code>
-        * [.parse(parser)](#StringStream+parse) ↺ <code>DataStream</code>
-        * [.lines([eol])](#StringStream+lines) ↺
-        * [.JSONParse(perLine)](#StringStream+JSONParse) ↺ <code>DataStream</code>
-        * [.CSVParse(options)](#StringStream+CSVParse) ↺ <code>DataStream</code>
-        * [.append(arg)](#StringStream+append) ↺
-        * [.prepend(arg)](#StringStream+prepend) ↺
-        * [.pop(bytes, func)](#StringStream+pop) ↺
-    * _static_
-        * [:SPLIT_LINE](#StringStream.SPLIT_LINE)
-        * [:fromString(str, encoding)](#StringStream.fromString)  [<code>StringStream</code>](#StringStream)
+    * [stringStream.shift(bytes, func)](#StringStream+shift) ↺
+    * [stringStream.split(splitter)](#StringStream+split) ↺
+    * [stringStream.match(matcher)](#StringStream+match) ↺
+    * [stringStream.toBufferStream()](#StringStream+toBufferStream) ↺ <code>BufferStream</code>
+    * [stringStream.parse(parser)](#StringStream+parse) ↺ <code>DataStream</code>
+    * [stringStream.lines([eol])](#StringStream+lines) ↺
+    * [stringStream.JSONParse(perLine)](#StringStream+JSONParse) ↺ <code>DataStream</code>
+    * [stringStream.CSVParse(options)](#StringStream+CSVParse) ↺ <code>DataStream</code>
+    * [stringStream.append(arg)](#StringStream+append) ↺
+    * [stringStream.prepend(arg)](#StringStream+prepend) ↺
+    * [stringStream.pop(bytes, func)](#StringStream+pop) ↺
+    * [StringStream:SPLIT_LINE](#StringStream.SPLIT_LINE)
+    * [StringStream:fromString(str, encoding)](#StringStream.fromString)  [<code>StringStream</code>](#StringStream)
 
 <a name="new_StringStream_new"></a>
 

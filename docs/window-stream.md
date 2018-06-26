@@ -12,8 +12,8 @@ It's best used when created by the `DataStream..window`` method.
 **Extends**: <code>DataStream</code>  
 
 * [WindowStream](#WindowStream)  <code>DataStream</code>
-    * [.sum([valueOf])](#WindowStream+sum) ↺ <code>Promise.&lt;Number&gt;</code>
-    * [.avg([valueOf])](#WindowStream+avg) ↺ <code>Promise.&lt;Number&gt;</code>
+    * [windowStream.sum([valueOf])](#WindowStream+sum) ↺ <code>Promise.&lt;Number&gt;</code>
+    * [windowStream.avg([valueOf])](#WindowStream+avg) ↺ <code>Promise.&lt;Number&gt;</code>
 
 <a name="WindowStream+sum"></a>
 

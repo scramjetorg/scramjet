@@ -12,8 +12,8 @@ provides simple methods like `sum`, `average`. It derives from DataStream so it'
 
 * [NumberStream](#NumberStream)  <code>DataStream</code>
     * [new NumberStream(options)](#new_NumberStream_new)
-    * [.sum()](#NumberStream+sum) ⇄ <code>Number</code>
-    * [.avg()](#NumberStream+avg) ⇄ <code>Number</code>
+    * [numberStream.sum()](#NumberStream+sum) ⇄ <code>Number</code>
+    * [numberStream.avg()](#NumberStream+avg) ⇄ <code>Number</code>
 
 <a name="new_NumberStream_new"></a>
 

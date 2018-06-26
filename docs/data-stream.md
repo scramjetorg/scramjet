@@ -23,68 +23,66 @@ await (DataStream.from(aStream) // create a DataStream
 
 * [DataStream](#DataStream)  <code>stream.PassThrough</code>
     * [new DataStream(opts)](#new_DataStream_new)
-    * _instance_
-        * [.map(func, Clazz)](#DataStream+map) ↺
-        * [.filter(func)](#DataStream+filter) ↺
-        * [.reduce(func, into)](#DataStream+reduce)
-        * [.into(func, into)](#DataStream+into) ↺
-        * [.use(func)](#DataStream+use) ↺
-        * [.run()](#DataStream+run)
-        * [.tap()](#DataStream+tap)
-        * [.whenRead()](#DataStream+whenRead)
-        * [.whenWrote(chunk, [...more])](#DataStream+whenWrote)
-        * [.whenEnd()](#DataStream+whenEnd)
-        * [.whenDrained()](#DataStream+whenDrained)
-        * [.whenError()](#DataStream+whenError)
-        * [.setOptions(options)](#DataStream+setOptions) ↺
-        * [.tee(func)](#DataStream+tee) ↺
-        * [.each(func)](#DataStream+each) ↺
-        * [.while(func)](#DataStream+while) ↺
-        * [.until(func)](#DataStream+until) ↺
-        * [.catch(callback)](#DataStream+catch) ↺
-        * [.raise(err)](#DataStream+raise)
-        * [.pipe(to, options)](#DataStream+pipe) ↺ <code>Writable</code>
-        * [.bufferify(serializer)](#DataStream+bufferify) ↺ <code>BufferStream</code>
-        * [.stringify(serializer)](#DataStream+stringify) ↺ <code>StringStream</code>
-        * [.toArray(initial)](#DataStream+toArray) ⇄ <code>Array</code>
-        * [.toGenerator()](#DataStream+toGenerator)  <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code>
-        * [.pull(incoming)](#DataStream+pull) ⇄ <code>Number</code>
-        * [.shift(count, func)](#DataStream+shift) ↺
-        * [.peek(count, func)](#DataStream+peek) ↺
-        * [.slice([start], [length])](#DataStream+slice) ↺
-        * [.assign(func)](#DataStream+assign) ↺
-        * [.empty(callback)](#DataStream+empty) ↺
-        * [.unshift(item)](#DataStream+unshift) ↺
-        * [.endWith(item)](#DataStream+endWith) ↺
-        * [.accumulate(func, into)](#DataStream+accumulate) ⇄ <code>Promise</code>
-        * ~~[.consume(func)](#DataStream+consume)~~
-        * [.reduceNow(func, into)](#DataStream+reduceNow) ↺ <code>\*</code>
-        * [.remap(func, Clazz)](#DataStream+remap) ↺ [<code>DataStream</code>](#DataStream)
-        * [.flatMap(func, Clazz)](#DataStream+flatMap) ↺ [<code>DataStream</code>](#DataStream)
-        * [.flatten()](#DataStream+flatten) ↺ [<code>DataStream</code>](#DataStream)
-        * [.concat(streams)](#DataStream+concat) ↺
-        * [.join(item)](#DataStream+join) ↺
-        * [.keep(count)](#DataStream+keep) ↺
-        * [.rewind(count)](#DataStream+rewind) ↺
-        * [.distribute([affinity], clusterFunc, options)](#DataStream+distribute) ↺
-        * [.separateInto(streams, affinity)](#DataStream+separateInto) ↺
-        * [.separate(affinity, createOptions)](#DataStream+separate) ↺ <code>MultiStream</code>
-        * [.delegate(delegateFunc, worker, [plugins])](#DataStream+delegate) ↺
-        * [.batch(count)](#DataStream+batch) ↺
-        * [.timeBatch(ms, count)](#DataStream+timeBatch) ↺
-        * [.nagle([size], [ms])](#DataStream+nagle) ↺
-        * [.window(length)](#DataStream+window) ↺ <code>WindowStream</code>
-        * [.toJSONArray([enclosure])](#DataStream+toJSONArray) ↺ <code>StringStream</code>
-        * [.toJSONObject([entryCallback], [enclosure])](#DataStream+toJSONObject) ↺ <code>StringStream</code>
-        * [.JSONStringify([endline])](#DataStream+JSONStringify) ↺ <code>StringStream</code>
-        * [.CSVStringify(options)](#DataStream+CSVStringify) ↺ <code>StringStream</code>
-        * [.debug(func)](#DataStream+debug) ↺ [<code>DataStream</code>](#DataStream)
-        * [.toBufferStream(serializer)](#DataStream+toBufferStream) ↺ <code>BufferStream</code>
-        * [.toStringStream(serializer)](#DataStream+toStringStream) ↺ <code>StringStream</code>
-    * _static_
-        * [:from(stream, options)](#DataStream.from) ↺
-        * [:fromArray(arr)](#DataStream.fromArray)  [<code>DataStream</code>](#DataStream)
-        * [:fromIterator(iter)](#DataStream.fromIterator)  [<code>DataStream</code>](#DataStream)
+    * [dataStream.map(func, Clazz)](#DataStream+map) ↺
+    * [dataStream.filter(func)](#DataStream+filter) ↺
+    * [dataStream.reduce(func, into)](#DataStream+reduce)
+    * [dataStream.into(func, into)](#DataStream+into) ↺
+    * [dataStream.use(func)](#DataStream+use) ↺
+    * [dataStream.run()](#DataStream+run)
+    * [dataStream.tap()](#DataStream+tap)
+    * [dataStream.whenRead()](#DataStream+whenRead)
+    * [dataStream.whenWrote(chunk, [...more])](#DataStream+whenWrote)
+    * [dataStream.whenEnd()](#DataStream+whenEnd)
+    * [dataStream.whenDrained()](#DataStream+whenDrained)
+    * [dataStream.whenError()](#DataStream+whenError)
+    * [dataStream.setOptions(options)](#DataStream+setOptions) ↺
+    * [dataStream.tee(func)](#DataStream+tee) ↺
+    * [dataStream.each(func)](#DataStream+each) ↺
+    * [dataStream.while(func)](#DataStream+while) ↺
+    * [dataStream.until(func)](#DataStream+until) ↺
+    * [dataStream.catch(callback)](#DataStream+catch) ↺
+    * [dataStream.raise(err)](#DataStream+raise)
+    * [dataStream.pipe(to, options)](#DataStream+pipe) ↺ <code>Writable</code>
+    * [dataStream.bufferify(serializer)](#DataStream+bufferify) ↺ <code>BufferStream</code>
+    * [dataStream.stringify(serializer)](#DataStream+stringify) ↺ <code>StringStream</code>
+    * [dataStream.toArray(initial)](#DataStream+toArray) ⇄ <code>Array</code>
+    * [dataStream.toGenerator()](#DataStream+toGenerator)  <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code>
+    * [dataStream.pull(incoming)](#DataStream+pull) ⇄ <code>Number</code>
+    * [dataStream.shift(count, func)](#DataStream+shift) ↺
+    * [dataStream.peek(count, func)](#DataStream+peek) ↺
+    * [dataStream.slice([start], [length])](#DataStream+slice) ↺
+    * [dataStream.assign(func)](#DataStream+assign) ↺
+    * [dataStream.empty(callback)](#DataStream+empty) ↺
+    * [dataStream.unshift(item)](#DataStream+unshift) ↺
+    * [dataStream.endWith(item)](#DataStream+endWith) ↺
+    * [dataStream.accumulate(func, into)](#DataStream+accumulate) ⇄ <code>Promise</code>
+    * ~~[dataStream.consume(func)](#DataStream+consume)~~
+    * [dataStream.reduceNow(func, into)](#DataStream+reduceNow) ↺ <code>\*</code>
+    * [dataStream.remap(func, Clazz)](#DataStream+remap) ↺ [<code>DataStream</code>](#DataStream)
+    * [dataStream.flatMap(func, Clazz)](#DataStream+flatMap) ↺ [<code>DataStream</code>](#DataStream)
+    * [dataStream.flatten()](#DataStream+flatten) ↺ [<code>DataStream</code>](#DataStream)
+    * [dataStream.concat(streams)](#DataStream+concat) ↺
+    * [dataStream.join(item)](#DataStream+join) ↺
+    * [dataStream.keep(count)](#DataStream+keep) ↺
+    * [dataStream.rewind(count)](#DataStream+rewind) ↺
+    * [dataStream.distribute([affinity], clusterFunc, options)](#DataStream+distribute) ↺
+    * [dataStream.separateInto(streams, affinity)](#DataStream+separateInto) ↺
+    * [dataStream.separate(affinity, createOptions)](#DataStream+separate) ↺ <code>MultiStream</code>
+    * [dataStream.delegate(delegateFunc, worker, [plugins])](#DataStream+delegate) ↺
+    * [dataStream.batch(count)](#DataStream+batch) ↺
+    * [dataStream.timeBatch(ms, count)](#DataStream+timeBatch) ↺
+    * [dataStream.nagle([size], [ms])](#DataStream+nagle) ↺
+    * [dataStream.window(length)](#DataStream+window) ↺ <code>WindowStream</code>
+    * [dataStream.toJSONArray([enclosure])](#DataStream+toJSONArray) ↺ <code>StringStream</code>
+    * [dataStream.toJSONObject([entryCallback], [enclosure])](#DataStream+toJSONObject) ↺ <code>StringStream</code>
+    * [dataStream.JSONStringify([endline])](#DataStream+JSONStringify) ↺ <code>StringStream</code>
+    * [dataStream.CSVStringify(options)](#DataStream+CSVStringify) ↺ <code>StringStream</code>
+    * [dataStream.debug(func)](#DataStream+debug) ↺ [<code>DataStream</code>](#DataStream)
+    * [dataStream.toBufferStream(serializer)](#DataStream+toBufferStream) ↺ <code>BufferStream</code>
+    * [dataStream.toStringStream(serializer)](#DataStream+toStringStream) ↺ <code>StringStream</code>
+    * [DataStream:from(stream, options)](#DataStream.from) ↺
+    * [DataStream:fromArray(arr)](#DataStream.fromArray)  [<code>DataStream</code>](#DataStream)
+    * [DataStream:fromIterator(iter)](#DataStream.fromIterator)  [<code>DataStream</code>](#DataStream)
 
 <a name="new_DataStream_new"></a>
 

@@ -18,24 +18,22 @@ See [node.js API for stream implementers for details](https://nodejs.org/api/str
 **Extends**: <code>Object</code>  
 
 * [scramjet](#module_scramjet)  <code>Object</code>
-    * _static_
-        * [:PromiseTransformStream](#module_scramjet.PromiseTransformStream)
-            * [new PromiseTransformStream()](#new_module_scramjet.PromiseTransformStream_new)
-        * [:errors](#module_scramjet.errors)  <code>ScramjetErrors</code>
-        * [:BufferStream](#module_scramjet.BufferStream)
-        * [:DataStream](#module_scramjet.DataStream)
-        * [:MultiStream](#module_scramjet.MultiStream)
-        * [:StringStream](#module_scramjet.StringStream)
-        * [:StreamWorker](#module_scramjet.StreamWorker)  <code>StreamWorker</code>
-        * [:NumberStream](#module_scramjet.NumberStream)  <code>NumberStream</code>
-        * [:WindowStream](#module_scramjet.WindowStream)
-        * [:from(str)](#module_scramjet.from)  <code>DataStream</code>
-        * [:fromArray(args)](#module_scramjet.fromArray)  <code>DataStream</code>
-        * [:plugin(mixin)](#module_scramjet.plugin)  <code>scramjet</code>
-        * [:API(version)](#module_scramjet.API)  <code>scramjet</code>
-    * _inner_
-        * [~StreamMixin](#module_scramjet..StreamMixin)  <code>Object</code>
-        * [~ScramjetPlugin](#module_scramjet..ScramjetPlugin)  <code>Object</code>
+    * [:PromiseTransformStream](#module_scramjet.PromiseTransformStream)
+        * [new PromiseTransformStream()](#new_module_scramjet.PromiseTransformStream_new)
+    * [:errors](#module_scramjet.errors)  <code>ScramjetErrors</code>
+    * [:BufferStream](#module_scramjet.BufferStream)
+    * [:DataStream](#module_scramjet.DataStream)
+    * [:MultiStream](#module_scramjet.MultiStream)
+    * [:StringStream](#module_scramjet.StringStream)
+    * [:StreamWorker](#module_scramjet.StreamWorker)  <code>StreamWorker</code>
+    * [:NumberStream](#module_scramjet.NumberStream)  <code>NumberStream</code>
+    * [:WindowStream](#module_scramjet.WindowStream)
+    * [:from(str)](#module_scramjet.from)  <code>DataStream</code>
+    * [:fromArray(args)](#module_scramjet.fromArray)  <code>DataStream</code>
+    * [:plugin(mixin)](#module_scramjet.plugin)  <code>scramjet</code>
+    * [:API(version)](#module_scramjet.API)  <code>scramjet</code>
+    * [~StreamMixin](#module_scramjet..StreamMixin)  <code>Object</code>
+    * [~ScramjetPlugin](#module_scramjet..ScramjetPlugin)  <code>Object</code>
 
 <a name="module_scramjet.PromiseTransformStream"></a>
 
