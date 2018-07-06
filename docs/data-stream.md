@@ -280,7 +280,7 @@ Creates a duplicate stream instance and passes it to the callback.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | [<code>TeeCallback</code>](#TeeCallback) | The duplicate stream will be passed as first argument. |
+| func | [<code>TeeCallback</code>](#TeeCallback) \| <code>Writable</code> | The duplicate stream will be passed as first argument. |
 
 **Example**  
 ```js

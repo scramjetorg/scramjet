@@ -35,5 +35,19 @@ exports.test = {
         test.deepEqual(arr2, [1, 2, 3, 4], "Should return a stream that contains all streamed items");
 
         test.done();
+    },
+    async justRewind(test) {
+        test.expect(2);
+
+        const stream = DataStream.fromArray([1, 2, 3, 4])
+            .keep();
+
+        const arr1 = await stream.rewind().toArray();
+        const arr2 = await stream.rewind().toArray();
+
+        test.deepEqual(arr1, [1, 2, 3, 4], "Should once return a stream that contains all streamed items");
+        test.deepEqual(arr2, [1, 2, 3, 4], "Should twice return a stream that contains all streamed items");
+
+        test.done();
     }
 };

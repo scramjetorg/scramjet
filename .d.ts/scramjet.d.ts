@@ -234,7 +234,7 @@ declare module 'scramjet' {
          * Creates a duplicate stream instance and passes it to the callback.
          * @param func The duplicate stream will be passed as first argument.
          */
-        tee(func: TeeCallback): DataStream;
+        tee(func: TeeCallback | Writable): DataStream;
 
         /**
          * Performs an operation on every chunk, without changing the stream
