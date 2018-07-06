@@ -2,6 +2,12 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
+## Scramjet 4.17.0 - tee to stream
+
+* Allow tee'ing to streams directly, not only functions
+* Dependencies update.
+* More test coverage tests
+
 ## Scramjet 4.16.1 - expose scripts
 
 * Update dependencies
