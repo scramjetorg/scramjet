@@ -8,3 +8,6 @@ indent_size=4
 
 [*.json]
 indent_size=2
+
+[*.ts]
+end_of_line = crlf
