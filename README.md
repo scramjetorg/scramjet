@@ -73,19 +73,24 @@ function in three ways:
  Example: a simple stream transform that outputs a stream of objects of the same id property and the length of the value string.
 
  ```javascript
-    datastream.map(
+DataStream
+    .from(items)
+    .map(
         (item) => ({id: item.id, length: item.value.length})
     )
  ```
 
 2. Asynchronous using ES2015 async await
 
-Example: A simple stream that uses Fetch API to get all the contents of all entries in the stream
+Example: A simple stream that uses `Fetch API` to get all the contents of all entries in the stream
 
 ```javascript
-datastream.map(
-    async (item) => fetch(item)
-)
+StringStream
+    .from(urls)
+    .map(
+        async (url) => fetch(url).then(res => res.json())
+    )
+    .JSONParse()
 ```
 
 3. Asynchronous using Promises
@@ -105,9 +110,8 @@ datastream.map(
     )
  ```
 
-The actual logic of this transform function is as if you passed your function to the ```then``` method of a Promise
+The actual logic of this transform function is as if you passed your function to the `then` method of a Promise
 resolved with the data from the input stream.
-
 
 4. Streams with multi-threading
 
@@ -152,7 +156,7 @@ Check out the command line interface for simplified scramjet usage with [scramje
 
     $ sjr -i http://datasource.org/file.csv ./transform-module-1 ./transform-module-1 | gzip > logs.gz
 
-## Quick reference of all methods
+## Quick reference of some methods
 
 ### DataStream
 
@@ -179,6 +183,7 @@ await (DataStream.from(aStream) // create a DataStream
 * [`dataStream.map(func, Clazz) ↺`](docs/data-stream.md#DataStream+map) - Transforms stream objects into new ones, just like Array.prototype.map
 * [`dataStream.filter(func) ↺`](docs/data-stream.md#DataStream+filter) - Filters object based on the function outcome, just like
 * [`dataStream.reduce(func, into) ⇄`](docs/data-stream.md#DataStream+reduce) - Reduces the stream into a given accumulator
+* [`dataStream.do(func) ↺`](docs/data-stream.md#DataStream+do) - Perform an asynchroneous operation without changing the stream.
 * [`dataStream.into(func, into) ↺`](docs/data-stream.md#DataStream+into) - Allows own implementation of stream chaining.
 * [`dataStream.use(func) ↺`](docs/data-stream.md#DataStream+use) - Calls the passed method in place with the stream as first argument, returns result.
 * [`dataStream.run() ⇄`](docs/data-stream.md#DataStream+run) - Consumes all stream items doing nothing. Resolves when the stream is ended.
@@ -233,7 +238,7 @@ await (DataStream.from(aStream) // create a DataStream
 * [`dataStream.debug(func) : DataStream ↺`](docs/data-stream.md#DataStream+debug) - Injects a ```debugger``` statement when called.
 * [`dataStream.toBufferStream(serializer) : BufferStream ↺`](docs/data-stream.md#DataStream+toBufferStream) - Creates a BufferStream
 * [`dataStream.toStringStream(serializer) : StringStream ↺`](docs/data-stream.md#DataStream+toStringStream) - Creates a StringStream
-* [`DataStream:from(stream, options) ↺`](docs/data-stream.md#DataStream.from) - Returns a DataStream from any node.js Readable Stream
+* [`DataStream:from(str, options) ↺`](docs/data-stream.md#DataStream.from) - Returns a DataStream from pretty much anything sensibly possible.
 * [`DataStream:fromArray(arr) : DataStream`](docs/data-stream.md#DataStream.fromArray) - Create a DataStream from an Array
 * [`DataStream:fromIterator(iter) : DataStream`](docs/data-stream.md#DataStream.fromIterator) - Create a DataStream from an Iterator
 
@@ -265,6 +270,7 @@ StringStream.fromString()
 * [`stringStream.pop(bytes, func) ↺`](docs/string-stream.md#StringStream+pop) - Shifts given length of chars from the original stream
 * [`StringStream:SPLIT_LINE`](docs/string-stream.md#StringStream.SPLIT_LINE) - A handly split by line regex to quickly get a line-by-line stream
 * [`StringStream:fromString(str, encoding) : StringStream`](docs/string-stream.md#StringStream.fromString) - Creates a StringStream and writes a specific string.
+* [`StringStream:from()`](docs/string-stream.md#StringStream.from) - Create StringStream from anything.
 
 ### BufferStream
 
@@ -299,6 +305,7 @@ A simple use case would be:
 * [`bufferStream.toStringStream(encoding) : StringStream`](docs/buffer-stream.md#BufferStream+toStringStream) - Creates a string stream from the given buffer stream
 * [`bufferStream.pop(chars, func) : BufferStream ↺`](docs/buffer-stream.md#BufferStream+pop) - Shift given number of bytes from the original stream
 * [`bufferStream.toDataStream(parser) : DataStream`](docs/buffer-stream.md#BufferStream+toDataStream) - Parses every buffer to object
+* [`BufferStream:from()`](docs/buffer-stream.md#BufferStream.from) - Create BufferStream from anything.
 
 ### MultiStream
 

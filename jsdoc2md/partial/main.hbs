@@ -73,19 +73,24 @@ function in three ways:
  Example: a simple stream transform that outputs a stream of objects of the same id property and the length of the value string.
 
  ```javascript
-    datastream.map(
+DataStream
+    .from(items)
+    .map(
         (item) => ({id: item.id, length: item.value.length})
     )
  ```
 
 2. Asynchronous using ES2015 async await
 
-Example: A simple stream that uses Fetch API to get all the contents of all entries in the stream
+Example: A simple stream that uses `Fetch API` to get all the contents of all entries in the stream
 
 ```javascript
-datastream.map(
-    async (item) => fetch(item)
-)
+StringStream
+    .from(urls)
+    .map(
+        async (url) => fetch(url).then(res => res.json())
+    )
+    .JSONParse()
 ```
 
 3. Asynchronous using Promises
@@ -105,9 +110,8 @@ datastream.map(
     )
  ```
 
-The actual logic of this transform function is as if you passed your function to the ```then``` method of a Promise
+The actual logic of this transform function is as if you passed your function to the `then` method of a Promise
 resolved with the data from the input stream.
-
 
 4. Streams with multi-threading
 
@@ -152,7 +156,7 @@ Check out the command line interface for simplified scramjet usage with [scramje
 
     $ sjr -i http://datasource.org/file.csv ./transform-module-1 ./transform-module-1 | gzip > logs.gz
 
-## Quick reference of all methods
+## Quick reference of some methods
 
 {{#classes ~}}{{>stream-class}}{{/classes}}
 

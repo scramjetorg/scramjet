@@ -34,6 +34,7 @@ A simple use case would be:
     * [bufferStream.toStringStream(encoding)](#BufferStream+toStringStream)  <code>StringStream</code>
     * [bufferStream.pop(chars, func)](#BufferStream+pop) ↺ [<code>BufferStream</code>](#BufferStream)
     * [bufferStream.toDataStream(parser)](#BufferStream+toDataStream)  <code>DataStream</code>
+    * [BufferStream:from()](#BufferStream.from)
 
 <a name="new_BufferStream_new"></a>
 
@@ -197,6 +198,13 @@ stream here should already be split or broken up.
 ```js
 [../samples/buffer-stream-parse.js](../samples/buffer-stream-parse.js)
 ```
+<a name="BufferStream.from"></a>
+
+### BufferStream:from()
+Create BufferStream from anything.
+
+**Kind**: static method of [<code>BufferStream</code>](#BufferStream)  
+**See**: module:scramjet.from  
 <a name="toStringStream"></a>
 
 ## toStringStream()

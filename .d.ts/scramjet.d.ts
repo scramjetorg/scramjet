@@ -17,7 +17,7 @@ declare module 'scramjet' {
      * @param str and node.js readable stream (`objectMode: true` is advised)
      * @returns
      */
-    export function from(str: Readable): DataStream;
+    export function from(str: any | Iterable | GeneratorFunction | AsyncFunction | Readable): DataStream;
 
     /**
      * Creates a DataStream from an Array
@@ -119,11 +119,22 @@ declare module 'scramjet' {
         constructor(opts: StreamOptions);
 
         /**
-         * Returns a DataStream from any node.js Readable Stream
-         * @param stream
+         * Returns a DataStream from pretty much anything sensibly possible.
+         * 
+         * Depending on type:
+         * * `self` will return self immediately
+         * * `Readable` stream will get piped to the current stream with errors forwarded
+         * * `Array` will get iterated and all items will be pushed to the returned stream.
+         * The stream will also be ended in such case.
+         * * `GeneratorFunction` will get executed to return the iterator which will be used as source for items
+         * * `Iterable`s iterator will be used as a source for streams
+         * 
+         * You can also pass a `Function` or `AsyncFunction` that will result in anything passed to `from`
+         * subsequently. You can use your stream immediately though.
+         * @param str argument to be turned into new stream
          * @param options
          */
-        static from(stream: ReadableStream, options: StreamOptions): DataStream;
+        static from(str: any | Iterable | GeneratorFunction | AsyncFunction | Function | Readable, options: StreamOptions | Writable): DataStream;
 
         /**
          * Transforms stream objects into new ones, just like Array.prototype.map
@@ -154,6 +165,15 @@ declare module 'scramjet' {
          * @param into Any object passed initially to the transform function
          */
         reduce(func: ReduceCallback, into: Object): Promise;
+
+        /**
+         * Perform an asynchroneous operation without changing the stream.
+         * 
+         * In essence the stream will use the call to keep the backpressure, but the resolving value
+         * has no impact on the streamed data (except for possile mutation of the chunk itself)
+         * @param func the async function
+         */
+        do(func: DoCallback): DataStream;
 
         /**
          * Allows own implementation of stream chaining.
@@ -663,6 +683,12 @@ declare module 'scramjet' {
     export function fromString(str: String, encoding: String): StringStream;
 
     /**
+     * Create StringStream from anything.
+     * @see module:scramjet.from
+     */
+    export function from(): void;
+
+    /**
      * A factilitation stream created for easy splitting or parsing buffers.
      * 
      * Useful for working on built-in Node.js streams from files, parsing binary formats etc.
@@ -746,6 +772,12 @@ declare module 'scramjet' {
      * @param parser The transform function
      */
     export function parse(parser: ParseCallback): DataStream;
+
+    /**
+     * Create BufferStream from anything.
+     * @see module:scramjet.from
+     */
+    export function from(): void;
 
     /**
      * An object consisting of multiple streams than can be refined or muxed.
@@ -959,6 +991,12 @@ declare type ReduceCallback = (acc: any, chunk: Object)=>Promise | any;
 
 /**
  * 
+ * @param chunk source stream chunk
+ */
+declare type DoCallback = (chunk: Object)=>void;
+
+/**
+ * 
  * @param into stream passed to the into method
  * @param chunk source stream chunk
  */
@@ -987,7 +1025,7 @@ declare interface StreamOptions {
 
 /**
  * 
- * @param shifted Pooped chars
+ * @param shifted Popped chars
  */
 declare type ShiftCallback = (shifted: String)=>void;
 

@@ -116,7 +116,7 @@ Creates a DataStream that's piped from the passed readable.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| str | <code>Readable</code> | and node.js readable stream (`objectMode: true` is advised) |
+| str | <code>Array</code> \| <code>Iterable</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>Readable</code> | and node.js readable stream (`objectMode: true` is advised) |
 
 <a name="module_scramjet.fromArray"></a>
 
