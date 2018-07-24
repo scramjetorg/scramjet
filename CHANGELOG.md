@@ -2,6 +2,18 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
+## Scramjet 4.18.0 - do and from
+
+* Add new options to pass to the `from` method - now anything sensible may be used to create a stream.
+* New `do` method allows to operate on stream objects without affecting the stream
+* Dependencies update.
+
+This is the last feature release in 4.x series - new features and changes to the API, cleaner code and new features will appear in v5.
+
+Series 4.x will still be supported at least until mid-2019.
+
+More announcements to come in a few weeks.
+
 ## Scramjet 4.17.0 - tee to stream
 
 * Allow tee'ing to streams directly, not only functions
