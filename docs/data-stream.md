@@ -26,6 +26,7 @@ await (DataStream.from(aStream) // create a DataStream
     * [dataStream.map(func, Clazz)](#DataStream+map) ↺
     * [dataStream.filter(func)](#DataStream+filter) ↺
     * [dataStream.reduce(func, into)](#DataStream+reduce)
+    * [dataStream.do(func)](#DataStream+do) ↺
     * [dataStream.into(func, into)](#DataStream+into) ↺
     * [dataStream.use(func)](#DataStream+use) ↺
     * [dataStream.run()](#DataStream+run)
@@ -80,7 +81,7 @@ await (DataStream.from(aStream) // create a DataStream
     * [dataStream.debug(func)](#DataStream+debug) ↺ [<code>DataStream</code>](#DataStream)
     * [dataStream.toBufferStream(serializer)](#DataStream+toBufferStream) ↺ <code>BufferStream</code>
     * [dataStream.toStringStream(serializer)](#DataStream+toStringStream) ↺ <code>StringStream</code>
-    * [DataStream:from(stream, options)](#DataStream.from) ↺
+    * [DataStream:from(str, options)](#DataStream.from) ↺
     * [DataStream:fromArray(arr)](#DataStream.fromArray)  [<code>DataStream</code>](#DataStream)
     * [DataStream:fromIterator(iter)](#DataStream.fromIterator)  [<code>DataStream</code>](#DataStream)
 
@@ -153,6 +154,21 @@ it's much slower than parallel functions.
 ```js
 [../samples/data-stream-reduce.js](../samples/data-stream-reduce.js)
 ```
+<a name="DataStream+do"></a>
+
+### dataStream.do(func) ↺
+Perform an asynchroneous operation without changing the stream.
+
+In essence the stream will use the call to keep the backpressure, but the resolving value
+has no impact on the streamed data (except for possile mutation of the chunk itself)
+
+**Kind**: instance method of [<code>DataStream</code>](#DataStream)  
+**Chainable**  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| func | [<code>DoCallback</code>](#DoCallback) | the async function |
+
 <a name="DataStream+into"></a>
 
 ### dataStream.into(func, into) ↺
@@ -1030,16 +1046,27 @@ Creates a StringStream
 ```
 <a name="DataStream.from"></a>
 
-### DataStream:from(stream, options) ↺
-Returns a DataStream from any node.js Readable Stream
+### DataStream:from(str, options) ↺
+Returns a DataStream from pretty much anything sensibly possible.
+
+Depending on type:
+* `self` will return self immediately
+* `Readable` stream will get piped to the current stream with errors forwarded
+* `Array` will get iterated and all items will be pushed to the returned stream.
+  The stream will also be ended in such case.
+* `GeneratorFunction` will get executed to return the iterator which will be used as source for items
+* `Iterable`s iterator will be used as a source for streams
+
+You can also pass a `Function` or `AsyncFunction` that will result in anything passed to `from`
+subsequently. You can use your stream immediately though.
 
 **Kind**: static method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
 
-| Param | Type |
-| --- | --- |
-| stream | <code>ReadableStream</code> | 
-| options | [<code>StreamOptions</code>](#StreamOptions) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| str | <code>Array</code> \| <code>Iterable</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>Readable</code> | argument to be turned into new stream |
+| options | [<code>StreamOptions</code>](#StreamOptions) \| <code>Writable</code> |  |
 
 <a name="DataStream.fromArray"></a>
 
@@ -1104,6 +1131,15 @@ Doesn't end the stream until it reaches end of the iterator.
 | --- | --- | --- |
 | acc | <code>\*</code> | the accumulator - the object initially passed or returned                by the previous reduce operation |
 | chunk | <code>Object</code> | the stream chunk. |
+
+<a name="DoCallback"></a>
+
+## DoCallback : function ⇄
+**Kind**: global typedef  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chunk | <code>Object</code> | source stream chunk |
 
 <a name="IntoCallback"></a>
 

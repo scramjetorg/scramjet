@@ -57,13 +57,13 @@
   "devDependencies": {
     "@otris/jsdoc-tsd": "^1.0.0",
     "dmd": "^3.0.12",
-    "eslint": "^5.1.0",
+    "eslint": "^5.2.0",
     "eslint-config-defaults": "^9.0.0",
-    "eslint-plugin-node": "^7.0.0",
+    "eslint-plugin-node": "^7.0.1",
     "fancy-log": "^1.3.2",
     "gulp": "^4.0.0",
     "gulp-jsdoc3": "^2.0.0",
-    "gulp-rename": "^1.3.0",
+    "gulp-rename": "^1.4.0",
     "gulp-shell": "^0.6.5",
     "jsdoc": "^3.5.5",
     "jsdoc-api": "^4.0.3",
@@ -77,6 +77,6 @@
   "dependencies": {
     "papaparse": "^4.5.0",
     "rereadable-stream": "^1.1.1",
-    "scramjet-core": "^4.15.1"
+    "scramjet-core": "^4.16.1"
   }
 }
