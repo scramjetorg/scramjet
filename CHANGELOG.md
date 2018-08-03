@@ -2,8 +2,9 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
-## Scramjet 4.18.0 - do and from
+## Scramjet 4.18.1 - do and from
 
+* Fix error handling so it doesn't need to return an array to work.
 * Add new options to pass to the `from` method - now anything sensible may be used to create a stream.
 * New `do` method allows to operate on stream objects without affecting the stream
 * Dependencies update.
