@@ -17,14 +17,14 @@ declare module 'scramjet' {
      * @param str and node.js readable stream (`objectMode: true` is advised)
      * @returns
      */
-    export function from(str: any | Iterable | GeneratorFunction | AsyncFunction | Readable): DataStream;
+    export function from(str: any[] | Iterable | GeneratorFunction | AsyncFunction | Readable): DataStream;
 
     /**
      * Creates a DataStream from an Array
      * @param args
      * @returns
      */
-    export function fromArray(args: any): DataStream;
+    export function fromArray(args: any[]): DataStream;
 
     /**
      * Exposes error classes (undocumented)
@@ -134,7 +134,7 @@ declare module 'scramjet' {
          * @param str argument to be turned into new stream
          * @param options
          */
-        static from(str: any | Iterable | GeneratorFunction | AsyncFunction | Function | Readable, options: StreamOptions | Writable): DataStream;
+        static from(str: any[] | Iterable | GeneratorFunction | AsyncFunction | Function | Readable, options: StreamOptions | Writable): DataStream;
 
         /**
          * Transforms stream objects into new ones, just like Array.prototype.map
@@ -326,7 +326,7 @@ declare module 'scramjet' {
          * Create a DataStream from an Array
          * @param arr list of chunks
          */
-        static fromArray(arr: any): DataStream;
+        static fromArray(arr: any[]): DataStream;
 
         /**
          * Create a DataStream from an Iterator
@@ -343,7 +343,7 @@ declare module 'scramjet' {
          * @param initial Optional array to begin with.
          * @returns
          */
-        toArray(initial: any): any;
+        toArray(initial: any[]): any[];
 
         /**
          * Returns an async generator
@@ -540,7 +540,7 @@ declare module 'scramjet' {
          * @param worker
          * @param plugins
          */
-        delegate(delegateFunc: DelegateCallback, worker: WorkerStream, plugins?: any): DataStream;
+        delegate(delegateFunc: DelegateCallback, worker: WorkerStream, plugins?: any[]): DataStream;
 
         /**
          * Aggregates chunks in arrays given number of number of items long.
@@ -637,7 +637,7 @@ declare module 'scramjet' {
      * @param bytes The number of characters to shift.
      * @param func Function that receives a string of shifted chars.
      */
-    export function shift(bytes: Number, func: ShiftCallback): StringStream;
+    declare function shift(bytes: Number, func: ShiftCallback): StringStream;
 
     /**
      * A handly split by line regex to quickly get a line-by-line stream
@@ -648,14 +648,14 @@ declare module 'scramjet' {
      * Splits the string stream by the specified regexp or string
      * @param splitter What to split by
      */
-    export function split(splitter: RegExp | String): StringStream;
+    declare function split(splitter: RegExp | String): StringStream;
 
     /**
      * Finds matches in the string stream and streams the match results
      * @param matcher A function that will be called for every
      *        stream chunk.
      */
-    export function match(matcher: RegExp): StringStream;
+    declare function match(matcher: RegExp): StringStream;
 
     /**
      * Transforms the StringStream to BufferStream
@@ -664,7 +664,7 @@ declare module 'scramjet' {
      * DataStream derivative and isn't the typical node.js stream so you can do
      * all your transforms when you like.
      */
-    export function toBufferStream(): BufferStream;
+    declare function toBufferStream(): BufferStream;
 
     /**
      * Parses every string to object
@@ -673,7 +673,7 @@ declare module 'scramjet' {
      * stream here should already be split.
      * @param parser The transform function
      */
-    export function parse(parser: ParseCallback): DataStream;
+    declare function parse(parser: ParseCallback): DataStream;
 
     /**
      * Creates a StringStream and writes a specific string.
@@ -739,20 +739,20 @@ declare module 'scramjet' {
      * @param chars The number of bytes to shift
      * @param func Function that receives a string of shifted bytes
      */
-    export function shift(chars: Number, func: ShiftCallback): BufferStream;
+    declare function shift(chars: Number, func: ShiftCallback): BufferStream;
 
     /**
      * Splits the buffer stream into buffer objects
      * @param splitter the buffer or string that the stream
      *        should be split by.
      */
-    export function split(splitter: String | Buffer): BufferStream;
+    declare function split(splitter: String | Buffer): BufferStream;
 
     /**
      * Breaks up a stream apart into chunks of the specified length
      * @param number the desired chunk length
      */
-    export function breakup(number: Number): BufferStream;
+    declare function breakup(number: Number): BufferStream;
 
     /**
      * Creates a string stream from the given buffer stream
@@ -762,7 +762,7 @@ declare module 'scramjet' {
      * @param encoding The encoding to be used to convert the buffers
      *        to streams.
      */
-    export function stringify(encoding: String): StringStream;
+    declare function stringify(encoding: String): StringStream;
 
     /**
      * Parses every buffer to object
@@ -771,7 +771,7 @@ declare module 'scramjet' {
      * stream here should already be split or broken up.
      * @param parser The transform function
      */
-    export function parse(parser: ParseCallback): DataStream;
+    declare function parse(parser: ParseCallback): DataStream;
 
     /**
      * Create BufferStream from anything.
@@ -786,12 +786,12 @@ declare module 'scramjet' {
         /**
          * An object consisting of multiple streams than can be refined or muxed.
          */
-        constructor(streams: stream.Readable[], options: Object);
+        constructor(streams: any[], options: Object);
 
         /**
          * Array of all streams
          */
-        streams: any;
+        streams: any[];
 
         /**
          * Returns the current stream length
@@ -882,33 +882,33 @@ declare module 'scramjet' {
      * @todo implement splitting by buffer or string
      * @param eol End of line string
      */
-    export function lines(eol?: String): StringStream;
+    declare function lines(eol?: String): StringStream;
 
     /**
      * Parses each entry as JSON.
      * Ignores empty lines
      * @param perLine instructs to split per line
      */
-    export function JSONParse(perLine: Boolean): DataStream;
+    declare function JSONParse(perLine: Boolean): DataStream;
 
     /**
      * Parses CSV to DataString using 'papaparse' module.
      * @param options options for the papaparse.parse method.
      */
-    export function CSVParse(options: any): DataStream;
+    declare function CSVParse(options: any): DataStream;
 
     /**
      * Appends given argument to all the items.
      * @param arg the argument to append. If function passed then it will be called and resolved and the resolution will be appended.
      */
-    export function append(arg: Function | String): StringStream;
+    declare function append(arg: Function | String): StringStream;
 
     /**
      * Prepends given argument to all the items.
      * @param arg the argument to prepend. If function passed then it will be called and resolved
      *        and the resolution will be prepended.
      */
-    export function prepend(arg: Function | String): StringStream;
+    declare function prepend(arg: Function | String): StringStream;
 
     /**
      * Simple scramjet stream that by default contains numbers or other containing with `valueOf` method. The streams
@@ -928,12 +928,12 @@ declare module 'scramjet' {
     /**
      * Calculates the sum of all items in the stream.
      */
-    export function sum(): Number;
+    declare function sum(): Number;
 
     /**
      * Calculates the sum of all items in the stream.
      */
-    export function avg(): Number;
+    declare function avg(): Number;
 
     /**
      * A stream for moving window calculation with some simple methods.
@@ -956,13 +956,13 @@ declare module 'scramjet' {
      * Calculates moving sum of items, the output stream will contain the moving sum.
      * @param valueOf value of method for array items
      */
-    export function sum(valueOf?: Function): Promise.<Number>;
+    declare function sum(valueOf?: Function): Promise.<Number>;
 
     /**
      * Calculates the moving average of all items in the stream.
      * @param valueOf value of method for array items
      */
-    export function avg(valueOf?: Function): Promise.<Number>;
+    declare function avg(valueOf?: Function): Promise.<Number>;
 
 }
 
@@ -1098,7 +1098,7 @@ declare interface DistributeOptions {
     /**
      * a list of scramjet plugins to load (if omitted, will use just the ones in scramjet itself)
      */
-    plugins: any;
+    plugins: any[];
     /**
      * the class to deserialize the stream to.
      */
