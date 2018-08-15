@@ -167,7 +167,7 @@ declare module 'scramjet' {
         reduce(func: ReduceCallback, into: Object): Promise;
 
         /**
-         * Perform an asynchroneous operation without changing the stream.
+         * Perform an asynchroneous operation without changing or resuming the stream.
          * 
          * In essence the stream will use the call to keep the backpressure, but the resolving value
          * has no impact on the streamed data (except for possile mutation of the chunk itself)
