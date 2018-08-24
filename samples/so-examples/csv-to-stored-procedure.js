@@ -20,7 +20,7 @@
             }); //here we prepare query for calling the SP with parameters from data
 
             winston.info(query + JSON.stringify(data));
-            const rawResponse = await session.raw(query); //here the query gets executed
+            await session.raw(query); //here the query gets executed
             return data; // push each row - for testing only)
         })
         // next line will run the stream until end and return a promise

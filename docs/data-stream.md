@@ -1055,6 +1055,7 @@ Depending on type:
 * `Array` will get iterated and all items will be pushed to the returned stream.
   The stream will also be ended in such case.
 * `GeneratorFunction` will get executed to return the iterator which will be used as source for items
+* `AsyncGeneratorFunction` will also work as above (including generators) in node v10.
 * `Iterable`s iterator will be used as a source for streams
 
 You can also pass a `Function` or `AsyncFunction` that will result in anything passed to `from`
@@ -1065,7 +1066,7 @@ subsequently. You can use your stream immediately though.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| str | <code>Array</code> \| <code>Iterable</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>Readable</code> | argument to be turned into new stream |
+| str | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>Readable</code> | argument to be turned into new stream |
 | options | [<code>StreamOptions</code>](#StreamOptions) \| <code>Writable</code> |  |
 
 <a name="DataStream.fromArray"></a>
