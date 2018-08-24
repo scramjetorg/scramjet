@@ -127,6 +127,7 @@ declare module 'scramjet' {
          * * `Array` will get iterated and all items will be pushed to the returned stream.
          * The stream will also be ended in such case.
          * * `GeneratorFunction` will get executed to return the iterator which will be used as source for items
+         * * `AsyncGeneratorFunction` will also work as above (including generators) in node v10.
          * * `Iterable`s iterator will be used as a source for streams
          * 
          * You can also pass a `Function` or `AsyncFunction` that will result in anything passed to `from`
@@ -134,7 +135,7 @@ declare module 'scramjet' {
          * @param str argument to be turned into new stream
          * @param options
          */
-        static from(str: any[] | Iterable | GeneratorFunction | AsyncFunction | Function | Readable, options: StreamOptions | Writable): DataStream;
+        static from(str: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | Readable, options: StreamOptions | Writable): DataStream;
 
         /**
          * Transforms stream objects into new ones, just like Array.prototype.map
@@ -522,7 +523,7 @@ declare module 'scramjet' {
          * @param streams the object hash of streams. Keys must be the outputs of the affinity function
          * @param affinity the callback function that affixes the item to specific streams which must exist in the object for each chunk.
          */
-        separateInto(streams: Object.<DataStream>, affinity: AffinityCallback): DataStream;
+        separateInto(streams: Object<DataStream>, affinity: AffinityCallback): DataStream;
 
         /**
          * Separates execution to multiple streams using the hashes returned by the passed callback.
@@ -956,13 +957,13 @@ declare module 'scramjet' {
      * Calculates moving sum of items, the output stream will contain the moving sum.
      * @param valueOf value of method for array items
      */
-    declare function sum(valueOf?: Function): Promise.<Number>;
+    declare function sum(valueOf?: Function): Promise<Number>;
 
     /**
      * Calculates the moving average of all items in the stream.
      * @param valueOf value of method for array items
      */
-    declare function avg(valueOf?: Function): Promise.<Number>;
+    declare function avg(valueOf?: Function): Promise<Number>;
 
 }
 
@@ -1071,7 +1072,7 @@ declare type RemapCallback = (emit: Function, chunk: any)=>Promise | any;
  * @param chunk the chunk from the original stream
  * @returns promise to be resolved when chunk has been processed
  */
-declare type FlatMapCallback = (chunk: any)=>Promise.<Iterable> | Iterable;
+declare type FlatMapCallback = (chunk: any)=>Promise<Iterable> | Iterable;
 
 /**
  * 
@@ -1079,7 +1080,7 @@ declare type FlatMapCallback = (chunk: any)=>Promise.<Iterable> | Iterable;
  * @param next the chunk after
  * @returns promise that is resolved with the joining item
  */
-declare type JoinCallback = (prev: any, next: any)=>Promise.<*> | any;
+declare type JoinCallback = (prev: any, next: any)=>Promise<any> | any;
 
 /**
  * NumberStream options
