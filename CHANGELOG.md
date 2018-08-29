@@ -10,6 +10,8 @@ Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous
 * Add new options to pass to the `from` method - now anything sensible may be used to create a stream.
 * New `do` method allows to operate on stream objects without affecting the stream
 * Dependencies update.
+* Fix `DataStream.from` operation in derived classes, now return the same class of stream as context of the call.
+* Fix some chaining methods that returned stream of wrong class.
 
 This is the last feature release in 4.x series - new features and changes to the API, cleaner code and new features will appear in v5.
 
