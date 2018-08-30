@@ -49,7 +49,7 @@
     "url": "https://github.com/signicode/scramjet.git"
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=8.6.0"
   },
   "types": "./.d.ts/scramjet.d.ts",
   "author": "Signicode / Michał Czapracki <cz@signicode.com>",
@@ -68,7 +68,7 @@
     "jsdoc": "^3.5.5",
     "jsdoc-api": "^4.0.3",
     "jsdoc-parse": "^3.0.1",
-    "nodeunit-tape-compat": "^1.0.1",
+    "nodeunit-tape-compat": "^1.1.1",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5",
     "tape": "^4.9.1",
@@ -76,7 +76,7 @@
   },
   "dependencies": {
     "papaparse": "^4.6.0",
-    "rereadable-stream": "^1.1.1",
+    "rereadable-stream": "^1.1.3",
     "scramjet-core": "^4.16.6"
   }
 }
