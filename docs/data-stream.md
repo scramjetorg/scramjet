@@ -579,6 +579,8 @@ Called when the stream ends without passing any items
 ### dataStream.unshift(item) ↺
 Pushes any data at call time (essentially at the beginning of the stream)
 
+This is a synchronous only function.
+
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
 
