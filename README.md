@@ -37,8 +37,8 @@ const rp = require("request-promise-native");
 const { StringStream } = require("scramjet");
 
 StringStream.from(                                 // fetch your API to a scramjet stream
-        request('https://api.example.org/v1/shows/list')
-    )
+    request("https://api.example.org/v1/shows/list")
+)
     .setOptions({maxParallel: 4})                  // set your options
     .lines()                                       // split the stream by line
     .parse(theirShow => {                          // parse to your requirement
@@ -46,18 +46,21 @@ StringStream.from(                                 // fetch your API to a scramj
             id: theirShow.id,
             title: theirShow.name,
             url: theirShow.url
-        }
+        };
     })
     .map(myShow => rp({                            // parse to your requirement
         method: "POST",
         simple: true,
-        uri: `http://api.local/set/${myshow.id}`,
+        uri: `http://api.local/set/${myShow.id}`,
         body: JSON.stringify(myShow)
-    })
-    .map(resp => `+ Update succeeded ${err.uri}`)  // make your logs
+    }))
+    .map(resp => `+ Update succeeded "${resp}"`)  // make your logs
     .catch(err => `! Error occured ${err.uri}`)
-    .append('\n')
-    .pipe(process.stdout);                         // pipe to any output
+    .toStringStream()
+    .append("\n")
+    .pipe(process.stdout)   // pipe to any output
+;
+
 ```
 
 Of course you can also use the simple `CSVParse` method to do that. :)
