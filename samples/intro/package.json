@@ -1,0 +1,7 @@
+{
+  "devDependencies": {
+    "request": "*",
+    "request-promise-native": "*",
+    "scramjet": "*"
+  }
+}
