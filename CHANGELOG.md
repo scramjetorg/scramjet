@@ -2,8 +2,13 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
-## Scramjet 4.18.6 - do and from
+## Scramjet 4.18.7 - do and from
 
+* Improved docs generation.
+* Better splitter in `StringStream.lines`, accepting dos and unix line endings by default.
+* Fix order of chunks resolved within `catch` logic.
+* `BufferStream.from` and `StringStream.from` have now correct types.
+* Errors in a function passed to `DataStream.from` now do not result in uncaught promise.
 * Fix warnings on multiple uses of `DataStream.tail`.
 * Fix async iterator and generator behavior in `DataStream.from`.
 * Fix error handling so it doesn't need to return an array to work.

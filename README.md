@@ -63,8 +63,6 @@ StringStream.from(                                 // fetch your API to a scramj
 
 ```
 
-Of course you can also use the simple `CSVParse` method to do that. :)
-
 ## Usage
 
 Scramjet uses functional programming to run transformations on your data streams in a fashion very similar to the well
