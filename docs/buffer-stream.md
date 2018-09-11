@@ -34,7 +34,7 @@ A simple use case would be:
     * [bufferStream.toStringStream(encoding)](#BufferStream+toStringStream)  <code>StringStream</code>
     * [bufferStream.pop(chars, func)](#BufferStream+pop) ↺ [<code>BufferStream</code>](#BufferStream)
     * [bufferStream.toDataStream(parser)](#BufferStream+toDataStream)  <code>DataStream</code>
-    * [BufferStream:from()](#BufferStream.from)
+    * [BufferStream:from(str, options)](#BufferStream.from)  [<code>BufferStream</code>](#BufferStream)
 
 <a name="new_BufferStream_new"></a>
 
@@ -200,11 +200,18 @@ stream here should already be split or broken up.
 ```
 <a name="BufferStream.from"></a>
 
-### BufferStream:from()
+### BufferStream:from(str, options) : BufferStream
 Create BufferStream from anything.
 
 **Kind**: static method of [<code>BufferStream</code>](#BufferStream)  
+**Returns**: [<code>BufferStream</code>](#BufferStream) - new StringStream.  
 **See**: module:scramjet.from  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| str | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>Readable</code> | argument to be turned into new stream |
+| options | <code>StreamOptions</code> \| <code>Writable</code> |  |
+
 <a name="toStringStream"></a>
 
 ## toStringStream()
