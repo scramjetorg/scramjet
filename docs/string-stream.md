@@ -137,14 +137,10 @@ Splits the string stream by the specified regexp or string
 
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
 **Chainable**  
-**Todo**
-
-- [ ] implement splitting by buffer or string
-
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [eol] | <code>String</code> | <code>os.EOL</code> | End of line string |
+| [eol] | <code>String</code> | <code>/\r?\n/</code> | End of line string |
 
 **Example**  
 ```js

@@ -882,7 +882,6 @@ declare module 'scramjet' {
 
     /**
      * Splits the string stream by the specified regexp or string
-     * @todo implement splitting by buffer or string
      * @param eol End of line string
      */
     function lines(eol?: String): StringStream;
