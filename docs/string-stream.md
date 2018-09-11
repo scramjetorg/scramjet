@@ -29,7 +29,7 @@ StringStream.fromString()
     * [stringStream.pop(bytes, func)](#StringStream+pop) ↺
     * [StringStream:SPLIT_LINE](#StringStream.SPLIT_LINE)
     * [StringStream:fromString(str, encoding)](#StringStream.fromString)  [<code>StringStream</code>](#StringStream)
-    * [StringStream:from()](#StringStream.from)
+    * [StringStream:from(str, options)](#StringStream.from)  [<code>StringStream</code>](#StringStream)
 
 <a name="new_StringStream_new"></a>
 
@@ -137,14 +137,10 @@ Splits the string stream by the specified regexp or string
 
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
 **Chainable**  
-**Todo**
-
-- [ ] implement splitting by buffer or string
-
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [eol] | <code>String</code> | <code>os.EOL</code> | End of line string |
+| [eol] | <code>String</code> | <code>/\r?\n/</code> | End of line string |
 
 **Example**  
 ```js
@@ -254,11 +250,18 @@ Creates a StringStream and writes a specific string.
 
 <a name="StringStream.from"></a>
 
-### StringStream:from()
+### StringStream:from(str, options) : StringStream
 Create StringStream from anything.
 
 **Kind**: static method of [<code>StringStream</code>](#StringStream)  
+**Returns**: [<code>StringStream</code>](#StringStream) - new StringStream.  
 **See**: module:scramjet.from  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| str | <code>String</code> \| <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>Readable</code> | argument to be turned into new stream |
+| options | <code>StreamOptions</code> \| <code>Writable</code> |  |
+
 <a name="toDataStream"></a>
 
 ## toDataStream()

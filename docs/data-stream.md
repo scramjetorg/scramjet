@@ -81,7 +81,7 @@ await (DataStream.from(aStream) // create a DataStream
     * [dataStream.debug(func)](#DataStream+debug) ↺ [<code>DataStream</code>](#DataStream)
     * [dataStream.toBufferStream(serializer)](#DataStream+toBufferStream) ↺ <code>BufferStream</code>
     * [dataStream.toStringStream(serializer)](#DataStream+toStringStream) ↺ <code>StringStream</code>
-    * [DataStream:from(str, options)](#DataStream.from) ↺
+    * [DataStream:from(str, options)](#DataStream.from)  [<code>DataStream</code>](#DataStream)
     * [DataStream:fromArray(arr)](#DataStream.fromArray)  [<code>DataStream</code>](#DataStream)
     * [DataStream:fromIterator(iter)](#DataStream.fromIterator)  [<code>DataStream</code>](#DataStream)
 
@@ -1048,7 +1048,7 @@ Creates a StringStream
 ```
 <a name="DataStream.from"></a>
 
-### DataStream:from(str, options) ↺
+### DataStream:from(str, options) : DataStream
 Returns a DataStream from pretty much anything sensibly possible.
 
 Depending on type:
@@ -1064,11 +1064,10 @@ You can also pass a `Function` or `AsyncFunction` that will result in anything p
 subsequently. You can use your stream immediately though.
 
 **Kind**: static method of [<code>DataStream</code>](#DataStream)  
-**Chainable**  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| str | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>Readable</code> | argument to be turned into new stream |
+| str | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>String</code> \| <code>Readable</code> | argument to be turned into new stream |
 | options | [<code>StreamOptions</code>](#StreamOptions) \| <code>Writable</code> |  |
 
 <a name="DataStream.fromArray"></a>

@@ -135,7 +135,7 @@ declare module 'scramjet' {
          * @param str argument to be turned into new stream
          * @param options
          */
-        static from(str: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | Readable, options: StreamOptions | Writable): DataStream;
+        static from(str: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, options: StreamOptions | Writable): DataStream;
 
         /**
          * Transforms stream objects into new ones, just like Array.prototype.map
@@ -688,8 +688,10 @@ declare module 'scramjet' {
     /**
      * Create StringStream from anything.
      * @see module:scramjet.from
+     * @param str argument to be turned into new stream
+     * @param options
      */
-    export function from(): void;
+    export function from(str: String | any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | Readable, options: StreamOptions | Writable): StringStream;
 
     /**
      * A factilitation stream created for easy splitting or parsing buffers.
@@ -779,8 +781,10 @@ declare module 'scramjet' {
     /**
      * Create BufferStream from anything.
      * @see module:scramjet.from
+     * @param str argument to be turned into new stream
+     * @param options
      */
-    export function from(): void;
+    export function from(str: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | Readable, options: StreamOptions | Writable): BufferStream;
 
     /**
      * An object consisting of multiple streams than can be refined or muxed.
@@ -882,7 +886,6 @@ declare module 'scramjet' {
 
     /**
      * Splits the string stream by the specified regexp or string
-     * @todo implement splitting by buffer or string
      * @param eol End of line string
      */
     function lines(eol?: String): StringStream;
