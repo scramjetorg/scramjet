@@ -402,7 +402,7 @@ declare module 'scramjet' {
         assign(func: MapCallback | Object): DataStream;
 
         /**
-         * Called when the stream ends without passing any items
+         * Called only before the stream ends without passing any items
          * @param callback Function called when stream ends
          */
         empty(callback: Function): DataStream;

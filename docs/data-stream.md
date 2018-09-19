@@ -561,7 +561,7 @@ The original objects are unaltered.
 <a name="DataStream+empty"></a>
 
 ### dataStream.empty(callback) ↺
-Called when the stream ends without passing any items
+Called only before the stream ends without passing any items
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
