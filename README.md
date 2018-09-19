@@ -211,7 +211,7 @@ await (DataStream.from(aStream) // create a DataStream
 * [`dataStream.peek(count, func) ↺`](docs/data-stream.md#DataStream+peek) - Allows previewing some of the streams data without removing them from the stream.
 * [`dataStream.slice([start], [length]) ↺`](docs/data-stream.md#DataStream+slice) - Gets a slice of the stream to the callback function.
 * [`dataStream.assign(func) ↺`](docs/data-stream.md#DataStream+assign) - Transforms stream objects by assigning the properties from the returned
-* [`dataStream.empty(callback) ↺`](docs/data-stream.md#DataStream+empty) - Called when the stream ends without passing any items
+* [`dataStream.empty(callback) ↺`](docs/data-stream.md#DataStream+empty) - Called only before the stream ends without passing any items
 * [`dataStream.unshift(item) ↺`](docs/data-stream.md#DataStream+unshift) - Pushes any data at call time (essentially at the beginning of the stream)
 * [`dataStream.endWith(item) ↺`](docs/data-stream.md#DataStream+endWith) - Pushes any data at end of stream
 * [`dataStream.accumulate(func, into) : Promise ⇄`](docs/data-stream.md#DataStream+accumulate) - Accumulates data into the object.
