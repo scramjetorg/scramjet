@@ -4,6 +4,7 @@ Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous
 
 ## Scramjet 4.18.7 - do and from
 
+* Fix execution of flushPromise on read only streams.
 * Fix operation of `empty` method when errors occur.
 * Fix order of chunks vs flush promise.
 * Fix order of chunks resolved within `catch` logic.
