@@ -2,8 +2,9 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
-## Scramjet 4.18.7 - do and from
+## Scramjet 4.18.11 - do and from
 
+* Fix operation of `distribute` on MacOS and BSD systems.
 * Fix execution of flushPromise on read only streams.
 * Fix operation of `empty` method when errors occur.
 * Fix order of chunks vs flush promise.
@@ -43,13 +44,10 @@ More announcements to come in a few weeks.
 
 ## Scramjet 4.15.2 - fix TypeScript definitions
 
+* Update dependencies
 * Fix readable only streams
 * Fixes typescript definitions
 * Minor documentation fixes
-
-## Scramjet 4.15.0 - keep and rewind methods (DVR for node streams)
-
-* Update dependencies
 * Error handling fix
 * `DataStream..keep` added - keeps a buffer of chunks to be replayed later on
 * `DataStream..rewind` added - replays the chunks from the given place
@@ -72,14 +70,8 @@ More announcements to come in a few weeks.
 ## Scramjet 4.12.3 - Fix test for timeBatch
 
 * Fix timebatch test
-
-## Scramjet 4.12.2
-
 * Fix of the `into` method in scramjet-core.
 * Fix test runners so unfinished tests now fail.
-
-## Scramjet 4.12.1
-
 * New NumberStream class
 * Better docs generation
 * Allow pushing more than one argument to `whenWrote`
@@ -95,9 +87,6 @@ More announcements to come in a few weeks.
 * Dependency update to remove vunerablity
 * Removal of nodeunit in favor of tape
 * Scramjet-core 4.9.1
-
-## Scramjet 4.10.0 - Nodejs v10 compatibility fix
-
 * Node.js v10 compatibility
 * Node.js v9 tests
 
