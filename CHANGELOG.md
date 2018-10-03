@@ -2,8 +2,9 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
-## Scramjet 4.18.11 - do and from
+## Scramjet 4.18.12 - do and from
 
+* Fix travis CI errors in tests.
 * Fix operation of `distribute` on MacOS and BSD systems.
 * Fix execution of flushPromise on read only streams.
 * Fix operation of `empty` method when errors occur.
