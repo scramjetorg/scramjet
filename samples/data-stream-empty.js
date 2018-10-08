@@ -7,7 +7,7 @@ exports.stream = (n) => DataStream.fromArray(n ? [] : [1]);
 
 // ------- END EXAMPLE --------
 
-exports._test = (test) => {
+exports.test = (test) => {
     test.expect(3);
 
     const empty = exports.stream(true);
@@ -33,6 +33,7 @@ exports._test = (test) => {
         full.run()
             .then(() => test.ok(!full.called, "Empty should not be called")),
         empty.run()
+            .then(() => new Promise(res => setTimeout(res, 200)))
             .then(() => test.ok(empty.called, "Empty should be called before end"))
     ]).then(
         () => {
