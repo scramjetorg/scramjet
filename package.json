@@ -75,7 +75,7 @@
     "through2": "^2.0.3"
   },
   "dependencies": {
-    "papaparse": "^4.6.0",
+    "papaparse": "^4.6.1",
     "rereadable-stream": "^1.2.0",
     "scramjet-core": "https://github.com/signicode/scramjet-core/archive/v4.16.14.tar.gz"
   }
