@@ -2,6 +2,8 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
+## Scramjet 4.18.13 - empty and batch fixes.
+
 * 5f9509d - Fix empty operation
 * d642be1 - Fix test for unshift
 * 68bce0c - Temporarily remove test for DataStream..empty
