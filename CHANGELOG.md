@@ -2,6 +2,10 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
+## Scramjet 4.18.14 - fix dependencies
+
+* b59db1e - Fix dependencies breaking empty
+
 ## Scramjet 4.18.13 - empty and batch fixes.
 
 * 5f9509d - Fix empty operation
