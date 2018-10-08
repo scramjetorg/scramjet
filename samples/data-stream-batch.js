@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-// module: data-stream, method: flatMap
+// module: data-stream, method: batch
 
-const DataStream = require("../").DataStream;
+const {DataStream, StringStream} = require("../");
 exports.log = console.log.bind(console);
 
 exports.test = {
@@ -46,6 +46,31 @@ exports.test = {
         });
 
         test.done();
+    },
+    async csvtest(test) {
+        const fs = require("fs");
+        const fileStream = fs.createReadStream(__dirname + "/data/test.2.csv");
+
+        const expected = [5, 5, 5, 5, 5, 2];
+        const checks = [];
+
+        fileStream.pipe(new StringStream("utf-8"))
+            .CSVParse({
+                skipEmptyLines: true,
+                header: true,
+            })
+            .batch(5)
+            .map((items) => {
+                checks.push(items.length);
+                return DataStream.filter;
+            })
+            .catch(e => console.error(e.stack))
+            .run()
+            .then(() => {
+                test.deepEqual(checks, expected, "Should accumulate chunks in order and not omitting any");
+                test.done();
+            });
+
     }
 };
 

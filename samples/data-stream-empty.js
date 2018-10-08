@@ -7,26 +7,37 @@ exports.stream = (n) => DataStream.fromArray(n ? [] : [1]);
 
 // ------- END EXAMPLE --------
 
-exports.test = (test) => {
-    test.expect(1);
+exports._test = (test) => {
+    test.expect(3);
 
     const empty = exports.stream(true);
     empty.test = 1;
     empty.empty(
-        () => test.ok(true, "empty should be called on a stream with no chunks")
+        () => {
+            empty.called = true;
+            test.ok(true, "empty should be called on a stream with no chunks");
+        }
     );
+    console.log(empty.type);
 
     const full = exports.stream();
     full.test = 2;
     full.empty(
-        () => test.ok(false, "non empty stream empty method should not be called")
+        () => {
+            full.called = true;
+            test.ok(false, "non empty stream empty method should not be called");
+        }
     );
 
     Promise.all([
-        full.toArray(),
-        empty.toArray()
+        full.run()
+            .then(() => test.ok(!full.called, "Empty should not be called")),
+        empty.run()
+            .then(() => test.ok(empty.called, "Empty should be called before end"))
     ]).then(
-        () => test.done()
+        () => {
+            test.done();
+        }
     );
 };
 

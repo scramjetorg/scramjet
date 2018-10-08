@@ -39,8 +39,7 @@ exports.test = {
     async justRewind(test) {
         test.expect(2);
 
-        const stream = DataStream.fromArray([1, 2, 3, 4])
-            .keep();
+        const stream = DataStream.fromArray([1, 2, 3, 4]).keep();
 
         const arr1 = await stream.rewind().toArray();
         const arr2 = await stream.rewind().toArray();

@@ -17,6 +17,9 @@ const matrix = [
     ["scramjet", "index.js"]
 ];
 
+// cleanup environment before running tests.
+delete require.cache["scramjet"];
+delete require.cache["scramjet-core"];
 
 process.on("unhandledRejection", unhandledRejectionHandler);
 module.exports = scramjet.fromArray(
@@ -38,18 +41,20 @@ module.exports = scramjet.fromArray(
 )
     .flatMap(
         async (item) => {
-            const arr = await (fs.createReadStream(item.srcpath)
-                .pipe(new scramjet.StringStream())
-                .match(/@example.*\{@link ([^}]+)(?:\|[^}]*)?\}/gi)
-                .map(match => {
-                    const file = path.resolve(__dirname, "../../lib/", match);
-                    const method = file.match(/([^-]+).js/)[1];
+            const arr = await (
+                fs.createReadStream(item.srcpath)
+                    .pipe(new scramjet.StringStream())
+                    .match(/@example.*\{@link ([^}]+)(?:\|[^}]*)?\}/gi)
+                    .map(match => {
+                        const file = path.resolve(__dirname, "../../lib/", match);
+                        const method = file.match(/([^-]+).js/)[1];
 
-                    const prefix = item.cls + "-stream";
+                        const prefix = item.cls + "-stream";
 
-                    return Object.assign({}, item, {file, prefix, method});
-                })
-                .toArray());
+                        return Object.assign({}, item, {file, prefix, method});
+                    })
+                    .toArray()
+            );
 
             return arr;
         }
