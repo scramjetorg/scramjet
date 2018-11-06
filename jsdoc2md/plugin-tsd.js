@@ -23,6 +23,8 @@ const getLookupType = (type) => {
         );
 };
 
+const replaceNames = {};
+
 exports.handlers = {
     parseBegin() {
         tagLookup = {};
@@ -46,13 +48,15 @@ exports.handlers = {
         if (doclet.augments) {
             let replaced = 0;
             const oldAugments = doclet.augments;
-            doclet.augments = doclet.augments.map(
+            doclet.augments = oldAugments.map(
                 augmented => matchLookup(augmented).map(
                     lookup => (replaced++, augmented.replace(lookup, tagLookup[lookup].longname))
                 )
             );
             if (replaced && doclet.kind === 'class') {
-                doclet.name += ' extends ' + oldAugments[0]
+                const oldName = doclet.name;
+                doclet.name = `${oldName} extends ${oldAugments[0]}`;
+                replaceNames[oldName] = doclet.name;
             }
         }
 
@@ -72,6 +76,30 @@ exports.handlers = {
                 doclet.returns = [{type: {names: [getLookupType(doclet.memberof)]}}];
             }
         }
+    },
+    parseComplete({doclets}) {
+        doclets.forEach(
+            doclet => {
+                const memberof = doclet.memberof;
+                if (!memberof) return;
+
+                const replacement = Object.entries(replaceNames).find(
+                    ([key]) => {
+                        const match = memberof.indexOf(key);
+
+                        if (match === -1) return false;
+                        if (match === 0) return true;
+                        if (memberof[match - 1] === '.') return true;
+
+                        return false;
+                    }
+                );
+
+                if (replacement) {
+                    doclet.memberof = doclet.memberof.replace(replacement[0], replacement[1])
+                }
+            }
+        )
     }
 };
 

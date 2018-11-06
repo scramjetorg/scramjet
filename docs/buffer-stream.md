@@ -212,12 +212,6 @@ Create BufferStream from anything.
 | str | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>Readable</code> | argument to be turned into new stream |
 | options | <code>StreamOptions</code> \| <code>Writable</code> |  |
 
-<a name="toStringStream"></a>
-
-## toStringStream()
-Alias for [stringify](#BufferStream+stringify)
-
-**Kind**: global function  
 <a name="ShiftCallback"></a>
 
 ## ShiftCallback : function

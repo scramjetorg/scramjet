@@ -129,10 +129,12 @@ Check out the command line interface for simplified scramjet usage with [scramje
 
     $ sjr -i http://datasource.org/file.csv ./transform-module-1 ./transform-module-1 | gzip > logs.gz
 
+{{#unless page~}}
 ## Quick reference of some methods
 
 {{#classes ~}}{{>stream-class}}{{/classes}}
 
+{{/unless~}}
 ## Scramjet core
 
 Don't like dependencies? Scramjet packs just a couple of those, but if you are really really annoyed by second depth of
