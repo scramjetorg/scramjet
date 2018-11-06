@@ -263,6 +263,8 @@ StringStream.fromString()
 * [`stringStream.match(matcher) ↺`](docs/string-stream.md#StringStream+match) - Finds matches in the string stream and streams the match results
 * [`stringStream.toBufferStream() : BufferStream ↺`](docs/string-stream.md#StringStream+toBufferStream) - Transforms the StringStream to BufferStream
 * [`stringStream.parse(parser) : DataStream ↺`](docs/string-stream.md#StringStream+parse) - Parses every string to object
+* [`stringStream.toDataStream()`](docs/string-stream.md#StringStream+toDataStream) - Alias for {@link StringStream#parse}
+* [`stringStream.toStringStream()`](docs/buffer-stream.md#StringStream+toStringStream) - Alias for {@link BufferStream#stringify}
 * [`stringStream.lines([eol]) ↺`](docs/string-stream.md#StringStream+lines) - Splits the string stream by the specified regexp or string
 * [`stringStream.JSONParse(perLine) : DataStream ↺`](docs/string-stream.md#StringStream+JSONParse) - Parses each entry as JSON.
 * [`stringStream.CSVParse(options) : DataStream ↺`](docs/string-stream.md#StringStream+CSVParse) - Parses CSV to DataString using 'papaparse' module.

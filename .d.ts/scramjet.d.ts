@@ -1,14 +1,14 @@
 /**
  * Scramjet main exports expose all the stream classes and a number of methods.
- * 
+ *
  * All scramjet streams allow writing, reading or transform modes - currently
  * exclusively (meaning you can't have two at once). Any of the scramjet streams
  * can be constructed with the following options passed to mimic node.js standard streams:
- * 
+ *
  * * `async promiseTransform(chunk)` - transform method that resolves with a single output chunk
  * * `async promiseWrite(chunk)` - write method that that resolves when chunk is written
  * * `async promiseRead(count)` - read method that resolves with an array of chunks when called
- * 
+ *
  * See {@link https://nodejs.org/api/stream.html#stream_api_for_stream_implementers node.js API for stream implementers for details}
  */
 declare module 'scramjet' {
@@ -87,12 +87,12 @@ declare module 'scramjet' {
      * DataStream is the primary stream type for Scramjet. When you parse your
      * stream, just pipe it you can then perform calculations on the data objects
      * streamed through your flow.
-     * 
+     *
      * Use as:
-     * 
+     *
      * ```javascript
      * const { DataStream } = require('scramjet');
-     * 
+     *
      * await (DataStream.from(aStream) // create a DataStream
      *     .map(findInFiles)           // read some data asynchronously
      *     .map(sendToAPI)             // send the data somewhere
@@ -104,12 +104,12 @@ declare module 'scramjet' {
          * DataStream is the primary stream type for Scramjet. When you parse your
          * stream, just pipe it you can then perform calculations on the data objects
          * streamed through your flow.
-         * 
+         *
          * Use as:
-         * 
+         *
          * ```javascript
          * const { DataStream } = require('scramjet');
-         * 
+         *
          * await (DataStream.from(aStream) // create a DataStream
          * .map(findInFiles)           // read some data asynchronously
          * .map(sendToAPI)             // send the data somewhere
@@ -120,7 +120,7 @@ declare module 'scramjet' {
 
         /**
          * Returns a DataStream from pretty much anything sensibly possible.
-         * 
+         *
          * Depending on type:
          * * `self` will return self immediately
          * * `Readable` stream will get piped to the current stream with errors forwarded
@@ -129,7 +129,7 @@ declare module 'scramjet' {
          * * `GeneratorFunction` will get executed to return the iterator which will be used as source for items
          * * `AsyncGeneratorFunction` will also work as above (including generators) in node v10.
          * * `Iterable`s iterator will be used as a source for streams
-         * 
+         *
          * You can also pass a `Function` or `AsyncFunction` that will result in anything passed to `from`
          * subsequently. You can use your stream immediately though.
          * @param str argument to be turned into new stream
@@ -154,11 +154,11 @@ declare module 'scramjet' {
 
         /**
          * Reduces the stream into a given accumulator
-         * 
+         *
          * Works similarly to Array.prototype.reduce, so whatever you return in the
          * former operation will be the first operand to the latter. The result is a
          * promise that's resolved with the return value of the last transform executed.
-         * 
+         *
          * This method is serial - meaning that any processing on an entry will
          * occur only after the previous entry is fully processed. This does mean
          * it's much slower than parallel functions.
@@ -169,7 +169,7 @@ declare module 'scramjet' {
 
         /**
          * Perform an asynchroneous operation without changing or resuming the stream.
-         * 
+         *
          * In essence the stream will use the call to keep the backpressure, but the resolving value
          * has no impact on the streamed data (except for possile mutation of the chunk itself)
          * @param func the async function
@@ -178,11 +178,11 @@ declare module 'scramjet' {
 
         /**
          * Allows own implementation of stream chaining.
-         * 
+         *
          * The async callback is called on every chunk and should implement writes in it's own way. The
          * resolution will be awaited for flow control. The passed `into` argument is passed as the first
          * argument to every call.
-         * 
+         *
          * It returns the DataStream passed as the second argument.
          * @param func the method that processes incoming chunks
          * @param into the DataStream derived class
@@ -191,7 +191,7 @@ declare module 'scramjet' {
 
         /**
          * Calls the passed method in place with the stream as first argument, returns result.
-         * 
+         *
          * The main intention of this method is to run scramjet modules - transforms that allow complex transforms of
          * streams. These modules can also be run with [scramjet-cli](https://github.com/signicode/scramjet-cli) directly
          * from the command line.
@@ -239,9 +239,9 @@ declare module 'scramjet' {
 
         /**
          * Allows resetting stream options.
-         * 
+         *
          * It's much easier to use this in chain than constructing new stream:
-         * 
+         *
          * ```javascript
          * stream.map(myMapper).filter(myFilter).setOptions({maxParallel: 2})
          * ```
@@ -251,7 +251,7 @@ declare module 'scramjet' {
 
         /**
          * Duplicate the stream
-         * 
+         *
          * Creates a duplicate stream instance and passes it to the callback.
          * @param func The duplicate stream will be passed as first argument.
          */
@@ -259,7 +259,7 @@ declare module 'scramjet' {
 
         /**
          * Performs an operation on every chunk, without changing the stream
-         * 
+         *
          * This is a shorthand for ```stream.on("data", func)``` but with flow control.
          * Warning: this resumes the stream!
          * @param func a callback called for each chunk.
@@ -268,7 +268,7 @@ declare module 'scramjet' {
 
         /**
          * Reads the stream while the function outcome is truthy.
-         * 
+         *
          * Stops reading and emits end as soon as it ends.
          * @param func The condition check
          */
@@ -276,7 +276,7 @@ declare module 'scramjet' {
 
         /**
          * Reads the stream until the function outcome is truthy.
-         * 
+         *
          * Works opposite of while.
          * @param func The condition check
          */
@@ -284,11 +284,11 @@ declare module 'scramjet' {
 
         /**
          * Provides a way to catch errors in chained streams.
-         * 
+         *
          * The handler will be called as asynchronous
          * - if it resolves then the error will be muted.
          * - if it rejects then the error will be passed to the next handler
-         * 
+         *
          * If no handlers will resolve the error, an `error` event will be emitted
          * @param callback Error handler (async function)
          */
@@ -296,7 +296,7 @@ declare module 'scramjet' {
 
         /**
          * Executes all error handlers and if none resolves, then emits an error.
-         * 
+         *
          * The returned promise will always be resolved even if there are no successful handlers.
          * @param err The thrown error
          */
@@ -304,7 +304,7 @@ declare module 'scramjet' {
 
         /**
          * Override of node.js Readable pipe.
-         * 
+         *
          * Except for calling overridden method it proxies errors to piped stream.
          * @param to Writable stream to write to
          * @param options
@@ -331,7 +331,7 @@ declare module 'scramjet' {
 
         /**
          * Create a DataStream from an Iterator
-         * 
+         *
          * Doesn't end the stream until it reaches end of the iterator.
          * @param iter the iterator object
          */
@@ -339,7 +339,7 @@ declare module 'scramjet' {
 
         /**
          * Aggregates the stream into a single Array
-         * 
+         *
          * In fact it's just a shorthand for reducing the stream into an Array.
          * @param initial Optional array to begin with.
          * @returns
@@ -348,14 +348,14 @@ declare module 'scramjet' {
 
         /**
          * Returns an async generator
-         * 
+         *
          * Ready for https://github.com/tc39/proposal-async-iteration
          */
         toGenerator(): Iterable.<Promise.<*>>;
 
         /**
          * Pulls in any Readable stream, resolves when the pulled stream ends.
-         * 
+         *
          * Does not preserve order, does not end this stream.
          * @param incoming
          * @returns resolved when incoming stream ends, rejects on incoming error
@@ -371,7 +371,7 @@ declare module 'scramjet' {
 
         /**
          * Allows previewing some of the streams data without removing them from the stream.
-         * 
+         *
          * Important: Peek does not resume the flow.
          * @param count The number of items to view before
          * @param func Function called before other streams
@@ -380,11 +380,11 @@ declare module 'scramjet' {
 
         /**
          * Gets a slice of the stream to the callback function.
-         * 
+         *
          * Returns a stream consisting of an array of items with `0` to `start`
          * omitted and `length` items after `start` included. Works similarily to
          * Array.prototype.slice.
-         * 
+         *
          * Takes count from the moment it's called. Any previous items will not be
          * taken into account.
          * @param start omit this number of entries.
@@ -395,7 +395,7 @@ declare module 'scramjet' {
         /**
          * Transforms stream objects by assigning the properties from the returned
          * data along with data from original ones.
-         * 
+         *
          * The original objects are unaltered.
          * @param func The function that returns new object properties or just the new properties
          */
@@ -409,7 +409,7 @@ declare module 'scramjet' {
 
         /**
          * Pushes any data at call time (essentially at the beginning of the stream)
-         * 
+         *
          * This is a synchronous only function.
          * @param item list of items to unshift (you can pass more items)
          */
@@ -423,10 +423,10 @@ declare module 'scramjet' {
 
         /**
          * Accumulates data into the object.
-         * 
+         *
          * Works very similarily to reduce, but result of previous operations have
          * no influence over the accumulator in the next one.
-         * 
+         *
          * Method is parallel
          * @param func The accumulation function
          * @param into Accumulator object
@@ -442,13 +442,13 @@ declare module 'scramjet' {
 
         /**
          * Reduces the stream into the given object, returning it immediately.
-         * 
+         *
          * The main difference to reduce is that only the first object will be
          * returned at once (however the method will be called with the previous
          * entry).
          * If the object is an instance of EventEmitter then it will propagate the
          * error from the previous stream.
-         * 
+         *
          * This method is serial - meaning that any processing on an entry will
          * occur only after the previous entry is fully processed. This does mean
          * it's much slower than parallel functions.
@@ -461,7 +461,7 @@ declare module 'scramjet' {
 
         /**
          * Remaps the stream into a new stream.
-         * 
+         *
          * This means that every item may emit as many other items as we like.
          * @param func A callback that is called on every chunk
          * @param Clazz Optional DataStream subclass to be constructed
@@ -470,7 +470,7 @@ declare module 'scramjet' {
 
         /**
          * Takes any method that returns any iterable and flattens the result.
-         * 
+         *
          * The passed callback must return an iterable (otherwise an error will be emitted). The resulting stream will
          * consist of all the items of the returned iterables, one iterable after another.
          * @param func A callback that is called on every chunk
@@ -480,7 +480,7 @@ declare module 'scramjet' {
 
         /**
          * A shorthand for streams of Arrays to flatten them.
-         * 
+         *
          * More efficient equivalent of: .flatmap(i => i);
          */
         flatten(): DataStream;
@@ -529,7 +529,7 @@ declare module 'scramjet' {
 
         /**
          * Separates execution to multiple streams using the hashes returned by the passed callback.
-         * 
+         *
          * Calls the given callback for a hash, then makes sure all items with the same hash are processed within a single
          * stream. Thanks to that streams can be distributed to multiple threads.
          * @param affinity the callback function
@@ -547,7 +547,7 @@ declare module 'scramjet' {
 
         /**
          * Aggregates chunks in arrays given number of number of items long.
-         * 
+         *
          * This can be used for microbatch processing.
          * @param count How many items to aggregate
          */
@@ -611,9 +611,9 @@ declare module 'scramjet' {
 
     /**
      * A stream of string objects for further transformation on top of DataStream.
-     * 
+     *
      * Example:
-     * 
+     *
      * ```javascript
      * StringStream.fromString()
      * ```
@@ -621,85 +621,128 @@ declare module 'scramjet' {
     class StringStream extends DataStream {
         /**
          * A stream of string objects for further transformation on top of DataStream.
-         * 
+         *
          * Example:
-         * 
+         *
          * ```javascript
          * StringStream.fromString()
          * ```
          */
         constructor(encoding: String);
 
+        /**
+         * Shifts given length of chars from the original stream
+         *
+         * Works the same way as {@see DataStream.shift}, but in this case extracts
+         * the given number of characters.
+         * @param bytes The number of characters to shift.
+         * @param func Function that receives a string of shifted chars.
+         */
+        shift(bytes: Number, func: ShiftCallback): StringStream;
+
+        /**
+         * A handly split by line regex to quickly get a line-by-line stream
+         */
+        static SPLIT_LINE: any;
+
+        /**
+         * Splits the string stream by the specified regexp or string
+         * @param splitter What to split by
+         */
+        split(splitter: RegExp | String): StringStream;
+
+        /**
+         * Finds matches in the string stream and streams the match results
+         * @param matcher A function that will be called for every
+         *        stream chunk.
+         */
+        match(matcher: RegExp): StringStream;
+
+        /**
+         * Transforms the StringStream to BufferStream
+         *
+         * Creates a buffer stream from the given string stream. Still it returns a
+         * DataStream derivative and isn't the typical node.js stream so you can do
+         * all your transforms when you like.
+         */
+        toBufferStream(): BufferStream;
+
+        /**
+         * Parses every string to object
+         *
+         * The method MUST parse EVERY string into a single object, so the string
+         * stream here should already be split.
+         * @param parser The transform function
+         */
+        parse(parser: ParseCallback): DataStream;
+
+        /**
+         * Alias for {@link StringStream#parse}
+         */
+        toDataStream(): void;
+
+        /**
+         * Creates a StringStream and writes a specific string.
+         * @param str the string to push the your stream
+         * @param encoding optional encoding
+         */
+        static fromString(str: String, encoding: String): StringStream;
+
+        /**
+         * Create StringStream from anything.
+         * @see DataStream.from
+         * @see module:scramjet.from
+         * @param str argument to be turned into new stream
+         * @param options
+         */
+        static from(str: String | any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | Readable, options: StreamOptions | Writable): StringStream;
+
+        /**
+         * Alias for {@link BufferStream#stringify}
+         */
+        toStringStream(): void;
+
+        /**
+         * Splits the string stream by the specified regexp or string
+         * @param eol End of line string
+         */
+        lines(eol?: String): StringStream;
+
+        /**
+         * Parses each entry as JSON.
+         * Ignores empty lines
+         * @param perLine instructs to split per line
+         */
+        JSONParse(perLine: Boolean): DataStream;
+
+        /**
+         * Parses CSV to DataString using 'papaparse' module.
+         * @param options options for the papaparse.parse method.
+         */
+        CSVParse(options: any): DataStream;
+
+        /**
+         * Appends given argument to all the items.
+         * @param arg the argument to append. If function passed then it will be called and resolved and the resolution will be appended.
+         */
+        append(arg: Function | String): StringStream;
+
+        /**
+         * Prepends given argument to all the items.
+         * @param arg the argument to prepend. If function passed then it will be called and resolved
+         *        and the resolution will be prepended.
+         */
+        prepend(arg: Function | String): StringStream;
+
     }
 
     /**
-     * Shifts given length of chars from the original stream
-     * 
-     * Works the same way as {@see DataStream.shift}, but in this case extracts
-     * the given number of characters.
-     * @param bytes The number of characters to shift.
-     * @param func Function that receives a string of shifted chars.
-     */
-    function shift(bytes: Number, func: ShiftCallback): StringStream;
-
-    /**
-     * A handly split by line regex to quickly get a line-by-line stream
-     */
-    export var SPLIT_LINE: any;
-
-    /**
-     * Splits the string stream by the specified regexp or string
-     * @param splitter What to split by
-     */
-    function split(splitter: RegExp | String): StringStream;
-
-    /**
-     * Finds matches in the string stream and streams the match results
-     * @param matcher A function that will be called for every
-     *        stream chunk.
-     */
-    function match(matcher: RegExp): StringStream;
-
-    /**
-     * Transforms the StringStream to BufferStream
-     * 
-     * Creates a buffer stream from the given string stream. Still it returns a
-     * DataStream derivative and isn't the typical node.js stream so you can do
-     * all your transforms when you like.
-     */
-    function toBufferStream(): BufferStream;
-
-    /**
-     * Parses every string to object
-     * 
-     * The method MUST parse EVERY string into a single object, so the string
-     * stream here should already be split.
-     * @param parser The transform function
-     */
-    function parse(parser: ParseCallback): DataStream;
-
-    /**
-     * Creates a StringStream and writes a specific string.
-     * @param str the string to push the your stream
-     * @param encoding optional encoding
-     */
-    export function fromString(str: String, encoding: String): StringStream;
-
-    /**
-     * Create StringStream from anything.
-     * @see module:scramjet.from
-     * @param str argument to be turned into new stream
-     * @param options
-     */
-    export function from(str: String | any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | Readable, options: StreamOptions | Writable): StringStream;
-
-    /**
      * A factilitation stream created for easy splitting or parsing buffers.
-     * 
+     *
      * Useful for working on built-in Node.js streams from files, parsing binary formats etc.
-     * 
+     *
      * A simple use case would be:
-     * 
+     *
      * ```javascript
      *  fs.createReadStream('pixels.rgba')
      *      .pipe(new BufferStream)         // pipe a buffer stream into scramjet
@@ -715,11 +758,11 @@ declare module 'scramjet' {
     class BufferStream extends DataStream {
         /**
          * A factilitation stream created for easy splitting or parsing buffers.
-         * 
+         *
          * Useful for working on built-in Node.js streams from files, parsing binary formats etc.
-         * 
+         *
          * A simple use case would be:
-         * 
+         *
          * ```javascript
          * fs.createReadStream('pixels.rgba')
          * .pipe(new BufferStream)         // pipe a buffer stream into scramjet
@@ -734,57 +777,57 @@ declare module 'scramjet' {
          */
         constructor(opts: object);
 
+        /**
+         * Shift given number of bytes from the original stream
+         *
+         * Works the same way as {@see DataStream.shift}, but in this case extracts
+         * the given number of bytes.
+         * @param chars The number of bytes to shift
+         * @param func Function that receives a string of shifted bytes
+         */
+        shift(chars: Number, func: ShiftCallback): BufferStream;
+
+        /**
+         * Splits the buffer stream into buffer objects
+         * @param splitter the buffer or string that the stream
+         *        should be split by.
+         */
+        split(splitter: String | Buffer): BufferStream;
+
+        /**
+         * Breaks up a stream apart into chunks of the specified length
+         * @param number the desired chunk length
+         */
+        breakup(number: Number): BufferStream;
+
+        /**
+         * Creates a string stream from the given buffer stream
+         *
+         * Still it returns a DataStream derivative and isn't the typical node.js
+         * stream so you can do all your transforms when you like.
+         * @param encoding The encoding to be used to convert the buffers
+         *        to streams.
+         */
+        stringify(encoding: String): StringStream;
+
+        /**
+         * Parses every buffer to object
+         *
+         * The method MUST parse EVERY buffer into a single object, so the buffer
+         * stream here should already be split or broken up.
+         * @param parser The transform function
+         */
+        parse(parser: ParseCallback): DataStream;
+
+        /**
+         * Create BufferStream from anything.
+         * @see module:scramjet.from
+         * @param str argument to be turned into new stream
+         * @param options
+         */
+        static from(str: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | Readable, options: StreamOptions | Writable): BufferStream;
+
     }
-
-    /**
-     * Shift given number of bytes from the original stream
-     * 
-     * Works the same way as {@see DataStream.shift}, but in this case extracts
-     * the given number of bytes.
-     * @param chars The number of bytes to shift
-     * @param func Function that receives a string of shifted bytes
-     */
-    function shift(chars: Number, func: ShiftCallback): BufferStream;
-
-    /**
-     * Splits the buffer stream into buffer objects
-     * @param splitter the buffer or string that the stream
-     *        should be split by.
-     */
-    function split(splitter: String | Buffer): BufferStream;
-
-    /**
-     * Breaks up a stream apart into chunks of the specified length
-     * @param number the desired chunk length
-     */
-    function breakup(number: Number): BufferStream;
-
-    /**
-     * Creates a string stream from the given buffer stream
-     * 
-     * Still it returns a DataStream derivative and isn't the typical node.js
-     * stream so you can do all your transforms when you like.
-     * @param encoding The encoding to be used to convert the buffers
-     *        to streams.
-     */
-    function stringify(encoding: String): StringStream;
-
-    /**
-     * Parses every buffer to object
-     * 
-     * The method MUST parse EVERY buffer into a single object, so the buffer
-     * stream here should already be split or broken up.
-     * @param parser The transform function
-     */
-    function parse(parser: ParseCallback): DataStream;
-
-    /**
-     * Create BufferStream from anything.
-     * @see module:scramjet.from
-     * @param str argument to be turned into new stream
-     * @param options
-     */
-    export function from(str: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | Readable, options: StreamOptions | Writable): BufferStream;
 
     /**
      * An object consisting of multiple streams than can be refined or muxed.
@@ -807,7 +850,7 @@ declare module 'scramjet' {
 
         /**
          * Returns new MultiStream with the streams returned by the transform.
-         * 
+         *
          * Runs callback for every stream, returns a new MultiStream of mapped
          * streams and creates a new multistream consisting of streams returned
          * by the callback.
@@ -844,7 +887,7 @@ declare module 'scramjet' {
 
         /**
          * Adds a stream to the MultiStream
-         * 
+         *
          * If the stream was muxed, filtered or mapped, this stream will undergo the
          * same transorms and conditions as if it was added in constructor.
          * @param stream [description]
@@ -853,7 +896,7 @@ declare module 'scramjet' {
 
         /**
          * Removes a stream from the MultiStream
-         * 
+         *
          * If the stream was muxed, filtered or mapped, it will be removed from same
          * streams.
          * @param stream [description]
@@ -885,38 +928,6 @@ declare module 'scramjet' {
     }
 
     /**
-     * Splits the string stream by the specified regexp or string
-     * @param eol End of line string
-     */
-    function lines(eol?: String): StringStream;
-
-    /**
-     * Parses each entry as JSON.
-     * Ignores empty lines
-     * @param perLine instructs to split per line
-     */
-    function JSONParse(perLine: Boolean): DataStream;
-
-    /**
-     * Parses CSV to DataString using 'papaparse' module.
-     * @param options options for the papaparse.parse method.
-     */
-    function CSVParse(options: any): DataStream;
-
-    /**
-     * Appends given argument to all the items.
-     * @param arg the argument to append. If function passed then it will be called and resolved and the resolution will be appended.
-     */
-    function append(arg: Function | String): StringStream;
-
-    /**
-     * Prepends given argument to all the items.
-     * @param arg the argument to prepend. If function passed then it will be called and resolved
-     *        and the resolution will be prepended.
-     */
-    function prepend(arg: Function | String): StringStream;
-
-    /**
      * Simple scramjet stream that by default contains numbers or other containing with `valueOf` method. The streams
      * provides simple methods like `sum`, `average`. It derives from DataStream so it's still fully supporting all `map`,
      * `reduce` etc.
@@ -929,58 +940,58 @@ declare module 'scramjet' {
          */
         constructor(options: NumberStreamOptions);
 
+        /**
+         * Calculates the sum of all items in the stream.
+         */
+        sum(): Number;
+
+        /**
+         * Calculates the sum of all items in the stream.
+         */
+        avg(): Number;
+
     }
 
     /**
-     * Calculates the sum of all items in the stream.
-     */
-    function sum(): Number;
-
-    /**
-     * Calculates the sum of all items in the stream.
-     */
-    function avg(): Number;
-
-    /**
      * A stream for moving window calculation with some simple methods.
-     * 
+     *
      * In essence it's a stream of Array's containing a list of items - a window.
      * It's best used when created by the `DataStream..window`` method.
      */
     class WindowStream extends DataStream {
         /**
          * A stream for moving window calculation with some simple methods.
-         * 
+         *
          * In essence it's a stream of Array's containing a list of items - a window.
          * It's best used when created by the `DataStream..window`` method.
          */
         constructor();
 
+        /**
+         * Calculates moving sum of items, the output stream will contain the moving sum.
+         * @param valueOf value of method for array items
+         */
+        sum(valueOf?: Function): Promise<Number>;
+
+        /**
+         * Calculates the moving average of all items in the stream.
+         * @param valueOf value of method for array items
+         */
+        avg(valueOf?: Function): Promise<Number>;
+
     }
-
-    /**
-     * Calculates moving sum of items, the output stream will contain the moving sum.
-     * @param valueOf value of method for array items
-     */
-    function sum(valueOf?: Function): Promise<Number>;
-
-    /**
-     * Calculates the moving average of all items in the stream.
-     * @param valueOf value of method for array items
-     */
-    function avg(valueOf?: Function): Promise<Number>;
 
 }
 
 /**
- * 
+ *
  * @param chunk the chunk to be mapped
  * @returns the mapped object
  */
 declare type MapCallback = (chunk: any)=>Promise | any;
 
 /**
- * 
+ *
  * @param chunk the chunk to be filtered or not
  * @returns information if the object should remain in
  *          the filtered stream.
@@ -988,7 +999,7 @@ declare type MapCallback = (chunk: any)=>Promise | any;
 declare type FilterCallback = (chunk: any)=>Promise | Boolean;
 
 /**
- * 
+ *
  * @param acc the accumulator - the object initially passed or returned
  *        by the previous reduce operation
  * @param chunk the stream chunk.
@@ -996,20 +1007,20 @@ declare type FilterCallback = (chunk: any)=>Promise | Boolean;
 declare type ReduceCallback = (acc: any, chunk: Object)=>Promise | any;
 
 /**
- * 
+ *
  * @param chunk source stream chunk
  */
 declare type DoCallback = (chunk: Object)=>void;
 
 /**
- * 
+ *
  * @param into stream passed to the into method
  * @param chunk source stream chunk
  */
 declare type IntoCallback = (into: any, chunk: Object)=>any;
 
 /**
- * 
+ *
  * @param teed The teed stream
  */
 declare type TeeCallback = (teed: DataStream)=>void;
@@ -1030,42 +1041,32 @@ declare interface StreamOptions {
 }
 
 /**
- * 
+ *
  * @param shifted Popped chars
  */
 declare type ShiftCallback = (shifted: String)=>void;
 
 /**
- * 
+ *
  * @param chunk the transformed chunk
  */
 declare type ParseCallback = (chunk: String)=>Promise;
 
 /**
- * Alias for {@link StringStream#parse}
- */
-declare function toDataStream(): void;
-
-/**
- * Alias for {@link BufferStream#stringify}
- */
-declare function toStringStream(): void;
-
-/**
- * 
+ *
  * @param acc Accumulator passed to accumulate function
  * @param chunk the stream chunk
  */
 declare type AccumulateCallback = (acc: any, chunk: any)=>Promise | any;
 
 /**
- * 
+ *
  * @param chunk the stream chunk
  */
 declare type ConsumeCallback = (chunk: any)=>Promise | any;
 
 /**
- * 
+ *
  * @param emit a method to emit objects in the remapped stream
  * @param chunk the chunk from the original stream
  * @returns promise to be resolved when chunk has been processed
@@ -1073,14 +1074,14 @@ declare type ConsumeCallback = (chunk: any)=>Promise | any;
 declare type RemapCallback = (emit: Function, chunk: any)=>Promise | any;
 
 /**
- * 
+ *
  * @param chunk the chunk from the original stream
  * @returns promise to be resolved when chunk has been processed
  */
 declare type FlatMapCallback = (chunk: any)=>Promise<Iterable> | Iterable;
 
 /**
- * 
+ *
  * @param prev the chunk before
  * @param next the chunk after
  * @returns promise that is resolved with the joining item
