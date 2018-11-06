@@ -97,7 +97,6 @@ exports.handlers = {
 
                 if (replacement) {
                     doclet.memberof = doclet.memberof.replace(replacement[0], replacement[1])
-                    console.log(replacement, doclet.memberof);
                 }
             }
         )
