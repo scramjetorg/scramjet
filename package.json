@@ -72,7 +72,7 @@
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5",
     "tape": "^4.9.1",
-    "through2": "^2.0.4"
+    "through2": "^3.0.0"
   },
   "dependencies": {
     "papaparse": "^4.6.1",
