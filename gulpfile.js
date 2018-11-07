@@ -29,7 +29,7 @@ gulp.task("test_legacy", test_legacy([path.resolve(corepath, "../test/v1/*.js"),
 
 gulp.task("scm_clean", scm_clean());
 
-gulp.task("test_samples", shell.task("node test/samples/test-samples"));
+gulp.task("test_samples", shell.task("node scripts/test/test-samples"));
 
 gulp.task("readme", readme({
     files: FILES.slice(),

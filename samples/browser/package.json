@@ -12,17 +12,17 @@
     "url": "https://github.com/MichalCz/scramjet.git"
   },
   "engines": {
-    "node": ">=6"
+    "node": ">=8.6"
   },
   "author": "Michał Czapracki <cz@signicode.com>",
-  "license": "GPL-3.0",
+  "license": "MIT",
   "devDependencies": {
     "express": "^4.14.0",
     "socket.io": "^2.1.0",
     "windows-cpu": "^1.0.0"
   },
   "dependencies": {
-    "browserify": "^16.2.2",
+    "browserify": "^16.2.3",
     "mergesort-stream": "^1.0.1"
   }
 }

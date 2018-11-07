@@ -57,16 +57,13 @@ the given number of bytes.
 **Kind**: instance method of [<code>BufferStream</code>](#BufferStream)  
 **Chainable**  
 **Returns**: [<code>BufferStream</code>](#BufferStream) - substream  
+**Test**: test/methods/string-stream-shift.js  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | chars | <code>Number</code> | The number of bytes to shift |
 | func | [<code>ShiftCallback</code>](#ShiftCallback) | Function that receives a string of shifted bytes |
 
-**Example**  
-```js
-[../samples/string-stream-shift.js](../samples/string-stream-shift.js)
-```
 <a name="BufferStream+split"></a>
 
 ### bufferStream.split(splitter) : BufferStream ↺
@@ -75,15 +72,12 @@ Splits the buffer stream into buffer objects
 **Kind**: instance method of [<code>BufferStream</code>](#BufferStream)  
 **Chainable**  
 **Returns**: [<code>BufferStream</code>](#BufferStream) - the re-split buffer stream.  
+**Test**: test/methods/buffer-stream-split.js  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | splitter | <code>String</code> \| <code>Buffer</code> | the buffer or string that the stream                                  should be split by. |
 
-**Example**  
-```js
-[../samples/buffer-stream-split.js](../samples/buffer-stream-split.js)
-```
 <a name="BufferStream+breakup"></a>
 
 ### bufferStream.breakup(number) : BufferStream ↺
@@ -92,15 +86,12 @@ Breaks up a stream apart into chunks of the specified length
 **Kind**: instance method of [<code>BufferStream</code>](#BufferStream)  
 **Chainable**  
 **Returns**: [<code>BufferStream</code>](#BufferStream) - the resulting buffer stream.  
+**Test**: test/methods/buffer-stream-breakup.js  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | number | <code>Number</code> | the desired chunk length |
 
-**Example**  
-```js
-[../samples/buffer-stream-breakup.js](../samples/buffer-stream-breakup.js)
-```
 <a name="BufferStream+stringify"></a>
 
 ### bufferStream.stringify(encoding) : StringStream
@@ -111,15 +102,12 @@ stream so you can do all your transforms when you like.
 
 **Kind**: instance method of [<code>BufferStream</code>](#BufferStream)  
 **Returns**: <code>StringStream</code> - The converted stream.  
+**Test**: test/methods/buffer-stream-tostringstream.js  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | encoding | <code>String</code> | The encoding to be used to convert the buffers                           to streams. |
 
-**Example**  
-```js
-[../samples/buffer-stream-tostringstream.js](../samples/buffer-stream-tostringstream.js)
-```
 <a name="BufferStream+parse"></a>
 
 ### bufferStream.parse(parser) : DataStream
@@ -130,15 +118,12 @@ stream here should already be split or broken up.
 
 **Kind**: instance method of [<code>BufferStream</code>](#BufferStream)  
 **Returns**: <code>DataStream</code> - The parsed objects stream.  
+**Test**: test/methods/buffer-stream-parse.js  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | parser | [<code>ParseCallback</code>](#ParseCallback) | The transform function |
 
-**Example**  
-```js
-[../samples/buffer-stream-parse.js](../samples/buffer-stream-parse.js)
-```
 <a name="BufferStream+toStringStream"></a>
 
 ### bufferStream.toStringStream(encoding) : StringStream
@@ -149,15 +134,12 @@ stream so you can do all your transforms when you like.
 
 **Kind**: instance method of [<code>BufferStream</code>](#BufferStream)  
 **Returns**: <code>StringStream</code> - The converted stream.  
+**Test**: test/methods/buffer-stream-tostringstream.js  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | encoding | <code>String</code> | The encoding to be used to convert the buffers                           to streams. |
 
-**Example**  
-```js
-[../samples/buffer-stream-tostringstream.js](../samples/buffer-stream-tostringstream.js)
-```
 <a name="BufferStream+pop"></a>
 
 ### bufferStream.pop(chars, func) : BufferStream ↺
@@ -169,16 +151,13 @@ the given number of bytes.
 **Kind**: instance method of [<code>BufferStream</code>](#BufferStream)  
 **Chainable**  
 **Returns**: [<code>BufferStream</code>](#BufferStream) - substream  
+**Test**: test/methods/string-stream-shift.js  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | chars | <code>Number</code> | The number of bytes to shift |
 | func | [<code>ShiftCallback</code>](#ShiftCallback) | Function that receives a string of shifted bytes |
 
-**Example**  
-```js
-[../samples/string-stream-shift.js](../samples/string-stream-shift.js)
-```
 <a name="BufferStream+toDataStream"></a>
 
 ### bufferStream.toDataStream(parser) : DataStream
@@ -189,15 +168,12 @@ stream here should already be split or broken up.
 
 **Kind**: instance method of [<code>BufferStream</code>](#BufferStream)  
 **Returns**: <code>DataStream</code> - The parsed objects stream.  
+**Test**: test/methods/buffer-stream-parse.js  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | parser | [<code>ParseCallback</code>](#ParseCallback) | The transform function |
 
-**Example**  
-```js
-[../samples/buffer-stream-parse.js](../samples/buffer-stream-parse.js)
-```
 <a name="BufferStream.from"></a>
 
 ### BufferStream:from(str, options) : BufferStream

@@ -56,15 +56,12 @@ by the callback.
 **Kind**: instance method of [<code>MultiStream</code>](#MultiStream)  
 **Chainable**  
 **Returns**: [<code>MultiStream</code>](#MultiStream) - the mapped instance  
+**Test**: test/methods/multi-stream-map.js  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | aFunc | <code>MapCallback</code> | Mapper ran in Promise::then (so you can                                  return a promise or an object) |
 
-**Example**  
-```js
-[../samples/multi-stream-map.js](../samples/multi-stream-map.js)
-```
 <a name="MultiStream+find"></a>
 
 ### multiStream.find(...args) : DataStream
@@ -86,15 +83,12 @@ streams for which the callback returned true
 **Kind**: instance method of [<code>MultiStream</code>](#MultiStream)  
 **Chainable**  
 **Returns**: [<code>MultiStream</code>](#MultiStream) - the filtered instance  
+**Test**: test/methods/multi-stream-filter.js  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | func | <code>TransformFunction</code> | Filter ran in Promise::then (so you can                                  return a promise or a boolean) |
 
-**Example**  
-```js
-[../samples/multi-stream-filter.js](../samples/multi-stream-filter.js)
-```
 <a name="MultiStream+mux"></a>
 
 ### multiStream.mux(cmp) : DataStream
@@ -102,6 +96,7 @@ Muxes the streams into a single one
 
 **Kind**: instance method of [<code>MultiStream</code>](#MultiStream)  
 **Returns**: <code>DataStream</code> - The resulting DataStream  
+**Test**: test/methods/multi-stream-mux.js  
 **Todo**
 
 - [ ] For now using comparator will not affect the mergesort.
@@ -114,10 +109,6 @@ Muxes the streams into a single one
 | --- | --- | --- |
 | cmp | <code>ComparatorFunction</code> | Should return -1 0 or 1 depending on the                                  desired order. If passed the chunks will                                  be added in a sorted order. |
 
-**Example**  
-```js
-[../samples/multi-stream-mux.js](../samples/multi-stream-mux.js)
-```
 <a name="MultiStream+add"></a>
 
 ### multiStream.add(stream)
@@ -128,15 +119,12 @@ same transorms and conditions as if it was added in constructor.
 
 **Kind**: instance method of [<code>MultiStream</code>](#MultiStream)  
 **Meta.noreadme**:   
+**Test**: test/methods/multi-stream-add.js  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | stream | <code>stream.Readable</code> | [description] |
 
-**Example**  
-```js
-[../samples/multi-stream-add.js](../samples/multi-stream-add.js)
-```
 <a name="MultiStream+remove"></a>
 
 ### multiStream.remove(stream)
@@ -147,15 +135,12 @@ streams.
 
 **Kind**: instance method of [<code>MultiStream</code>](#MultiStream)  
 **Meta.noreadme**:   
+**Test**: test/methods/multi-stream-remove.js  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | stream | <code>stream.Readable</code> | [description] |
 
-**Example**  
-```js
-[../samples/multi-stream-remove.js](../samples/multi-stream-remove.js)
-```
 <a name="MultiStream+route"></a>
 
 ### multiStream.route([policy], [count]) : MultiStream

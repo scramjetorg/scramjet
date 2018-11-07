@@ -2,6 +2,19 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
+* 24876a5 - Dependencies update.
+* 9543217 - Add scramjet-core@4.16.16
+* 283ac76 - Move tests to better placed directory
+* 64a5be1 - Change license from GPL to MIT in a sample.
+
+## Scramjet 4.18.15 - 4.18.15: Fix ts.d exports
+
+* cd18dec - Fix build message levels
+* ba7410b - Dependencies update.
+* 5f7cb48 - new Stackoverflow example
+* 7caf5cd - Fix typescript definitions
+* 66e8b62 - Create CODE_OF_CONDUCT.md
+
 ## Scramjet 4.18.14 - fix dependencies
 
 * b59db1e - Fix dependencies breaking empty
