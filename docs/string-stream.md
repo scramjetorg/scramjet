@@ -52,16 +52,13 @@ the given number of characters.
 
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
 **Chainable**  
+**Test**: test/methods/string-stream-shift.js  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | bytes | <code>Number</code> | The number of characters to shift. |
 | func | [<code>ShiftCallback</code>](#ShiftCallback) | Function that receives a string of shifted chars. |
 
-**Example**  
-```js
-[../samples/string-stream-shift.js](../samples/string-stream-shift.js)
-```
 <a name="StringStream+split"></a>
 
 ### stringStream.split(splitter) ↺
@@ -69,15 +66,12 @@ Splits the string stream by the specified regexp or string
 
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
 **Chainable**  
+**Test**: test/methods/string-stream-split.js  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | splitter | <code>RegExp</code> \| <code>String</code> | What to split by |
 
-**Example**  
-```js
-[../samples/string-stream-split.js](../samples/string-stream-split.js)
-```
 <a name="StringStream+match"></a>
 
 ### stringStream.match(matcher) ↺
@@ -85,15 +79,12 @@ Finds matches in the string stream and streams the match results
 
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
 **Chainable**  
+**Test**: test/methods/string-stream-match.js  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | matcher | <code>RegExp</code> | A function that will be called for every                             stream chunk. |
 
-**Example**  
-```js
-[../samples/string-stream-match.js](../samples/string-stream-match.js)
-```
 <a name="StringStream+toBufferStream"></a>
 
 ### stringStream.toBufferStream() : BufferStream ↺
@@ -107,10 +98,7 @@ all your transforms when you like.
 **Chainable**  
 **Returns**: <code>BufferStream</code> - The converted stream.  
 **Meta.noreadme**:   
-**Example**  
-```js
-[../samples/string-stream-tobufferstream.js](../samples/string-stream-tobufferstream.js)
-```
+**Test**: test/methods/string-stream-tobufferstream.js  
 <a name="StringStream+parse"></a>
 
 ### stringStream.parse(parser) : DataStream ↺
@@ -122,15 +110,12 @@ stream here should already be split.
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
 **Chainable**  
 **Returns**: <code>DataStream</code> - The parsed objects stream.  
+**Test**: test/methods/string-stream-parse.js  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | parser | [<code>ParseCallback</code>](#ParseCallback) | The transform function |
 
-**Example**  
-```js
-[../samples/string-stream-parse.js](../samples/string-stream-parse.js)
-```
 <a name="StringStream+toDataStream"></a>
 
 ### stringStream.toDataStream()
@@ -144,15 +129,12 @@ Splits the string stream by the specified regexp or string
 
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
 **Chainable**  
+**Test**: test/methods/string-stream-split.js  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [eol] | <code>String</code> | <code>/\r?\n/</code> | End of line string |
 
-**Example**  
-```js
-[../samples/string-stream-split.js](../samples/string-stream-split.js)
-```
 <a name="StringStream+JSONParse"></a>
 
 ### stringStream.JSONParse(perLine) : DataStream ↺
@@ -175,15 +157,12 @@ Parses CSV to DataString using 'papaparse' module.
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
 **Chainable**  
 **Returns**: <code>DataStream</code> - stream of parsed items  
+**Test**: test/methods/data-stream-separate.js  
 
 | Param | Description |
 | --- | --- |
 | options | options for the papaparse.parse method. |
 
-**Example**  
-```js
-[../samples/data-stream-separate.js](../samples/data-stream-separate.js)
-```
 <a name="StringStream+append"></a>
 
 ### stringStream.append(arg) ↺
@@ -191,15 +170,12 @@ Appends given argument to all the items.
 
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
 **Chainable**  
+**Test**: test/methods/string-stream-append.js  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | arg | <code>function</code> \| <code>String</code> | the argument to append. If function passed then it will be called and resolved and the resolution will be appended. |
 
-**Example**  
-```js
-[../samples/string-stream-append.js](../samples/string-stream-append.js)
-```
 <a name="StringStream+prepend"></a>
 
 ### stringStream.prepend(arg) ↺
@@ -207,15 +183,12 @@ Prepends given argument to all the items.
 
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
 **Chainable**  
+**Test**: test/methods/string-stream-prepend.js  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | arg | <code>function</code> \| <code>String</code> | the argument to prepend. If function passed then it will be called and resolved                              and the resolution will be prepended. |
 
-**Example**  
-```js
-[../samples/string-stream-prepend.js](../samples/string-stream-prepend.js)
-```
 <a name="StringStream+pop"></a>
 
 ### stringStream.pop(bytes, func) ↺
@@ -226,16 +199,13 @@ the given number of characters.
 
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
 **Chainable**  
+**Test**: test/methods/string-stream-shift.js  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | bytes | <code>Number</code> | The number of characters to shift. |
 | func | [<code>ShiftCallback</code>](#ShiftCallback) | Function that receives a string of shifted chars. |
 
-**Example**  
-```js
-[../samples/string-stream-shift.js](../samples/string-stream-shift.js)
-```
 <a name="StringStream.SPLIT_LINE"></a>
 
 ### StringStream:SPLIT_LINE

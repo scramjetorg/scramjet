@@ -138,15 +138,12 @@ Creates a DataStream from an Array
 Add a global plugin to scramjet - injects mixins into prototypes.
 
 **Kind**: static method of [<code>scramjet</code>](#module_scramjet)  
+**Test**: test/methods/scramjet-plugin.js  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | mixin | <code>ScramjetPlugin</code> | the plugin object |
 
-**Example**  
-```js
-[../samples/scramjet-plugin.js](../samples/scramjet-plugin.js)
-```
 <a name="module_scramjet.API"></a>
 
 ### scramjet:API(version) : scramjet
