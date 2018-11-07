@@ -22,7 +22,7 @@
     "windows-cpu": "^1.0.0"
   },
   "dependencies": {
-    "browserify": "^16.2.2",
+    "browserify": "^16.2.3",
     "mergesort-stream": "^1.0.1"
   }
 }

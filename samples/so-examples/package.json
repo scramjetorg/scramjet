@@ -9,9 +9,9 @@
   "author": "Signicode <opensource@signicode.com>",
   "license": "MIT",
   "dependencies": {
-    "html-to-text": "^4.0.0",
-    "node-fetch": "^2.1.2",
+    "html-to-text": "*",
+    "node-fetch": "*",
     "scramjet": "file:../../",
-    "wordcount": "^1.1.1"
+    "wordcount": "*"
   }
 }
