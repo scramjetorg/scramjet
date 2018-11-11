@@ -1,4 +1,5 @@
 ![Scramjet Logo](https://signicode.com/scramjet-logo-light.svg)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsignicode%2Fscramjet.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsignicode%2Fscramjet?ref=badge_shield)
 
 **Version 4**
 
@@ -377,6 +378,9 @@ Only the most vital methods there, but the library is dependency free.
 ## License and contributions
 
 As of version 2.0 Scramjet is MIT Licensed.
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsignicode%2Fscramjet.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsignicode%2Fscramjet?ref=badge_large)
 
 ## Help wanted
 
