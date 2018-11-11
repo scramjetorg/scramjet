@@ -11,14 +11,10 @@
 [![DeepScan grade](https://deepscan.io/api/projects/2632/branches/17801/badge/grade.svg)](https://deepscan.io/dashboard#view=project&pid=2632&bid=17801)
 
 ## What does it do?
-
 Scramjet is a fast, simple, multi-threaded functional stream programming framework written on top of node.js object
-streams. It exposes a standards inspired javascript API and written fully in native ES6. Thanks to it some built in
-optimizations scramjet is much faster and much much simpler than similar frameworks when using asynchronous operations.
-
-It is built upon the logic behind three well known javascript array operations - namingly map, filter and reduce. This
-means that if you've ever performed operations on an Array in JavaScript - you already know Scramjet like the back of
-your hand.
+streams. The code is written by chaining functions that transform the streamed data, including well known map, filter and
+reduce and fully compatible with ES7 async/await. Thanks to it some built in optimizations scramjet is much faster and much
+much simpler than similar frameworks when using asynchronous operations.
 
 The main advantage of scramjet is running asynchronous operations on your data streams. First of all it allows you to
 perform the transformations both synchronously and asynchronously by using the same API - so now you can "map" your
