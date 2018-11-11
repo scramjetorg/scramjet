@@ -1,5 +1,4 @@
 ![Scramjet Logo](https://signicode.com/scramjet-logo-light.svg)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsignicode%2Fscramjet.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsignicode%2Fscramjet?ref=badge_shield)
 
 **Version 4**
 
@@ -7,6 +6,7 @@
 [![Develop Build Status](https://travis-ci.org/signicode/scramjet.svg?branch=develop)](https://travis-ci.org/signicode/scramjet)
 [![Dependencies](https://david-dm.org/signicode/scramjet/status.svg)](https://david-dm.org/signicode/scramjet)
 [![Dev Dependencies](https://david-dm.org/signicode/scramjet/dev-status.svg)](https://david-dm.org/signicode/scramjet?type=dev)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsignicode%2Fscramjet.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsignicode%2Fscramjet?ref=badge_shield)
 [![Known Vulnerabilities](https://snyk.io/test/github/signicode/scramjet/badge.svg)](https://snyk.io/test/github/signicode/scramjet)
 [![Greenkeeper badge](https://badges.greenkeeper.io/signicode/scramjet.svg)](https://greenkeeper.io/)
 [![DeepScan grade](https://deepscan.io/api/projects/2632/branches/17801/badge/grade.svg)](https://deepscan.io/dashboard#view=project&pid=2632&bid=17801)
@@ -379,8 +379,7 @@ Only the most vital methods there, but the library is dependency free.
 
 As of version 2.0 Scramjet is MIT Licensed.
 
-
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsignicode%2Fscramjet.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsignicode%2Fscramjet?ref=badge_large)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsignicode%2Fscramjet-core.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsignicode%2Fscramjet-core?ref=badge_large)
 
 ## Help wanted
 
