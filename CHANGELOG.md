@@ -2,6 +2,31 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
+## Scramjet 4.19.0 - 4.19.0: Add pipeline method to all streams.
+
+* a3512ac - Adds `pipeline` method to all streams. Allow async functions in `use`.
+* 24876a5 - Dependencies update.
+* 9543217 - Add scramjet-core@4.17
+* 283ac76 - Move tests to better placed directory
+* 64a5be1 - Change license from GPL to MIT in a sample.
+
+## Scramjet 4.18.18 - 4.18.18: Dependencies update
+
+* cab2965 - Dependencies update.
+* ab25dd0 - Fix fossa badge location
+* d56b270 - Add license scan report and status
+
+## Scramjet 4.18.17 - 4.18.17: Fix iterator error handling
+
+* 637c177 - Dependencies update.
+* f71c98d - Rewording in readme
+* ffca114 - Add a sample from stackoverflow
+* 7bf257a - Remove problematic packages
+
+## Scramjet 4.18.16 - 4.18.16: Fix from
+
+* f9dcfbc - Docs update
+* c9b240a - Changelog update
 * 24876a5 - Dependencies update.
 * 9543217 - Add scramjet-core@4.16.16
 * 283ac76 - Move tests to better placed directory

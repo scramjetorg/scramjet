@@ -62,13 +62,44 @@ StringStream.from(                                 // fetch your API to a scramj
 
 ## Usage
 
-Scramjet uses functional programming to run transformations on your data streams in a fashion very similar to the well
-known event-stream node module. Most transformations are done by passing a transform function. You can write your
-function in three ways:
+Scramjet uses functional programming to run transformations on your data streams in a fashion
+very similar to the well known event-stream node module. First create a stream from a source:
+
+Use `DataStream.from(someThing)` to create a new stream from an Array, Generator, AsyncGenerator,
+Iterator or Readable stream. See the [DataStream.from docs](docs/data-stream.md#DataStream.from)
+for more information, here's a sample.
+
+```javascript
+/* global StringStream, fs */
+StringStream
+    .from(fs.createReadStream("./log.txt"))     // get from any readable stream
+    .lines()                                 // split the stream by line
+    .use("./your-file")                      // use some trasforms from another file
+;
+
+```
+
+Use `DataStream.pipeline(readable, transforms)` to create a pipeline of transform streams and/or
+stream modules. Any number of consecutive arguments will get piped one into another.
+
+```javascript
+/* global StringStream, fs, gzip */
+StringStream
+    .pipeline(                              // process a number of streams
+        fs.createReadStream("./log.txt.gz"),
+        gzip.unzip()                        // all errors here will get forwarded
+    )
+    .lines()                                // split the stream by line
+    .use("./your-file")                     // use some trasforms from another file
+;
+
+```
+
+Most transformations are done by passing a transform function. You can write your function in three ways:
 
 1. Synchronous
 
- Example: a simple stream transform that outputs a stream of objects of the same id property and the length of the value string.
+Example: a simple stream transform that outputs a stream of objects of the same id property and the length of the value string.
 
  ```javascript
 DataStream
@@ -125,6 +156,29 @@ To distribute your code among the processor cores, just use the method ```distri
     )
  ```
 
+## Writing modules
+
+Scramjet allows writing simple modules that are resolved in the same way as node's `require`. A module
+is a simple javascript file that exposes a function taking a stream and any number of following arguments
+as default export.
+
+Here's an example:
+
+```javascript
+module.exports = (stream, arg1) => {
+    const mapper = (chunk) => mapper(chunk, arg1);
+    return stream.map(mapper);
+}
+```
+
+Then it can be used with `DataStream.use` function like this:
+
+```javascript
+myStream.use("./path/to/my-module", "arg1");
+```
+
+If these modules are published you can also simply use `myStream.use("published-module")`.
+
 ## Typescript support
 
 Scramjet aims to be fully documented and expose TypeScript declarations. First version to include  definitions in `.d.ts`
@@ -179,7 +233,7 @@ await (DataStream.from(aStream) // create a DataStream
 
 * `new DataStream(opts)` - Create the DataStream.
 * [`dataStream.map(func, Clazz) ↺`](docs/data-stream.md#DataStream+map) - Transforms stream objects into new ones, just like Array.prototype.map
-* [`dataStream.filter(func) ↺`](docs/data-stream.md#DataStream+filter) - Filters object based on the function outcome, just like
+* [`dataStream.filter(func) ↺`](docs/data-stream.md#DataStream+filter) - Filters object based on the function outcome, just like Array.prototype.filter.
 * [`dataStream.reduce(func, into) ⇄`](docs/data-stream.md#DataStream+reduce) - Reduces the stream into a given accumulator
 * [`dataStream.do(func) ↺`](docs/data-stream.md#DataStream+do) - Perform an asynchroneous operation without changing or resuming the stream.
 * [`dataStream.into(func, into) ↺`](docs/data-stream.md#DataStream+into) - Allows own implementation of stream chaining.
@@ -236,7 +290,8 @@ await (DataStream.from(aStream) // create a DataStream
 * [`dataStream.debug(func) : DataStream ↺`](docs/data-stream.md#DataStream+debug) - Injects a ```debugger``` statement when called.
 * [`dataStream.toBufferStream(serializer) : BufferStream ↺`](docs/data-stream.md#DataStream+toBufferStream) - Creates a BufferStream
 * [`dataStream.toStringStream(serializer) : StringStream ↺`](docs/data-stream.md#DataStream+toStringStream) - Creates a StringStream
-* [`DataStream:from(str, options) : DataStream`](docs/data-stream.md#DataStream.from) - Returns a DataStream from pretty much anything sensibly possible.
+* [`DataStream:from(input, options) : DataStream`](docs/data-stream.md#DataStream.from) - Returns a DataStream from pretty much anything sensibly possible.
+* [`DataStream:pipeline(readable, ...transforms) : DataStream`](docs/data-stream.md#DataStream.pipeline) - Creates a pipeline of streams and returns a scramjet stream.
 * [`DataStream:fromArray(arr) : DataStream`](docs/data-stream.md#DataStream.fromArray) - Create a DataStream from an Array
 * [`DataStream:fromIterator(iter) : DataStream`](docs/data-stream.md#DataStream.fromIterator) - Create a DataStream from an Iterator
 
@@ -270,6 +325,7 @@ StringStream.fromString()
 * [`stringStream.pop(bytes, func) ↺`](docs/string-stream.md#StringStream+pop) - Shifts given length of chars from the original stream
 * [`StringStream:SPLIT_LINE`](docs/string-stream.md#StringStream.SPLIT_LINE) - A handly split by line regex to quickly get a line-by-line stream
 * [`StringStream:fromString(str, encoding) : StringStream`](docs/string-stream.md#StringStream.fromString) - Creates a StringStream and writes a specific string.
+* [`StringStream:pipeline(readable, transforms) : StringStream`](docs/string-stream.md#StringStream.pipeline) - Creates a pipeline of streams and returns a scramjet stream.
 * [`StringStream:from(str, options) : StringStream`](docs/string-stream.md#StringStream.from) - Create StringStream from anything.
 
 ### BufferStream
@@ -305,6 +361,7 @@ A simple use case would be:
 * [`bufferStream.toStringStream(encoding) : StringStream`](docs/buffer-stream.md#BufferStream+toStringStream) - Creates a string stream from the given buffer stream
 * [`bufferStream.pop(chars, func) : BufferStream ↺`](docs/buffer-stream.md#BufferStream+pop) - Shift given number of bytes from the original stream
 * [`bufferStream.toDataStream(parser) : DataStream`](docs/buffer-stream.md#BufferStream+toDataStream) - Parses every buffer to object
+* [`BufferStream:pipeline(readable, transforms) : BufferStream`](docs/buffer-stream.md#BufferStream.pipeline) - Creates a pipeline of streams and returns a scramjet stream.
 * [`BufferStream:from(str, options) : BufferStream`](docs/buffer-stream.md#BufferStream.from) - Create BufferStream from anything.
 
 ### MultiStream

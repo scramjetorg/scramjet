@@ -130,24 +130,40 @@ declare module 'scramjet' {
          * * `AsyncGeneratorFunction` will also work as above (including generators) in node v10.
          * * `Iterable`s iterator will be used as a source for streams
          * 
-         * You can also pass a `Function` or `AsyncFunction` that will result in anything passed to `from`
-         * subsequently. You can use your stream immediately though.
-         * @param str argument to be turned into new stream
+         * You can also pass a `Function` or `AsyncFunction` that will be executed and it's outcome will be
+         * passed again to `from` and piped to the initially returned stream. Any addtional arguments will be
+         * passed as arguments to the function.
+         * 
+         * If a `String` is passed, scramjet will attempt to resolve it as a module and use the outcome
+         * as an argument to `from` as in the Function case described above.
+         * @param input argument to be turned into new stream
          * @param options
          */
-        static from(str: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, options: StreamOptions | Writable): DataStream;
+        static from(input: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, options: StreamOptions | Writable): DataStream;
 
         /**
          * Transforms stream objects into new ones, just like Array.prototype.map
          * does.
+         * 
+         * Map takes an argument which is the callback function operating on every element
+         * of the stream. If the function returns a Promise or is an AsyncFunction then the
+         * stream will await for the outcome of the operation before pushing the data forwards.
+         * 
+         * Multiple subsequent map operations (as well as filter, do, each and other simple ops)
+         * will be merged together into a single operation to improve performance. Such behavior
+         * can be surpressed by chaining `.tap()` after `.map()`.
          * @param func The function that creates the new object
          * @param Clazz (optional) The class to be mapped to.
          */
         map(func: MapCallback, Clazz: Class): DataStream;
 
         /**
-         * Filters object based on the function outcome, just like
-         * Array.prototype.filter.
+         * Filters object based on the function outcome, just like Array.prototype.filter.
+         * 
+         * Filter takes a callback argument which should be a Function or an AsyncFunction that
+         * will be called on each stream item. If the outcome of the operation is `falsy` (`0`, `''`,
+         * `false`, `null` or `undefined`) the item will be filtered from subsequent operations
+         * and will not be pushed to the output of the stream. Otherwise the item will not be affected.
          * @param func The function that filters the object
          */
         filter(func: FilterCallback): DataStream;
@@ -195,15 +211,33 @@ declare module 'scramjet' {
          * The main intention of this method is to run scramjet modules - transforms that allow complex transforms of
          * streams. These modules can also be run with [scramjet-cli](https://github.com/signicode/scramjet-cli) directly
          * from the command line.
-         * @param func if passed, the function will be called on self to add an option to inspect the stream in place, while not breaking the transform chain. Alternatively this can be a relative path to a scramjet-module.
+         * @param func if passed, the function will be called on self to add an option to inspect the stream in place, while not breaking the transform chain. Alternatively this can be a relative path to a scramjet-module. Lastly it can be a Transform stream.
          * @param ...args any additional args top be passed to the module
          */
-        use(func: Function | String, ...args?: any): DataStream;
+        use(func: Function | String | Transform, ...args?: any): DataStream;
 
         /**
          * Consumes all stream items doing nothing. Resolves when the stream is ended.
          */
         run(): Promise;
+
+        /**
+         * Creates a pipeline of streams and returns a scramjet stream.
+         * 
+         * This is similar to node.js stream pipeline method, but also takes scramjet modules
+         * as possibilities in an array of transforms. It may be used to run a series of non-scramjet
+         * transform streams.
+         * 
+         * The first argument is anything streamable and will be sanitized by {@link DataStream..from}.
+         * 
+         * Each following argument will be understood as a transform and can be any of:
+         * * AsyncFunction or Function - will be executed by {@link DataStream..use}
+         * * A transform stream that will be piped to the preceding stream
+         * @param readable the initial readable argument that is streamable by scramjet.from
+         * @param transforms Transform functions (as in {@link DataStream..use}) or Transform streams (any number of these as consecutive arguments)
+         * @returns a new DataStream instance of the resulting pipeline
+         */
+        static pipeline(readable: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, ...transforms: AsyncFunction | Function | Transform): DataStream;
 
         /**
          * Stops merging transform callbacks at the current place in the command chain.
@@ -689,6 +723,15 @@ declare module 'scramjet' {
         static fromString(str: String, encoding: String): StringStream;
 
         /**
+         * Creates a pipeline of streams and returns a scramjet stream.
+         * @see DataStream.pipeline
+         * @param readable the initial readable argument that is streamable by scramjet.from
+         * @param transforms Transform functions (as in {@link DataStream..use}) or Transform streams (any number of these as consecutive arguments)
+         * @returns a new StringStream instance of the resulting pipeline
+         */
+        static pipeline(readable: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, transforms: AsyncFunction | Function | Transform): StringStream;
+
+        /**
          * Create StringStream from anything.
          * @see DataStream.from
          * @see module:scramjet.from
@@ -818,6 +861,15 @@ declare module 'scramjet' {
          * @param parser The transform function
          */
         parse(parser: ParseCallback): DataStream;
+
+        /**
+         * Creates a pipeline of streams and returns a scramjet stream.
+         * @see DataStream.pipeline
+         * @param readable the initial readable argument that is streamable by scramjet.from
+         * @param transforms Transform functions (as in {@link DataStream..use}) or Transform streams (any number of these as consecutive arguments)
+         * @returns a new StringStream instance of the resulting pipeline
+         */
+        static pipeline(readable: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, transforms: AsyncFunction | Function | Transform): BufferStream;
 
         /**
          * Create BufferStream from anything.

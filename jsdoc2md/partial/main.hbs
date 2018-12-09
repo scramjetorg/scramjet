@@ -37,13 +37,29 @@ pushing them to another API? With simultaneous request control? And outputting t
 
 ## Usage
 
-Scramjet uses functional programming to run transformations on your data streams in a fashion very similar to the well
-known event-stream node module. Most transformations are done by passing a transform function. You can write your
-function in three ways:
+Scramjet uses functional programming to run transformations on your data streams in a fashion
+very similar to the well known event-stream node module. First create a stream from a source:
+
+Use `DataStream.from(someThing)` to create a new stream from an Array, Generator, AsyncGenerator,
+Iterator or Readable stream. See the [DataStream.from docs](docs/data-stream.md#DataStream.from)
+for more information, here's a sample.
+
+```javascript
+{{{inject 'samples/intro/from.js'}}}
+```
+
+Use `DataStream.pipeline(readable, transforms)` to create a pipeline of transform streams and/or
+stream modules. Any number of consecutive arguments will get piped one into another.
+
+```javascript
+{{{inject 'samples/intro/pipeline.js'}}}
+```
+
+Most transformations are done by passing a transform function. You can write your function in three ways:
 
 1. Synchronous
 
- Example: a simple stream transform that outputs a stream of objects of the same id property and the length of the value string.
+Example: a simple stream transform that outputs a stream of objects of the same id property and the length of the value string.
 
  ```javascript
 DataStream
@@ -99,6 +115,29 @@ To distribute your code among the processor cores, just use the method ```distri
         }
     )
  ```
+
+## Writing modules
+
+Scramjet allows writing simple modules that are resolved in the same way as node's `require`. A module
+is a simple javascript file that exposes a function taking a stream and any number of following arguments
+as default export.
+
+Here's an example:
+
+```javascript
+module.exports = (stream, arg1) => {
+    const mapper = (chunk) => mapper(chunk, arg1);
+    return stream.map(mapper);
+}
+```
+
+Then it can be used with `DataStream.use` function like this:
+
+```javascript
+myStream.use("./path/to/my-module", "arg1");
+```
+
+If these modules are published you can also simply use `myStream.use("published-module")`.
 
 ## Typescript support
 
