@@ -34,6 +34,7 @@ A simple use case would be:
     * [bufferStream.toStringStream(encoding)](#BufferStream+toStringStream)  <code>StringStream</code>
     * [bufferStream.pop(chars, func)](#BufferStream+pop) ↺ [<code>BufferStream</code>](#BufferStream)
     * [bufferStream.toDataStream(parser)](#BufferStream+toDataStream)  <code>DataStream</code>
+    * [BufferStream:pipeline(readable, transforms)](#BufferStream.pipeline)  [<code>BufferStream</code>](#BufferStream)
     * [BufferStream:from(str, options)](#BufferStream.from)  [<code>BufferStream</code>](#BufferStream)
 
 <a name="new_BufferStream_new"></a>
@@ -173,6 +174,20 @@ stream here should already be split or broken up.
 | Param | Type | Description |
 | --- | --- | --- |
 | parser | [<code>ParseCallback</code>](#ParseCallback) | The transform function |
+
+<a name="BufferStream.pipeline"></a>
+
+### BufferStream:pipeline(readable, transforms) : BufferStream
+Creates a pipeline of streams and returns a scramjet stream.
+
+**Kind**: static method of [<code>BufferStream</code>](#BufferStream)  
+**Returns**: [<code>BufferStream</code>](#BufferStream) - a new StringStream instance of the resulting pipeline  
+**See**: DataStream.pipeline  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| readable | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>String</code> \| <code>Readable</code> | the initial readable argument that is streamable by scramjet.from |
+| transforms | <code>AsyncFunction</code> \| <code>function</code> \| <code>Transform</code> | Transform functions (as in [DataStream..use](DataStream..use)) or Transform streams (any number of these as consecutive arguments) |
 
 <a name="BufferStream.from"></a>
 

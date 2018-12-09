@@ -81,7 +81,8 @@ await (DataStream.from(aStream) // create a DataStream
     * [dataStream.debug(func)](#DataStream+debug) ↺ [<code>DataStream</code>](#DataStream)
     * [dataStream.toBufferStream(serializer)](#DataStream+toBufferStream) ↺ <code>BufferStream</code>
     * [dataStream.toStringStream(serializer)](#DataStream+toStringStream) ↺ <code>StringStream</code>
-    * [DataStream:from(str, options)](#DataStream.from)  [<code>DataStream</code>](#DataStream)
+    * [DataStream:from(input, options)](#DataStream.from)  [<code>DataStream</code>](#DataStream)
+    * [DataStream:pipeline(readable, ...transforms)](#DataStream.pipeline)  [<code>DataStream</code>](#DataStream)
     * [DataStream:fromArray(arr)](#DataStream.fromArray)  [<code>DataStream</code>](#DataStream)
     * [DataStream:fromIterator(iter)](#DataStream.fromIterator)  [<code>DataStream</code>](#DataStream)
 
@@ -101,6 +102,14 @@ Create the DataStream.
 Transforms stream objects into new ones, just like Array.prototype.map
 does.
 
+Map takes an argument which is the callback function operating on every element
+of the stream. If the function returns a Promise or is an AsyncFunction then the
+stream will await for the outcome of the operation before pushing the data forwards.
+
+Multiple subsequent map operations (as well as filter, do, each and other simple ops)
+will be merged together into a single operation to improve performance. Such behavior
+can be surpressed by chaining `.tap()` after `.map()`.
+
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
 **Test**: test/methods/data-stream-map.js  
@@ -113,8 +122,12 @@ does.
 <a name="DataStream+filter"></a>
 
 ### dataStream.filter(func) ↺
-Filters object based on the function outcome, just like
-Array.prototype.filter.
+Filters object based on the function outcome, just like Array.prototype.filter.
+
+Filter takes a callback argument which should be a Function or an AsyncFunction that
+will be called on each stream item. If the outcome of the operation is `falsy` (`0`, `''`,
+`false`, `null` or `undefined`) the item will be filtered from subsequent operations
+and will not be pushed to the output of the stream. Otherwise the item will not be affected.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
@@ -195,7 +208,7 @@ from the command line.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>function</code> \| <code>String</code> | if passed, the function will be called on self to add an option to inspect the stream in place, while not breaking the transform chain. Alternatively this can be a relative path to a scramjet-module. |
+| func | <code>function</code> \| <code>String</code> \| <code>Transform</code> | if passed, the function will be called on self to add an option to inspect the stream in place, while not breaking the transform chain. Alternatively this can be a relative path to a scramjet-module. Lastly it can be a Transform stream. |
 | [...args] | <code>\*</code> | any additional args top be passed to the module |
 
 <a name="DataStream+run"></a>
@@ -940,7 +953,7 @@ Creates a StringStream
 
 <a name="DataStream.from"></a>
 
-### DataStream:from(str, options) : DataStream
+### DataStream:from(input, options) : DataStream
 Returns a DataStream from pretty much anything sensibly possible.
 
 Depending on type:
@@ -952,15 +965,42 @@ Depending on type:
 * `AsyncGeneratorFunction` will also work as above (including generators) in node v10.
 * `Iterable`s iterator will be used as a source for streams
 
-You can also pass a `Function` or `AsyncFunction` that will result in anything passed to `from`
-subsequently. You can use your stream immediately though.
+You can also pass a `Function` or `AsyncFunction` that will be executed and it's outcome will be
+passed again to `from` and piped to the initially returned stream. Any addtional arguments will be
+passed as arguments to the function.
+
+If a `String` is passed, scramjet will attempt to resolve it as a module and use the outcome
+as an argument to `from` as in the Function case described above.
 
 **Kind**: static method of [<code>DataStream</code>](#DataStream)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| str | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>String</code> \| <code>Readable</code> | argument to be turned into new stream |
+| input | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>String</code> \| <code>Readable</code> | argument to be turned into new stream |
 | options | [<code>StreamOptions</code>](#StreamOptions) \| <code>Writable</code> |  |
+
+<a name="DataStream.pipeline"></a>
+
+### DataStream:pipeline(readable, ...transforms) : DataStream
+Creates a pipeline of streams and returns a scramjet stream.
+
+This is similar to node.js stream pipeline method, but also takes scramjet modules
+as possibilities in an array of transforms. It may be used to run a series of non-scramjet
+transform streams.
+
+The first argument is anything streamable and will be sanitized by [DataStream..from](DataStream..from).
+
+Each following argument will be understood as a transform and can be any of:
+* AsyncFunction or Function - will be executed by [DataStream..use](DataStream..use)
+* A transform stream that will be piped to the preceding stream
+
+**Kind**: static method of [<code>DataStream</code>](#DataStream)  
+**Returns**: [<code>DataStream</code>](#DataStream) - a new DataStream instance of the resulting pipeline  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| readable | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>String</code> \| <code>Readable</code> | the initial readable argument that is streamable by scramjet.from |
+| ...transforms | <code>AsyncFunction</code> \| <code>function</code> \| <code>Transform</code> | Transform functions (as in [DataStream..use](DataStream..use)) or Transform streams (any number of these as consecutive arguments) |
 
 <a name="DataStream.fromArray"></a>
 

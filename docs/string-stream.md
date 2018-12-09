@@ -30,6 +30,7 @@ StringStream.fromString()
     * [stringStream.pop(bytes, func)](#StringStream+pop) ↺
     * [StringStream:SPLIT_LINE](#StringStream.SPLIT_LINE)
     * [StringStream:fromString(str, encoding)](#StringStream.fromString)  [<code>StringStream</code>](#StringStream)
+    * [StringStream:pipeline(readable, transforms)](#StringStream.pipeline)  [<code>StringStream</code>](#StringStream)
     * [StringStream:from(str, options)](#StringStream.from)  [<code>StringStream</code>](#StringStream)
 
 <a name="new_StringStream_new"></a>
@@ -224,6 +225,20 @@ Creates a StringStream and writes a specific string.
 | --- | --- | --- |
 | str | <code>String</code> | the string to push the your stream |
 | encoding | <code>String</code> | optional encoding |
+
+<a name="StringStream.pipeline"></a>
+
+### StringStream:pipeline(readable, transforms) : StringStream
+Creates a pipeline of streams and returns a scramjet stream.
+
+**Kind**: static method of [<code>StringStream</code>](#StringStream)  
+**Returns**: [<code>StringStream</code>](#StringStream) - a new StringStream instance of the resulting pipeline  
+**See**: DataStream.pipeline  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| readable | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>String</code> \| <code>Readable</code> | the initial readable argument that is streamable by scramjet.from |
+| transforms | <code>AsyncFunction</code> \| <code>function</code> \| <code>Transform</code> | Transform functions (as in [DataStream..use](DataStream..use)) or Transform streams (any number of these as consecutive arguments) |
 
 <a name="StringStream.from"></a>
 
