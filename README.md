@@ -198,8 +198,8 @@ Here's the list of the exposed classes and methods, please review the specific d
 
 Note that:
 
-* Most of the methods take a callback argument that operates on the stream items.
-* The callback, unless it's stated otherwise, will receive an argument with the next chunk.
+* Most of the methods take a Function as argument that operates on the stream items.
+* The Function, unless it's stated otherwise, will receive an argument with the next chunk.
 * If you want to perform your operations asynchronously, return a Promise, otherwise just return the right value.
 
 ## CLI
