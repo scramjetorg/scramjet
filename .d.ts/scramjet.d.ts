@@ -648,14 +648,6 @@ declare module 'scramjet' {
         delegate(delegateFunc: DelegateCallback, worker: WorkerStream, plugins?: any[]): DataStream;
 
         /**
-         * Limit the rate of the stream to a given number of chunks per second or given timeframe.
-         * @param cps Chunks per timeframe, the default timeframe is 1000 ms.
-         * @param options Options for the limitter controlling the timeframe and time source. Both must work on same units.
-         */
-        rate(cps: Number, options?: RateOptions): DataStream;
-
-
-        /**
          * Aggregates chunks in arrays given number of number of items long.
          * 
          * This can be used for microbatch processing.
@@ -854,21 +846,6 @@ declare module 'scramjet' {
          *        and the resolution will be prepended.
          */
         prepend(arg: Function | String): StringStream;
-
-
-        /**
-         * Executes a given subprocess with arguments and pipes the current stream into it while returning the output as another DataStream.
-         * 
-         * Pipes the current stream into the subprocesses stdin.
-         * The data is serialized and deserialized as JSON lines by default. You
-         * can provide your own alternative methods in the ExecOptions object.
-         * 
-         * Note: if you're piping both stderr and stdout (options.stream=3) keep in mind that chunks may get mixed up!
-         * @param cmd command to execute
-         * @param options options to be passed to `spawn` and defining serialization.
-         * @param args addtional arguments (will overwrite to SpawnOptions args even if not given)
-         */
-        exec(cmd: String, options: ExecOptions, args: String): void;
 
     }
 
@@ -1145,5 +1122,12 @@ declare interface StreamOptions {
      *                                 instead of creating a new stream)
      */
     referrer: DataStream;
+}
+
+declare interface ExecOptions {
+    /**
+     * (bitwise) the output stdio number to push out (defaults to stdout = 1)
+     */
+    stream?: number;
 }
 

@@ -294,6 +294,18 @@ await (DataStream.from(aStream) // create a DataStream
 * [`DataStream:pipeline(readable, ...transforms) : DataStream`](docs/data-stream.md#DataStream.pipeline) - Creates a pipeline of streams and returns a scramjet stream.
 * [`DataStream:fromArray(arr) : DataStream`](docs/data-stream.md#DataStream.fromArray) - Create a DataStream from an Array
 * [`DataStream:fromIterator(iter) : DataStream`](docs/data-stream.md#DataStream.fromIterator) - Create a DataStream from an Iterator
+* [`DataStream:MapCallback : Promise | *`](docs/data-stream.md#DataStream.MapCallback) - 
+* [`DataStream:FilterCallback : Promise | Boolean`](docs/data-stream.md#DataStream.FilterCallback) - 
+* [`DataStream:ReduceCallback : Promise | *`](docs/data-stream.md#DataStream.ReduceCallback) - 
+* [`DataStream:DoCallback : function ⇄`](docs/data-stream.md#DataStream.DoCallback) - 
+* [`DataStream:IntoCallback : * ⇄`](docs/data-stream.md#DataStream.IntoCallback) - 
+* [`DataStream:TeeCallback : function`](docs/data-stream.md#DataStream.TeeCallback) - 
+* [`DataStream:ShiftCallback : function`](docs/data-stream.md#DataStream.ShiftCallback) - Shift callback
+* [`DataStream:AccumulateCallback : Promise | *`](docs/data-stream.md#DataStream.AccumulateCallback) - 
+* [`DataStream:ConsumeCallback : Promise | *`](docs/data-stream.md#DataStream.ConsumeCallback) - 
+* [`DataStream:RemapCallback : Promise | *`](docs/data-stream.md#DataStream.RemapCallback) - 
+* [`DataStream:FlatMapCallback : Promise.<Iterable> | Iterable`](docs/data-stream.md#DataStream.FlatMapCallback) - 
+* [`DataStream:JoinCallback : Promise.<*> | *`](docs/data-stream.md#DataStream.JoinCallback) - 
 
 ### StringStream
 
@@ -327,6 +339,8 @@ StringStream.fromString()
 * [`StringStream:fromString(str, encoding) : StringStream`](docs/string-stream.md#StringStream.fromString) - Creates a StringStream and writes a specific string.
 * [`StringStream:pipeline(readable, transforms) : StringStream`](docs/string-stream.md#StringStream.pipeline) - Creates a pipeline of streams and returns a scramjet stream.
 * [`StringStream:from(str, options) : StringStream`](docs/string-stream.md#StringStream.from) - Create StringStream from anything.
+* [`StringStream:ShiftCallback : function`](docs/string-stream.md#StringStream.ShiftCallback) - 
+* [`StringStream:ParseCallback : Promise`](docs/string-stream.md#StringStream.ParseCallback) - 
 
 ### BufferStream
 
@@ -363,6 +377,8 @@ A simple use case would be:
 * [`bufferStream.toDataStream(parser) : DataStream`](docs/buffer-stream.md#BufferStream+toDataStream) - Parses every buffer to object
 * [`BufferStream:pipeline(readable, transforms) : BufferStream`](docs/buffer-stream.md#BufferStream.pipeline) - Creates a pipeline of streams and returns a scramjet stream.
 * [`BufferStream:from(str, options) : BufferStream`](docs/buffer-stream.md#BufferStream.from) - Create BufferStream from anything.
+* [`BufferStream:ShiftCallback : function`](docs/buffer-stream.md#BufferStream.ShiftCallback) - Shift callback
+* [`BufferStream:ParseCallback : Promise`](docs/buffer-stream.md#BufferStream.ParseCallback) - 
 
 ### MultiStream
 
@@ -384,6 +400,7 @@ An object consisting of multiple streams than can be refined or muxed.
 * [`multiStream.route([policy], [count]) : MultiStream`](docs/multi-stream.md#MultiStream+route) - Re-routes streams to a new MultiStream of specified size
 * [`multiStream.smap(transform) ↺`](docs/multi-stream.md#MultiStream+smap) - Map stream synchronously
 * [`multiStream.cluster(clusterFunc, options) ↺`](docs/multi-stream.md#MultiStream+cluster) - Distributes processing to multiple forked subprocesses.
+* [`MultiStream:DistributeOptions`](docs/multi-stream.md#MultiStream.DistributeOptions) - Distribute options
 
 ### NumberStream
 
@@ -398,6 +415,7 @@ provides simple methods like `sum`, `average`. It derives from DataStream so it'
 * `new NumberStream(options)` - Creates an instance of NumberStream.
 * [`numberStream.sum() : Number ⇄`](docs/number-stream.md#NumberStream+sum) - Calculates the sum of all items in the stream.
 * [`numberStream.avg() : Number ⇄`](docs/number-stream.md#NumberStream+avg) - Calculates the sum of all items in the stream.
+* [`NumberStream:NumberStreamOptions : DataStreamOptions`](docs/number-stream.md#NumberStream.NumberStreamOptions) - NumberStream options
 
 ### WindowStream
 

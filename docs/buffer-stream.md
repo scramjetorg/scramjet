@@ -36,6 +36,8 @@ A simple use case would be:
     * [bufferStream.toDataStream(parser)](#BufferStream+toDataStream)  <code>DataStream</code>
     * [BufferStream:pipeline(readable, transforms)](#BufferStream.pipeline)  [<code>BufferStream</code>](#BufferStream)
     * [BufferStream:from(str, options)](#BufferStream.from)  [<code>BufferStream</code>](#BufferStream)
+    * [BufferStream:ShiftCallback](#BufferStream.ShiftCallback)  <code>function</code>
+    * [BufferStream:ParseCallback](#BufferStream.ParseCallback)  <code>Promise</code>
 
 <a name="new_BufferStream_new"></a>
 
@@ -63,7 +65,7 @@ the given number of bytes.
 | Param | Type | Description |
 | --- | --- | --- |
 | chars | <code>Number</code> | The number of bytes to shift |
-| func | [<code>ShiftCallback</code>](#ShiftCallback) | Function that receives a string of shifted bytes |
+| func | <code>ShiftCallback</code> | Function that receives a string of shifted bytes |
 
 <a name="BufferStream+split"></a>
 
@@ -123,7 +125,7 @@ stream here should already be split or broken up.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| parser | [<code>ParseCallback</code>](#ParseCallback) | The transform function |
+| parser | <code>ParseCallback</code> | The transform function |
 
 <a name="BufferStream+toStringStream"></a>
 
@@ -157,7 +159,7 @@ the given number of bytes.
 | Param | Type | Description |
 | --- | --- | --- |
 | chars | <code>Number</code> | The number of bytes to shift |
-| func | [<code>ShiftCallback</code>](#ShiftCallback) | Function that receives a string of shifted bytes |
+| func | <code>ShiftCallback</code> | Function that receives a string of shifted bytes |
 
 <a name="BufferStream+toDataStream"></a>
 
@@ -173,7 +175,7 @@ stream here should already be split or broken up.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| parser | [<code>ParseCallback</code>](#ParseCallback) | The transform function |
+| parser | <code>ParseCallback</code> | The transform function |
 
 <a name="BufferStream.pipeline"></a>
 
@@ -203,21 +205,21 @@ Create BufferStream from anything.
 | str | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>Readable</code> | argument to be turned into new stream |
 | options | <code>StreamOptions</code> \| <code>Writable</code> |  |
 
-<a name="ShiftCallback"></a>
+<a name="BufferStream.ShiftCallback"></a>
 
-## ShiftCallback : function
+### BufferStream:ShiftCallback : function
 Shift callback
 
-**Kind**: global typedef  
+**Kind**: static typedef of [<code>BufferStream</code>](#BufferStream)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | shifted | <code>Buffer</code> | shifted bytes |
 
-<a name="ParseCallback"></a>
+<a name="BufferStream.ParseCallback"></a>
 
-## ParseCallback : Promise
-**Kind**: global typedef  
+### BufferStream:ParseCallback : Promise
+**Kind**: static typedef of [<code>BufferStream</code>](#BufferStream)  
 **Returns**: <code>Promise</code> - the promise should be resolved with the parsed object  
 
 | Param | Type | Description |
