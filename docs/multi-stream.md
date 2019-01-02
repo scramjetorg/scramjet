@@ -20,6 +20,7 @@ An object consisting of multiple streams than can be refined or muxed.
     * [multiStream.route([policy], [count])](#MultiStream+route)  [<code>MultiStream</code>](#MultiStream)
     * [multiStream.smap(transform)](#MultiStream+smap) ↺
     * [multiStream.cluster(clusterFunc, options)](#MultiStream+cluster) ↺
+    * [MultiStream:DistributeOptions](#MultiStream.DistributeOptions)
 
 <a name="new_MultiStream_new"></a>
 
@@ -183,14 +184,14 @@ Distributes processing to multiple forked subprocesses.
 | Param | Type | Description |
 | --- | --- | --- |
 | clusterFunc | <code>function</code> \| <code>String</code> | a cluster callback with all operations working similarily to DataStream::use |
-| options | [<code>DistributeOptions</code>](#DistributeOptions) |  |
+| options | <code>DistributeOptions</code> |  |
 
-<a name="DistributeOptions"></a>
+<a name="MultiStream.DistributeOptions"></a>
 
-## DistributeOptions
+### MultiStream:DistributeOptions
 Distribute options
 
-**Kind**: global typedef  
+**Kind**: static typedef of [<code>MultiStream</code>](#MultiStream)  
 **Properties**
 
 | Name | Type | Description |

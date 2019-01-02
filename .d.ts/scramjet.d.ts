@@ -10,6 +10,23 @@
  * * `async promiseRead(count)` - read method that resolves with an array of chunks when called
  * 
  * See {@link https://nodejs.org/api/stream.html#stream_api_for_stream_implementers node.js API for stream implementers for details}
+ * 
+ * The object exposes the following classes:
+ * 
+ * * `DataStream` {@see DataStream} - the basic object stream of any type
+ * * `StringStream` {@see StringStream} - a stream of strings
+ * * `BufferStream` {@see BufferStream} - a stream of buffers
+ * * `MultiStream` {@see MultiStream} - a group of streams
+ * * `NumberStream` {@see NumberStream} - a stream of numbers
+ * * `WindowStream` {@see WindowStream} - a stream of windows of objects
+ * 
+ * The general concept of Scramjet streams is facilitating node's TransformStream mechanism so that you don't need
+ * to create a number of streams and create the pipeline, but use the concept of chaining instead. When you call `parse`
+ * method for instance, scramjet creates a new stream, pipes it to the callee and forwards errors.
+ * 
+ * What's worth mentioning - scramjet tries to limit the number of created transform streams and pushes the transforms
+ * one after another into the same stream class therefore a code `stream.map(tf1).map(tf2).filter(tf3)` will only operate on
+ * a single transform stream that evaluates all three transforms one after another.
  */
 declare module 'scramjet' {
     /**
@@ -25,6 +42,32 @@ declare module 'scramjet' {
      * @returns
      */
     export function fromArray(args: any[]): DataStream;
+
+    /**
+     * Creates a safe wrapper for scramjet transform module. See [Modules documentation](modules.md) for more info.
+     * @param transform
+     * @param options
+     * @param initialArgs
+     */
+    export function createTransformModule(transform: UseCallback, options: CreateModuleOptions, ...initialArgs: any): void;
+
+    /**
+     * Creates a safe wrapper for scramjet read module. See [Modules documentation](modules.md) for more info.
+     * @param anything
+     * @param options
+     * @param initialArgs
+     */
+    export function createReadModule(anything: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, options: CreateModuleOptions, ...initialArgs: any): void;
+
+    /**
+     * Options for createModule
+     */
+    interface CreateModuleOptions {
+        /**
+         * defines what class should the module assume
+         */
+        StreamClass: DataStream;
+    }
 
     /**
      * Exposes error classes (undocumented)
@@ -135,11 +178,25 @@ declare module 'scramjet' {
          * passed as arguments to the function.
          * 
          * If a `String` is passed, scramjet will attempt to resolve it as a module and use the outcome
-         * as an argument to `from` as in the Function case described above.
+         * as an argument to `from` as in the Function case described above. For more information see {@link modules.md}
+         * 
+         * A simple example from a generator:
+         * 
+         * ```javascript
+         * DataStream
+         * .from(function* () {
+         * while(x < 100) yield x++;
+         * })
+         * .each(console.log)
+         * // 0
+         * // 1...
+         * // 99
+         * ```
          * @param input argument to be turned into new stream
          * @param options
          */
         static from(input: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, options: StreamOptions | Writable): DataStream;
+
 
         /**
          * Transforms stream objects into new ones, just like Array.prototype.map
@@ -157,6 +214,7 @@ declare module 'scramjet' {
          */
         map(func: MapCallback, Clazz: Class): DataStream;
 
+
         /**
          * Filters object based on the function outcome, just like Array.prototype.filter.
          * 
@@ -167,6 +225,7 @@ declare module 'scramjet' {
          * @param func The function that filters the object
          */
         filter(func: FilterCallback): DataStream;
+
 
         /**
          * Reduces the stream into a given accumulator
@@ -183,6 +242,7 @@ declare module 'scramjet' {
          */
         reduce(func: ReduceCallback, into: Object): Promise;
 
+
         /**
          * Perform an asynchroneous operation without changing or resuming the stream.
          * 
@@ -191,6 +251,7 @@ declare module 'scramjet' {
          * @param func the async function
          */
         do(func: DoCallback): DataStream;
+
 
         /**
          * Allows own implementation of stream chaining.
@@ -290,6 +351,7 @@ declare module 'scramjet' {
          * @param func The duplicate stream will be passed as first argument.
          */
         tee(func: TeeCallback | Writable): DataStream;
+
 
         /**
          * Performs an operation on every chunk, without changing the stream
@@ -396,6 +458,7 @@ declare module 'scramjet' {
          */
         pull(incoming: Readable): Number;
 
+
         /**
          * Shifts the first n items from the stream and pushes out the remaining ones.
          * @param count The number of items to shift.
@@ -467,12 +530,14 @@ declare module 'scramjet' {
          */
         accumulate(func: AccumulateCallback, into: any): Promise;
 
+
         /**
          * Consumes the stream by running each callback
          * @deprecated use {@link DataStream#each} instead
          * @param func the consument
          */
         consume(func: Function): Promise;
+
 
         /**
          * Reduces the stream into the given object, returning it immediately.
@@ -493,6 +558,7 @@ declare module 'scramjet' {
          */
         reduceNow(func: ReduceCallback, into: any | EventEmitter): any;
 
+
         /**
          * Remaps the stream into a new stream.
          * 
@@ -511,6 +577,7 @@ declare module 'scramjet' {
          * @param Clazz Optional DataStream subclass to be constructed
          */
         flatMap(func: FlatMapCallback, Clazz: class): DataStream;
+
 
         /**
          * A shorthand for streams of Arrays to flatten them.
@@ -542,6 +609,7 @@ declare module 'scramjet' {
          * @param count Number of objects or -1 for all the buffer
          */
         rewind(count: number): DataStream;
+
 
         /**
          * Distributes processing into multiple subprocesses or threads if you like.
@@ -664,6 +732,7 @@ declare module 'scramjet' {
          */
         constructor(encoding: String);
 
+
         /**
          * Shifts given length of chars from the original stream
          * 
@@ -700,6 +769,7 @@ declare module 'scramjet' {
          * all your transforms when you like.
          */
         toBufferStream(): BufferStream;
+
 
         /**
          * Parses every string to object
@@ -820,6 +890,7 @@ declare module 'scramjet' {
          */
         constructor(opts: object);
 
+
         /**
          * Shift given number of bytes from the original stream
          * 
@@ -852,6 +923,7 @@ declare module 'scramjet' {
          *        to streams.
          */
         stringify(encoding: String): StringStream;
+
 
         /**
          * Parses every buffer to object
@@ -970,6 +1042,7 @@ declare module 'scramjet' {
          */
         smap(transform: Function): MultiStream;
 
+
         /**
          * Distributes processing to multiple forked subprocesses.
          * @param clusterFunc a cluster callback with all operations working similarily to DataStream::use
@@ -991,6 +1064,7 @@ declare module 'scramjet' {
          * `reduce` etc.
          */
         constructor(options: NumberStreamOptions);
+
 
         /**
          * Calculates the sum of all items in the stream.
@@ -1036,48 +1110,6 @@ declare module 'scramjet' {
 }
 
 /**
- * 
- * @param chunk the chunk to be mapped
- * @returns the mapped object
- */
-declare type MapCallback = (chunk: any)=>Promise | any;
-
-/**
- * 
- * @param chunk the chunk to be filtered or not
- * @returns information if the object should remain in
- *          the filtered stream.
- */
-declare type FilterCallback = (chunk: any)=>Promise | Boolean;
-
-/**
- * 
- * @param acc the accumulator - the object initially passed or returned
- *        by the previous reduce operation
- * @param chunk the stream chunk.
- */
-declare type ReduceCallback = (acc: any, chunk: Object)=>Promise | any;
-
-/**
- * 
- * @param chunk source stream chunk
- */
-declare type DoCallback = (chunk: Object)=>void;
-
-/**
- * 
- * @param into stream passed to the into method
- * @param chunk source stream chunk
- */
-declare type IntoCallback = (into: any, chunk: Object)=>any;
-
-/**
- * 
- * @param teed The teed stream
- */
-declare type TeeCallback = (teed: DataStream)=>void;
-
-/**
  * Standard options for scramjet streams.
  */
 declare interface StreamOptions {
@@ -1092,79 +1124,10 @@ declare interface StreamOptions {
     referrer: DataStream;
 }
 
-/**
- * 
- * @param shifted Popped chars
- */
-declare type ShiftCallback = (shifted: String)=>void;
-
-/**
- * 
- * @param chunk the transformed chunk
- */
-declare type ParseCallback = (chunk: String)=>Promise;
-
-/**
- * 
- * @param acc Accumulator passed to accumulate function
- * @param chunk the stream chunk
- */
-declare type AccumulateCallback = (acc: any, chunk: any)=>Promise | any;
-
-/**
- * 
- * @param chunk the stream chunk
- */
-declare type ConsumeCallback = (chunk: any)=>Promise | any;
-
-/**
- * 
- * @param emit a method to emit objects in the remapped stream
- * @param chunk the chunk from the original stream
- * @returns promise to be resolved when chunk has been processed
- */
-declare type RemapCallback = (emit: Function, chunk: any)=>Promise | any;
-
-/**
- * 
- * @param chunk the chunk from the original stream
- * @returns promise to be resolved when chunk has been processed
- */
-declare type FlatMapCallback = (chunk: any)=>Promise<Iterable> | Iterable;
-
-/**
- * 
- * @param prev the chunk before
- * @param next the chunk after
- * @returns promise that is resolved with the joining item
- */
-declare type JoinCallback = (prev: any, next: any)=>Promise<any> | any;
-
-/**
- * NumberStream options
- */
-declare interface NumberStreamOptions {
+declare interface ExecOptions {
     /**
-     * value of the data item function.
+     * (bitwise) the output stdio number to push out (defaults to stdout = 1)
      */
-    valueOf?: Function;
-}
-
-/**
- * Distribute options
- */
-declare interface DistributeOptions {
-    /**
-     * a list of scramjet plugins to load (if omitted, will use just the ones in scramjet itself)
-     */
-    plugins: any[];
-    /**
-     * the class to deserialize the stream to.
-     */
-    StreamClass: String;
-    /**
-     * maximum threads to use - defauls to number of processor threads in os, but it may be sensible to go over this value if you'd intend to run synchronous code.
-     */
-    threads: Number;
+    stream?: number;
 }
 

@@ -32,6 +32,8 @@ StringStream.fromString()
     * [StringStream:fromString(str, encoding)](#StringStream.fromString)  [<code>StringStream</code>](#StringStream)
     * [StringStream:pipeline(readable, transforms)](#StringStream.pipeline)  [<code>StringStream</code>](#StringStream)
     * [StringStream:from(str, options)](#StringStream.from)  [<code>StringStream</code>](#StringStream)
+    * [StringStream:ShiftCallback](#StringStream.ShiftCallback)  <code>function</code>
+    * [StringStream:ParseCallback](#StringStream.ParseCallback)  <code>Promise</code>
 
 <a name="new_StringStream_new"></a>
 
@@ -58,7 +60,7 @@ the given number of characters.
 | Param | Type | Description |
 | --- | --- | --- |
 | bytes | <code>Number</code> | The number of characters to shift. |
-| func | [<code>ShiftCallback</code>](#ShiftCallback) | Function that receives a string of shifted chars. |
+| func | <code>ShiftCallback</code> | Function that receives a string of shifted chars. |
 
 <a name="StringStream+split"></a>
 
@@ -115,7 +117,7 @@ stream here should already be split.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| parser | [<code>ParseCallback</code>](#ParseCallback) | The transform function |
+| parser | <code>ParseCallback</code> | The transform function |
 
 <a name="StringStream+toDataStream"></a>
 
@@ -205,7 +207,7 @@ the given number of characters.
 | Param | Type | Description |
 | --- | --- | --- |
 | bytes | <code>Number</code> | The number of characters to shift. |
-| func | [<code>ShiftCallback</code>](#ShiftCallback) | Function that receives a string of shifted chars. |
+| func | <code>ShiftCallback</code> | Function that receives a string of shifted chars. |
 
 <a name="StringStream.SPLIT_LINE"></a>
 
@@ -258,22 +260,33 @@ Create StringStream from anything.
 | str | <code>String</code> \| <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>Readable</code> | argument to be turned into new stream |
 | options | <code>StreamOptions</code> \| <code>Writable</code> |  |
 
-<a name="ShiftCallback"></a>
+<a name="StringStream.ShiftCallback"></a>
 
-## ShiftCallback : function
-**Kind**: global typedef  
+### StringStream:ShiftCallback : function
+**Kind**: static typedef of [<code>StringStream</code>](#StringStream)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | shifted | <code>String</code> | Popped chars |
 
-<a name="ParseCallback"></a>
+<a name="StringStream.ParseCallback"></a>
 
-## ParseCallback : Promise
-**Kind**: global typedef  
+### StringStream:ParseCallback : Promise
+**Kind**: static typedef of [<code>StringStream</code>](#StringStream)  
 **Returns**: <code>Promise</code> - the promise should be resolved with the parsed object  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | chunk | <code>String</code> | the transformed chunk |
+
+<a name="ExecOptions"></a>
+
+## ExecOptions : child_process.SpawnOptions
+**Kind**: global typedef  
+**Extends**: <code>child\_process.SpawnOptions</code>  
+**Properties**
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| [stream] | <code>number</code> | <code>1</code> | (bitwise) the output stdio number to push out (defaults to stdout = 1) |
 

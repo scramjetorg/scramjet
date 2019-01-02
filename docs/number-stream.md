@@ -14,6 +14,7 @@ provides simple methods like `sum`, `average`. It derives from DataStream so it'
     * [new NumberStream(options)](#new_NumberStream_new)
     * [numberStream.sum()](#NumberStream+sum) ⇄ <code>Number</code>
     * [numberStream.avg()](#NumberStream+avg) ⇄ <code>Number</code>
+    * [NumberStream:NumberStreamOptions](#NumberStream.NumberStreamOptions)  <code>DataStreamOptions</code>
 
 <a name="new_NumberStream_new"></a>
 
@@ -23,7 +24,7 @@ Creates an instance of NumberStream.
 
 | Param | Type |
 | --- | --- |
-| options | [<code>NumberStreamOptions</code>](#NumberStreamOptions) | 
+| options | <code>NumberStreamOptions</code> | 
 
 <a name="NumberStream+sum"></a>
 
@@ -37,12 +38,12 @@ Calculates the sum of all items in the stream.
 Calculates the sum of all items in the stream.
 
 **Kind**: instance method of [<code>NumberStream</code>](#NumberStream)  
-<a name="NumberStreamOptions"></a>
+<a name="NumberStream.NumberStreamOptions"></a>
 
-## NumberStreamOptions : DataStreamOptions
+### NumberStream:NumberStreamOptions : DataStreamOptions
 NumberStream options
 
-**Kind**: global typedef  
+**Kind**: static typedef of [<code>NumberStream</code>](#NumberStream)  
 **Extends**: <code>DataStreamOptions</code>  
 **Properties**
 

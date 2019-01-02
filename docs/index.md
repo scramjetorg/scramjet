@@ -15,6 +15,23 @@ can be constructed with the following options passed to mimic node.js standard s
 
 See [node.js API for stream implementers for details](https://nodejs.org/api/stream.html#stream_api_for_stream_implementers)
 
+The object exposes the following classes:
+
+* `DataStream` {@see DataStream} - the basic object stream of any type
+* `StringStream` {@see StringStream} - a stream of strings
+* `BufferStream` {@see BufferStream} - a stream of buffers
+* `MultiStream` {@see MultiStream} - a group of streams
+* `NumberStream` {@see NumberStream} - a stream of numbers
+* `WindowStream` {@see WindowStream} - a stream of windows of objects
+
+The general concept of Scramjet streams is facilitating node's TransformStream mechanism so that you don't need
+to create a number of streams and create the pipeline, but use the concept of chaining instead. When you call `parse`
+method for instance, scramjet creates a new stream, pipes it to the callee and forwards errors.
+
+What's worth mentioning - scramjet tries to limit the number of created transform streams and pushes the transforms
+one after another into the same stream class therefore a code `stream.map(tf1).map(tf2).filter(tf3)` will only operate on
+a single transform stream that evaluates all three transforms one after another.
+
 **Extends**: <code>Object</code>  
 
 * [scramjet](#module_scramjet)  <code>Object</code>
@@ -30,10 +47,13 @@ See [node.js API for stream implementers for details](https://nodejs.org/api/str
     * [:WindowStream](#module_scramjet.WindowStream)
     * [:from(str)](#module_scramjet.from)  <code>DataStream</code>
     * [:fromArray(args)](#module_scramjet.fromArray)  <code>DataStream</code>
+    * [:createTransformModule(transform, options, ...initialArgs)](#module_scramjet.createTransformModule)
+    * [:createReadModule(anything, options, ...initialArgs)](#module_scramjet.createReadModule)
     * [:plugin(mixin)](#module_scramjet.plugin)  <code>scramjet</code>
     * [:API(version)](#module_scramjet.API)  <code>scramjet</code>
+    * [:ScramjetPlugin](#module_scramjet.ScramjetPlugin)  <code>Object</code>
+    * [~CreateModuleOptions](#module_scramjet..CreateModuleOptions)
     * [~StreamMixin](#module_scramjet..StreamMixin)  <code>Object</code>
-    * [~ScramjetPlugin](#module_scramjet..ScramjetPlugin)  <code>Object</code>
 
 <a name="module_scramjet.PromiseTransformStream"></a>
 
@@ -132,6 +152,32 @@ Creates a DataStream from an Array
 | --- | --- |
 | args | <code>Array.&lt;\*&gt;</code> | 
 
+<a name="module_scramjet.createTransformModule"></a>
+
+### scramjet:createTransformModule(transform, options, ...initialArgs)
+Creates a safe wrapper for scramjet transform module. See [Modules documentation](modules.md) for more info.
+
+**Kind**: static method of [<code>scramjet</code>](#module_scramjet)  
+
+| Param | Type |
+| --- | --- |
+| transform | <code>UseCallback</code> | 
+| options | <code>CreateModuleOptions</code> | 
+| ...initialArgs | <code>any</code> | 
+
+<a name="module_scramjet.createReadModule"></a>
+
+### scramjet:createReadModule(anything, options, ...initialArgs)
+Creates a safe wrapper for scramjet read module. See [Modules documentation](modules.md) for more info.
+
+**Kind**: static method of [<code>scramjet</code>](#module_scramjet)  
+
+| Param | Type |
+| --- | --- |
+| anything | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>String</code> \| <code>Readable</code> | 
+| options | <code>CreateModuleOptions</code> | 
+| ...initialArgs | <code>any</code> | 
+
 <a name="module_scramjet.plugin"></a>
 
 ### scramjet:plugin(mixin) : scramjet
@@ -155,6 +201,34 @@ Gets an API version (this may be important for future use)
 | --- | --- | --- |
 | version | <code>Number</code> | The required version (currently only: 1) |
 
+<a name="module_scramjet.ScramjetPlugin"></a>
+
+### scramjet:ScramjetPlugin : Object
+Definition of a plugin in Scramjet
+
+**Kind**: static typedef of [<code>scramjet</code>](#module_scramjet)  
+**Internal**:   
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| BufferStream | <code>StreamMixin</code> | definition of constructor and properties for the BufferStream prototype. |
+| DataStream | <code>StreamMixin</code> | definition of constructor and properties for the DataStream prototype. |
+| MultiStream | <code>StreamMixin</code> | definition of constructor and properties for the MultiStream prototype. |
+| StringStream | <code>StreamMixin</code> | definition of constructor and properties for the StringStream prototype. |
+
+<a name="module_scramjet..CreateModuleOptions"></a>
+
+### scramjet~CreateModuleOptions
+Options for createModule
+
+**Kind**: inner typedef of [<code>scramjet</code>](#module_scramjet)  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| StreamClass | <code>DataStream</code> | defines what class should the module assume |
+
 <a name="module_scramjet..StreamMixin"></a>
 
 ### scramjet~StreamMixin : Object
@@ -167,18 +241,17 @@ Definition of a single mixin for a specific Scramjet class. Should contain any n
 | --- | --- | --- |
 | constructor | <code>function</code> | optional constructor that will be called in the stream constructor (this has to be an own property!) |
 
-<a name="module_scramjet..ScramjetPlugin"></a>
+<a name="external_AsyncGeneratorFunction"></a>
 
-### scramjet~ScramjetPlugin : Object
-Definition of a plugin in Scramjet
+## AsyncGeneratorFunction
+Asynchronous Generator.
 
-**Kind**: inner typedef of [<code>scramjet</code>](#module_scramjet)  
-**Properties**
+**Kind**: global external  
+**See**: https://github.com/tc39/proposal-async-iteration#async-generator-functions  
+<a name="external_GeneratorFunction"></a>
 
-| Name | Type | Description |
-| --- | --- | --- |
-| BufferStream | <code>StreamMixin</code> | definition of constructor and properties for the BufferStream prototype. |
-| DataStream | <code>StreamMixin</code> | definition of constructor and properties for the DataStream prototype. |
-| MultiStream | <code>StreamMixin</code> | definition of constructor and properties for the MultiStream prototype. |
-| StringStream | <code>StreamMixin</code> | definition of constructor and properties for the StringStream prototype. |
+## GeneratorFunction
+Generator function (`function* ()`).
 
+**Kind**: global external  
+**See**: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction  
