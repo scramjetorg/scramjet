@@ -2,6 +2,13 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
+## Scramjet 4.19.1 - 4.19.1: Bugfix and documentation fixes
+
+* dd7e938 - Dependencies update: Fixes errors on wrong push value
+* 65b507e - Documentation update
+* fe7506a - Eslint fix
+* 233b937 - Proposal for #27, initial implementation to be tested.
+
 ## Scramjet 4.19.0 - 4.19.0: Add pipeline method to all streams.
 
 * a3512ac - Adds `pipeline` method to all streams. Allow async functions in `use`.
