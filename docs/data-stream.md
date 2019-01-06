@@ -27,6 +27,7 @@ await (DataStream.from(aStream) // create a DataStream
     * [dataStream.filter(func)](#DataStream+filter) ↺
     * [dataStream.reduce(func, into)](#DataStream+reduce)
     * [dataStream.do(func)](#DataStream+do) ↺
+    * [dataStream.unorder(func)](#DataStream+unorder)
     * [dataStream.into(func, into)](#DataStream+into) ↺
     * [dataStream.use(func)](#DataStream+use) ↺
     * [dataStream.run()](#DataStream+run)
@@ -48,7 +49,7 @@ await (DataStream.from(aStream) // create a DataStream
     * [dataStream.stringify(serializer)](#DataStream+stringify) ↺ <code>StringStream</code>
     * [dataStream.toArray(initial)](#DataStream+toArray) ⇄ <code>Array</code>
     * [dataStream.toGenerator()](#DataStream+toGenerator)  <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code>
-    * [dataStream.pull(incoming)](#DataStream+pull) ⇄ <code>Number</code>
+    * [dataStream.pull(pullable)](#DataStream+pull) ⇄ <code>Promise</code>
     * [dataStream.shift(count, func)](#DataStream+shift) ↺
     * [dataStream.peek(count, func)](#DataStream+peek) ↺
     * [dataStream.slice([start], [length])](#DataStream+slice) ↺
@@ -83,8 +84,8 @@ await (DataStream.from(aStream) // create a DataStream
     * [dataStream.toStringStream(serializer)](#DataStream+toStringStream) ↺ <code>StringStream</code>
     * [DataStream:from(input, options)](#DataStream.from)  [<code>DataStream</code>](#DataStream)
     * [DataStream:pipeline(readable, ...transforms)](#DataStream.pipeline)  [<code>DataStream</code>](#DataStream)
-    * [DataStream:fromArray(arr)](#DataStream.fromArray)  [<code>DataStream</code>](#DataStream)
-    * [DataStream:fromIterator(iter)](#DataStream.fromIterator)  [<code>DataStream</code>](#DataStream)
+    * [DataStream:fromArray(arr, options)](#DataStream.fromArray)  [<code>DataStream</code>](#DataStream)
+    * [DataStream:fromIterator(iter, options)](#DataStream.fromIterator)  [<code>DataStream</code>](#DataStream)
     * [DataStream:MapCallback](#DataStream.MapCallback)  <code>Promise</code> \| <code>\*</code>
     * [DataStream:FilterCallback](#DataStream.FilterCallback)  <code>Promise</code> \| <code>Boolean</code>
     * [DataStream:ReduceCallback](#DataStream.ReduceCallback)  <code>Promise</code> \| <code>\*</code>
@@ -185,6 +186,22 @@ has no impact on the streamed data (except for possile mutation of the chunk its
 | --- | --- | --- |
 | func | <code>DoCallback</code> | the async function |
 
+<a name="DataStream+unorder"></a>
+
+### dataStream.unorder(func)
+Allows processing items without keeping order
+
+This method useful if you are not concerned about the order in which the
+chunks are being pushed out of the operation. The `maxParallel` option is
+still used for keeping a number of simultaneous number of parallel operations
+that are currently happening.
+
+**Kind**: instance method of [<code>DataStream</code>](#DataStream)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| func | <code>MapCallback</code> | the async function that will be unordered |
+
 <a name="DataStream+into"></a>
 
 ### dataStream.into(func, into) ↺
@@ -220,7 +237,7 @@ from the command line.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>function</code> \| <code>String</code> \| <code>Transform</code> | if passed, the function will be called on self to add an option to inspect the stream in place, while not breaking the transform chain. Alternatively this can be a relative path to a scramjet-module. Lastly it can be a Transform stream. |
+| func | <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>String</code> \| <code>Readable</code> | if passed, the function will be called on self to add an option to inspect the stream in place, while not breaking the transform chain. Alternatively this can be a relative path to a scramjet-module. Lastly it can be a Transform stream. |
 | [...args] | <code>\*</code> | any additional args top be passed to the module |
 
 <a name="DataStream+run"></a>
@@ -326,7 +343,11 @@ Warning: this resumes the stream!
 ### dataStream.while(func) ↺
 Reads the stream while the function outcome is truthy.
 
-Stops reading and emits end as soon as it ends.
+Stops reading and emits end as soon as it finds the first chunk that evaluates
+to false. If you're processing a file until a certain point or you just need to
+confirm existence of some data, you can use it to end the stream before reaching end.
+
+Keep in mind that whatever you piped to the stream will still need to be handled.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
@@ -403,7 +424,9 @@ Except for calling overridden method it proxies errors to piped stream.
 <a name="DataStream+bufferify"></a>
 
 ### dataStream.bufferify(serializer) : BufferStream ↺
-Creates a BufferStream
+Creates a BufferStream.
+
+The passed serializer must return a buffer.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
@@ -418,7 +441,9 @@ Creates a BufferStream
 <a name="DataStream+stringify"></a>
 
 ### dataStream.stringify(serializer) : StringStream ↺
-Creates a StringStream
+Creates a StringStream.
+
+The passed serializer must return a string.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
@@ -453,18 +478,20 @@ Ready for https://github.com/tc39/proposal-async-iteration
 **Returns**: <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code> - Returns an iterator that returns a promise for each item.  
 <a name="DataStream+pull"></a>
 
-### dataStream.pull(incoming) : Number ⇄
-Pulls in any Readable stream, resolves when the pulled stream ends.
+### dataStream.pull(pullable) : Promise ⇄
+Pulls in any readable stream, resolves when the pulled stream ends.
+
+You can also pass anything that can be passed to `DataStream.from`.
 
 Does not preserve order, does not end this stream.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
-**Returns**: <code>Number</code> - resolved when incoming stream ends, rejects on incoming error  
+**Returns**: <code>Promise</code> - resolved when incoming stream ends, rejects on incoming error  
 **Test**: test/methods/data-stream-pull.js  
 
 | Param | Type |
 | --- | --- |
-| incoming | <code>Readable</code> | 
+| pullable | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>String</code> \| <code>Readable</code> | 
 
 <a name="DataStream+shift"></a>
 
@@ -937,7 +964,9 @@ Injects a ```debugger``` statement when called.
 <a name="DataStream+toBufferStream"></a>
 
 ### dataStream.toBufferStream(serializer) : BufferStream ↺
-Creates a BufferStream
+Creates a BufferStream.
+
+The passed serializer must return a buffer.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
@@ -952,7 +981,9 @@ Creates a BufferStream
 <a name="DataStream+toStringStream"></a>
 
 ### dataStream.toStringStream(serializer) : StringStream ↺
-Creates a StringStream
+Creates a StringStream.
+
+The passed serializer must return a string.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
@@ -1029,7 +1060,7 @@ Each following argument will be understood as a transform and can be any of:
 
 <a name="DataStream.fromArray"></a>
 
-### DataStream:fromArray(arr) : DataStream
+### DataStream:fromArray(arr, options) : DataStream
 Create a DataStream from an Array
 
 **Kind**: static method of [<code>DataStream</code>](#DataStream)  
@@ -1038,10 +1069,11 @@ Create a DataStream from an Array
 | Param | Type | Description |
 | --- | --- | --- |
 | arr | <code>Array</code> | list of chunks |
+| options | <code>ScramjetOptions</code> | the read stream options |
 
 <a name="DataStream.fromIterator"></a>
 
-### DataStream:fromIterator(iter) : DataStream
+### DataStream:fromIterator(iter, options) : DataStream
 Create a DataStream from an Iterator
 
 Doesn't end the stream until it reaches end of the iterator.
@@ -1052,6 +1084,7 @@ Doesn't end the stream until it reaches end of the iterator.
 | Param | Type | Description |
 | --- | --- | --- |
 | iter | <code>Iterator</code> | the iterator object |
+| options | <code>ScramjetOptions</code> | the read stream options |
 
 <a name="DataStream.MapCallback"></a>
 

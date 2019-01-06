@@ -252,6 +252,17 @@ declare module 'scramjet' {
          */
         do(func: DoCallback): DataStream;
 
+        /**
+         * Allows processing items without keeping order
+         * 
+         * This method useful if you are not concerned about the order in which the
+         * chunks are being pushed out of the operation. The `maxParallel` option is
+         * still used for keeping a number of simultaneous number of parallel operations
+         * that are currently happening.
+         * @param func the async function that will be unordered
+         */
+        unorder(func: MapCallback): void;
+
 
         /**
          * Allows own implementation of stream chaining.
@@ -275,7 +286,7 @@ declare module 'scramjet' {
          * @param func if passed, the function will be called on self to add an option to inspect the stream in place, while not breaking the transform chain. Alternatively this can be a relative path to a scramjet-module. Lastly it can be a Transform stream.
          * @param ...args any additional args top be passed to the module
          */
-        use(func: Function | String | Transform, ...args?: any): DataStream;
+        use(func: AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, ...args?: any): DataStream;
 
         /**
          * Consumes all stream items doing nothing. Resolves when the stream is ended.
@@ -365,7 +376,11 @@ declare module 'scramjet' {
         /**
          * Reads the stream while the function outcome is truthy.
          * 
-         * Stops reading and emits end as soon as it ends.
+         * Stops reading and emits end as soon as it finds the first chunk that evaluates
+         * to false. If you're processing a file until a certain point or you just need to
+         * confirm existence of some data, you can use it to end the stream before reaching end.
+         * 
+         * Keep in mind that whatever you piped to the stream will still need to be handled.
          * @param func The condition check
          */
         while(func: FilterCallback): DataStream;
@@ -408,13 +423,17 @@ declare module 'scramjet' {
         pipe(to: Writable, options: WritableOptions): Writable;
 
         /**
-         * Creates a BufferStream
+         * Creates a BufferStream.
+         * 
+         * The passed serializer must return a buffer.
          * @param serializer A method that converts chunks to buffers
          */
         bufferify(serializer: MapCallback): BufferStream;
 
         /**
-         * Creates a StringStream
+         * Creates a StringStream.
+         * 
+         * The passed serializer must return a string.
          * @param serializer A method that converts chunks to strings
          */
         stringify(serializer: MapCallback): StringStream;
@@ -422,16 +441,18 @@ declare module 'scramjet' {
         /**
          * Create a DataStream from an Array
          * @param arr list of chunks
+         * @param options the read stream options
          */
-        static fromArray(arr: any[]): DataStream;
+        static fromArray(arr: any[], options: ScramjetOptions): DataStream;
 
         /**
          * Create a DataStream from an Iterator
          * 
          * Doesn't end the stream until it reaches end of the iterator.
          * @param iter the iterator object
+         * @param options the read stream options
          */
-        static fromIterator(iter: Iterator): DataStream;
+        static fromIterator(iter: Iterator, options: ScramjetOptions): DataStream;
 
         /**
          * Aggregates the stream into a single Array
@@ -450,13 +471,15 @@ declare module 'scramjet' {
         toGenerator(): Iterable.<Promise.<*>>;
 
         /**
-         * Pulls in any Readable stream, resolves when the pulled stream ends.
+         * Pulls in any readable stream, resolves when the pulled stream ends.
+         * 
+         * You can also pass anything that can be passed to `DataStream.from`.
          * 
          * Does not preserve order, does not end this stream.
-         * @param incoming
+         * @param pullable
          * @returns resolved when incoming stream ends, rejects on incoming error
          */
-        pull(incoming: Readable): Number;
+        pull(pullable: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable): Promise;
 
 
         /**

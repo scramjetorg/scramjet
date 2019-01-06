@@ -236,6 +236,7 @@ await (DataStream.from(aStream) // create a DataStream
 * [`dataStream.filter(func) ↺`](docs/data-stream.md#DataStream+filter) - Filters object based on the function outcome, just like Array.prototype.filter.
 * [`dataStream.reduce(func, into) ⇄`](docs/data-stream.md#DataStream+reduce) - Reduces the stream into a given accumulator
 * [`dataStream.do(func) ↺`](docs/data-stream.md#DataStream+do) - Perform an asynchroneous operation without changing or resuming the stream.
+* [`dataStream.unorder(func)`](docs/data-stream.md#DataStream+unorder) - Allows processing items without keeping order
 * [`dataStream.into(func, into) ↺`](docs/data-stream.md#DataStream+into) - Allows own implementation of stream chaining.
 * [`dataStream.use(func) ↺`](docs/data-stream.md#DataStream+use) - Calls the passed method in place with the stream as first argument, returns result.
 * [`dataStream.run() ⇄`](docs/data-stream.md#DataStream+run) - Consumes all stream items doing nothing. Resolves when the stream is ended.
@@ -253,11 +254,11 @@ await (DataStream.from(aStream) // create a DataStream
 * [`dataStream.catch(callback) ↺`](docs/data-stream.md#DataStream+catch) - Provides a way to catch errors in chained streams.
 * [`dataStream.raise(err) ⇄`](docs/data-stream.md#DataStream+raise) - Executes all error handlers and if none resolves, then emits an error.
 * [`dataStream.pipe(to, options) : Writable ↺`](docs/data-stream.md#DataStream+pipe) - Override of node.js Readable pipe.
-* [`dataStream.bufferify(serializer) : BufferStream ↺`](docs/data-stream.md#DataStream+bufferify) - Creates a BufferStream
-* [`dataStream.stringify(serializer) : StringStream ↺`](docs/data-stream.md#DataStream+stringify) - Creates a StringStream
+* [`dataStream.bufferify(serializer) : BufferStream ↺`](docs/data-stream.md#DataStream+bufferify) - Creates a BufferStream.
+* [`dataStream.stringify(serializer) : StringStream ↺`](docs/data-stream.md#DataStream+stringify) - Creates a StringStream.
 * [`dataStream.toArray(initial) : Array ⇄`](docs/data-stream.md#DataStream+toArray) - Aggregates the stream into a single Array
 * [`dataStream.toGenerator() : Iterable.<Promise.<*>>`](docs/data-stream.md#DataStream+toGenerator) - Returns an async generator
-* [`dataStream.pull(incoming) : Number ⇄`](docs/data-stream.md#DataStream+pull) - Pulls in any Readable stream, resolves when the pulled stream ends.
+* [`dataStream.pull(pullable) : Promise ⇄`](docs/data-stream.md#DataStream+pull) - Pulls in any readable stream, resolves when the pulled stream ends.
 * [`dataStream.shift(count, func) ↺`](docs/data-stream.md#DataStream+shift) - Shifts the first n items from the stream and pushes out the remaining ones.
 * [`dataStream.peek(count, func) ↺`](docs/data-stream.md#DataStream+peek) - Allows previewing some of the streams data without removing them from the stream.
 * [`dataStream.slice([start], [length]) ↺`](docs/data-stream.md#DataStream+slice) - Gets a slice of the stream to the callback function.
@@ -288,12 +289,12 @@ await (DataStream.from(aStream) // create a DataStream
 * [`dataStream.JSONStringify([endline]) : StringStream ↺`](docs/data-stream.md#DataStream+JSONStringify) - Returns a StringStream containing JSON per item with optional end line
 * [`dataStream.CSVStringify(options) : StringStream ↺`](docs/data-stream.md#DataStream+CSVStringify) - Stringifies CSV to DataString using 'papaparse' module.
 * [`dataStream.debug(func) : DataStream ↺`](docs/data-stream.md#DataStream+debug) - Injects a ```debugger``` statement when called.
-* [`dataStream.toBufferStream(serializer) : BufferStream ↺`](docs/data-stream.md#DataStream+toBufferStream) - Creates a BufferStream
-* [`dataStream.toStringStream(serializer) : StringStream ↺`](docs/data-stream.md#DataStream+toStringStream) - Creates a StringStream
+* [`dataStream.toBufferStream(serializer) : BufferStream ↺`](docs/data-stream.md#DataStream+toBufferStream) - Creates a BufferStream.
+* [`dataStream.toStringStream(serializer) : StringStream ↺`](docs/data-stream.md#DataStream+toStringStream) - Creates a StringStream.
 * [`DataStream:from(input, options) : DataStream`](docs/data-stream.md#DataStream.from) - Returns a DataStream from pretty much anything sensibly possible.
 * [`DataStream:pipeline(readable, ...transforms) : DataStream`](docs/data-stream.md#DataStream.pipeline) - Creates a pipeline of streams and returns a scramjet stream.
-* [`DataStream:fromArray(arr) : DataStream`](docs/data-stream.md#DataStream.fromArray) - Create a DataStream from an Array
-* [`DataStream:fromIterator(iter) : DataStream`](docs/data-stream.md#DataStream.fromIterator) - Create a DataStream from an Iterator
+* [`DataStream:fromArray(arr, options) : DataStream`](docs/data-stream.md#DataStream.fromArray) - Create a DataStream from an Array
+* [`DataStream:fromIterator(iter, options) : DataStream`](docs/data-stream.md#DataStream.fromIterator) - Create a DataStream from an Iterator
 * [`DataStream:MapCallback : Promise | *`](docs/data-stream.md#DataStream.MapCallback) - 
 * [`DataStream:FilterCallback : Promise | Boolean`](docs/data-stream.md#DataStream.FilterCallback) - 
 * [`DataStream:ReduceCallback : Promise | *`](docs/data-stream.md#DataStream.ReduceCallback) - 
