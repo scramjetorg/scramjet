@@ -14,27 +14,45 @@ const stream = (v) => {
 
         setTimeout(() => {
             x.end(v + 3);
-        }, 50);
-    }, 50);
+        }, 20);
+    }, 20);
 
     return x;
 };
 
-exports.test = async (test) => {
-    test.expect(1);
+exports.test = {
+    async stream(test) {
+        test.expect(1);
 
-    const out = await (
-        NumberStream.fromArray([10,20,30])
-            .into(
-                async (out, chunk) => out.pull(stream(chunk)),
-                new DataStream
-            )
-            .each(
-                exports.log
-            )
-            .toArray()
-    );
+        const out = await (
+            NumberStream.fromArray([10,20,30])
+                .into(
+                    async (out, chunk) => out.pull(stream(chunk)),
+                    new DataStream
+                )
+                .toArray()
+        );
 
-    test.deepEqual(out, [11, 21, 31, 12, 22, 32, 13, 23, 33], "Accumulated all entries and ended");
-    test.done();
+        test.deepEqual(out, [11, 21, 31, 12, 22, 32, 13, 23, 33], "Accumulated all entries and ended");
+        test.done();
+    },
+    // async generator(test) {
+    //     test.expect(1);
+
+    //     const out = await (
+    //         NumberStream.fromArray([10,20,30])
+    //             .into(
+    //                 async (out, chunk) => out.pull(function* (v) {
+    //                     yield v + 1;
+    //                     yield new Promise(res => setTimeout(res, 10)).then(() => v + 2);
+    //                     yield new Promise(res => setTimeout(res, 20)).then(() => v + 3);
+    //                 }, chunk),
+    //                 new DataStream
+    //             )
+    //             .toArray()
+    //     );
+
+    //     test.deepEqual(out, [11, 21, 31, 12, 22, 32, 13, 23, 33], "Accumulated all entries and ended");
+    //     test.done();
+    // }
 };
