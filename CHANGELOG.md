@@ -2,6 +2,11 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
+## Scramjet 4.20.0 - 4.20.0: Unorder and pull with generators
+
+* 7839576 - Dependencies update, introduce generators in `pull`, introduce `unorder`.
+* 9cc8521 - Better tests on pull, allow
+
 ## Scramjet 4.19.1 - 4.19.1: Bugfix and documentation fixes
 
 * dd7e938 - Dependencies update: Fixes errors on wrong push value
