@@ -2,6 +2,11 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
+## Scramjet 4.20.1 - 4.20.1: Dependencies and multithreading fixes
+
+* 4e9dd80 - Dependencies update: new papaparse version.
+* dac0b7e - Fix multithreading routines. Unused workers now silently exit within a set timeout.
+
 ## Scramjet 4.20.0 - 4.20.0: Unorder and pull with generators
 
 * 7839576 - Dependencies update, introduce generators in `pull`, introduce `unorder`.

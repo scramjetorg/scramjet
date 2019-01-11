@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// module: data-stream, method: group
+// module: data-stream, method: separate
 
 const {DataStream, MultiStream} = require("../../");
 
@@ -10,7 +10,7 @@ exports.stream = () =>
 exports.test = {
     oneToOne(test) {
         let str = exports.stream()
-            .group((item) => "item" + item % 2);
+            .separate((item) => "item" + item % 2);
 
         test.expect(3);
         test.ok(str instanceof MultiStream, "Returns MultiStream");

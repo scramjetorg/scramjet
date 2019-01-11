@@ -2,12 +2,24 @@ const {DataStream} = require("../../");
 
 /* eslint-disable node/no-unsupported-features/node-builtins */
 
-DataStream.from(function *(){ let x = 0; while (x++ < 100) yield {x}; })
-    .map(({x}) => ({x, ts: process.hrtime.bigint()}))
-    .map(({x, ts}) => ({x, ts, latency: process.hrtime.bigint() - ts}))
-    .reduce(([sum, cnt], {latency}) => ([
+const hrtime = (last) => {
+    const cur = process.hrtime();
+    return (cur[0] - last[0]) * 1e6 + (cur[1] - last[1]) / 1e3;
+};
+
+DataStream
+    .from(function *(){
+        let x = 0;
+        while (x++ < 1000000) yield {
+            x, i: process.hrtime()
+        };
+    })
+    .map(({x, i}) => ({x, init: hrtime(i), ts: process.hrtime()}))
+    .map(({x, init, ts}) => ({x, init, latency: hrtime(ts)}))
+    .filter(({x}) => x > 1000)
+    .reduce(([initSum, sum, cnt], {latency, init}) => ([
+        initSum + init,
         sum + latency,
-        /* eslint-disable-next-line */
-        cnt + 1n
-    ]), [0n,0n])
-    .then(([sum, cnt]) => console.log(sum/cnt));
+        cnt + 1
+    ]), [0,0,0])
+    .then(([init, sum, cnt]) => console.log(`init latency = ${init/cnt}µs, step2step latency = ${sum/cnt}µs`));
