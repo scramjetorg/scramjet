@@ -198,8 +198,8 @@ Here's the list of the exposed classes and methods, please review the specific d
 
 Note that:
 
-* Most of the methods take a callback argument that operates on the stream items.
-* The callback, unless it's stated otherwise, will receive an argument with the next chunk.
+* Most of the methods take a Function argument that operates on the stream items.
+* The Function, unless it's stated otherwise, will receive an argument with the next chunk.
 * If you want to perform your operations asynchronously, return a Promise, otherwise just return the right value.
 
 ## CLI
@@ -240,7 +240,7 @@ await (DataStream.from(aStream) // create a DataStream
 * [`dataStream.into(func, into) ↺`](docs/data-stream.md#DataStream+into) - Allows own implementation of stream chaining.
 * [`dataStream.use(func) ↺`](docs/data-stream.md#DataStream+use) - Calls the passed method in place with the stream as first argument, returns result.
 * [`dataStream.run() ⇄`](docs/data-stream.md#DataStream+run) - Consumes all stream items doing nothing. Resolves when the stream is ended.
-* [`dataStream.tap()`](docs/data-stream.md#DataStream+tap) - Stops merging transform callbacks at the current place in the command chain.
+* [`dataStream.tap()`](docs/data-stream.md#DataStream+tap) - Stops merging transform Functions at the current place in the command chain.
 * [`dataStream.whenRead() ⇄`](docs/data-stream.md#DataStream+whenRead) - Reads a chunk from the stream and resolves the promise when read.
 * [`dataStream.whenWrote(chunk, [...more]) ⇄`](docs/data-stream.md#DataStream+whenWrote) - Writes a chunk to the stream and returns a Promise resolved when more chunks can be written.
 * [`dataStream.whenEnd() ⇄`](docs/data-stream.md#DataStream+whenEnd) - Resolves when stream ends - rejects on uncaught error
@@ -261,13 +261,13 @@ await (DataStream.from(aStream) // create a DataStream
 * [`dataStream.pull(pullable) : Promise ⇄`](docs/data-stream.md#DataStream+pull) - Pulls in any readable stream, resolves when the pulled stream ends.
 * [`dataStream.shift(count, func) ↺`](docs/data-stream.md#DataStream+shift) - Shifts the first n items from the stream and pushes out the remaining ones.
 * [`dataStream.peek(count, func) ↺`](docs/data-stream.md#DataStream+peek) - Allows previewing some of the streams data without removing them from the stream.
-* [`dataStream.slice([start], [length]) ↺`](docs/data-stream.md#DataStream+slice) - Gets a slice of the stream to the callback function.
+* [`dataStream.slice([start], [length]) ↺`](docs/data-stream.md#DataStream+slice) - Slices out a part of the stream to the passed Function.
 * [`dataStream.assign(func) ↺`](docs/data-stream.md#DataStream+assign) - Transforms stream objects by assigning the properties from the returned
 * [`dataStream.empty(callback) ↺`](docs/data-stream.md#DataStream+empty) - Called only before the stream ends without passing any items
 * [`dataStream.unshift(item) ↺`](docs/data-stream.md#DataStream+unshift) - Pushes any data at call time (essentially at the beginning of the stream)
 * [`dataStream.endWith(item) ↺`](docs/data-stream.md#DataStream+endWith) - Pushes any data at end of stream
 * [`dataStream.accumulate(func, into) : Promise ⇄`](docs/data-stream.md#DataStream+accumulate) - Accumulates data into the object.
-* [`~~dataStream.consume(func) ⇄~~`](docs/data-stream.md#DataStream+consume) - Consumes the stream by running each callback
+* [`~~dataStream.consume(func) ⇄~~`](docs/data-stream.md#DataStream+consume) - Consumes the stream by running each Function
 * [`dataStream.reduceNow(func, into) : * ↺`](docs/data-stream.md#DataStream+reduceNow) - Reduces the stream into the given object, returning it immediately.
 * [`dataStream.remap(func, Clazz) : DataStream ↺`](docs/data-stream.md#DataStream+remap) - Remaps the stream into a new stream.
 * [`dataStream.flatMap(func, Clazz) : DataStream ↺`](docs/data-stream.md#DataStream+flatMap) - Takes any method that returns any iterable and flattens the result.
@@ -278,7 +278,7 @@ await (DataStream.from(aStream) // create a DataStream
 * [`dataStream.rewind(count) ↺`](docs/data-stream.md#DataStream+rewind) - Rewinds the buffered chunks the specified length backwards. Requires a prior call to {@see DataStream..keep}
 * [`dataStream.distribute([affinity], clusterFunc, options) ↺`](docs/data-stream.md#DataStream+distribute) - Distributes processing into multiple subprocesses or threads if you like.
 * [`dataStream.separateInto(streams, affinity) ↺`](docs/data-stream.md#DataStream+separateInto) - Seprates stream into a hash of streams. Does not create new streams!
-* [`dataStream.separate(affinity, createOptions) : MultiStream ↺`](docs/data-stream.md#DataStream+separate) - Separates execution to multiple streams using the hashes returned by the passed callback.
+* [`dataStream.separate(affinity, createOptions) : MultiStream ↺`](docs/data-stream.md#DataStream+separate) - Separates execution to multiple streams using the hashes returned by the passed Function.
 * [`dataStream.delegate(delegateFunc, worker, [plugins]) ↺`](docs/data-stream.md#DataStream+delegate) - Delegates work to a specified worker.
 * [`dataStream.batch(count) ↺`](docs/data-stream.md#DataStream+batch) - Aggregates chunks in arrays given number of number of items long.
 * [`dataStream.timeBatch(ms, count) ↺`](docs/data-stream.md#DataStream+timeBatch) - Aggregates chunks to arrays not delaying output by more than the given number of ms.
@@ -301,7 +301,7 @@ await (DataStream.from(aStream) // create a DataStream
 * [`DataStream:DoCallback : function ⇄`](docs/data-stream.md#DataStream.DoCallback) - 
 * [`DataStream:IntoCallback : * ⇄`](docs/data-stream.md#DataStream.IntoCallback) - 
 * [`DataStream:TeeCallback : function`](docs/data-stream.md#DataStream.TeeCallback) - 
-* [`DataStream:ShiftCallback : function`](docs/data-stream.md#DataStream.ShiftCallback) - Shift callback
+* [`DataStream:ShiftCallback : function`](docs/data-stream.md#DataStream.ShiftCallback) - Shift Function
 * [`DataStream:AccumulateCallback : Promise | *`](docs/data-stream.md#DataStream.AccumulateCallback) - 
 * [`DataStream:ConsumeCallback : Promise | *`](docs/data-stream.md#DataStream.ConsumeCallback) - 
 * [`DataStream:RemapCallback : Promise | *`](docs/data-stream.md#DataStream.RemapCallback) - 
@@ -378,7 +378,7 @@ A simple use case would be:
 * [`bufferStream.toDataStream(parser) : DataStream`](docs/buffer-stream.md#BufferStream+toDataStream) - Parses every buffer to object
 * [`BufferStream:pipeline(readable, transforms) : BufferStream`](docs/buffer-stream.md#BufferStream.pipeline) - Creates a pipeline of streams and returns a scramjet stream.
 * [`BufferStream:from(str, options) : BufferStream`](docs/buffer-stream.md#BufferStream.from) - Create BufferStream from anything.
-* [`BufferStream:ShiftCallback : function`](docs/buffer-stream.md#BufferStream.ShiftCallback) - Shift callback
+* [`BufferStream:ShiftCallback : function`](docs/buffer-stream.md#BufferStream.ShiftCallback) - Shift Function
 * [`BufferStream:ParseCallback : Promise`](docs/buffer-stream.md#BufferStream.ParseCallback) - 
 
 ### MultiStream

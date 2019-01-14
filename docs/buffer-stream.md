@@ -208,7 +208,7 @@ Create BufferStream from anything.
 <a name="BufferStream.ShiftCallback"></a>
 
 ### BufferStream:ShiftCallback : function
-Shift callback
+Shift Function
 
 **Kind**: static typedef of [<code>BufferStream</code>](#BufferStream)  
 

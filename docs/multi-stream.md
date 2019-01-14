@@ -50,9 +50,9 @@ Returns the current stream length
 ### multiStream.map(aFunc) : MultiStream ↺
 Returns new MultiStream with the streams returned by the transform.
 
-Runs callback for every stream, returns a new MultiStream of mapped
+Runs Function for every stream, returns a new MultiStream of mapped
 streams and creates a new multistream consisting of streams returned
-by the callback.
+by the Function.
 
 **Kind**: instance method of [<code>MultiStream</code>](#MultiStream)  
 **Chainable**  
@@ -79,7 +79,7 @@ Calls Array.prototype.find on the streams
 
 ### multiStream.filter(func) : MultiStream ↺
 Filters the stream list and returns a new MultiStream with only the
-streams for which the callback returned true
+streams for which the Function returned true
 
 **Kind**: instance method of [<code>MultiStream</code>](#MultiStream)  
 **Chainable**  
