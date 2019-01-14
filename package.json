@@ -68,7 +68,7 @@
     "jsdoc": "^3.5.5",
     "jsdoc-api": "^4.0.3",
     "jsdoc-parse": "^3.0.1",
-    "nodeunit-tape-compat": "^1.3.3",
+    "nodeunit-tape-compat": "^1.3.4",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5",
     "tape": "^4.9.2",
