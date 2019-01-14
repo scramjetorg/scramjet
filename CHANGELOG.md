@@ -2,6 +2,13 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
+## Scramjet 4.20.2 - 4.20.2: use and pipeline fixes.
+
+* fix wording in documentation
+* core - fix `use` modules resolution on
+* core - fix `pipeline` operation
+* 4ee6a02 - Move use test to core
+
 ## Scramjet 4.20.1 - 4.20.1: Dependencies and multithreading fixes
 
 * 4e9dd80 - Dependencies update: new papaparse version.

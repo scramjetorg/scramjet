@@ -202,9 +202,15 @@ declare module 'scramjet' {
          * Transforms stream objects into new ones, just like Array.prototype.map
          * does.
          * 
-         * Map takes an argument which is the callback function operating on every element
+         * Map takes an argument which is the Function function operating on every element
          * of the stream. If the function returns a Promise or is an AsyncFunction then the
          * stream will await for the outcome of the operation before pushing the data forwards.
+         * 
+         * A simple example that turns stream of urls into stream of responses
+         * 
+         * ```javascript
+         * stream.map(async url => fetch(url));
+         * ```
          * 
          * Multiple subsequent map operations (as well as filter, do, each and other simple ops)
          * will be merged together into a single operation to improve performance. Such behavior
@@ -218,10 +224,16 @@ declare module 'scramjet' {
         /**
          * Filters object based on the function outcome, just like Array.prototype.filter.
          * 
-         * Filter takes a callback argument which should be a Function or an AsyncFunction that
+         * Filter takes a Function argument which should be a Function or an AsyncFunction that
          * will be called on each stream item. If the outcome of the operation is `falsy` (`0`, `''`,
          * `false`, `null` or `undefined`) the item will be filtered from subsequent operations
          * and will not be pushed to the output of the stream. Otherwise the item will not be affected.
+         * 
+         * A simple example that filters out non-2xx responses from a stream
+         * 
+         * ```javascript
+         * stream.filter(({statusCode}) => !(statusCode >= 200 && statusCode < 300));
+         * ```
          * @param func The function that filters the object
          */
         filter(func: FilterCallback): DataStream;
@@ -233,6 +245,12 @@ declare module 'scramjet' {
          * Works similarly to Array.prototype.reduce, so whatever you return in the
          * former operation will be the first operand to the latter. The result is a
          * promise that's resolved with the return value of the last transform executed.
+         * 
+         * A simple example that sums values from a stream
+         * 
+         * ```javascript
+         * stream.reduce((acc, {value}) => acc + value);
+         * ```
          * 
          * This method is serial - meaning that any processing on an entry will
          * occur only after the previous entry is fully processed. This does mean
@@ -267,7 +285,7 @@ declare module 'scramjet' {
         /**
          * Allows own implementation of stream chaining.
          * 
-         * The async callback is called on every chunk and should implement writes in it's own way. The
+         * The async Function is called on every chunk and should implement writes in it's own way. The
          * resolution will be awaited for flow control. The passed `into` argument is passed as the first
          * argument to every call.
          * 
@@ -312,7 +330,7 @@ declare module 'scramjet' {
         static pipeline(readable: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, ...transforms: AsyncFunction | Function | Transform): DataStream;
 
         /**
-         * Stops merging transform callbacks at the current place in the command chain.
+         * Stops merging transform Functions at the current place in the command chain.
          */
         tap(): void;
 
@@ -358,7 +376,7 @@ declare module 'scramjet' {
         /**
          * Duplicate the stream
          * 
-         * Creates a duplicate stream instance and passes it to the callback.
+         * Creates a duplicate stream instance and passes it to the Function.
          * @param func The duplicate stream will be passed as first argument.
          */
         tee(func: TeeCallback | Writable): DataStream;
@@ -369,7 +387,7 @@ declare module 'scramjet' {
          * 
          * This is a shorthand for ```stream.on("data", func)``` but with flow control.
          * Warning: this resumes the stream!
-         * @param func a callback called for each chunk.
+         * @param func a Function called for each chunk.
          */
         each(func: MapCallback): DataStream;
 
@@ -499,7 +517,7 @@ declare module 'scramjet' {
         peek(count: Number, func: ShiftCallback): DataStream;
 
         /**
-         * Gets a slice of the stream to the callback function.
+         * Slices out a part of the stream to the passed Function.
          * 
          * Returns a stream consisting of an array of items with `0` to `start`
          * omitted and `length` items after `start` included. Works similarily to
@@ -555,7 +573,7 @@ declare module 'scramjet' {
 
 
         /**
-         * Consumes the stream by running each callback
+         * Consumes the stream by running each Function
          * @deprecated use {@link DataStream#each} instead
          * @param func the consument
          */
@@ -586,7 +604,7 @@ declare module 'scramjet' {
          * Remaps the stream into a new stream.
          * 
          * This means that every item may emit as many other items as we like.
-         * @param func A callback that is called on every chunk
+         * @param func A Function that is called on every chunk
          * @param Clazz Optional DataStream subclass to be constructed
          */
         remap(func: RemapCallback, Clazz: class): DataStream;
@@ -594,9 +612,9 @@ declare module 'scramjet' {
         /**
          * Takes any method that returns any iterable and flattens the result.
          * 
-         * The passed callback must return an iterable (otherwise an error will be emitted). The resulting stream will
+         * The passed Function must return an iterable (otherwise an error will be emitted). The resulting stream will
          * consist of all the items of the returned iterables, one iterable after another.
-         * @param func A callback that is called on every chunk
+         * @param func A Function that is called on every chunk
          * @param Clazz Optional DataStream subclass to be constructed
          */
         flatMap(func: FlatMapCallback, Clazz: class): DataStream;
@@ -638,7 +656,7 @@ declare module 'scramjet' {
          * Distributes processing into multiple subprocesses or threads if you like.
          * @todo Currently order is not kept.
          * @todo Example test breaks travis build
-         * @param affinity Number that runs round-robin the callback function that affixes the item to specific streams which must exist in the object for each chunk. Defaults to Round Robin to twice the number of cpu threads.
+         * @param affinity A Function that affixes the item to specific output stream which must exist in the object for each chunk, must return a string. A number may be passed to identify how many round-robin threads to start up. Defaults to Round Robin to twice the number of cpu threads.
          * @param clusterFunc stream transforms similar to {@see DataStream#use method}
          * @param options Options
          * @see
@@ -648,16 +666,16 @@ declare module 'scramjet' {
         /**
          * Seprates stream into a hash of streams. Does not create new streams!
          * @param streams the object hash of streams. Keys must be the outputs of the affinity function
-         * @param affinity the callback function that affixes the item to specific streams which must exist in the object for each chunk.
+         * @param affinity the Function that affixes the item to specific streams which must exist in the object for each chunk.
          */
         separateInto(streams: Object<DataStream>, affinity: AffinityCallback): DataStream;
 
         /**
-         * Separates execution to multiple streams using the hashes returned by the passed callback.
+         * Separates execution to multiple streams using the hashes returned by the passed Function.
          * 
-         * Calls the given callback for a hash, then makes sure all items with the same hash are processed within a single
+         * Calls the given Function for a hash, then makes sure all items with the same hash are processed within a single
          * stream. Thanks to that streams can be distributed to multiple threads.
-         * @param affinity the callback function
+         * @param affinity the affinity function
          * @param createOptions options to use to create the separated streams
          */
         separate(affinity: AffinityCallback, createOptions: Object): MultiStream;
@@ -998,9 +1016,9 @@ declare module 'scramjet' {
         /**
          * Returns new MultiStream with the streams returned by the transform.
          * 
-         * Runs callback for every stream, returns a new MultiStream of mapped
+         * Runs Function for every stream, returns a new MultiStream of mapped
          * streams and creates a new multistream consisting of streams returned
-         * by the callback.
+         * by the Function.
          * @param aFunc Mapper ran in Promise::then (so you can
          *        return a promise or an object)
          */
@@ -1014,7 +1032,7 @@ declare module 'scramjet' {
 
         /**
          * Filters the stream list and returns a new MultiStream with only the
-         * streams for which the callback returned true
+         * streams for which the Function returned true
          * @param func Filter ran in Promise::then (so you can
          *        return a promise or a boolean)
          */

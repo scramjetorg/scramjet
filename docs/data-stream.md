@@ -115,9 +115,15 @@ Create the DataStream.
 Transforms stream objects into new ones, just like Array.prototype.map
 does.
 
-Map takes an argument which is the callback function operating on every element
+Map takes an argument which is the Function function operating on every element
 of the stream. If the function returns a Promise or is an AsyncFunction then the
 stream will await for the outcome of the operation before pushing the data forwards.
+
+A simple example that turns stream of urls into stream of responses
+
+```javascript
+stream.map(async url => fetch(url));
+```
 
 Multiple subsequent map operations (as well as filter, do, each and other simple ops)
 will be merged together into a single operation to improve performance. Such behavior
@@ -137,10 +143,16 @@ can be surpressed by chaining `.tap()` after `.map()`.
 ### dataStream.filter(func) ↺
 Filters object based on the function outcome, just like Array.prototype.filter.
 
-Filter takes a callback argument which should be a Function or an AsyncFunction that
+Filter takes a Function argument which should be a Function or an AsyncFunction that
 will be called on each stream item. If the outcome of the operation is `falsy` (`0`, `''`,
 `false`, `null` or `undefined`) the item will be filtered from subsequent operations
 and will not be pushed to the output of the stream. Otherwise the item will not be affected.
+
+A simple example that filters out non-2xx responses from a stream
+
+```javascript
+stream.filter(({statusCode}) => !(statusCode >= 200 && statusCode < 300));
+```
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
@@ -158,6 +170,12 @@ Reduces the stream into a given accumulator
 Works similarly to Array.prototype.reduce, so whatever you return in the
 former operation will be the first operand to the latter. The result is a
 promise that's resolved with the return value of the last transform executed.
+
+A simple example that sums values from a stream
+
+```javascript
+stream.reduce((acc, {value}) => acc + value);
+```
 
 This method is serial - meaning that any processing on an entry will
 occur only after the previous entry is fully processed. This does mean
@@ -207,7 +225,7 @@ that are currently happening.
 ### dataStream.into(func, into) ↺
 Allows own implementation of stream chaining.
 
-The async callback is called on every chunk and should implement writes in it's own way. The
+The async Function is called on every chunk and should implement writes in it's own way. The
 resolution will be awaited for flow control. The passed `into` argument is passed as the first
 argument to every call.
 
@@ -249,7 +267,7 @@ Consumes all stream items doing nothing. Resolves when the stream is ended.
 <a name="DataStream+tap"></a>
 
 ### dataStream.tap()
-Stops merging transform callbacks at the current place in the command chain.
+Stops merging transform Functions at the current place in the command chain.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Test**: test/methods/data-stream-tap.js  
@@ -313,7 +331,7 @@ It's much easier to use this in chain than constructing new stream:
 ### dataStream.tee(func) ↺
 Duplicate the stream
 
-Creates a duplicate stream instance and passes it to the callback.
+Creates a duplicate stream instance and passes it to the Function.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
@@ -336,7 +354,7 @@ Warning: this resumes the stream!
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>MapCallback</code> | a callback called for each chunk. |
+| func | <code>MapCallback</code> | a Function called for each chunk. |
 
 <a name="DataStream+while"></a>
 
@@ -525,7 +543,7 @@ Important: Peek does not resume the flow.
 <a name="DataStream+slice"></a>
 
 ### dataStream.slice([start], [length]) ↺
-Gets a slice of the stream to the callback function.
+Slices out a part of the stream to the passed Function.
 
 Returns a stream consisting of an array of items with `0` to `start`
 omitted and `length` items after `start` included. Works similarily to
@@ -625,7 +643,7 @@ Method is parallel
 ### ~~dataStream.consume(func) ⇄~~
 ***Deprecated***
 
-Consumes the stream by running each callback
+Consumes the stream by running each Function
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Meta.noreadme**:   
@@ -675,7 +693,7 @@ This means that every item may emit as many other items as we like.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>RemapCallback</code> | A callback that is called on every chunk |
+| func | <code>RemapCallback</code> | A Function that is called on every chunk |
 | Clazz | <code>class</code> | Optional DataStream subclass to be constructed |
 
 <a name="DataStream+flatMap"></a>
@@ -683,7 +701,7 @@ This means that every item may emit as many other items as we like.
 ### dataStream.flatMap(func, Clazz) : DataStream ↺
 Takes any method that returns any iterable and flattens the result.
 
-The passed callback must return an iterable (otherwise an error will be emitted). The resulting stream will
+The passed Function must return an iterable (otherwise an error will be emitted). The resulting stream will
 consist of all the items of the returned iterables, one iterable after another.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
@@ -693,7 +711,7 @@ consist of all the items of the returned iterables, one iterable after another.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>FlatMapCallback</code> | A callback that is called on every chunk |
+| func | <code>FlatMapCallback</code> | A Function that is called on every chunk |
 | Clazz | <code>class</code> | Optional DataStream subclass to be constructed |
 
 <a name="DataStream+flatten"></a>
@@ -773,7 +791,7 @@ Distributes processing into multiple subprocesses or threads if you like.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [affinity] | <code>AffinityCallback</code> \| <code>Number</code> | Number that runs round-robin the callback function that affixes the item to specific streams which must exist in the object for each chunk. Defaults to Round Robin to twice the number of cpu threads. |
+| [affinity] | <code>AffinityCallback</code> \| <code>Number</code> | A Function that affixes the item to specific output stream which must exist in the object for each chunk, must return a string. A number may be passed to identify how many round-robin threads to start up. Defaults to Round Robin to twice the number of cpu threads. |
 | clusterFunc | <code>ClusterCallback</code> | stream transforms similar to {@see DataStream#use method} |
 | options | <code>Object</code> | Options |
 
@@ -789,14 +807,14 @@ Seprates stream into a hash of streams. Does not create new streams!
 | Param | Type | Description |
 | --- | --- | --- |
 | streams | [<code>Object.&lt;DataStream&gt;</code>](#DataStream) | the object hash of streams. Keys must be the outputs of the affinity function |
-| affinity | <code>AffinityCallback</code> | the callback function that affixes the item to specific streams which must exist in the object for each chunk. |
+| affinity | <code>AffinityCallback</code> | the Function that affixes the item to specific streams which must exist in the object for each chunk. |
 
 <a name="DataStream+separate"></a>
 
 ### dataStream.separate(affinity, createOptions) : MultiStream ↺
-Separates execution to multiple streams using the hashes returned by the passed callback.
+Separates execution to multiple streams using the hashes returned by the passed Function.
 
-Calls the given callback for a hash, then makes sure all items with the same hash are processed within a single
+Calls the given Function for a hash, then makes sure all items with the same hash are processed within a single
 stream. Thanks to that streams can be distributed to multiple threads.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
@@ -807,7 +825,7 @@ stream. Thanks to that streams can be distributed to multiple threads.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| affinity | <code>AffinityCallback</code> | the callback function |
+| affinity | <code>AffinityCallback</code> | the affinity function |
 | createOptions | <code>Object</code> | options to use to create the separated streams |
 
 <a name="DataStream+delegate"></a>
@@ -1150,7 +1168,7 @@ Doesn't end the stream until it reaches end of the iterator.
 <a name="DataStream.ShiftCallback"></a>
 
 ### DataStream:ShiftCallback : function
-Shift callback
+Shift Function
 
 **Kind**: static typedef of [<code>DataStream</code>](#DataStream)  
 
