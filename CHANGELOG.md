@@ -2,6 +2,8 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
+* 6df17a1 - Dependencies update: fix operation of `scramjet.createTransformModule` and `scramjet.createReadModule`
+
 ## Scramjet 4.20.2 - 4.20.2: use and pipeline fixes.
 
 * fix wording in documentation
