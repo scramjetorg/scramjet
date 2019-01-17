@@ -20,17 +20,17 @@
             const out = new DataStream();
 
             stream
+                .peek(1, async ([first]) => out.whenWrote(first))
+                .batch(100)
                 .reduce(async (acc, result) => {
-                    if (acc !== null) await items.whenWrote(acc);
+                    await items.whenWrote(result);
 
-                    return result;
+                    return result[result.length - 1];
                 }, null)
                 .then((last) => out.whenWrote(last))
                 .then(() => items.end());
 
             items
-                .shift(1, ([item]) => out.whenWrote(item))
-                .batch(100)
                 .setOptions({ maxParallel: 1 })
                 .do(arr => counter += arr.length)
                 .each(batch => writeDataToSocketIo(batch))

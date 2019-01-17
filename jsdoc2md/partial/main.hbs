@@ -15,14 +15,15 @@
 ## What does it do?
 {{/unless~}}
 
-Scramjet is a fast, simple, multi-threaded functional stream programming framework written on top of node.js object
+Scramjet is a fast, simple, functional reactive stream programming framework written on top of node.js object
 streams. The code is written by chaining functions that transform the streamed data, including well known map, filter and
 reduce and fully compatible with ES7 async/await. Thanks to it some built in optimizations scramjet is much faster and much
 much simpler than similar frameworks when using asynchronous operations.
 
 The main advantage of scramjet is running asynchronous operations on your data streams. First of all it allows you to
 perform the transformations both synchronously and asynchronously by using the same API - so now you can "map" your
-stream from whatever source and call any number of API's consecutively.
+stream from whatever source and call any number of API's consecutively. And if you're after some heavy maths
+there's an option of running your stream as multi-threaded!
 
 The benchmarks are published in the [scramjet-benchmark repo](https://github.com/signicode/scramjet-benchmark).
 
