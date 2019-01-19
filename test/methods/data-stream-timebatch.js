@@ -20,7 +20,7 @@ exports.test = async (test) => {
         setTimeout(() => {
             x.write(6);
             x.end(7);
-        }, 450);
+        }, 150);
     }, 50);
 
     const out = await x.timeBatch(100, 2)
