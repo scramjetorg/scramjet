@@ -2,7 +2,25 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
+## Scramjet 4.20.4 - 4.20.4: Fix dataStream.slice
+
+* 99e57da - Dependencies update.
+* 80800a0 - Fix deepscan reported error.
+* ca9fa98 - Fix `dataStream.slice` to work correctly when start=0.
+* ff68b1b - Fix tests not to base on result of other tests.
+* dcb364a - Parallelize test results, not tests
+* b547d91 - Fix cache clear on tests, unparallel
+* 34b14ff - Remove unnecessary files
+* 57fe9ca - Remove console.logs in tests
+* 0591a9c - test(#30) cases showing the bug reported in #30
+* 1994a66 - Fix sample to fit needs
+* c8fa338 - Sample from Stackoverflow
+
+## Scramjet 4.20.3 - 4.20.3: Fix module helper functions
+
 * 6df17a1 - Dependencies update: fix operation of `scramjet.createTransformModule` and `scramjet.createReadModule`
+* ccd131d - Changelog update
+* d87c51c - Update issue templates
 
 ## Scramjet 4.20.2 - 4.20.2: use and pipeline fixes.
 
