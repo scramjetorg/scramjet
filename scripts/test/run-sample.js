@@ -10,6 +10,7 @@ const { runTests, flattenTests } = require("nodeunit-tape-compat");
 const { DataStream } = require("../../");
 const file = path.resolve(process.cwd(), process.argv[2]);
 const access = promisify(fs.access);
+const decache = require("decache");
 
 process.on("unhandledRejection", unhandledRejectionHandler);
 
@@ -35,6 +36,8 @@ DataStream.fromArray([{
         }
 
         try {
+            Object.keys(require.cache).forEach(mod => decache(mod));
+
             const out = require(file);
             const tests = out.test ? {[method]: out.test} : {[method]: (test) => {
                 test.ok(true, "Sample exists but there's no test.");
@@ -59,7 +62,7 @@ DataStream.fromArray([{
         flattenTests
     )
     .assign(
-        runTests
+        (tests) => runTests(tests)
     )
     .catch(
         (e) => {

@@ -56,6 +56,7 @@
   "license": "MIT",
   "devDependencies": {
     "@otris/jsdoc-tsd": "^1.0.4",
+    "decache": "^4.5.0",
     "dmd": "^3.0.13",
     "eslint": "^5.12.0",
     "eslint-config-defaults": "^9.0.0",
