@@ -31,7 +31,7 @@ exports.test = {
         const out = DataStream.from(function* () {
             let z = 0;
             while (z++ < 1031) {
-                yield new Promise(res => setTimeout(res, z%4+3)).then(() => ({z}));
+                yield new Promise(res => process.nextTick(res)).then(() => ({z}));
             }
         }).batch(64);
 
