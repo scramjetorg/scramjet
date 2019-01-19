@@ -62,7 +62,6 @@ module.exports = scramjet.fromArray(
             return arr;
         }
     )
-    .setOptions({maxParallel: 1})
     .assign(async (test) => {
         const {file, prefix, method} = test;
 
@@ -103,6 +102,8 @@ module.exports = scramjet.fromArray(
     .assign(
         runTests
     )
+    .setOptions({maxParallel: 1})
+    .tap()
     .catch(
         (e) => {
             console.error("ERRROR", e && e.stack);
@@ -112,6 +113,7 @@ module.exports = scramjet.fromArray(
     .filter(
         (test) => !test.ok
     )
+    .setOptions({maxParallel: 1024})
     .toArray()
     .then(
         (arr) => {
