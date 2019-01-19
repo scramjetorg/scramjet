@@ -6,7 +6,7 @@
     const {DataStream} = require("../../");
     async function* getDocs(n) {
         for (let i = 0; i < n; ++i) {
-            if (!(i % 100)) await sleep(1);
+            if (!(i % 100)) await sleep();
             yield { i: i, t: Date.now() };
         }
     }
