@@ -17,7 +17,7 @@ exports.test = {
         DataStream.fromIterator(gen())
             .distribute(
                 i => i % cpus,
-                require.resolve("./tests/prime.js")
+                require.resolve("./lib/prime.js")
             )
             .toArray()
             .then((arr) => {

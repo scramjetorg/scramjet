@@ -2,7 +2,7 @@
 // module: data-stream, method: flatMap
 
 const { DataStream, NumberStream } = require("../../");
-exports.log = console.log.bind(console);
+exports.log = process.env.TEST_VERBOSE === 1 ? console.log.bind(console) : () => 0;
 
 const stream = (v) => {
     const x = new DataStream();

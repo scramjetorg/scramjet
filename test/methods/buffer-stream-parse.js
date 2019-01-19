@@ -35,4 +35,4 @@ exports.test = (test) => {
     ;
     test.ok(str instanceof DataStream, "Returns a DataStream");
 };
-exports.log = console.log.bind(console);
+exports.log = process.env.TEST_VERBOSE === 1 ? console.log.bind(console) : () => 0;

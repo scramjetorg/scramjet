@@ -2,7 +2,7 @@
 // module: data-stream, method: JSONStringify
 
 const {StringStream} = require("../../");
-exports.log = console.log.bind(console);
+exports.log = process.env.TEST_VERBOSE === 1 ? console.log.bind(console) : () => 0;
 
 const dat = [1,2,3,4].map((n) => `{"n":${n}}`).join("\n") + "\n";
 
