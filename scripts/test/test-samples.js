@@ -10,6 +10,7 @@ const corePath = path.dirname(require.resolve("scramjet-core"));
 const {promisify} = require("util");
 const {runTests, flattenTests} = require("nodeunit-tape-compat");
 const access = promisify(fs.access);
+const decache = require("decache");
 
 const matrix = [
     ["buffer", scramjet.BufferStream],
@@ -61,6 +62,7 @@ module.exports = scramjet.fromArray(
             return arr;
         }
     )
+    .setOptions({maxParallel: 1})
     .assign(async (test) => {
         const {file, prefix, method} = test;
 
@@ -76,6 +78,8 @@ module.exports = scramjet.fromArray(
         }
 
         try {
+            Object.keys(require.cache).forEach(mod => decache(mod));
+
             const out = require(file);
             const tests = out.test ? {[method]: out.test} : {[method]: (test) => {
                 test.ok(true, "Sample exists but there's no test.");
