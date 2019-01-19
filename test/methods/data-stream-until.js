@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// module: data-stream, method: map
+// module: data-stream, method: until
 
 const { DataStream } = require("../../");
 
