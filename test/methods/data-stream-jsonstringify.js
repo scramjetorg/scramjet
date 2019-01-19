@@ -4,7 +4,7 @@
 const os = require("os");
 
 const DataStream = require("../../").DataStream;
-exports.log = console.log.bind(console);
+exports.log = process.env.TEST_VERBOSE === 1 ? console.log.bind(console) : () => 0;
 
 const dat = [1,2,3,4];
 exports.stream = () => DataStream.fromArray(dat).map((n) => ({n}));

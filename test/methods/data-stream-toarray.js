@@ -3,7 +3,7 @@
 
 const DataStream = require("../../").DataStream;   // eslint-disable-line
 
-exports.log = console.log.bind(console);
+exports.log = process.env.TEST_VERBOSE === 1 ? console.log.bind(console) : () => 0;
 
 exports.test = async (test) => {
     const stream = DataStream.from([1,2,3,4]);

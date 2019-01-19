@@ -2,7 +2,7 @@
 // module: data-stream, method: batch
 
 const {DataStream, StringStream} = require("../../");
-exports.log = console.log.bind(console);
+exports.log = process.env.TEST_VERBOSE === 1 ? console.log.bind(console) : () => 0;
 
 exports.test = {
     async static(test) {
@@ -74,4 +74,4 @@ exports.test = {
     }
 };
 
-exports.log = console.log.bind(console);
+exports.log = process.env.TEST_VERBOSE === 1 ? console.log.bind(console) : () => 0;
