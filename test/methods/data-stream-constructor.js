@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 // module: data-stream, method: constructor
 
-const DataStream = require("../../").DataStream;
+const {DataStream} = require("../../");
 
-exports.stream = () =>require("./buffer-stream-parse")
+exports.stream = () => require("./buffer-stream-parse")
     .stream()                                                                   // get BufferStream from another example
     .pipe(new DataStream())                                                     // construct the DataStream
 ;
@@ -15,4 +15,4 @@ exports.test = (test) => {
     test.done();
 };
 
-exports.log = console.log.bind(console);
+exports.log = process.env.TEST_VERBOSE === 1 ? console.log.bind(console) : () => 0;

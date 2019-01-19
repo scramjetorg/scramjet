@@ -26,4 +26,5 @@ exports.test = (test) => {
         .on("error", (e) => { console.error("Error", e && e.stack); test.ok(0, "Error should not occur"); })
     ;
 };
-exports.log = console.log.bind(console);
+
+exports.log = process.env.TEST_VERBOSE === 1 ? console.log.bind(console) : () => 0;

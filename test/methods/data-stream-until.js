@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// module: data-stream, method: map
+// module: data-stream, method: until
 
 const { DataStream } = require("../../");
 
@@ -16,4 +16,4 @@ exports.test = async (test) => {
     test.done();
 };
 
-exports.log = console.log.bind(console);
+exports.log = process.env.TEST_VERBOSE === 1 ? console.log.bind(console) : () => 0;

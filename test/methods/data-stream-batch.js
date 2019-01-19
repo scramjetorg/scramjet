@@ -2,7 +2,7 @@
 // module: data-stream, method: batch
 
 const {DataStream, StringStream} = require("../../");
-exports.log = console.log.bind(console);
+exports.log = process.env.TEST_VERBOSE === 1 ? console.log.bind(console) : () => 0;
 
 exports.test = {
     async static(test) {
@@ -31,7 +31,7 @@ exports.test = {
         const out = DataStream.from(function* () {
             let z = 0;
             while (z++ < 1031) {
-                yield new Promise(res => setTimeout(res, z%4+3)).then(() => ({z}));
+                yield new Promise(res => process.nextTick(res)).then(() => ({z}));
             }
         }).batch(64);
 
@@ -74,4 +74,4 @@ exports.test = {
     }
 };
 
-exports.log = console.log.bind(console);
+exports.log = process.env.TEST_VERBOSE === 1 ? console.log.bind(console) : () => 0;

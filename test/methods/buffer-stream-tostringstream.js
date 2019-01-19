@@ -1,15 +1,19 @@
 #!/usr/bin/env node
 // module: buffer-stream, method: tostringstream
 
-const StringStream = require("../../").StringStream;
+const {BufferStream, StringStream} = require("../../");
+const fs = require("fs");
+const path = require("path");
 
-exports.stream = () => require("./buffer-stream-split")
-    .stream()                                                                   // get BufferStream from another example
-    .toStringStream("ascii")                                                    // read as strings
-    .each(exports.log)
-    .map(
-        (b64) => Buffer.from(b64, "base64").toString()
-    );
+exports.stream = () =>
+    fs.createReadStream(path.resolve(__dirname, "./data/in-binary.b64l"))       // read input data
+        .pipe(new BufferStream())                                               // pipe to the transforming stream
+        .split(Buffer.from("\n"))                                               // Split by LF in a buffer
+        .toStringStream("ascii")                                                    // read as strings
+        .each(exports.log)
+        .map(
+            (b64) => Buffer.from(b64, "base64").toString()
+        );
 
 exports.test = (test) => {
     test.expect(3);
@@ -26,4 +30,4 @@ exports.test = (test) => {
     test.ok(ret instanceof StringStream, "Returns a StringStream");
 };
 
-exports.log = console.log.bind(console);
+exports.log = process.env.TEST_VERBOSE === 1 ? console.log.bind(console) : () => 0;
