@@ -71,6 +71,7 @@ await (DataStream.from(aStream) // create a DataStream
     * [dataStream.separateInto(streams, affinity)](#DataStream+separateInto) ↺
     * [dataStream.separate(affinity, createOptions)](#DataStream+separate) ↺ <code>MultiStream</code>
     * [dataStream.delegate(delegateFunc, worker, [plugins])](#DataStream+delegate) ↺
+    * [dataStream.rate(cps, [options])](#DataStream+rate) ↺
     * [dataStream.batch(count)](#DataStream+batch) ↺
     * [dataStream.timeBatch(ms, count)](#DataStream+timeBatch) ↺
     * [dataStream.nagle([size], [ms])](#DataStream+nagle) ↺
@@ -98,6 +99,7 @@ await (DataStream.from(aStream) // create a DataStream
     * [DataStream:RemapCallback](#DataStream.RemapCallback)  <code>Promise</code> \| <code>\*</code>
     * [DataStream:FlatMapCallback](#DataStream.FlatMapCallback)  <code>Promise.&lt;Iterable&gt;</code> \| <code>Iterable</code>
     * [DataStream:JoinCallback](#DataStream.JoinCallback)  <code>Promise.&lt;\*&gt;</code> \| <code>\*</code>
+    * [DataStream:RateOptions](#DataStream.RateOptions)
 
 <a name="new_DataStream_new"></a>
 
@@ -843,6 +845,20 @@ Delegates work to a specified worker.
 | worker | <code>WorkerStream</code> |  |  |
 | [plugins] | <code>Array</code> | <code>[]</code> |  |
 
+<a name="DataStream+rate"></a>
+
+### dataStream.rate(cps, [options]) ↺
+Limit the rate of the stream to a given number of chunks per second or given timeframe.
+
+**Kind**: instance method of [<code>DataStream</code>](#DataStream)  
+**Chainable**  
+**Meta.noreadme**:   
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| cps | <code>Number</code> |  | Chunks per timeframe, the default timeframe is 1000 ms. |
+| [options] | <code>RateOptions</code> | <code>{}</code> | Options for the limitter controlling the timeframe and time source. Both must work on same units. |
+
 <a name="DataStream+batch"></a>
 
 ### dataStream.batch(count) ↺
@@ -1228,6 +1244,17 @@ Shift Function
 | --- | --- | --- |
 | prev | <code>\*</code> | the chunk before |
 | next | <code>\*</code> | the chunk after |
+
+<a name="DataStream.RateOptions"></a>
+
+### DataStream:RateOptions
+**Kind**: static typedef of [<code>DataStream</code>](#DataStream)  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [timeFrame] | <code>Number</code> | <code>1000</code> | The size of the window to look for streams. |
+| [getTime] | <code>function</code> | <code>Date.now</code> | Time source - anything that returns time. |
+| [setTimeout] | <code>function</code> | <code>setTimeout</code> | Timing function that works identically to setTimeout. |
 
 <a name="StreamOptions"></a>
 
