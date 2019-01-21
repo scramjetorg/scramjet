@@ -1,52 +1,40 @@
 #!/usr/bin/env node
 // module: string-stream, method: shift
 
-const {platform} = require("os");
+const {platform, EOL} = require("os");
 const {resolve, relative} = require("path");
 const {unlink} = require("fs");
 const {promisify} = require("util");
 
 const StringStream = require("../../").StringStream;
 exports.log = console.log.bind(console);
+const executable = platform() === "win32"
+    ? relative(".", "./lib/test-exec.cmd")
+    : relative(".", "./lib/test-exec.sh");
 
 exports.test = {
     shell: {
-        windows(test) {
-            if (platform() !== "win32") {
-                test.ok(true, "Only testable on win32");
-                test.done();
-                return;
-            }
-
-            const path = relative(".", "./lib/test-exec.cmd");
+        basic(test) {
             StringStream
                 .from(["a1", "b1", "c2", "c1"])
-                .append("\r\n")
-                .exec(path)
-                .split("\r\n")
+                .append(EOL)
+                .exec(executable)
+                .split(EOL)
                 .toArray()
                 .then(arr => test.deepEqual(arr, ["c2", "c1", ""], "Should execute the grep test"))
-                .then(() => promisify(unlink)(resolve(__dirname, `${path}.did`)))
+                .then(() => promisify(unlink)(resolve(__dirname, `${executable}.did`)))
                 .catch(err => test.fail(err))
                 .then(() => test.done())
             ;
         },
-        unix(test) {
-            if (platform() === "win32") {
-                test.ok(true, "Only testable on posix platforms");
-                test.done();
-                return;
-            }
-
-            const path = resolve(__dirname, "./lib/test-exec.sh");
+        args(test) {
             StringStream
                 .from(["a1", "b1", "c2", "c1"])
-                .append("\n")
-                .exec(path)
-                .split("\n")
+                .append(EOL)
+                .exec(executable, {}, "h1")
+                .split(EOL)
                 .toArray()
-                .then(arr => test.deepEqual(arr, ["c2", "c1", ""], "Should execute the grep test"))
-                .then(() => promisify(unlink)(resolve(__dirname, `${path}.did`)))
+                .then(arr => test.deepEqual(arr, ["h1", "c2", "c1", ""], "Should execute the grep test"))
                 .catch(err => test.fail(err))
                 .then(() => test.done())
             ;
