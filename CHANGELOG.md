@@ -2,6 +2,10 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
+## Scramjet 4.20.5 - 4.20.5: Fix whenRead/ing past end.
+
+* c6091d7 - Dependencies update, fixes #33.
+
 ## Scramjet 4.20.4 - 4.20.4: Fix dataStream.slice
 
 * 99e57da - Dependencies update.
