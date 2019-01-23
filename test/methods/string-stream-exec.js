@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// module: string-stream, method: shift
+// module: string-stream, method: exec
 
 const {platform, EOL: _EOL} = require("os");
 const {resolve, relative} = require("path");
@@ -15,12 +15,17 @@ const [executable, EOL] = !`${process.env.SHELL}`.includes("sh") && platform() =
 exports.test = {
     shell: {
         basic(test) {
-            test.expect(1);
+            test.expect(2);
 
             StringStream
                 .from(["a1", "b1", "c2", "c1"])
                 .append(EOL)
                 .exec(executable)
+                .use(stream => {
+                    test.ok(stream instanceof StringStream, "Returns StringStream");
+
+                    return stream;
+                })
                 .split(EOL)
                 .toArray()
                 .then(arr => test.deepEqual(arr, ["c2", "c1", ""], "Should execute the grep test"))
