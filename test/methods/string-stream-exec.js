@@ -15,6 +15,8 @@ const [executable, EOL] = !`${process.env.SHELL}`.includes("sh") && platform() =
 exports.test = {
     shell: {
         basic(test) {
+            test.expect(1);
+
             StringStream
                 .from(["a1", "b1", "c2", "c1"])
                 .append(EOL)
@@ -28,6 +30,8 @@ exports.test = {
             ;
         },
         args(test) {
+            test.expect(1);
+
             StringStream
                 .from(["a1", "b1", "c2", "c1"])
                 .append(EOL)
@@ -36,6 +40,24 @@ exports.test = {
                 .toArray()
                 .then(arr => test.deepEqual(arr, ["h1", "c2", "c1", ""], "Should execute the grep test"))
                 .catch(err => test.fail(err))
+                .then(() => test.done())
+            ;
+        },
+        errors(test) {
+            test.expect(3);
+
+            StringStream
+                .from(["a1", "b1", "c2", "c1"])
+                .append(EOL)
+                .exec(executable, {}, "err11")
+                .split(EOL)
+                .toArray()
+                .then(arr => test.fail(`Should not succeed ${arr}`))
+                .catch(err => {
+                    test.ok(err instanceof Error, "Should raise error");
+                    test.ok(err.cause instanceof Error, "Should carry cause");
+                    test.equals(err.cause.exitCode, 11, "Should push error code");
+                })
                 .then(() => test.done())
             ;
         }
