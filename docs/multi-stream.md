@@ -14,7 +14,7 @@ An object consisting of multiple streams than can be refined or muxed.
     * [multiStream.map(aFunc)](#MultiStream+map) ↺ [<code>MultiStream</code>](#MultiStream)
     * [multiStream.find(...args)](#MultiStream+find)  <code>DataStream</code>
     * [multiStream.filter(func)](#MultiStream+filter) ↺ [<code>MultiStream</code>](#MultiStream)
-    * [multiStream.mux(cmp)](#MultiStream+mux)  <code>DataStream</code>
+    * [multiStream.mux(comparator)](#MultiStream+mux)  <code>DataStream</code>
     * [multiStream.add(stream)](#MultiStream+add)
     * [multiStream.remove(stream)](#MultiStream+remove)
     * [multiStream.route([policy], [count])](#MultiStream+route)  [<code>MultiStream</code>](#MultiStream)
@@ -51,7 +51,7 @@ Returns the current stream length
 Returns new MultiStream with the streams returned by the transform.
 
 Runs Function for every stream, returns a new MultiStream of mapped
-streams and creates a new multistream consisting of streams returned
+streams and creates a new MultiStream consisting of streams returned
 by the Function.
 
 **Kind**: instance method of [<code>MultiStream</code>](#MultiStream)  
@@ -92,7 +92,7 @@ streams for which the Function returned true
 
 <a name="MultiStream+mux"></a>
 
-### multiStream.mux(cmp) : DataStream
+### multiStream.mux(comparator) : DataStream
 Muxes the streams into a single one
 
 **Kind**: instance method of [<code>MultiStream</code>](#MultiStream)  
@@ -108,7 +108,7 @@ Muxes the streams into a single one
 
 | Param | Type | Description |
 | --- | --- | --- |
-| cmp | <code>ComparatorFunction</code> | Should return -1 0 or 1 depending on the                                  desired order. If passed the chunks will                                  be added in a sorted order. |
+| comparator | <code>ComparatorFunction</code> | Should return -1 0 or 1 depending on the                                  desired order. If passed the chunks will                                  be added in a sorted order. |
 
 <a name="MultiStream+add"></a>
 
@@ -116,7 +116,7 @@ Muxes the streams into a single one
 Adds a stream to the MultiStream
 
 If the stream was muxed, filtered or mapped, this stream will undergo the
-same transorms and conditions as if it was added in constructor.
+same transforms and conditions as if it was added in constructor.
 
 **Kind**: instance method of [<code>MultiStream</code>](#MultiStream)  
 **Meta.noreadme**:   
@@ -183,7 +183,7 @@ Distributes processing to multiple forked subprocesses.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| clusterFunc | <code>function</code> \| <code>String</code> | a cluster callback with all operations working similarily to DataStream::use |
+| clusterFunc | <code>function</code> \| <code>String</code> | a cluster callback with all operations working similarly to DataStream::use |
 | options | <code>DistributeOptions</code> |  |
 
 <a name="MultiStream.DistributeOptions"></a>
@@ -198,5 +198,5 @@ Distribute options
 | --- | --- | --- |
 | plugins | <code>Array</code> | a list of scramjet plugins to load (if omitted, will use just the ones in scramjet itself) |
 | StreamClass | <code>String</code> | the class to deserialize the stream to. |
-| threads | <code>Number</code> | maximum threads to use - defauls to number of processor threads in os, but it may be sensible to go over this value if you'd intend to run synchronous code. |
+| threads | <code>Number</code> | maximum threads to use - defaults to number of processor threads in os, but it may be sensible to go over this value if you'd intend to run synchronous code. |
 

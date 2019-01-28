@@ -3,7 +3,7 @@ Scramjet Modules
 
 A Scramjet module is a simple module that exposes a single function that performs some operations with the stream. The API is designed so that these modules can be easily used on any stream you like without needing to use scramjet.
 
-For a quick example please see the [signicode/scramjet-module](https://github.com/signicode/scramjet-module) repositiory.
+For a quick example please see the [signicode/scramjet-module](https://github.com/signicode/scramjet-module) repository.
 
 
 Using scramjet modules

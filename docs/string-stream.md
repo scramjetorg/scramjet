@@ -25,13 +25,13 @@ StringStream.fromString()
     * [stringStream.lines([eol])](#StringStream+lines) ↺
     * [stringStream.JSONParse(perLine)](#StringStream+JSONParse) ↺ <code>DataStream</code>
     * [stringStream.CSVParse(options)](#StringStream+CSVParse) ↺ <code>DataStream</code>
-    * [stringStream.append(arg)](#StringStream+append) ↺
-    * [stringStream.prepend(arg)](#StringStream+prepend) ↺
+    * [stringStream.append(param)](#StringStream+append) ↺
+    * [stringStream.prepend(param)](#StringStream+prepend) ↺
     * [stringStream.pop(bytes, func)](#StringStream+pop) ↺
     * [StringStream:SPLIT_LINE](#StringStream.SPLIT_LINE)
-    * [StringStream:fromString(str, encoding)](#StringStream.fromString)  [<code>StringStream</code>](#StringStream)
+    * [StringStream:fromString(stream, encoding)](#StringStream.fromString)  [<code>StringStream</code>](#StringStream)
     * [StringStream:pipeline(readable, transforms)](#StringStream.pipeline)  [<code>StringStream</code>](#StringStream)
-    * [StringStream:from(str, options)](#StringStream.from)  [<code>StringStream</code>](#StringStream)
+    * [StringStream:from(source, options)](#StringStream.from)  [<code>StringStream</code>](#StringStream)
     * [StringStream:ShiftCallback](#StringStream.ShiftCallback)  <code>function</code>
     * [StringStream:ParseCallback](#StringStream.ParseCallback)  <code>Promise</code>
 
@@ -65,7 +65,7 @@ the given number of characters.
 <a name="StringStream+split"></a>
 
 ### stringStream.split(splitter) ↺
-Splits the string stream by the specified regexp or string
+Splits the string stream by the specified RegExp or string
 
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
 **Chainable**  
@@ -168,7 +168,7 @@ Parses CSV to DataString using 'papaparse' module.
 
 <a name="StringStream+append"></a>
 
-### stringStream.append(arg) ↺
+### stringStream.append(param) ↺
 Appends given argument to all the items.
 
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
@@ -177,11 +177,11 @@ Appends given argument to all the items.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| arg | <code>function</code> \| <code>String</code> | the argument to append. If function passed then it will be called and resolved and the resolution will be appended. |
+| param | <code>function</code> \| <code>String</code> | the argument to append. If function passed then it will be called and resolved and the resolution will be appended. |
 
 <a name="StringStream+prepend"></a>
 
-### stringStream.prepend(arg) ↺
+### stringStream.prepend(param) ↺
 Prepends given argument to all the items.
 
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
@@ -190,7 +190,7 @@ Prepends given argument to all the items.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| arg | <code>function</code> \| <code>String</code> | the argument to prepend. If function passed then it will be called and resolved                              and the resolution will be prepended. |
+| param | <code>function</code> \| <code>String</code> | the argument to prepend. If function passed then it will be called and resolved                              and the resolution will be prepended. |
 
 <a name="StringStream+pop"></a>
 
@@ -212,12 +212,12 @@ the given number of characters.
 <a name="StringStream.SPLIT_LINE"></a>
 
 ### StringStream:SPLIT_LINE
-A handly split by line regex to quickly get a line-by-line stream
+A handy split by line regex to quickly get a line-by-line stream
 
 **Kind**: static property of [<code>StringStream</code>](#StringStream)  
 <a name="StringStream.fromString"></a>
 
-### StringStream:fromString(str, encoding) : StringStream
+### StringStream:fromString(stream, encoding) : StringStream
 Creates a StringStream and writes a specific string.
 
 **Kind**: static method of [<code>StringStream</code>](#StringStream)  
@@ -225,7 +225,7 @@ Creates a StringStream and writes a specific string.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| str | <code>String</code> | the string to push the your stream |
+| stream | <code>String</code> | the string to push the your stream |
 | encoding | <code>String</code> | optional encoding |
 
 <a name="StringStream.pipeline"></a>
@@ -244,7 +244,7 @@ Creates a pipeline of streams and returns a scramjet stream.
 
 <a name="StringStream.from"></a>
 
-### StringStream:from(str, options) : StringStream
+### StringStream:from(source, options) : StringStream
 Create StringStream from anything.
 
 **Kind**: static method of [<code>StringStream</code>](#StringStream)  
@@ -257,7 +257,7 @@ Create StringStream from anything.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| str | <code>String</code> \| <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>Readable</code> | argument to be turned into new stream |
+| source | <code>String</code> \| <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>Readable</code> | argument to be turned into new stream |
 | options | <code>StreamOptions</code> \| <code>Writable</code> |  |
 
 <a name="StringStream.ShiftCallback"></a>
