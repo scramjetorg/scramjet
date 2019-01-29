@@ -12,6 +12,8 @@ function* gen() {
 
 exports.test = {
     distribute(test) {
+        if (process.env.SCRAMJET_NO_FORKS) return test.done();
+
         test.expect(3);
 
         DataStream.fromIterator(gen())

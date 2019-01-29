@@ -15,6 +15,8 @@ const [executable, EOL] = !`${process.env.SHELL}`.includes("sh") && platform() =
 exports.test = {
     shell: {
         basic(test) {
+            if (process.env.SCRAMJET_NO_FORKS) return test.done();
+
             test.expect(2);
 
             StringStream
@@ -35,6 +37,8 @@ exports.test = {
             ;
         },
         args(test) {
+            if (process.env.SCRAMJET_NO_FORKS) return test.done();
+
             test.expect(1);
 
             StringStream
@@ -49,6 +53,8 @@ exports.test = {
             ;
         },
         errors(test) {
+            if (process.env.SCRAMJET_NO_FORKS) return test.done();
+
             test.expect(3);
 
             StringStream
