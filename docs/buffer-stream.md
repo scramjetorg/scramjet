@@ -3,7 +3,7 @@
 <a name="BufferStream"></a>
 
 ## BufferStream : DataStream
-A factilitation stream created for easy splitting or parsing buffers.
+A facilitation stream created for easy splitting or parsing buffers.
 
 Useful for working on built-in Node.js streams from files, parsing binary formats etc.
 
@@ -13,11 +13,11 @@ A simple use case would be:
  fs.createReadStream('pixels.rgba')
      .pipe(new BufferStream)         // pipe a buffer stream into scramjet
      .breakup(4)                     // split into 4 byte fragments
-     .parse(buf => [
-         buf.readInt8(0),            // the output is a stream of R,G,B and Alpha
-         buf.readInt8(1),            // values from 0-255 in an array.
-         buf.readInt8(2),
-         buf.readInt8(3)
+     .parse(buffer => [
+         buffer.readInt8(0),            // the output is a stream of R,G,B and Alpha
+         buffer.readInt8(1),            // values from 0-255 in an array.
+         buffer.readInt8(2),
+         buffer.readInt8(3)
      ]);
 ```
 
@@ -35,7 +35,7 @@ A simple use case would be:
     * [bufferStream.pop(chars, func)](#BufferStream+pop) ↺ [<code>BufferStream</code>](#BufferStream)
     * [bufferStream.toDataStream(parser)](#BufferStream+toDataStream)  <code>DataStream</code>
     * [BufferStream:pipeline(readable, transforms)](#BufferStream.pipeline)  [<code>BufferStream</code>](#BufferStream)
-    * [BufferStream:from(str, options)](#BufferStream.from)  [<code>BufferStream</code>](#BufferStream)
+    * [BufferStream:from(stream, options)](#BufferStream.from)  [<code>BufferStream</code>](#BufferStream)
     * [BufferStream:ShiftCallback](#BufferStream.ShiftCallback)  <code>function</code>
     * [BufferStream:ParseCallback](#BufferStream.ParseCallback)  <code>Promise</code>
 
@@ -59,7 +59,7 @@ the given number of bytes.
 
 **Kind**: instance method of [<code>BufferStream</code>](#BufferStream)  
 **Chainable**  
-**Returns**: [<code>BufferStream</code>](#BufferStream) - substream  
+**Returns**: [<code>BufferStream</code>](#BufferStream) - sub-stream  
 **Test**: test/methods/string-stream-shift.js  
 
 | Param | Type | Description |
@@ -153,7 +153,7 @@ the given number of bytes.
 
 **Kind**: instance method of [<code>BufferStream</code>](#BufferStream)  
 **Chainable**  
-**Returns**: [<code>BufferStream</code>](#BufferStream) - substream  
+**Returns**: [<code>BufferStream</code>](#BufferStream) - sub-stream  
 **Test**: test/methods/string-stream-shift.js  
 
 | Param | Type | Description |
@@ -193,7 +193,7 @@ Creates a pipeline of streams and returns a scramjet stream.
 
 <a name="BufferStream.from"></a>
 
-### BufferStream:from(str, options) : BufferStream
+### BufferStream:from(stream, options) : BufferStream
 Create BufferStream from anything.
 
 **Kind**: static method of [<code>BufferStream</code>](#BufferStream)  
@@ -202,7 +202,7 @@ Create BufferStream from anything.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| str | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>Readable</code> | argument to be turned into new stream |
+| stream | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>Readable</code> | argument to be turned into new stream |
 | options | <code>StreamOptions</code> \| <code>Writable</code> |  |
 
 <a name="BufferStream.ShiftCallback"></a>

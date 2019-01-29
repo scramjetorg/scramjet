@@ -7,7 +7,7 @@ servers.
 Multi-threaded processing
 ===========================
 
-Scramjet version 4.2.0 introduces parallel procesing on multiple cores via the following methods:
+Scramjet version 4.2.0 introduces parallel processing on multiple cores via the following methods:
 
 * [MultiStream.cluster(clusterFunc, options)](multi-stream.md#module_ScramjetCore..MultiStream+cluster) ↩︎
 * [DataStream.distribute(affinity, clusterFunc, options)](data-stream.md#module_ScramjetCore..DataStream+distribute) ↩︎

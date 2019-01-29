@@ -60,3 +60,4 @@ typings/
 CHANGELOG.md.orig
 
 samples/generated-data
+test/**/*.did

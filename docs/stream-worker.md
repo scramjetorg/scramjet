@@ -5,7 +5,7 @@
 ## StreamWorker
 StreamWorker class - intended for internal use
 
-This class provides control over the subprocesses, incl:
+This class provides control over the subprocesses, including:
  - spawning
  - communicating
  - delivering streams
@@ -36,8 +36,8 @@ Spawns the worker if necessary and provides the port information to it.
 ### streamWorker.delegate(input, delegateFunc, [plugins]) : DataStream
 Delegates a stream to the child using tcp socket.
 
-The stream gets serialized using JSON and passed on to the subprocess.
-The subprocess then peforms transforms on the stream and pushes them back to the main process.
+The stream gets serialized using JSON and passed on to the sub-process.
+The sub-process then performs transforms on the stream and pushes them back to the main process.
 The stream gets deserialized and outputted to the returned DataStream.
 
 **Kind**: instance method of [<code>StreamWorker</code>](#StreamWorker)  
@@ -64,6 +64,6 @@ Spawns (Preforks) a given number of subprocesses and returns the worker asynchro
 <a name="StreamWorker._getWorker"></a>
 
 ### StreamWorker:_getWorker() : StreamWorker ⇄
-Picks next worker (not necessarly free one!)
+Picks next worker (not necessarily free one!)
 
 **Kind**: static method of [<code>StreamWorker</code>](#StreamWorker)  

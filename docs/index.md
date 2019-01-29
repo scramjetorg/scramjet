@@ -29,8 +29,8 @@ to create a number of streams and create the pipeline, but use the concept of ch
 method for instance, scramjet creates a new stream, pipes it to the callee and forwards errors.
 
 What's worth mentioning - scramjet tries to limit the number of created transform streams and pushes the transforms
-one after another into the same stream class therefore a code `stream.map(tf1).map(tf2).filter(tf3)` will only operate on
-a single transform stream that evaluates all three transforms one after another.
+one after another into the same stream class therefore a code `stream.map(transform1).map(transform2).filter(transform3)`
+will only operate on a single transform stream that evaluates all three transforms one after another.
 
 **Extends**: <code>Object</code>  
 
@@ -45,7 +45,7 @@ a single transform stream that evaluates all three transforms one after another.
     * [:StreamWorker](#module_scramjet.StreamWorker)  <code>StreamWorker</code>
     * [:NumberStream](#module_scramjet.NumberStream)  <code>NumberStream</code>
     * [:WindowStream](#module_scramjet.WindowStream)
-    * [:from(str)](#module_scramjet.from)  <code>DataStream</code>
+    * [:from(stream)](#module_scramjet.from)  <code>DataStream</code>
     * [:fromArray(args)](#module_scramjet.fromArray)  <code>DataStream</code>
     * [:createTransformModule(transform, options, ...initialArgs)](#module_scramjet.createTransformModule)
     * [:createReadModule(anything, options, ...initialArgs)](#module_scramjet.createReadModule)
@@ -132,14 +132,14 @@ Window stream class
 **See**: [number-stream.md](number-stream.md)  
 <a name="module_scramjet.from"></a>
 
-### scramjet:from(str) : DataStream
+### scramjet:from(stream) : DataStream
 Creates a DataStream that's piped from the passed readable.
 
 **Kind**: static method of [<code>scramjet</code>](#module_scramjet)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| str | <code>Array</code> \| <code>Iterable</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>Readable</code> | and node.js readable stream (`objectMode: true` is advised) |
+| stream | <code>Array</code> \| <code>Iterable</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>Readable</code> | and node.js readable stream (`objectMode: true` is advised) |
 
 <a name="module_scramjet.fromArray"></a>
 
