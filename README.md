@@ -281,6 +281,7 @@ await (DataStream.from(aStream) // create a DataStream
 * [`dataStream.separateInto(streams, affinity) ↺`](docs/data-stream.md#DataStream+separateInto) - Separates stream into a hash of streams. Does not create new streams!
 * [`dataStream.separate(affinity, createOptions) : MultiStream ↺`](docs/data-stream.md#DataStream+separate) - Separates execution to multiple streams using the hashes returned by the passed Function.
 * [`dataStream.delegate(delegateFunc, worker, [plugins]) ↺`](docs/data-stream.md#DataStream+delegate) - Delegates work to a specified worker.
+* [`dataStream.rate(cps, [options]) ↺`](docs/data-stream.md#DataStream+rate) - Limit the rate of the stream to a given number of chunks per second or given timeframe.
 * [`dataStream.batch(count) ↺`](docs/data-stream.md#DataStream+batch) - Aggregates chunks in arrays given number of number of items long.
 * [`dataStream.timeBatch(ms, count) ↺`](docs/data-stream.md#DataStream+timeBatch) - Aggregates chunks to arrays not delaying output by more than the given number of ms.
 * [`dataStream.nagle([size], [ms]) ↺`](docs/data-stream.md#DataStream+nagle) - Performs the Nagle's algorithm on the data. In essence it waits until we receive some more data and releases them
@@ -308,6 +309,7 @@ await (DataStream.from(aStream) // create a DataStream
 * [`DataStream:RemapCallback : Promise | *`](docs/data-stream.md#DataStream.RemapCallback) - 
 * [`DataStream:FlatMapCallback : Promise.<Iterable> | Iterable`](docs/data-stream.md#DataStream.FlatMapCallback) - 
 * [`DataStream:JoinCallback : Promise.<*> | *`](docs/data-stream.md#DataStream.JoinCallback) - 
+* [`DataStream:RateOptions`](docs/data-stream.md#DataStream.RateOptions) - 
 
 ### StringStream
 
@@ -331,11 +333,13 @@ StringStream.fromString()
 * [`stringStream.parse(parser) : DataStream ↺`](docs/string-stream.md#StringStream+parse) - Parses every string to object
 * [`stringStream.toDataStream()`](docs/string-stream.md#StringStream+toDataStream) - Alias for {@link StringStream#parse}
 * [`stringStream.toStringStream()`](docs/buffer-stream.md#StringStream+toStringStream) - Alias for {@link BufferStream#stringify}
+* [`stringStream.exec(command, options, args)`](docs/data-stream.md#StringStream+exec) - Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream.
 * [`stringStream.lines([eol]) ↺`](docs/string-stream.md#StringStream+lines) - Splits the string stream by the specified regexp or string
 * [`stringStream.JSONParse(perLine) : DataStream ↺`](docs/string-stream.md#StringStream+JSONParse) - Parses each entry as JSON.
 * [`stringStream.CSVParse(options) : DataStream ↺`](docs/string-stream.md#StringStream+CSVParse) - Parses CSV to DataString using 'papaparse' module.
 * [`stringStream.append(param) ↺`](docs/string-stream.md#StringStream+append) - Appends given argument to all the items.
 * [`stringStream.prepend(param) ↺`](docs/string-stream.md#StringStream+prepend) - Prepends given argument to all the items.
+* [`stringStream.exec(command, options, args)`](docs/string-stream.md#StringStream+exec) - Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream.
 * [`stringStream.pop(bytes, func) ↺`](docs/string-stream.md#StringStream+pop) - Shifts given length of chars from the original stream
 * [`StringStream:SPLIT_LINE`](docs/string-stream.md#StringStream.SPLIT_LINE) - A handy split by line regex to quickly get a line-by-line stream
 * [`StringStream:fromString(stream, encoding) : StringStream`](docs/string-stream.md#StringStream.fromString) - Creates a StringStream and writes a specific string.
@@ -343,6 +347,8 @@ StringStream.fromString()
 * [`StringStream:from(source, options) : StringStream`](docs/string-stream.md#StringStream.from) - Create StringStream from anything.
 * [`StringStream:ShiftCallback : function`](docs/string-stream.md#StringStream.ShiftCallback) - 
 * [`StringStream:ParseCallback : Promise`](docs/string-stream.md#StringStream.ParseCallback) - 
+* [`StringStream:ExecDataOptions : StringStream.ExecOptions`](docs/data-stream.md#StringStream.ExecDataOptions) - 
+* [`StringStream:ExecOptions : child_process.SpawnOptions`](docs/string-stream.md#StringStream.ExecOptions) - 
 
 ### BufferStream
 

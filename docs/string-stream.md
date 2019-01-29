@@ -27,6 +27,7 @@ StringStream.fromString()
     * [stringStream.CSVParse(options)](#StringStream+CSVParse) ↺ <code>DataStream</code>
     * [stringStream.append(param)](#StringStream+append) ↺
     * [stringStream.prepend(param)](#StringStream+prepend) ↺
+    * [stringStream.exec(command, options, args)](#StringStream+exec)
     * [stringStream.pop(bytes, func)](#StringStream+pop) ↺
     * [StringStream:SPLIT_LINE](#StringStream.SPLIT_LINE)
     * [StringStream:fromString(stream, encoding)](#StringStream.fromString)  [<code>StringStream</code>](#StringStream)
@@ -34,6 +35,7 @@ StringStream.fromString()
     * [StringStream:from(source, options)](#StringStream.from)  [<code>StringStream</code>](#StringStream)
     * [StringStream:ShiftCallback](#StringStream.ShiftCallback)  <code>function</code>
     * [StringStream:ParseCallback](#StringStream.ParseCallback)  <code>Promise</code>
+    * [StringStream:ExecOptions](#StringStream.ExecOptions)  <code>child\_process.SpawnOptions</code>
 
 <a name="new_StringStream_new"></a>
 
@@ -192,6 +194,26 @@ Prepends given argument to all the items.
 | --- | --- | --- |
 | param | <code>function</code> \| <code>String</code> | the argument to prepend. If function passed then it will be called and resolved                              and the resolution will be prepended. |
 
+<a name="StringStream+exec"></a>
+
+### stringStream.exec(command, options, args)
+Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream.
+
+Pipes the current stream into the sub-processes stdin.
+The data is serialized and deserialized as JSON lines by default. You
+can provide your own alternative methods in the ExecOptions object.
+
+Note: if you're piping both stderr and stdout (options.stream=3) keep in mind that chunks may get mixed up!
+
+**Kind**: instance method of [<code>StringStream</code>](#StringStream)  
+**Test**: test/methods/string-stream-exec.js  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| command | <code>String</code> | command to execute |
+| options | <code>ExecOptions</code> | options to be passed to `spawn` and defining serialization. |
+| args | <code>String</code> | additional arguments (will overwrite to SpawnOptions args even if not given) |
+
 <a name="StringStream+pop"></a>
 
 ### stringStream.pop(bytes, func) ↺
@@ -279,14 +301,15 @@ Create StringStream from anything.
 | --- | --- | --- |
 | chunk | <code>String</code> | the transformed chunk |
 
-<a name="ExecOptions"></a>
+<a name="StringStream.ExecOptions"></a>
 
-## ExecOptions : child_process.SpawnOptions
-**Kind**: global typedef  
+### StringStream:ExecOptions : child_process.SpawnOptions
+**Kind**: static typedef of [<code>StringStream</code>](#StringStream)  
 **Extends**: <code>child\_process.SpawnOptions</code>  
 **Properties**
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | [stream] | <code>number</code> | <code>1</code> | (bitwise) the output stdio number to push out (defaults to stdout = 1) |
+| [interpreter] | <code>Array.&lt;string&gt;</code> | <code>[]</code> | defaults to nothing, except on windows where "cmd.exe /c" will be spawned by default |
 

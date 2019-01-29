@@ -659,7 +659,6 @@ declare module 'scramjet' {
          * @param affinity A Function that affixes the item to specific output stream which must exist in the object for each chunk, must return a string. A number may be passed to identify how many round-robin threads to start up. Defaults to Round Robin to twice the number of CPU threads.
          * @param clusterFunc stream transforms similar to {@see DataStream#use method}
          * @param options Options
-         * @see
          */
         distribute(affinity?: AffinityCallback | Number, clusterFunc: ClusterCallback, options: Object): DataStream;
 
@@ -687,6 +686,14 @@ declare module 'scramjet' {
          * @param plugins
          */
         delegate(delegateFunc: DelegateCallback, worker: WorkerStream, plugins?: any[]): DataStream;
+
+        /**
+         * Limit the rate of the stream to a given number of chunks per second or given timeframe.
+         * @param cps Chunks per timeframe, the default timeframe is 1000 ms.
+         * @param options Options for the limiter controlling the timeframe and time source. Both must work on same units.
+         */
+        rate(cps: Number, options?: RateOptions): DataStream;
+
 
         /**
          * Aggregates chunks in arrays given number of number of items long.
@@ -856,6 +863,35 @@ declare module 'scramjet' {
          */
         toStringStream(): void;
 
+
+        /**
+         * Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream.
+         * 
+         * Pipes the current stream into the sub-processes stdin.
+         * The data is serialized and deserialized as JSON lines by default. You
+         * can provide your own alternative methods in the ExecOptions object.
+         * 
+         * Note: if you're piping both stderr and stdout (options.stream=3) keep in mind that chunks may get mixed up!
+         * @param command command to execute
+         * @param options options to be passed to `spawn` and defining serialization.
+         * @param args additional arguments (will overwrite to SpawnOptions args even if not given)
+         */
+        exec(command: String, options: ExecDataOptions, args: String): void;
+
+        /**
+         * Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream.
+         * 
+         * Pipes the current stream into the sub-processes stdin.
+         * The data is serialized and deserialized as JSON lines by default. You
+         * can provide your own alternative methods in the ExecOptions object.
+         * 
+         * Note: if you're piping both stderr and stdout (options.stream=3) keep in mind that chunks may get mixed up!
+         * @param command command to execute
+         * @param options options to be passed to `spawn` and defining serialization.
+         * @param args additional arguments (will overwrite to SpawnOptions args even if not given)
+         */
+        exec(command: String, options: ExecOptions, args: String): void;
+
         /**
          * Splits the string stream by the specified regexp or string
          * @param eol End of line string
@@ -887,6 +923,7 @@ declare module 'scramjet' {
          *             and the resolution will be prepended.
          */
         prepend(param: Function | String): StringStream;
+
 
     }
 
@@ -1163,12 +1200,5 @@ declare interface StreamOptions {
      *                                 instead of creating a new stream)
      */
     referrer: DataStream;
-}
-
-declare interface ExecOptions {
-    /**
-     * (bitwise) the output stdio number to push out (defaults to stdout = 1)
-     */
-    stream?: number;
 }
 
