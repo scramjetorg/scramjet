@@ -80,6 +80,7 @@ await (DataStream.from(aStream) // create a DataStream
     * [dataStream.toJSONObject([entryCallback], [enclosure])](#DataStream+toJSONObject) ↺ <code>StringStream</code>
     * [dataStream.JSONStringify([endline])](#DataStream+JSONStringify) ↺ <code>StringStream</code>
     * [dataStream.CSVStringify(options)](#DataStream+CSVStringify) ↺ <code>StringStream</code>
+    * [dataStream.exec(command, options, args)](#DataStream+exec)
     * [dataStream.debug(func)](#DataStream+debug) ↺ [<code>DataStream</code>](#DataStream)
     * [dataStream.toBufferStream(serializer)](#DataStream+toBufferStream) ↺ <code>BufferStream</code>
     * [dataStream.toStringStream(serializer)](#DataStream+toStringStream) ↺ <code>StringStream</code>
@@ -979,6 +980,26 @@ Stringifies CSV to DataString using 'papaparse' module.
 | Param | Description |
 | --- | --- |
 | options | options for the papaparse.unparse module. |
+
+<a name="DataStream+exec"></a>
+
+### dataStream.exec(command, options, args)
+Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream.
+
+Pipes the current stream into the sub-processes stdin.
+The data is serialized and deserialized as JSON lines by default. You
+can provide your own alternative methods in the ExecOptions object.
+
+Note: if you're piping both stderr and stdout (options.stream=3) keep in mind that chunks may get mixed up!
+
+**Kind**: instance method of [<code>DataStream</code>](#DataStream)  
+**Test**: test/methods/data-stream-exec.js  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| command | <code>String</code> | command to execute |
+| options | <code>ExecDataOptions</code> | options to be passed to `spawn` and defining serialization. |
+| args | <code>String</code> | additional arguments (will overwrite to SpawnOptions args even if not given) |
 
 <a name="DataStream+debug"></a>
 

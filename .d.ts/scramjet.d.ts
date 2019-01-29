@@ -752,6 +752,20 @@ declare module 'scramjet' {
         CSVStringify(options: any): StringStream;
 
         /**
+         * Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream.
+         * 
+         * Pipes the current stream into the sub-processes stdin.
+         * The data is serialized and deserialized as JSON lines by default. You
+         * can provide your own alternative methods in the ExecOptions object.
+         * 
+         * Note: if you're piping both stderr and stdout (options.stream=3) keep in mind that chunks may get mixed up!
+         * @param command command to execute
+         * @param options options to be passed to `spawn` and defining serialization.
+         * @param args additional arguments (will overwrite to SpawnOptions args even if not given)
+         */
+        exec(command: String, options: ExecDataOptions, args: String): void;
+
+        /**
          * Injects a ```debugger``` statement when called.
          * @param func if passed, the function will be called on self to add an option to inspect the stream in place, while not breaking the transform chain
          */
@@ -865,34 +879,6 @@ declare module 'scramjet' {
 
 
         /**
-         * Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream.
-         * 
-         * Pipes the current stream into the sub-processes stdin.
-         * The data is serialized and deserialized as JSON lines by default. You
-         * can provide your own alternative methods in the ExecOptions object.
-         * 
-         * Note: if you're piping both stderr and stdout (options.stream=3) keep in mind that chunks may get mixed up!
-         * @param command command to execute
-         * @param options options to be passed to `spawn` and defining serialization.
-         * @param args additional arguments (will overwrite to SpawnOptions args even if not given)
-         */
-        exec(command: String, options: ExecDataOptions, args: String): void;
-
-        /**
-         * Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream.
-         * 
-         * Pipes the current stream into the sub-processes stdin.
-         * The data is serialized and deserialized as JSON lines by default. You
-         * can provide your own alternative methods in the ExecOptions object.
-         * 
-         * Note: if you're piping both stderr and stdout (options.stream=3) keep in mind that chunks may get mixed up!
-         * @param command command to execute
-         * @param options options to be passed to `spawn` and defining serialization.
-         * @param args additional arguments (will overwrite to SpawnOptions args even if not given)
-         */
-        exec(command: String, options: ExecOptions, args: String): void;
-
-        /**
          * Splits the string stream by the specified regexp or string
          * @param eol End of line string
          */
@@ -924,6 +910,20 @@ declare module 'scramjet' {
          */
         prepend(param: Function | String): StringStream;
 
+
+        /**
+         * Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream.
+         * 
+         * Pipes the current stream into the sub-processes stdin.
+         * The data is serialized and deserialized as JSON lines by default. You
+         * can provide your own alternative methods in the ExecOptions object.
+         * 
+         * Note: if you're piping both stderr and stdout (options.stream=3) keep in mind that chunks may get mixed up!
+         * @param command command to execute
+         * @param options options to be passed to `spawn` and defining serialization.
+         * @param args additional arguments (will overwrite to SpawnOptions args even if not given)
+         */
+        exec(command: String, options: ExecOptions, args: String): void;
 
     }
 

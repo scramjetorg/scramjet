@@ -290,6 +290,7 @@ await (DataStream.from(aStream) // create a DataStream
 * [`dataStream.toJSONObject([entryCallback], [enclosure]) : StringStream ↺`](docs/data-stream.md#DataStream+toJSONObject) - Transforms the stream to a streamed JSON object.
 * [`dataStream.JSONStringify([endline]) : StringStream ↺`](docs/data-stream.md#DataStream+JSONStringify) - Returns a StringStream containing JSON per item with optional end line
 * [`dataStream.CSVStringify(options) : StringStream ↺`](docs/data-stream.md#DataStream+CSVStringify) - Stringifies CSV to DataString using 'papaparse' module.
+* [`dataStream.exec(command, options, args)`](docs/data-stream.md#DataStream+exec) - Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream.
 * [`dataStream.debug(func) : DataStream ↺`](docs/data-stream.md#DataStream+debug) - Injects a ```debugger``` statement when called.
 * [`dataStream.toBufferStream(serializer) : BufferStream ↺`](docs/data-stream.md#DataStream+toBufferStream) - Creates a BufferStream.
 * [`dataStream.toStringStream(serializer) : StringStream ↺`](docs/data-stream.md#DataStream+toStringStream) - Creates a StringStream.
@@ -333,7 +334,6 @@ StringStream.fromString()
 * [`stringStream.parse(parser) : DataStream ↺`](docs/string-stream.md#StringStream+parse) - Parses every string to object
 * [`stringStream.toDataStream()`](docs/string-stream.md#StringStream+toDataStream) - Alias for {@link StringStream#parse}
 * [`stringStream.toStringStream()`](docs/buffer-stream.md#StringStream+toStringStream) - Alias for {@link BufferStream#stringify}
-* [`stringStream.exec(command, options, args)`](docs/data-stream.md#StringStream+exec) - Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream.
 * [`stringStream.lines([eol]) ↺`](docs/string-stream.md#StringStream+lines) - Splits the string stream by the specified regexp or string
 * [`stringStream.JSONParse(perLine) : DataStream ↺`](docs/string-stream.md#StringStream+JSONParse) - Parses each entry as JSON.
 * [`stringStream.CSVParse(options) : DataStream ↺`](docs/string-stream.md#StringStream+CSVParse) - Parses CSV to DataString using 'papaparse' module.
