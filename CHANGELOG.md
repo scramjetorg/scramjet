@@ -2,6 +2,13 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
+## Scramjet 4.21.0: Exec and rate
+
+* Adds `DataStream..rate` method allowing to limit the flow rate to specified objects per second (or another timeframe).
+* Adds `StringStream..exec` allowing executing shell commands, binaries and scripts written in any language
+* Adds `DataStream..exec` facilitation class
+* Brings lots of spelling fixes in docs and methods.
+
 ## Scramjet 4.20.5 - 4.20.5: Fix whenRead/ing past end.
 
 * c6091d7 - Dependencies update, fixes #33.
