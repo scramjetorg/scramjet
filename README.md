@@ -237,6 +237,8 @@ await (DataStream.from(aStream) // create a DataStream
 * [`dataStream.filter(func) ↺`](docs/data-stream.md#DataStream+filter) - Filters object based on the function outcome, just like Array.prototype.filter.
 * [`dataStream.reduce(func, into) ⇄`](docs/data-stream.md#DataStream+reduce) - Reduces the stream into a given accumulator
 * [`dataStream.do(func) ↺`](docs/data-stream.md#DataStream+do) - Perform an asynchronous operation without changing or resuming the stream.
+* [`dataStream.all(functions) ↺`](docs/data-stream.md#DataStream+all) - Processes a number of functions in parallel, returns a stream of arrays of results.
+* [`dataStream.race(functions) ↺`](docs/data-stream.md#DataStream+race) - Processes a number of functions in parallel, returns the first resolved.
 * [`dataStream.unorder(func)`](docs/data-stream.md#DataStream+unorder) - Allows processing items without keeping order
 * [`dataStream.into(func, into) ↺`](docs/data-stream.md#DataStream+into) - Allows own implementation of stream chaining.
 * [`dataStream.use(func) ↺`](docs/data-stream.md#DataStream+use) - Calls the passed method in place with the stream as first argument, returns result.

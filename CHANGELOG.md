@@ -2,6 +2,12 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
+## Scramjet 4.22.0: All and Race
+
+* Adds `DataStream..all` and `DataStream..race` methods allowing running multiple parallel async functions on each chunk
+* Dependencies update
+* Uses scramjet's eslint config.
+
 ## Scramjet 4.21.0: Exec and rate
 
 * Adds `DataStream..rate` method allowing to limit the flow rate to specified objects per second (or another timeframe).
