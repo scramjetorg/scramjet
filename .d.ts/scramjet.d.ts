@@ -271,6 +271,30 @@ declare module 'scramjet' {
         do(func: DoCallback): DataStream;
 
         /**
+         * Processes a number of functions in parallel, returns a stream of arrays of results.
+         * 
+         * This method is to allow running multiple asynchronous operations and receive all the
+         * results at one, just like Promise.all behaves.
+         * 
+         * Keep in mind that if one of your methods rejects, this behaves just like Promise.all
+         * you won't be able to receive partial results.
+         * @param functions list of async functions to run
+         */
+        all(functions: any[]): DataStream;
+
+        /**
+         * Processes a number of functions in parallel, returns the first resolved.
+         * 
+         * This method is to allow running multiple asynchronous operations awaiting just the
+         * result of the quickest to execute, just like Promise.race behaves.
+         * 
+         * Keep in mind that if one of your methods it will only raise an error if that was
+         * the first method to reject.
+         * @param functions list of async functions to run
+         */
+        race(functions: any[]): DataStream;
+
+        /**
          * Allows processing items without keeping order
          * 
          * This method useful if you are not concerned about the order in which the

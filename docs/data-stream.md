@@ -27,6 +27,8 @@ await (DataStream.from(aStream) // create a DataStream
     * [dataStream.filter(func)](#DataStream+filter) ↺
     * [dataStream.reduce(func, into)](#DataStream+reduce)
     * [dataStream.do(func)](#DataStream+do) ↺
+    * [dataStream.all(functions)](#DataStream+all) ↺
+    * [dataStream.race(functions)](#DataStream+race) ↺
     * [dataStream.unorder(func)](#DataStream+unorder)
     * [dataStream.into(func, into)](#DataStream+into) ↺
     * [dataStream.use(func)](#DataStream+use) ↺
@@ -206,6 +208,44 @@ has no impact on the streamed data (except for possible mutation of the chunk it
 | Param | Type | Description |
 | --- | --- | --- |
 | func | <code>DoCallback</code> | the async function |
+
+<a name="DataStream+all"></a>
+
+### dataStream.all(functions) ↺
+Processes a number of functions in parallel, returns a stream of arrays of results.
+
+This method is to allow running multiple asynchronous operations and receive all the
+results at one, just like Promise.all behaves.
+
+Keep in mind that if one of your methods rejects, this behaves just like Promise.all
+you won't be able to receive partial results.
+
+**Kind**: instance method of [<code>DataStream</code>](#DataStream)  
+**Chainable**  
+**Test**: test/methods/data-stream-all.js  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| functions | <code>Array.&lt;function()&gt;</code> | list of async functions to run |
+
+<a name="DataStream+race"></a>
+
+### dataStream.race(functions) ↺
+Processes a number of functions in parallel, returns the first resolved.
+
+This method is to allow running multiple asynchronous operations awaiting just the
+result of the quickest to execute, just like Promise.race behaves.
+
+Keep in mind that if one of your methods it will only raise an error if that was
+the first method to reject.
+
+**Kind**: instance method of [<code>DataStream</code>](#DataStream)  
+**Chainable**  
+**Test**: test/methods/data-stream-race.js  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| functions | <code>Array.&lt;function()&gt;</code> | list of async functions to run |
 
 <a name="DataStream+unorder"></a>
 
