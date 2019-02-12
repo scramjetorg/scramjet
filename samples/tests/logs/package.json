@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "yargs": "^12.0.1"
+    "yargs": "^13.1.0"
   }
 }
