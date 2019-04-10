@@ -233,7 +233,7 @@ await (DataStream.from(aStream) // create a DataStream
 **Most popular methods:**
 
 * `new DataStream(opts)` - Create the DataStream.
-* [`dataStream.map(func, ClassType) ↺`](docs/data-stream.md#DataStream+map) - Transforms stream objects into new ones, just like Array.prototype.map
+* [`dataStream.map(func, [ClassType]) ↺`](docs/data-stream.md#DataStream+map) - Transforms stream objects into new ones, just like Array.prototype.map
 * [`dataStream.filter(func) ↺`](docs/data-stream.md#DataStream+filter) - Filters object based on the function outcome, just like Array.prototype.filter.
 * [`dataStream.reduce(func, into) ⇄`](docs/data-stream.md#DataStream+reduce) - Reduces the stream into a given accumulator
 * [`dataStream.do(func) ↺`](docs/data-stream.md#DataStream+do) - Perform an asynchronous operation without changing or resuming the stream.
@@ -259,7 +259,7 @@ await (DataStream.from(aStream) // create a DataStream
 * [`dataStream.pipe(to, options) : Writable ↺`](docs/data-stream.md#DataStream+pipe) - Override of node.js Readable pipe.
 * [`dataStream.bufferify(serializer) : BufferStream ↺`](docs/data-stream.md#DataStream+bufferify) - Creates a BufferStream.
 * [`dataStream.stringify(serializer) : StringStream ↺`](docs/data-stream.md#DataStream+stringify) - Creates a StringStream.
-* [`dataStream.toArray(initial) : Array ⇄`](docs/data-stream.md#DataStream+toArray) - Aggregates the stream into a single Array
+* [`dataStream.toArray([initial]) : Array ⇄`](docs/data-stream.md#DataStream+toArray) - Aggregates the stream into a single Array
 * [`dataStream.toGenerator() : Iterable.<Promise.<*>>`](docs/data-stream.md#DataStream+toGenerator) - Returns an async generator
 * [`dataStream.pull(pullable) : Promise ⇄`](docs/data-stream.md#DataStream+pull) - Pulls in any readable stream, resolves when the pulled stream ends.
 * [`dataStream.shift(count, func) ↺`](docs/data-stream.md#DataStream+shift) - Shifts the first n items from the stream and pushes out the remaining ones.
@@ -272,14 +272,14 @@ await (DataStream.from(aStream) // create a DataStream
 * [`dataStream.accumulate(func, into) : Promise ⇄`](docs/data-stream.md#DataStream+accumulate) - Accumulates data into the object.
 * [`~~dataStream.consume(func) ⇄~~`](docs/data-stream.md#DataStream+consume) - Consumes the stream by running each Function
 * [`dataStream.reduceNow(func, into) : * ↺`](docs/data-stream.md#DataStream+reduceNow) - Reduces the stream into the given object, returning it immediately.
-* [`dataStream.remap(func, TypeClass) : DataStream ↺`](docs/data-stream.md#DataStream+remap) - Remaps the stream into a new stream.
-* [`dataStream.flatMap(func, TypeClass) : DataStream ↺`](docs/data-stream.md#DataStream+flatMap) - Takes any method that returns any iterable and flattens the result.
+* [`dataStream.remap(func, [TypeClass]) : DataStream ↺`](docs/data-stream.md#DataStream+remap) - Remaps the stream into a new stream.
+* [`dataStream.flatMap(func, [TypeClass]) : DataStream ↺`](docs/data-stream.md#DataStream+flatMap) - Takes any method that returns any iterable and flattens the result.
 * [`dataStream.flatten() : DataStream ↺`](docs/data-stream.md#DataStream+flatten) - A shorthand for streams of Arrays to flatten them.
 * [`dataStream.concat(streams) ↺`](docs/data-stream.md#DataStream+concat) - Returns a new stream that will append the passed streams to the callee
 * [`dataStream.join(item) ↺`](docs/data-stream.md#DataStream+join) - Method will put the passed object between items. It can also be a function call.
 * [`dataStream.keep(count) ↺`](docs/data-stream.md#DataStream+keep) - Keep a buffer of n-chunks for use with {@see DataStream..rewind}
 * [`dataStream.rewind(count) ↺`](docs/data-stream.md#DataStream+rewind) - Rewinds the buffered chunks the specified length backwards. Requires a prior call to {@see DataStream..keep}
-* [`dataStream.distribute([affinity], clusterFunc, options) ↺`](docs/data-stream.md#DataStream+distribute) - Distributes processing into multiple sub-processes or threads if you like.
+* [`dataStream.distribute([affinity], clusterFunc, [options]) ↺`](docs/data-stream.md#DataStream+distribute) - Distributes processing into multiple sub-processes or threads if you like.
 * [`dataStream.separateInto(streams, affinity) ↺`](docs/data-stream.md#DataStream+separateInto) - Separates stream into a hash of streams. Does not create new streams!
 * [`dataStream.separate(affinity, createOptions) : MultiStream ↺`](docs/data-stream.md#DataStream+separate) - Separates execution to multiple streams using the hashes returned by the passed Function.
 * [`dataStream.delegate(delegateFunc, worker, [plugins]) ↺`](docs/data-stream.md#DataStream+delegate) - Delegates work to a specified worker.
@@ -296,10 +296,10 @@ await (DataStream.from(aStream) // create a DataStream
 * [`dataStream.debug(func) : DataStream ↺`](docs/data-stream.md#DataStream+debug) - Injects a ```debugger``` statement when called.
 * [`dataStream.toBufferStream(serializer) : BufferStream ↺`](docs/data-stream.md#DataStream+toBufferStream) - Creates a BufferStream.
 * [`dataStream.toStringStream(serializer) : StringStream ↺`](docs/data-stream.md#DataStream+toStringStream) - Creates a StringStream.
-* [`DataStream:from(input, options) : DataStream`](docs/data-stream.md#DataStream.from) - Returns a DataStream from pretty much anything sensibly possible.
+* [`DataStream:from(input, [options]) : DataStream`](docs/data-stream.md#DataStream.from) - Returns a DataStream from pretty much anything sensibly possible.
 * [`DataStream:pipeline(readable, ...transforms) : DataStream`](docs/data-stream.md#DataStream.pipeline) - Creates a pipeline of streams and returns a scramjet stream.
-* [`DataStream:fromArray(array, options) : DataStream`](docs/data-stream.md#DataStream.fromArray) - Create a DataStream from an Array
-* [`DataStream:fromIterator(iterator, options) : DataStream`](docs/data-stream.md#DataStream.fromIterator) - Create a DataStream from an Iterator
+* [`DataStream:fromArray(array, [options]) : DataStream`](docs/data-stream.md#DataStream.fromArray) - Create a DataStream from an Array
+* [`DataStream:fromIterator(iterator, [options]) : DataStream`](docs/data-stream.md#DataStream.fromIterator) - Create a DataStream from an Iterator
 * [`DataStream:MapCallback : Promise | *`](docs/data-stream.md#DataStream.MapCallback) - 
 * [`DataStream:FilterCallback : Promise | Boolean`](docs/data-stream.md#DataStream.FilterCallback) - 
 * [`DataStream:ReduceCallback : Promise | *`](docs/data-stream.md#DataStream.ReduceCallback) - 
@@ -337,11 +337,11 @@ StringStream.fromString()
 * [`stringStream.toDataStream()`](docs/string-stream.md#StringStream+toDataStream) - Alias for {@link StringStream#parse}
 * [`stringStream.toStringStream()`](docs/buffer-stream.md#StringStream+toStringStream) - Alias for {@link BufferStream#stringify}
 * [`stringStream.lines([eol]) ↺`](docs/string-stream.md#StringStream+lines) - Splits the string stream by the specified regexp or string
-* [`stringStream.JSONParse(perLine) : DataStream ↺`](docs/string-stream.md#StringStream+JSONParse) - Parses each entry as JSON.
-* [`stringStream.CSVParse(options) : DataStream ↺`](docs/string-stream.md#StringStream+CSVParse) - Parses CSV to DataString using 'papaparse' module.
+* [`stringStream.JSONParse([perLine]) : DataStream ↺`](docs/string-stream.md#StringStream+JSONParse) - Parses each entry as JSON.
+* [`stringStream.CSVParse([options]) : DataStream ↺`](docs/string-stream.md#StringStream+CSVParse) - Parses CSV to DataString using 'papaparse' module.
 * [`stringStream.append(param) ↺`](docs/string-stream.md#StringStream+append) - Appends given argument to all the items.
 * [`stringStream.prepend(param) ↺`](docs/string-stream.md#StringStream+prepend) - Prepends given argument to all the items.
-* [`stringStream.exec(command, options, args)`](docs/string-stream.md#StringStream+exec) - Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream.
+* [`stringStream.exec(command, [options])`](docs/string-stream.md#StringStream+exec) - Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream.
 * [`stringStream.pop(bytes, func) ↺`](docs/string-stream.md#StringStream+pop) - Shifts given length of chars from the original stream
 * [`StringStream:SPLIT_LINE`](docs/string-stream.md#StringStream.SPLIT_LINE) - A handy split by line regex to quickly get a line-by-line stream
 * [`StringStream:fromString(stream, encoding) : StringStream`](docs/string-stream.md#StringStream.fromString) - Creates a StringStream and writes a specific string.
@@ -409,7 +409,7 @@ An object consisting of multiple streams than can be refined or muxed.
 * [`multiStream.remove(stream)`](docs/multi-stream.md#MultiStream+remove) - Removes a stream from the MultiStream
 * [`multiStream.route([policy], [count]) : MultiStream`](docs/multi-stream.md#MultiStream+route) - Re-routes streams to a new MultiStream of specified size
 * [`multiStream.smap(transform) ↺`](docs/multi-stream.md#MultiStream+smap) - Map stream synchronously
-* [`multiStream.cluster(clusterFunc, options) ↺`](docs/multi-stream.md#MultiStream+cluster) - Distributes processing to multiple forked subprocesses.
+* [`multiStream.cluster(clusterFunc, [options]) ↺`](docs/multi-stream.md#MultiStream+cluster) - Distributes processing to multiple forked subprocesses.
 * [`MultiStream:DistributeOptions`](docs/multi-stream.md#MultiStream.DistributeOptions) - Distribute options
 
 ### NumberStream
