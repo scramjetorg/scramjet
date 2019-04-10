@@ -47,7 +47,7 @@ Creates the BufferStream
 
 | Param | Type | Description |
 | --- | --- | --- |
-| opts | <code>object</code> | Stream options passed to superclass |
+| opts | <code>DataStreamOptions</code> | Stream options passed to superclass |
 
 <a name="BufferStream+shift"></a>
 
@@ -203,7 +203,7 @@ Create BufferStream from anything.
 | Param | Type | Description |
 | --- | --- | --- |
 | stream | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>Readable</code> | argument to be turned into new stream |
-| options | <code>StreamOptions</code> \| <code>Writable</code> |  |
+| options | <code>DataStreamOptions</code> \| <code>Writable</code> |  |
 
 <a name="BufferStream.ShiftCallback"></a>
 

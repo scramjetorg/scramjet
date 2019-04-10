@@ -23,11 +23,11 @@ StringStream.fromString()
     * [stringStream.parse(parser)](#StringStream+parse) ↺ <code>DataStream</code>
     * [stringStream.toDataStream()](#StringStream+toDataStream)
     * [stringStream.lines([eol])](#StringStream+lines) ↺
-    * [stringStream.JSONParse(perLine)](#StringStream+JSONParse) ↺ <code>DataStream</code>
-    * [stringStream.CSVParse(options)](#StringStream+CSVParse) ↺ <code>DataStream</code>
+    * [stringStream.JSONParse([perLine])](#StringStream+JSONParse) ↺ <code>DataStream</code>
+    * [stringStream.CSVParse([options])](#StringStream+CSVParse) ↺ <code>DataStream</code>
     * [stringStream.append(param)](#StringStream+append) ↺
     * [stringStream.prepend(param)](#StringStream+prepend) ↺
-    * [stringStream.exec(command, options, args)](#StringStream+exec)
+    * [stringStream.exec(command, [options])](#StringStream+exec)
     * [stringStream.pop(bytes, func)](#StringStream+pop) ↺
     * [StringStream:SPLIT_LINE](#StringStream.SPLIT_LINE)
     * [StringStream:fromString(stream, encoding)](#StringStream.fromString)  [<code>StringStream</code>](#StringStream)
@@ -142,7 +142,7 @@ Splits the string stream by the specified regexp or string
 
 <a name="StringStream+JSONParse"></a>
 
-### stringStream.JSONParse(perLine) : DataStream ↺
+### stringStream.JSONParse([perLine]) : DataStream ↺
 Parses each entry as JSON.
 Ignores empty lines
 
@@ -150,13 +150,13 @@ Ignores empty lines
 **Chainable**  
 **Returns**: <code>DataStream</code> - stream of parsed items  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| perLine | <code>Boolean</code> | instructs to split per line |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [perLine] | <code>Boolean</code> | <code>true</code> | instructs to split per line |
 
 <a name="StringStream+CSVParse"></a>
 
-### stringStream.CSVParse(options) : DataStream ↺
+### stringStream.CSVParse([options]) : DataStream ↺
 Parses CSV to DataString using 'papaparse' module.
 
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
@@ -164,9 +164,9 @@ Parses CSV to DataString using 'papaparse' module.
 **Returns**: <code>DataStream</code> - stream of parsed items  
 **Test**: test/methods/data-stream-separate.js  
 
-| Param | Description |
-| --- | --- |
-| options | options for the papaparse.parse method. |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [options] | <code>Object</code> | <code>{}</code> | options for the papaparse.parse method. |
 
 <a name="StringStream+append"></a>
 
@@ -196,7 +196,7 @@ Prepends given argument to all the items.
 
 <a name="StringStream+exec"></a>
 
-### stringStream.exec(command, options, args)
+### stringStream.exec(command, [options])
 Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream.
 
 Pipes the current stream into the sub-processes stdin.
@@ -208,11 +208,11 @@ Note: if you're piping both stderr and stdout (options.stream=3) keep in mind th
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
 **Test**: test/methods/string-stream-exec.js  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| command | <code>String</code> | command to execute |
-| options | <code>ExecOptions</code> | options to be passed to `spawn` and defining serialization. |
-| args | <code>String</code> | additional arguments (will overwrite to SpawnOptions args even if not given) |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| command | <code>String</code> |  | command to execute |
+| [options] | <code>ExecOptions</code> | <code>{}</code> | options to be passed to `spawn` and defining serialization. |
+| [...args] | <code>String</code> |  | additional arguments (will overwrite to SpawnOptions args even if not given) |
 
 <a name="StringStream+pop"></a>
 
@@ -280,7 +280,7 @@ Create StringStream from anything.
 | Param | Type | Description |
 | --- | --- | --- |
 | source | <code>String</code> \| <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>Readable</code> | argument to be turned into new stream |
-| options | <code>StreamOptions</code> \| <code>Writable</code> |  |
+| options | <code>DataStreamOptions</code> \| <code>Writable</code> |  |
 
 <a name="StringStream.ShiftCallback"></a>
 

@@ -19,7 +19,7 @@ An object consisting of multiple streams than can be refined or muxed.
     * [multiStream.remove(stream)](#MultiStream+remove)
     * [multiStream.route([policy], [count])](#MultiStream+route)  [<code>MultiStream</code>](#MultiStream)
     * [multiStream.smap(transform)](#MultiStream+smap) ↺
-    * [multiStream.cluster(clusterFunc, options)](#MultiStream+cluster) ↺
+    * [multiStream.cluster(clusterFunc, [options])](#MultiStream+cluster) ↺
     * [MultiStream:DistributeOptions](#MultiStream.DistributeOptions)
 
 <a name="new_MultiStream_new"></a>
@@ -175,16 +175,16 @@ Map stream synchronously
 
 <a name="MultiStream+cluster"></a>
 
-### multiStream.cluster(clusterFunc, options) ↺
+### multiStream.cluster(clusterFunc, [options]) ↺
 Distributes processing to multiple forked subprocesses.
 
 **Kind**: instance method of [<code>MultiStream</code>](#MultiStream)  
 **Chainable**  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| clusterFunc | <code>function</code> \| <code>String</code> | a cluster callback with all operations working similarly to DataStream::use |
-| options | <code>DistributeOptions</code> |  |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| clusterFunc | <code>function</code> \| <code>String</code> |  | a cluster callback with all operations working similarly to DataStream::use |
+| [options] | <code>DistributeOptions</code> | <code>{}</code> |  |
 
 <a name="MultiStream.DistributeOptions"></a>
 
@@ -194,9 +194,10 @@ Distribute options
 **Kind**: static typedef of [<code>MultiStream</code>](#MultiStream)  
 **Properties**
 
-| Name | Type | Description |
-| --- | --- | --- |
-| plugins | <code>Array</code> | a list of scramjet plugins to load (if omitted, will use just the ones in scramjet itself) |
-| StreamClass | <code>String</code> | the class to deserialize the stream to. |
-| threads | <code>Number</code> | maximum threads to use - defaults to number of processor threads in os, but it may be sensible to go over this value if you'd intend to run synchronous code. |
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| [plugins] | <code>Array</code> | <code>[]</code> | a list of scramjet plugins to load (if omitted, will use just the ones in scramjet itself) |
+| [StreamClass] | <code>String</code> | <code>DataStream</code> | the class to deserialize the stream to. |
+| [threads] | <code>Number</code> | <code>os.cpus().length * 2</code> | maximum threads to use - defaults to number of processor threads in os, but it may be sensible to go over this value if you'd intend to run synchronous code. |
+| [createOptions] | <code>DataStreamOptions</code> | <code>{}</code> | maximum threads to use - defaults to number of processor threads in os, but it may be sensible to go over this value if you'd intend to run synchronous code. |
 
