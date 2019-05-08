@@ -2,6 +2,18 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
+
+
+## Scramjet 4.24.0: More generators and async generators
+
+* Adds better support for `async? function*` (generators) for: `flatMap` and `join`
+* Dependencies update.
+
+## Scramjet 4.23.0: Fix optional arguments definition for TypeScript
+
+* Fix TypeScript definitions
+* Dependencies update
+
 ## Scramjet 4.22.0: All and Race
 
 * Adds `DataStream..all` and `DataStream..race` methods allowing running multiple parallel async functions on each chunk
@@ -31,7 +43,7 @@ Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous
 * 57fe9ca - Remove console.logs in tests
 * 0591a9c - test(#30) cases showing the bug reported in #30
 * 1994a66 - Fix sample to fit needs
-* c8fa338 - Sample from Stackoverflow
+* c8fa338 - Sample from StackOverflow
 
 ## Scramjet 4.20.3 - 4.20.3: Fix module helper functions
 

@@ -592,7 +592,7 @@ declare module 'scramjet' {
          * Works very similarly to reduce, but result of previous operations have
          * no influence over the accumulator in the next one.
          * 
-         * Method is parallel
+         * Method works in parallel.
          * @param func The accumulation function
          * @param into Accumulator object
          */
@@ -648,9 +648,10 @@ declare module 'scramjet' {
 
 
         /**
-         * A shorthand for streams of Arrays to flatten them.
+         * A shorthand for streams of arrays or iterables to flatten them.
          * 
-         * More efficient equivalent of: .flatmap(i => i);
+         * More efficient equivalent of: `.flatmap(i => i);`
+         * Works on streams of async iterables too.
          */
         flatten(): DataStream;
 
@@ -660,11 +661,15 @@ declare module 'scramjet' {
          */
         concat(streams: any): DataStream;
 
+
         /**
-         * Method will put the passed object between items. It can also be a function call.
+         * Method will put the passed object between items. It can also be a function call or generator / iterator.
+         * 
+         * If a generator or iterator is passed, when the iteration is done no items will be interweaved.
+         * Generator receives
          * @param item An object that should be interweaved between stream items
          */
-        join(item: any | JoinCallback): DataStream;
+        join(item: any | AsyncGeneratorFunction | GeneratorFunction | JoinCallback): DataStream;
 
         /**
          * Keep a buffer of n-chunks for use with {@see DataStream..rewind}
@@ -677,7 +682,6 @@ declare module 'scramjet' {
          * @param count Number of objects or -1 for all the buffer
          */
         rewind(count: number): DataStream;
-
 
         /**
          * Distributes processing into multiple sub-processes or threads if you like.

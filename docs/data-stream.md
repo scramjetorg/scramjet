@@ -62,8 +62,8 @@ await (DataStream.from(aStream) // create a DataStream
     * [dataStream.accumulate(func, into)](#DataStream+accumulate) ⇄ <code>Promise</code>
     * ~~[dataStream.consume(func)](#DataStream+consume)~~
     * [dataStream.reduceNow(func, into)](#DataStream+reduceNow) ↺ <code>\*</code>
-    * [dataStream.remap(func, [TypeClass])](#DataStream+remap) ↺ [<code>DataStream</code>](#DataStream)
-    * [dataStream.flatMap(func, [TypeClass])](#DataStream+flatMap) ↺ [<code>DataStream</code>](#DataStream)
+    * [dataStream.remap(func, [TypeClass])](#DataStream+remap) ↺
+    * [dataStream.flatMap(func, [TypeClass])](#DataStream+flatMap) ↺
     * [dataStream.flatten()](#DataStream+flatten) ↺ [<code>DataStream</code>](#DataStream)
     * [dataStream.concat(streams)](#DataStream+concat) ↺
     * [dataStream.join(item)](#DataStream+join) ↺
@@ -670,7 +670,7 @@ Accumulates data into the object.
 Works very similarly to reduce, but result of previous operations have
 no influence over the accumulator in the next one.
 
-Method is parallel
+Method works in parallel.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Returns**: <code>Promise</code> - resolved with the "into" object on stream end.  
@@ -724,14 +724,13 @@ it's much slower than parallel functions.
 
 <a name="DataStream+remap"></a>
 
-### dataStream.remap(func, [TypeClass]) : DataStream ↺
+### dataStream.remap(func, [TypeClass]) ↺
 Remaps the stream into a new stream.
 
 This means that every item may emit as many other items as we like.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
-**Returns**: [<code>DataStream</code>](#DataStream) - a new DataStream of the given class with new chunks  
 **Meta.noreadme**:   
 **Test**: test/methods/data-stream-remap.js  
 
@@ -742,7 +741,7 @@ This means that every item may emit as many other items as we like.
 
 <a name="DataStream+flatMap"></a>
 
-### dataStream.flatMap(func, [TypeClass]) : DataStream ↺
+### dataStream.flatMap(func, [TypeClass]) ↺
 Takes any method that returns any iterable and flattens the result.
 
 The passed Function must return an iterable (otherwise an error will be emitted). The resulting stream will
@@ -750,7 +749,6 @@ consist of all the items of the returned iterables, one iterable after another.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
-**Returns**: [<code>DataStream</code>](#DataStream) - a new DataStream of the given class with new chunks  
 **Test**: test/methods/data-stream-flatmap.js  
 
 | Param | Type | Default | Description |
@@ -761,9 +759,10 @@ consist of all the items of the returned iterables, one iterable after another.
 <a name="DataStream+flatten"></a>
 
 ### dataStream.flatten() : DataStream ↺
-A shorthand for streams of Arrays to flatten them.
+A shorthand for streams of arrays or iterables to flatten them.
 
-More efficient equivalent of: .flatmap(i => i);
+More efficient equivalent of: `.flatmap(i => i);`
+Works on streams of async iterables too.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
@@ -784,7 +783,10 @@ Returns a new stream that will append the passed streams to the callee
 <a name="DataStream+join"></a>
 
 ### dataStream.join(item) ↺
-Method will put the passed object between items. It can also be a function call.
+Method will put the passed object between items. It can also be a function call or generator / iterator.
+
+If a generator or iterator is passed, when the iteration is done no items will be interweaved.
+Generator receives
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
@@ -792,7 +794,7 @@ Method will put the passed object between items. It can also be a function call.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| item | <code>\*</code> \| <code>JoinCallback</code> | An object that should be interweaved between stream items |
+| item | <code>\*</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>JoinCallback</code> | An object that should be interweaved between stream items |
 
 <a name="DataStream+keep"></a>
 
