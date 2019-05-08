@@ -7,22 +7,21 @@ StringStream.from(                                 // fetch your API to a scramj
 )
     .setOptions({maxParallel: 4})                  // set your options
     .lines()                                       // split the stream by line
-    .parse(theirShow => {                          // parse to your requirement
+    .parse(theirShow => {                          // parse strings to data
         return {
             id: theirShow.id,
             title: theirShow.name,
             url: theirShow.url
         };
     })
-    .map(myShow => rp({                            // parse to your requirement
+    .map(async myShow => rp({                      // use asynchronous mapping (for example send requests)
         method: "POST",
         simple: true,
         uri: `http://api.local/set/${myShow.id}`,
         body: JSON.stringify(myShow)
     }))
-    .map(resp => `+ Update succeeded "${resp}"`)  // make your logs
-    .catch(err => `! Error occured ${err.uri}`)
-    .toStringStream()
+    .stringify(resp => `+ Updated "${resp}"`)
+    .catch(err => `! Error occured ${err.uri}`)    // handle errors
     .append("\n")
-    .pipe(process.stdout)   // pipe to any output
+    .pipe(process.stdout)                          // use any stream
 ;

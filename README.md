@@ -12,7 +12,6 @@
 [![DeepScan grade](https://deepscan.io/api/projects/2632/branches/17801/badge/grade.svg)](https://deepscan.io/dashboard#view=project&pid=2632&bid=17801)
 
 ## What does it do?
-
 Scramjet is a fast, simple, functional reactive stream programming framework written on top of node.js object
 streams. The code is written by chaining functions that transform the streamed data, including well known map, filter and
 reduce and fully compatible with ES7 async/await. Thanks to it some built in optimizations scramjet is much faster and much
@@ -40,24 +39,23 @@ StringStream.from(                                 // fetch your API to a scramj
 )
     .setOptions({maxParallel: 4})                  // set your options
     .lines()                                       // split the stream by line
-    .parse(theirShow => {                          // parse to your requirement
+    .parse(theirShow => {                          // parse strings to data
         return {
             id: theirShow.id,
             title: theirShow.name,
             url: theirShow.url
         };
     })
-    .map(myShow => rp({                            // parse to your requirement
+    .map(async myShow => rp({                      // use asynchronous mapping (for example send requests)
         method: "POST",
         simple: true,
         uri: `http://api.local/set/${myShow.id}`,
         body: JSON.stringify(myShow)
     }))
-    .map(resp => `+ Update succeeded "${resp}"`)  // make your logs
-    .catch(err => `! Error occured ${err.uri}`)
-    .toStringStream()
+    .stringify(resp => `+ Updated "${resp}"`)
+    .catch(err => `! Error occured ${err.uri}`)    // handle errors
     .append("\n")
-    .pipe(process.stdout)   // pipe to any output
+    .pipe(process.stdout)                          // use any stream
 ;
 
 ```
@@ -209,6 +207,8 @@ myStream.use("./path/to/my-module", "arg1");
 
 If these modules are published you can also simply use `myStream.use("published-module")`.
 
+For more universal modules you can use helper methods `createTransformModule` and `createReadModule` that scramjet exports. See more in about this in this blog post [Scramjet Modules](https://www.scramjet.org/posts/modules).
+
 ## Typescript support
 
 Scramjet aims to be fully documented and expose TypeScript declarations. First version to include  definitions in `.d.ts`
@@ -329,19 +329,19 @@ await (DataStream.from(aStream) // create a DataStream
 * [`DataStream:pipeline(readable, ...transforms) : DataStream`](docs/data-stream.md#DataStream.pipeline) - Creates a pipeline of streams and returns a scramjet stream.
 * [`DataStream:fromArray(array, [options]) : DataStream`](docs/data-stream.md#DataStream.fromArray) - Create a DataStream from an Array
 * [`DataStream:fromIterator(iterator, [options]) : DataStream`](docs/data-stream.md#DataStream.fromIterator) - Create a DataStream from an Iterator
-* [`DataStream:MapCallback : Promise | *`](docs/data-stream.md#DataStream.MapCallback) -
-* [`DataStream:FilterCallback : Promise | Boolean`](docs/data-stream.md#DataStream.FilterCallback) -
-* [`DataStream:ReduceCallback : Promise | *`](docs/data-stream.md#DataStream.ReduceCallback) -
-* [`DataStream:DoCallback : function ⇄`](docs/data-stream.md#DataStream.DoCallback) -
-* [`DataStream:IntoCallback : * ⇄`](docs/data-stream.md#DataStream.IntoCallback) -
-* [`DataStream:TeeCallback : function`](docs/data-stream.md#DataStream.TeeCallback) -
+* [`DataStream:MapCallback : Promise | *`](docs/data-stream.md#DataStream.MapCallback) - 
+* [`DataStream:FilterCallback : Promise | Boolean`](docs/data-stream.md#DataStream.FilterCallback) - 
+* [`DataStream:ReduceCallback : Promise | *`](docs/data-stream.md#DataStream.ReduceCallback) - 
+* [`DataStream:DoCallback : function ⇄`](docs/data-stream.md#DataStream.DoCallback) - 
+* [`DataStream:IntoCallback : * ⇄`](docs/data-stream.md#DataStream.IntoCallback) - 
+* [`DataStream:TeeCallback : function`](docs/data-stream.md#DataStream.TeeCallback) - 
 * [`DataStream:ShiftCallback : function`](docs/data-stream.md#DataStream.ShiftCallback) - Shift Function
-* [`DataStream:AccumulateCallback : Promise | *`](docs/data-stream.md#DataStream.AccumulateCallback) -
-* [`DataStream:ConsumeCallback : Promise | *`](docs/data-stream.md#DataStream.ConsumeCallback) -
-* [`DataStream:RemapCallback : Promise | *`](docs/data-stream.md#DataStream.RemapCallback) -
-* [`DataStream:FlatMapCallback : Promise.<Iterable> | Iterable`](docs/data-stream.md#DataStream.FlatMapCallback) -
-* [`DataStream:JoinCallback : Promise.<*> | *`](docs/data-stream.md#DataStream.JoinCallback) -
-* [`DataStream:RateOptions`](docs/data-stream.md#DataStream.RateOptions) -
+* [`DataStream:AccumulateCallback : Promise | *`](docs/data-stream.md#DataStream.AccumulateCallback) - 
+* [`DataStream:ConsumeCallback : Promise | *`](docs/data-stream.md#DataStream.ConsumeCallback) - 
+* [`DataStream:RemapCallback : Promise | *`](docs/data-stream.md#DataStream.RemapCallback) - 
+* [`DataStream:FlatMapCallback : Promise.<Iterable> | Iterable`](docs/data-stream.md#DataStream.FlatMapCallback) - 
+* [`DataStream:JoinCallback : Promise.<*> | *`](docs/data-stream.md#DataStream.JoinCallback) - 
+* [`DataStream:RateOptions`](docs/data-stream.md#DataStream.RateOptions) - 
 
 ### StringStream
 
@@ -376,10 +376,10 @@ StringStream.fromString()
 * [`StringStream:fromString(stream, encoding) : StringStream`](docs/string-stream.md#StringStream.fromString) - Creates a StringStream and writes a specific string.
 * [`StringStream:pipeline(readable, transforms) : StringStream`](docs/string-stream.md#StringStream.pipeline) - Creates a pipeline of streams and returns a scramjet stream.
 * [`StringStream:from(source, options) : StringStream`](docs/string-stream.md#StringStream.from) - Create StringStream from anything.
-* [`StringStream:ShiftCallback : function`](docs/string-stream.md#StringStream.ShiftCallback) -
-* [`StringStream:ParseCallback : Promise`](docs/string-stream.md#StringStream.ParseCallback) -
-* [`StringStream:ExecDataOptions : StringStream.ExecOptions`](docs/data-stream.md#StringStream.ExecDataOptions) -
-* [`StringStream:ExecOptions : child_process.SpawnOptions`](docs/string-stream.md#StringStream.ExecOptions) -
+* [`StringStream:ShiftCallback : function`](docs/string-stream.md#StringStream.ShiftCallback) - 
+* [`StringStream:ParseCallback : Promise`](docs/string-stream.md#StringStream.ParseCallback) - 
+* [`StringStream:ExecDataOptions : StringStream.ExecOptions`](docs/data-stream.md#StringStream.ExecDataOptions) - 
+* [`StringStream:ExecOptions : child_process.SpawnOptions`](docs/string-stream.md#StringStream.ExecOptions) - 
 
 ### BufferStream
 
@@ -417,7 +417,7 @@ A simple use case would be:
 * [`BufferStream:pipeline(readable, transforms) : BufferStream`](docs/buffer-stream.md#BufferStream.pipeline) - Creates a pipeline of streams and returns a scramjet stream.
 * [`BufferStream:from(stream, options) : BufferStream`](docs/buffer-stream.md#BufferStream.from) - Create BufferStream from anything.
 * [`BufferStream:ShiftCallback : function`](docs/buffer-stream.md#BufferStream.ShiftCallback) - Shift Function
-* [`BufferStream:ParseCallback : Promise`](docs/buffer-stream.md#BufferStream.ParseCallback) -
+* [`BufferStream:ParseCallback : Promise`](docs/buffer-stream.md#BufferStream.ParseCallback) - 
 
 ### MultiStream
 
