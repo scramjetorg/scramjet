@@ -36,7 +36,7 @@ exports.test = {
         try {
             const agen = require("./lib/async-iterator");
             const arr = await (getStream(agen(2)).toArray());
-            test.deepEqual(arr, [12,22,32,43], "Should iterate asynchronously");
+            test.deepEqual(arr, [12,22,32,42], "Should iterate asynchronously");
         } catch(e) {
             test.ok("Async iterators not supported");
         }
