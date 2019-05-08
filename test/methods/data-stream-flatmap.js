@@ -50,9 +50,9 @@ exports.test = {
         test.done();
     },
     async async_generator_error(test) {
-        test.expect(3);
         try {
             const agen = require("./lib/async-iterator");
+            test.expect(3);
             const arr = await (
                 DataStream
                     .from([2,3])
