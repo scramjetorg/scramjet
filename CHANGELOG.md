@@ -2,10 +2,9 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
-
-
 ## Scramjet 4.24.0: More generators and async generators
 
+* `DataStream..strinfigy` now works without arguments.
 * Adds better support for `async? function*` (generators) for: `flatMap` and `join`
 * Dependencies update.
 
