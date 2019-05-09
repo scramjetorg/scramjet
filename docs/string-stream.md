@@ -12,31 +12,39 @@ StringStream.fromString()
 ```
 
 **Kind**: global class  
-**Extends**: <code>DataStream</code>  
+**Extends**: [<code>DataStream</code>](data-stream.md#DataStream)  
 
-* [StringStream](#StringStream)  <code>DataStream</code>
+* [StringStream](#StringStream)  [<code>DataStream</code>](data-stream.md#DataStream)
+    * [stringStream.toStringStream()](#StringStream+toStringStream)
     * [new StringStream(encoding)](#new_StringStream_new)
+    * [StringStream:ExecDataOptions](#StringStream.ExecDataOptions)  [<code>StringStream.ExecOptions</code>](string-stream.md#StringStream.ExecOptions)
     * [stringStream.shift(bytes, func)](#StringStream+shift) ↺
     * [stringStream.split(splitter)](#StringStream+split) ↺
     * [stringStream.match(matcher)](#StringStream+match) ↺
-    * [stringStream.toBufferStream()](#StringStream+toBufferStream) ↺ <code>BufferStream</code>
-    * [stringStream.parse(parser)](#StringStream+parse) ↺ <code>DataStream</code>
+    * [stringStream.toBufferStream()](#StringStream+toBufferStream) ↺ [<code>BufferStream</code>](buffer-stream.md#BufferStream)
+    * [stringStream.parse(parser)](#StringStream+parse) ↺ [<code>DataStream</code>](data-stream.md#DataStream)
     * [stringStream.toDataStream()](#StringStream+toDataStream)
     * [stringStream.lines([eol])](#StringStream+lines) ↺
-    * [stringStream.JSONParse([perLine])](#StringStream+JSONParse) ↺ <code>DataStream</code>
-    * [stringStream.CSVParse([options])](#StringStream+CSVParse) ↺ <code>DataStream</code>
+    * [stringStream.JSONParse([perLine])](#StringStream+JSONParse) ↺ [<code>DataStream</code>](data-stream.md#DataStream)
+    * [stringStream.CSVParse([options])](#StringStream+CSVParse) ↺ [<code>DataStream</code>](data-stream.md#DataStream)
     * [stringStream.append(param)](#StringStream+append) ↺
     * [stringStream.prepend(param)](#StringStream+prepend) ↺
     * [stringStream.exec(command, [options])](#StringStream+exec)
     * [stringStream.pop(bytes, func)](#StringStream+pop) ↺
     * [StringStream:SPLIT_LINE](#StringStream.SPLIT_LINE)
-    * [StringStream:fromString(stream, encoding)](#StringStream.fromString)  [<code>StringStream</code>](#StringStream)
-    * [StringStream:pipeline(readable, transforms)](#StringStream.pipeline)  [<code>StringStream</code>](#StringStream)
-    * [StringStream:from(source, options)](#StringStream.from)  [<code>StringStream</code>](#StringStream)
-    * [StringStream:ShiftCallback](#StringStream.ShiftCallback)  <code>function</code>
+    * [StringStream:fromString(stream, encoding)](#StringStream.fromString)  [<code>StringStream</code>](string-stream.md#StringStream)
+    * [StringStream:pipeline(readable, transforms)](#StringStream.pipeline)  [<code>StringStream</code>](string-stream.md#StringStream)
+    * [StringStream:from(source, options)](#StringStream.from)  [<code>StringStream</code>](string-stream.md#StringStream)
+    * [StringStream:ShiftStringCallback](#StringStream.ShiftStringCallback)  <code>function</code>
     * [StringStream:ParseCallback](#StringStream.ParseCallback)  <code>Promise</code>
     * [StringStream:ExecOptions](#StringStream.ExecOptions)  <code>child\_process.SpawnOptions</code>
 
+<a name="StringStream+toStringStream"></a>
+
+### stringStream.toStringStream()
+Alias for [BufferStream#stringify](BufferStream#stringify)
+
+**Kind**: instance method of [<code>StringStream</code>](#StringStream)  
 <a name="new_StringStream_new"></a>
 
 ### new StringStream(encoding)
@@ -46,6 +54,18 @@ Constructs the stream with the given encoding
 | Param | Type | Description |
 | --- | --- | --- |
 | encoding | <code>String</code> | the encoding to use |
+
+<a name="StringStream.ExecDataOptions"></a>
+
+### StringStream:ExecDataOptions : StringStream.ExecOptions
+**Kind**: static typedef of [<code>StringStream</code>](#StringStream)  
+**Extends**: [<code>StringStream.ExecOptions</code>](string-stream.md#StringStream.ExecOptions)  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| [parse] | <code>UseCallback</code> | scramjet module to transform the stream to string or buffer stream |
+| [stringify] | <code>UseCallback</code> | scramjet module to transform from string or buffer stream to wanted version |
 
 <a name="StringStream+shift"></a>
 
@@ -62,7 +82,7 @@ the given number of characters.
 | Param | Type | Description |
 | --- | --- | --- |
 | bytes | <code>Number</code> | The number of characters to shift. |
-| func | <code>ShiftCallback</code> | Function that receives a string of shifted chars. |
+| func | [<code>ShiftStringCallback</code>](string-stream.md#StringStream.ShiftStringCallback) | Function that receives a string of shifted chars. |
 
 <a name="StringStream+split"></a>
 
@@ -101,7 +121,7 @@ all your transforms when you like.
 
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
 **Chainable**  
-**Returns**: <code>BufferStream</code> - The converted stream.  
+**Returns**: [<code>BufferStream</code>](buffer-stream.md#BufferStream) - The converted stream.  
 **Meta.noreadme**:   
 **Test**: test/methods/string-stream-tobufferstream.js  
 <a name="StringStream+parse"></a>
@@ -114,12 +134,12 @@ stream here should already be split.
 
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
 **Chainable**  
-**Returns**: <code>DataStream</code> - The parsed objects stream.  
+**Returns**: [<code>DataStream</code>](data-stream.md#DataStream) - The parsed objects stream.  
 **Test**: test/methods/string-stream-parse.js  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| parser | <code>ParseCallback</code> | The transform function |
+| parser | [<code>ParseCallback</code>](string-stream.md#StringStream.ParseCallback) | The transform function |
 
 <a name="StringStream+toDataStream"></a>
 
@@ -148,7 +168,7 @@ Ignores empty lines
 
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
 **Chainable**  
-**Returns**: <code>DataStream</code> - stream of parsed items  
+**Returns**: [<code>DataStream</code>](data-stream.md#DataStream) - stream of parsed items  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -161,7 +181,7 @@ Parses CSV to DataString using 'papaparse' module.
 
 **Kind**: instance method of [<code>StringStream</code>](#StringStream)  
 **Chainable**  
-**Returns**: <code>DataStream</code> - stream of parsed items  
+**Returns**: [<code>DataStream</code>](data-stream.md#DataStream) - stream of parsed items  
 **Test**: test/methods/data-stream-separate.js  
 
 | Param | Type | Default | Description |
@@ -211,7 +231,7 @@ Note: if you're piping both stderr and stdout (options.stream=3) keep in mind th
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | command | <code>String</code> |  | command to execute |
-| [options] | <code>ExecOptions</code> | <code>{}</code> | options to be passed to `spawn` and defining serialization. |
+| [options] | [<code>ExecOptions</code>](string-stream.md#StringStream.ExecOptions) | <code>{}</code> | options to be passed to `spawn` and defining serialization. |
 | [...args] | <code>String</code> |  | additional arguments (will overwrite to SpawnOptions args even if not given) |
 
 <a name="StringStream+pop"></a>
@@ -229,7 +249,7 @@ the given number of characters.
 | Param | Type | Description |
 | --- | --- | --- |
 | bytes | <code>Number</code> | The number of characters to shift. |
-| func | <code>ShiftCallback</code> | Function that receives a string of shifted chars. |
+| func | [<code>ShiftStringCallback</code>](string-stream.md#StringStream.ShiftStringCallback) | Function that receives a string of shifted chars. |
 
 <a name="StringStream.SPLIT_LINE"></a>
 
@@ -243,7 +263,7 @@ A handy split by line regex to quickly get a line-by-line stream
 Creates a StringStream and writes a specific string.
 
 **Kind**: static method of [<code>StringStream</code>](#StringStream)  
-**Returns**: [<code>StringStream</code>](#StringStream) - new StringStream.  
+**Returns**: [<code>StringStream</code>](string-stream.md#StringStream) - new StringStream.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -256,7 +276,7 @@ Creates a StringStream and writes a specific string.
 Creates a pipeline of streams and returns a scramjet stream.
 
 **Kind**: static method of [<code>StringStream</code>](#StringStream)  
-**Returns**: [<code>StringStream</code>](#StringStream) - a new StringStream instance of the resulting pipeline  
+**Returns**: [<code>StringStream</code>](string-stream.md#StringStream) - a new StringStream instance of the resulting pipeline  
 **See**: DataStream.pipeline  
 
 | Param | Type | Description |
@@ -270,7 +290,7 @@ Creates a pipeline of streams and returns a scramjet stream.
 Create StringStream from anything.
 
 **Kind**: static method of [<code>StringStream</code>](#StringStream)  
-**Returns**: [<code>StringStream</code>](#StringStream) - new StringStream.  
+**Returns**: [<code>StringStream</code>](string-stream.md#StringStream) - new StringStream.  
 **See**
 
 - DataStream.from
@@ -280,11 +300,11 @@ Create StringStream from anything.
 | Param | Type | Description |
 | --- | --- | --- |
 | source | <code>String</code> \| <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>Readable</code> | argument to be turned into new stream |
-| options | <code>DataStreamOptions</code> \| <code>Writable</code> |  |
+| options | [<code>DataStreamOptions</code>](index.md#module_scramjet..DataStreamOptions) \| <code>Writable</code> |  |
 
-<a name="StringStream.ShiftCallback"></a>
+<a name="StringStream.ShiftStringCallback"></a>
 
-### StringStream:ShiftCallback : function
+### StringStream:ShiftStringCallback : function
 **Kind**: static typedef of [<code>StringStream</code>](#StringStream)  
 
 | Param | Type | Description |

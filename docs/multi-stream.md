@@ -13,16 +13,16 @@ The idea behind a MultiStream is being able to mux and demux streams when needed
     * [new MultiStream(streams, options)](#new_MultiStream_new)
     * [multiStream.streams](#MultiStream+streams)  <code>Array</code>
     * [multiStream.length](#MultiStream+length)  <code>number</code>
-    * [multiStream.map(aFunc)](#MultiStream+map) ↺ [<code>MultiStream</code>](#MultiStream)
-    * [multiStream.find(...args)](#MultiStream+find)  <code>DataStream</code>
-    * [multiStream.filter(func)](#MultiStream+filter) ↺ [<code>MultiStream</code>](#MultiStream)
-    * [multiStream.mux(comparator)](#MultiStream+mux)  <code>DataStream</code>
+    * [multiStream.map(aFunc)](#MultiStream+map) ↺ [<code>MultiStream</code>](multi-stream.md#MultiStream)
+    * [multiStream.find(...args)](#MultiStream+find)  [<code>DataStream</code>](data-stream.md#DataStream)
+    * [multiStream.filter(func)](#MultiStream+filter) ↺ [<code>MultiStream</code>](multi-stream.md#MultiStream)
+    * [multiStream.mux(comparator)](#MultiStream+mux)  [<code>DataStream</code>](data-stream.md#DataStream)
     * [multiStream.add(stream)](#MultiStream+add)
     * [multiStream.remove(stream)](#MultiStream+remove)
-    * [multiStream.route([policy], [count])](#MultiStream+route)  [<code>MultiStream</code>](#MultiStream)
+    * [multiStream.route([policy], [count])](#MultiStream+route)  [<code>MultiStream</code>](multi-stream.md#MultiStream)
     * [multiStream.smap(transform)](#MultiStream+smap) ↺
     * [multiStream.cluster(clusterFunc, [options])](#MultiStream+cluster) ↺
-    * [MultiStream:DistributeOptions](#MultiStream.DistributeOptions)
+    * [MultiStream~DistributeOptions](#MultiStream..DistributeOptions)
 
 <a name="new_MultiStream_new"></a>
 
@@ -58,12 +58,12 @@ by the Function.
 
 **Kind**: instance method of [<code>MultiStream</code>](#MultiStream)  
 **Chainable**  
-**Returns**: [<code>MultiStream</code>](#MultiStream) - the mapped instance  
+**Returns**: [<code>MultiStream</code>](multi-stream.md#MultiStream) - the mapped instance  
 **Test**: test/methods/multi-stream-map.js  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| aFunc | <code>MapCallback</code> | Mapper ran in Promise::then (so you can                                  return a promise or an object) |
+| aFunc | [<code>MapCallback</code>](data-stream.md#DataStream.MapCallback) | Mapper ran in Promise::then (so you can                                  return a promise or an object) |
 
 <a name="MultiStream+find"></a>
 
@@ -71,7 +71,7 @@ by the Function.
 Calls Array.prototype.find on the streams
 
 **Kind**: instance method of [<code>MultiStream</code>](#MultiStream)  
-**Returns**: <code>DataStream</code> - found DataStream  
+**Returns**: [<code>DataStream</code>](data-stream.md#DataStream) - found DataStream  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -85,7 +85,7 @@ streams for which the Function returned true
 
 **Kind**: instance method of [<code>MultiStream</code>](#MultiStream)  
 **Chainable**  
-**Returns**: [<code>MultiStream</code>](#MultiStream) - the filtered instance  
+**Returns**: [<code>MultiStream</code>](multi-stream.md#MultiStream) - the filtered instance  
 **Test**: test/methods/multi-stream-filter.js  
 
 | Param | Type | Description |
@@ -98,7 +98,7 @@ streams for which the Function returned true
 Muxes the streams into a single one
 
 **Kind**: instance method of [<code>MultiStream</code>](#MultiStream)  
-**Returns**: <code>DataStream</code> - The resulting DataStream  
+**Returns**: [<code>DataStream</code>](data-stream.md#DataStream) - The resulting DataStream  
 **Test**: test/methods/multi-stream-mux.js  
 **Todo**
 
@@ -150,7 +150,7 @@ streams.
 Re-routes streams to a new MultiStream of specified size
 
 **Kind**: instance method of [<code>MultiStream</code>](#MultiStream)  
-**Returns**: [<code>MultiStream</code>](#MultiStream) - [description]  
+**Returns**: [<code>MultiStream</code>](multi-stream.md#MultiStream) - [description]  
 **Meta.noreadme**:   
 **Todo**
 
@@ -186,14 +186,14 @@ Distributes processing to multiple forked subprocesses.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | clusterFunc | <code>function</code> \| <code>String</code> |  | a cluster callback with all operations working similarly to DataStream::use |
-| [options] | <code>DistributeOptions</code> | <code>{}</code> |  |
+| [options] | [<code>DistributeOptions</code>](multi-stream.md#MultiStream..DistributeOptions) | <code>{}</code> |  |
 
-<a name="MultiStream.DistributeOptions"></a>
+<a name="MultiStream..DistributeOptions"></a>
 
-### MultiStream:DistributeOptions
+### MultiStream~DistributeOptions
 Distribute options
 
-**Kind**: static typedef of [<code>MultiStream</code>](#MultiStream)  
+**Kind**: inner typedef of [<code>MultiStream</code>](#MultiStream)  
 **Properties**
 
 | Name | Type | Default | Description |
@@ -201,5 +201,5 @@ Distribute options
 | [plugins] | <code>Array</code> | <code>[]</code> | a list of scramjet plugins to load (if omitted, will use just the ones in scramjet itself) |
 | [StreamClass] | <code>String</code> | <code>DataStream</code> | the class to deserialize the stream to. |
 | [threads] | <code>Number</code> | <code>os.cpus().length * 2</code> | maximum threads to use - defaults to number of processor threads in os, but it may be sensible to go over this value if you'd intend to run synchronous code. |
-| [createOptions] | <code>DataStreamOptions</code> | <code>{}</code> | maximum threads to use - defaults to number of processor threads in os, but it may be sensible to go over this value if you'd intend to run synchronous code. |
+| [createOptions] | [<code>DataStreamOptions</code>](index.md#module_scramjet..DataStreamOptions) | <code>{}</code> | maximum threads to use - defaults to number of processor threads in os, but it may be sensible to go over this value if you'd intend to run synchronous code. |
 

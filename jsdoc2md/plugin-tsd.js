@@ -1,5 +1,5 @@
-const isChainable = (doclet) => doclet && doclet.comment.indexOf('chainable') >= 0;
-const isClassMember = ({kind}) => (kind === 'member' || kind === 'function');
+const isChainable = (doclet) => doclet && doclet.comment.indexOf("chainable") >= 0;
+const isClassMember = ({kind}) => (kind === "member" || kind === "function");
 const injected = (doclet) => (doclet.tags || []).filter(({title}) => title === "inject").map(({value}) => value.trim());
 
 // const has = (doclet, tag) => doclet.comment.indexOf('@' + tag) >= 0
@@ -17,7 +17,7 @@ const getLookupType = (type) => {
     return Object.entries(tagLookup)
         .reduce(
             (current, [_to, {longname: _from}]) => {
-                return current.replace(_from, _to)
+                return current.replace(_from, _to);
             },
             type
         );
@@ -25,13 +25,13 @@ const getLookupType = (type) => {
 
 const replaceNames = {};
 
-exports.handlers = {
+module.exports.handlers = {
     parseBegin() {
         tagLookup = {};
     },
     newDoclet({doclet}) {
 
-        if (doclet.memberof === 'module:scramjet') {
+        if (doclet.memberof === "module:scramjet") {
             injected(doclet)
                 .reduce(
                     (acc, symbol) => tagLookup[symbol] = doclet,
@@ -53,7 +53,7 @@ exports.handlers = {
                     lookup => (replaced++, augmented.replace(lookup, tagLookup[lookup].longname))
                 )
             );
-            if (replaced && doclet.kind === 'class') {
+            if (replaced && doclet.kind === "class") {
                 const oldName = doclet.name;
                 doclet.name = `${oldName} extends ${oldAugments[0]}`;
                 replaceNames[oldName] = doclet.name;
@@ -64,8 +64,8 @@ exports.handlers = {
             matchLookup(doclet.memberof)
                 .forEach(
                     (lookup) => {
-                        doclet.longname = doclet.longname.replace(lookup, tagLookup[lookup].longname)
-                        doclet.memberof = doclet.memberof.replace(lookup, tagLookup[lookup].longname)
+                        doclet.longname = doclet.longname.replace(lookup, tagLookup[lookup].longname);
+                        doclet.memberof = doclet.memberof.replace(lookup, tagLookup[lookup].longname);
                     }
                 );
         }
@@ -89,17 +89,17 @@ exports.handlers = {
 
                         if (match === -1) return false;
                         if (match === 0) return true;
-                        if (memberof[match - 1] === '.') return true;
+                        if (memberof[match - 1] === ".") return true;
 
                         return false;
                     }
                 );
 
                 if (replacement) {
-                    doclet.memberof = doclet.memberof.replace(replacement[0], replacement[1])
+                    doclet.memberof = doclet.memberof.replace(replacement[0], replacement[1]);
                 }
             }
-        )
+        );
     }
 };
 

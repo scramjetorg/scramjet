@@ -241,7 +241,6 @@ Check out the command line interface for simplified scramjet usage with [scramje
 ## Quick reference of some methods
 
 ### DataStream
-
 DataStream is the primary stream type for Scramjet. When you parse your
 stream, just pipe it you can then perform calculations on the data objects
 streamed through your flow.
@@ -330,7 +329,7 @@ await (DataStream.from(aStream) // create a DataStream
 * [`DataStream:fromArray(array, [options]) : DataStream`](docs/data-stream.md#DataStream.fromArray) - Create a DataStream from an Array
 * [`DataStream:fromIterator(iterator, [options]) : DataStream`](docs/data-stream.md#DataStream.fromIterator) - Create a DataStream from an Iterator
 * [`DataStream:MapCallback : Promise | *`](docs/data-stream.md#DataStream.MapCallback) - 
-* [`DataStream:FilterCallback : Promise | Boolean`](docs/data-stream.md#DataStream.FilterCallback) - 
+* [`DataStream:FilterCallback : Promise.<Boolean> | Boolean`](docs/data-stream.md#DataStream.FilterCallback) - 
 * [`DataStream:ReduceCallback : Promise | *`](docs/data-stream.md#DataStream.ReduceCallback) - 
 * [`DataStream:DoCallback : function ⇄`](docs/data-stream.md#DataStream.DoCallback) - 
 * [`DataStream:IntoCallback : * ⇄`](docs/data-stream.md#DataStream.IntoCallback) - 
@@ -344,7 +343,6 @@ await (DataStream.from(aStream) // create a DataStream
 * [`DataStream:RateOptions`](docs/data-stream.md#DataStream.RateOptions) - 
 
 ### StringStream
-
 A stream of string objects for further transformation on top of DataStream.
 
 Example:
@@ -376,13 +374,12 @@ StringStream.fromString()
 * [`StringStream:fromString(stream, encoding) : StringStream`](docs/string-stream.md#StringStream.fromString) - Creates a StringStream and writes a specific string.
 * [`StringStream:pipeline(readable, transforms) : StringStream`](docs/string-stream.md#StringStream.pipeline) - Creates a pipeline of streams and returns a scramjet stream.
 * [`StringStream:from(source, options) : StringStream`](docs/string-stream.md#StringStream.from) - Create StringStream from anything.
-* [`StringStream:ShiftCallback : function`](docs/string-stream.md#StringStream.ShiftCallback) - 
+* [`StringStream:ShiftStringCallback : function`](docs/string-stream.md#StringStream.ShiftStringCallback) - 
 * [`StringStream:ParseCallback : Promise`](docs/string-stream.md#StringStream.ParseCallback) - 
 * [`StringStream:ExecDataOptions : StringStream.ExecOptions`](docs/data-stream.md#StringStream.ExecDataOptions) - 
 * [`StringStream:ExecOptions : child_process.SpawnOptions`](docs/string-stream.md#StringStream.ExecOptions) - 
 
 ### BufferStream
-
 A facilitation stream created for easy splitting or parsing buffers.
 
 Useful for working on built-in Node.js streams from files, parsing binary formats etc.
@@ -420,7 +417,6 @@ A simple use case would be:
 * [`BufferStream:ParseCallback : Promise`](docs/buffer-stream.md#BufferStream.ParseCallback) - 
 
 ### MultiStream
-
 An object consisting of multiple streams than can be refined or muxed.
 
 The idea behind a MultiStream is being able to mux and demux streams when needed.
@@ -441,10 +437,9 @@ The idea behind a MultiStream is being able to mux and demux streams when needed
 * [`multiStream.route([policy], [count]) : MultiStream`](docs/multi-stream.md#MultiStream+route) - Re-routes streams to a new MultiStream of specified size
 * [`multiStream.smap(transform) ↺`](docs/multi-stream.md#MultiStream+smap) - Map stream synchronously
 * [`multiStream.cluster(clusterFunc, [options]) ↺`](docs/multi-stream.md#MultiStream+cluster) - Distributes processing to multiple forked subprocesses.
-* [`MultiStream:DistributeOptions`](docs/multi-stream.md#MultiStream.DistributeOptions) - Distribute options
+* [`MultiStream~DistributeOptions`](docs/multi-stream.md#MultiStream..DistributeOptions) - Distribute options
 
 ### NumberStream
-
 Simple scramjet stream that by default contains numbers or other containing with `valueOf` method. The streams
 provides simple methods like `sum`, `average`. It derives from DataStream so it's still fully supporting all `map`,
 `reduce` etc.
@@ -456,10 +451,10 @@ provides simple methods like `sum`, `average`. It derives from DataStream so it'
 * `new NumberStream(options)` - Creates an instance of NumberStream.
 * [`numberStream.sum() : Number ⇄`](docs/number-stream.md#NumberStream+sum) - Calculates the sum of all items in the stream.
 * [`numberStream.avg() : Number ⇄`](docs/number-stream.md#NumberStream+avg) - Calculates the sum of all items in the stream.
-* [`NumberStream:NumberStreamOptions : DataStreamOptions`](docs/number-stream.md#NumberStream.NumberStreamOptions) - NumberStream options
+* [`NumberStream~NumberStreamOptions : DataStreamOptions`](docs/number-stream.md#NumberStream..NumberStreamOptions) - NumberStream options
+* [`NumberStream~ValueOfCallback : Number`](docs/number-stream.md#NumberStream..ValueOfCallback) - 
 
 ### WindowStream
-
 A stream for moving window calculation with some simple methods.
 
 In essence it's a stream of Array's containing a list of items - a window.
@@ -471,16 +466,6 @@ It's best used when created by the `DataStream..window`` method.
 
 * [`windowStream.sum([valueOf]) : Promise.<Number> ↺`](docs/window-stream.md#WindowStream+sum) - Calculates moving sum of items, the output stream will contain the moving sum.
 * [`windowStream.avg([valueOf]) : Promise.<Number> ↺`](docs/window-stream.md#WindowStream+avg) - Calculates the moving average of all items in the stream.
-
-### :PromiseTransformStream
-
-
-
-[Detailed :PromiseTransformStream docs here](docs/index.md)
-
-**Most popular methods:**
-
-* `new PromiseTransformStream()` - Provides a lazy-load accessor to PromiseTransformStream - the base class of scramjet streams
 
 
 

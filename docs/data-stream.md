@@ -2,7 +2,7 @@
 
 <a name="DataStream"></a>
 
-## DataStream : stream.PassThrough
+## DataStream : module:stream.PassThrough
 DataStream is the primary stream type for Scramjet. When you parse your
 stream, just pipe it you can then perform calculations on the data objects
 streamed through your flow.
@@ -19,9 +19,9 @@ await (DataStream.from(aStream) // create a DataStream
 ```
 
 **Kind**: global class  
-**Extends**: <code>stream.PassThrough</code>  
+**Extends**: <code>module:stream.PassThrough</code>  
 
-* [DataStream](#DataStream)  <code>stream.PassThrough</code>
+* [DataStream](#DataStream)  <code>module:stream.PassThrough</code>
     * [new DataStream(opts)](#new_DataStream_new)
     * [dataStream.map(func, [ClassType])](#DataStream+map) ↺
     * [dataStream.filter(func)](#DataStream+filter) ↺
@@ -47,8 +47,8 @@ await (DataStream.from(aStream) // create a DataStream
     * [dataStream.catch(callback)](#DataStream+catch) ↺
     * [dataStream.raise(err)](#DataStream+raise)
     * [dataStream.pipe(to, options)](#DataStream+pipe) ↺ <code>Writable</code>
-    * [dataStream.bufferify(serializer)](#DataStream+bufferify) ↺ <code>BufferStream</code>
-    * [dataStream.stringify([serializer])](#DataStream+stringify) ↺ <code>StringStream</code>
+    * [dataStream.bufferify(serializer)](#DataStream+bufferify) ↺ [<code>BufferStream</code>](buffer-stream.md#BufferStream)
+    * [dataStream.stringify([serializer])](#DataStream+stringify) ↺ [<code>StringStream</code>](string-stream.md#StringStream)
     * [dataStream.toArray([initial])](#DataStream+toArray) ⇄ <code>Array</code>
     * [dataStream.toGenerator()](#DataStream+toGenerator)  <code>Iterable.&lt;Promise.&lt;\*&gt;&gt;</code>
     * [dataStream.pull(pullable)](#DataStream+pull) ⇄ <code>Promise</code>
@@ -64,34 +64,34 @@ await (DataStream.from(aStream) // create a DataStream
     * [dataStream.reduceNow(func, into)](#DataStream+reduceNow) ↺ <code>\*</code>
     * [dataStream.remap(func, [TypeClass])](#DataStream+remap) ↺
     * [dataStream.flatMap(func, [TypeClass])](#DataStream+flatMap) ↺
-    * [dataStream.flatten()](#DataStream+flatten) ↺ [<code>DataStream</code>](#DataStream)
+    * [dataStream.flatten()](#DataStream+flatten) ↺ [<code>DataStream</code>](data-stream.md#DataStream)
     * [dataStream.concat(streams)](#DataStream+concat) ↺
     * [dataStream.join(item)](#DataStream+join) ↺
     * [dataStream.keep(count)](#DataStream+keep) ↺
     * [dataStream.rewind(count)](#DataStream+rewind) ↺
     * [dataStream.distribute([affinity], clusterFunc, [options])](#DataStream+distribute) ↺
     * [dataStream.separateInto(streams, affinity)](#DataStream+separateInto) ↺
-    * [dataStream.separate(affinity, createOptions)](#DataStream+separate) ↺ <code>MultiStream</code>
+    * [dataStream.separate(affinity, createOptions)](#DataStream+separate) ↺ [<code>MultiStream</code>](multi-stream.md#MultiStream)
     * [dataStream.delegate(delegateFunc, worker, [plugins])](#DataStream+delegate) ↺
     * [dataStream.rate(cps, [options])](#DataStream+rate) ↺
     * [dataStream.batch(count)](#DataStream+batch) ↺
     * [dataStream.timeBatch(ms, count)](#DataStream+timeBatch) ↺
     * [dataStream.nagle([size], [ms])](#DataStream+nagle) ↺
-    * [dataStream.window(length)](#DataStream+window) ↺ <code>WindowStream</code>
-    * [dataStream.toJSONArray([enclosure])](#DataStream+toJSONArray) ↺ <code>StringStream</code>
-    * [dataStream.toJSONObject([entryCallback], [enclosure])](#DataStream+toJSONObject) ↺ <code>StringStream</code>
-    * [dataStream.JSONStringify([endline])](#DataStream+JSONStringify) ↺ <code>StringStream</code>
-    * [dataStream.CSVStringify(options)](#DataStream+CSVStringify) ↺ <code>StringStream</code>
+    * [dataStream.window(length)](#DataStream+window) ↺ [<code>WindowStream</code>](index.md#module_scramjet.WindowStream)
+    * [dataStream.toJSONArray([enclosure])](#DataStream+toJSONArray) ↺ [<code>StringStream</code>](string-stream.md#StringStream)
+    * [dataStream.toJSONObject([entryCallback], [enclosure])](#DataStream+toJSONObject) ↺ [<code>StringStream</code>](string-stream.md#StringStream)
+    * [dataStream.JSONStringify([endline])](#DataStream+JSONStringify) ↺ [<code>StringStream</code>](string-stream.md#StringStream)
+    * [dataStream.CSVStringify(options)](#DataStream+CSVStringify) ↺ [<code>StringStream</code>](string-stream.md#StringStream)
     * [dataStream.exec(command, options, args)](#DataStream+exec)
-    * [dataStream.debug(func)](#DataStream+debug) ↺ [<code>DataStream</code>](#DataStream)
-    * [dataStream.toBufferStream(serializer)](#DataStream+toBufferStream) ↺ <code>BufferStream</code>
-    * [dataStream.toStringStream([serializer])](#DataStream+toStringStream) ↺ <code>StringStream</code>
-    * [DataStream:from(input, [options])](#DataStream.from)  [<code>DataStream</code>](#DataStream)
-    * [DataStream:pipeline(readable, ...transforms)](#DataStream.pipeline)  [<code>DataStream</code>](#DataStream)
-    * [DataStream:fromArray(array, [options])](#DataStream.fromArray)  [<code>DataStream</code>](#DataStream)
-    * [DataStream:fromIterator(iterator, [options])](#DataStream.fromIterator)  [<code>DataStream</code>](#DataStream)
+    * [dataStream.debug(func)](#DataStream+debug) ↺ [<code>DataStream</code>](data-stream.md#DataStream)
+    * [dataStream.toBufferStream(serializer)](#DataStream+toBufferStream) ↺ [<code>BufferStream</code>](buffer-stream.md#BufferStream)
+    * [dataStream.toStringStream([serializer])](#DataStream+toStringStream) ↺ [<code>StringStream</code>](string-stream.md#StringStream)
+    * [DataStream:from(input, [options])](#DataStream.from)  [<code>DataStream</code>](data-stream.md#DataStream)
+    * [DataStream:pipeline(readable, ...transforms)](#DataStream.pipeline)  [<code>DataStream</code>](data-stream.md#DataStream)
+    * [DataStream:fromArray(array, [options])](#DataStream.fromArray)  [<code>DataStream</code>](data-stream.md#DataStream)
+    * [DataStream:fromIterator(iterator, [options])](#DataStream.fromIterator)  [<code>DataStream</code>](data-stream.md#DataStream)
     * [DataStream:MapCallback](#DataStream.MapCallback)  <code>Promise</code> \| <code>\*</code>
-    * [DataStream:FilterCallback](#DataStream.FilterCallback)  <code>Promise</code> \| <code>Boolean</code>
+    * [DataStream:FilterCallback](#DataStream.FilterCallback)  <code>Promise.&lt;Boolean&gt;</code> \| <code>Boolean</code>
     * [DataStream:ReduceCallback](#DataStream.ReduceCallback)  <code>Promise</code> \| <code>\*</code>
     * [DataStream:DoCallback](#DataStream.DoCallback) ⇄ <code>function</code>
     * [DataStream:IntoCallback](#DataStream.IntoCallback) ⇄ <code>\*</code>
@@ -112,7 +112,7 @@ Create the DataStream.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| opts | [<code>DataStreamOptions</code>](#DataStreamOptions) | Stream options passed to superclass |
+| opts | [<code>DataStreamOptions</code>](index.md#module_scramjet..DataStreamOptions) | Stream options passed to superclass |
 
 <a name="DataStream+map"></a>
 
@@ -140,7 +140,7 @@ can be suppressed by chaining `.tap()` after `.map()`.
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| func | <code>MapCallback</code> |  | The function that creates the new object |
+| func | [<code>MapCallback</code>](data-stream.md#DataStream.MapCallback) |  | The function that creates the new object |
 | [ClassType] | <code>Class</code> | <code>this.constructor</code> | The class to be mapped to. |
 
 <a name="DataStream+filter"></a>
@@ -165,7 +165,7 @@ stream.filter(({statusCode}) => !(statusCode >= 200 && statusCode < 300));
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>FilterCallback</code> | The function that filters the object |
+| func | [<code>FilterCallback</code>](data-stream.md#DataStream.FilterCallback) | The function that filters the object |
 
 <a name="DataStream+reduce"></a>
 
@@ -191,7 +191,7 @@ it's much slower than parallel functions.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>ReduceCallback</code> | The into object will be passed as the  first argument, the data object from the stream as the second. |
+| func | [<code>ReduceCallback</code>](data-stream.md#DataStream.ReduceCallback) | The into object will be passed as the  first argument, the data object from the stream as the second. |
 | into | <code>Object</code> | Any object passed initially to the transform function |
 
 <a name="DataStream+do"></a>
@@ -207,7 +207,7 @@ has no impact on the streamed data (except for possible mutation of the chunk it
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>DoCallback</code> | the async function |
+| func | [<code>DoCallback</code>](data-stream.md#DataStream.DoCallback) | the async function |
 
 <a name="DataStream+all"></a>
 
@@ -261,7 +261,7 @@ that are currently happening.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>MapCallback</code> | the async function that will be unordered |
+| func | [<code>MapCallback</code>](data-stream.md#DataStream.MapCallback) | the async function that will be unordered |
 
 <a name="DataStream+into"></a>
 
@@ -280,8 +280,8 @@ It returns the DataStream passed as the second argument.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>IntoCallback</code> | the method that processes incoming chunks |
-| into | [<code>DataStream</code>](#DataStream) | the DataStream derived class |
+| func | [<code>IntoCallback</code>](data-stream.md#DataStream.IntoCallback) | the method that processes incoming chunks |
+| into | [<code>DataStream</code>](data-stream.md#DataStream) | the DataStream derived class |
 
 <a name="DataStream+use"></a>
 
@@ -367,7 +367,7 @@ It's much easier to use this in chain than constructing new stream:
 
 | Param | Type |
 | --- | --- |
-| options | [<code>DataStreamOptions</code>](#DataStreamOptions) | 
+| options | [<code>DataStreamOptions</code>](index.md#module_scramjet..DataStreamOptions) | 
 
 <a name="DataStream+tee"></a>
 
@@ -382,7 +382,7 @@ Creates a duplicate stream instance and passes it to the Function.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>TeeCallback</code> \| <code>Writable</code> | The duplicate stream will be passed as first argument. |
+| func | [<code>TeeCallback</code>](data-stream.md#DataStream.TeeCallback) \| <code>Writable</code> | The duplicate stream will be passed as first argument. |
 
 <a name="DataStream+each"></a>
 
@@ -397,7 +397,7 @@ Warning: this resumes the stream!
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>MapCallback</code> | a Function called for each chunk. |
+| func | [<code>MapCallback</code>](data-stream.md#DataStream.MapCallback) | a Function called for each chunk. |
 
 <a name="DataStream+while"></a>
 
@@ -416,7 +416,7 @@ Keep in mind that whatever you piped to the stream will still need to be handled
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>FilterCallback</code> | The condition check |
+| func | [<code>FilterCallback</code>](data-stream.md#DataStream.FilterCallback) | The condition check |
 
 <a name="DataStream+until"></a>
 
@@ -431,7 +431,7 @@ Works opposite of while.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>FilterCallback</code> | The condition check |
+| func | [<code>FilterCallback</code>](data-stream.md#DataStream.FilterCallback) | The condition check |
 
 <a name="DataStream+catch"></a>
 
@@ -491,13 +491,13 @@ The passed serializer must return a buffer.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
-**Returns**: <code>BufferStream</code> - the resulting stream  
+**Returns**: [<code>BufferStream</code>](buffer-stream.md#BufferStream) - the resulting stream  
 **Meta.noreadme**:   
 **Test**: test/methods/data-stream-tobufferstream.js  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| serializer | <code>MapCallback</code> | A method that converts chunks to buffers |
+| serializer | [<code>MapCallback</code>](data-stream.md#DataStream.MapCallback) | A method that converts chunks to buffers |
 
 <a name="DataStream+stringify"></a>
 
@@ -509,12 +509,12 @@ toString method will be used.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
-**Returns**: <code>StringStream</code> - the resulting stream  
+**Returns**: [<code>StringStream</code>](string-stream.md#StringStream) - the resulting stream  
 **Test**: test/methods/data-stream-tostringstream.js  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [serializer] | <code>MapCallback</code> | A method that converts chunks to strings |
+| [serializer] | [<code>MapCallback</code>](data-stream.md#DataStream.MapCallback) | A method that converts chunks to strings |
 
 <a name="DataStream+toArray"></a>
 
@@ -568,7 +568,7 @@ Shifts the first n items from the stream and pushes out the remaining ones.
 | Param | Type | Description |
 | --- | --- | --- |
 | count | <code>Number</code> | The number of items to shift. |
-| func | <code>ShiftCallback</code> | Function that receives an array of shifted items |
+| func | [<code>ShiftCallback</code>](data-stream.md#DataStream.ShiftCallback) | Function that receives an array of shifted items |
 
 <a name="DataStream+peek"></a>
 
@@ -583,7 +583,7 @@ Important: Peek does not resume the flow.
 | Param | Type | Description |
 | --- | --- | --- |
 | count | <code>Number</code> | The number of items to view before |
-| func | <code>ShiftCallback</code> | Function called before other streams |
+| func | [<code>ShiftCallback</code>](data-stream.md#DataStream.ShiftCallback) | Function called before other streams |
 
 <a name="DataStream+slice"></a>
 
@@ -620,7 +620,7 @@ The original objects are unaltered.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>MapCallback</code> \| <code>Object</code> | The function that returns new object properties or just the new properties |
+| func | [<code>MapCallback</code>](data-stream.md#DataStream.MapCallback) \| <code>Object</code> | The function that returns new object properties or just the new properties |
 
 <a name="DataStream+empty"></a>
 
@@ -680,7 +680,7 @@ Method works in parallel.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>AccumulateCallback</code> | The accumulation function |
+| func | [<code>AccumulateCallback</code>](data-stream.md#DataStream.AccumulateCallback) | The accumulation function |
 | into | <code>\*</code> | Accumulator object |
 
 <a name="DataStream+consume"></a>
@@ -695,7 +695,7 @@ Consumes the stream by running each Function
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>function</code> | the consument |
+| func | [<code>ConsumeCallback</code>](data-stream.md#DataStream.ConsumeCallback) | the consument |
 
 <a name="DataStream+reduceNow"></a>
 
@@ -720,7 +720,7 @@ it's much slower than parallel functions.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>ReduceCallback</code> | The into object will be passed as the first argument, the data object from the stream as the second. |
+| func | [<code>ReduceCallback</code>](data-stream.md#DataStream.ReduceCallback) | The into object will be passed as the first argument, the data object from the stream as the second. |
 | into | <code>\*</code> \| <code>EventEmitter</code> | Any object passed initially to the transform function |
 
 <a name="DataStream+remap"></a>
@@ -737,7 +737,7 @@ This means that every item may emit as many other items as we like.
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| func | <code>RemapCallback</code> |  | A Function that is called on every chunk |
+| func | [<code>RemapCallback</code>](data-stream.md#DataStream.RemapCallback) |  | A Function that is called on every chunk |
 | [TypeClass] | <code>class</code> | <code>this.constructor</code> | Optional DataStream subclass to be constructed |
 
 <a name="DataStream+flatMap"></a>
@@ -754,7 +754,7 @@ consist of all the items of the returned iterables, one iterable after another.
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| func | <code>FlatMapCallback</code> |  | A Function that is called on every chunk |
+| func | [<code>FlatMapCallback</code>](data-stream.md#DataStream.FlatMapCallback) |  | A Function that is called on every chunk |
 | [TypeClass] | <code>class</code> | <code>this.constructor</code> | Optional DataStream subclass to be constructed |
 
 <a name="DataStream+flatten"></a>
@@ -795,7 +795,7 @@ Generator receives
 
 | Param | Type | Description |
 | --- | --- | --- |
-| item | <code>\*</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>JoinCallback</code> | An object that should be interweaved between stream items |
+| item | <code>\*</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| [<code>JoinCallback</code>](data-stream.md#DataStream.JoinCallback) | An object that should be interweaved between stream items |
 
 <a name="DataStream+keep"></a>
 
@@ -840,7 +840,7 @@ Distributes processing into multiple sub-processes or threads if you like.
 | --- | --- | --- |
 | [affinity] | <code>AffinityCallback</code> \| <code>Number</code> | A Function that affixes the item to specific output stream which must exist in the object for each chunk, must return a string. A number may be passed to identify how many round-robin threads to start up. Defaults to Round Robin to twice the number of CPU threads. |
 | clusterFunc | <code>ClusterCallback</code> | stream transforms similar to {@see DataStream#use method} |
-| [options] | [<code>DataStreamOptions</code>](#DataStreamOptions) | Options |
+| [options] | [<code>DataStreamOptions</code>](index.md#module_scramjet..DataStreamOptions) | Options |
 
 <a name="DataStream+separateInto"></a>
 
@@ -866,14 +866,14 @@ stream. Thanks to that streams can be distributed to multiple threads.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
-**Returns**: <code>MultiStream</code> - separated stream  
+**Returns**: [<code>MultiStream</code>](multi-stream.md#MultiStream) - separated stream  
 **Meta.noreadme**:   
 **Test**: test/methods/data-stream-separate.js  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | affinity | <code>AffinityCallback</code> | the affinity function |
-| createOptions | [<code>DataStreamOptions</code>](#DataStreamOptions) | options to use to create the separated streams |
+| createOptions | [<code>DataStreamOptions</code>](index.md#module_scramjet..DataStreamOptions) | options to use to create the separated streams |
 
 <a name="DataStream+delegate"></a>
 
@@ -902,7 +902,7 @@ Limit the rate of the stream to a given number of chunks per second or given tim
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | cps | <code>Number</code> |  | Chunks per timeframe, the default timeframe is 1000 ms. |
-| [options] | <code>RateOptions</code> | <code>{}</code> | Options for the limiter controlling the timeframe and time source. Both must work on same units. |
+| [options] | [<code>RateOptions</code>](data-stream.md#DataStream.RateOptions) | <code>{}</code> | Options for the limiter controlling the timeframe and time source. Both must work on same units. |
 
 <a name="DataStream+batch"></a>
 
@@ -960,7 +960,7 @@ Returns a WindowStream of the specified length
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
-**Returns**: <code>WindowStream</code> - a stream of array's  
+**Returns**: [<code>WindowStream</code>](index.md#module_scramjet.WindowStream) - a stream of array's  
 **Meta.noreadme**:   
 
 | Param | Type |
@@ -994,7 +994,7 @@ Transforms the stream to a streamed JSON object.
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [entryCallback] | <code>MapCallback</code> |  | async function returning an entry (array of [key, value]) |
+| [entryCallback] | [<code>MapCallback</code>](data-stream.md#DataStream.MapCallback) |  | async function returning an entry (array of [key, value]) |
 | [enclosure] | <code>Iterable</code> | <code>&#x27;{}&#x27;</code> | Any iterable object of two items (beginning and end) |
 
 <a name="DataStream+JSONStringify"></a>
@@ -1004,7 +1004,7 @@ Returns a StringStream containing JSON per item with optional end line
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
-**Returns**: <code>StringStream</code> - output stream  
+**Returns**: [<code>StringStream</code>](string-stream.md#StringStream) - output stream  
 **Meta.noreadme**:   
 
 | Param | Type | Default | Description |
@@ -1018,7 +1018,7 @@ Stringifies CSV to DataString using 'papaparse' module.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
-**Returns**: <code>StringStream</code> - stream of parsed items  
+**Returns**: [<code>StringStream</code>](string-stream.md#StringStream) - stream of parsed items  
 **Test**: test/methods/data-stream-csv.js  
 
 | Param | Description |
@@ -1042,7 +1042,7 @@ Note: if you're piping both stderr and stdout (options.stream=3) keep in mind th
 | Param | Type | Description |
 | --- | --- | --- |
 | command | <code>String</code> | command to execute |
-| options | <code>ExecDataOptions</code> | options to be passed to `spawn` and defining serialization. |
+| options | [<code>ExecDataOptions</code>](string-stream.md#StringStream.ExecDataOptions) | options to be passed to `spawn` and defining serialization. |
 | args | <code>String</code> | additional arguments (will overwrite to SpawnOptions args even if not given) |
 
 <a name="DataStream+debug"></a>
@@ -1052,7 +1052,7 @@ Injects a ```debugger``` statement when called.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
-**Returns**: [<code>DataStream</code>](#DataStream) - self  
+**Returns**: [<code>DataStream</code>](data-stream.md#DataStream) - self  
 **Meta.noreadme**:   
 **Test**: test/methods/data-stream-debug.js  
 
@@ -1069,13 +1069,13 @@ The passed serializer must return a buffer.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
-**Returns**: <code>BufferStream</code> - the resulting stream  
+**Returns**: [<code>BufferStream</code>](buffer-stream.md#BufferStream) - the resulting stream  
 **Meta.noreadme**:   
 **Test**: test/methods/data-stream-tobufferstream.js  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| serializer | <code>MapCallback</code> | A method that converts chunks to buffers |
+| serializer | [<code>MapCallback</code>](data-stream.md#DataStream.MapCallback) | A method that converts chunks to buffers |
 
 <a name="DataStream+toStringStream"></a>
 
@@ -1087,12 +1087,12 @@ toString method will be used.
 
 **Kind**: instance method of [<code>DataStream</code>](#DataStream)  
 **Chainable**  
-**Returns**: <code>StringStream</code> - the resulting stream  
+**Returns**: [<code>StringStream</code>](string-stream.md#StringStream) - the resulting stream  
 **Test**: test/methods/data-stream-tostringstream.js  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [serializer] | <code>MapCallback</code> | A method that converts chunks to strings |
+| [serializer] | [<code>MapCallback</code>](data-stream.md#DataStream.MapCallback) | A method that converts chunks to strings |
 
 <a name="DataStream.from"></a>
 
@@ -1133,7 +1133,7 @@ DataStream
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | input | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>String</code> \| <code>Readable</code> |  | argument to be turned into new stream |
-| [options] | [<code>DataStreamOptions</code>](#DataStreamOptions) \| <code>Writable</code> | <code>{}</code> | options for creation of a new stream or the target stream |
+| [options] | [<code>DataStreamOptions</code>](index.md#module_scramjet..DataStreamOptions) \| <code>Writable</code> | <code>{}</code> | options for creation of a new stream or the target stream |
 | [...args] | <code>\*</code> |  | additional arguments for the stream - will be passed to the function or generator |
 
 <a name="DataStream.pipeline"></a>
@@ -1152,7 +1152,7 @@ Each following argument will be understood as a transform and can be any of:
 * A transform stream that will be piped to the preceding stream
 
 **Kind**: static method of [<code>DataStream</code>](#DataStream)  
-**Returns**: [<code>DataStream</code>](#DataStream) - a new DataStream instance of the resulting pipeline  
+**Returns**: [<code>DataStream</code>](data-stream.md#DataStream) - a new DataStream instance of the resulting pipeline  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -1199,10 +1199,9 @@ Doesn't end the stream until it reaches end of the iterator.
 
 <a name="DataStream.FilterCallback"></a>
 
-### DataStream:FilterCallback : Promise | Boolean
+### DataStream:FilterCallback : Promise.<Boolean> | Boolean
 **Kind**: static typedef of [<code>DataStream</code>](#DataStream)  
-**Returns**: <code>Promise</code> \| <code>Boolean</code> - information if the object should remain in
-                            the filtered stream.  
+**Returns**: <code>Promise.&lt;Boolean&gt;</code> \| <code>Boolean</code> - information if the object should remain in the filtered stream.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -1246,7 +1245,7 @@ Doesn't end the stream until it reaches end of the iterator.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| teed | [<code>DataStream</code>](#DataStream) | The teed stream |
+| teed | [<code>DataStream</code>](data-stream.md#DataStream) | The teed stream |
 
 <a name="DataStream.ShiftCallback"></a>
 
@@ -1322,67 +1321,4 @@ Shift Function
 | [timeFrame] | <code>Number</code> | <code>1000</code> | The size of the window to look for streams. |
 | [getTime] | <code>function</code> | <code>Date.now</code> | Time source - anything that returns time. |
 | [setTimeout] | <code>function</code> | <code>setTimeout</code> | Timing function that works identically to setTimeout. |
-
-<a name="ScramjetTransformCallback"></a>
-
-## ScramjetTransformCallback : * | undefined
-Transform async callback. The passed transform should return a new chunk, unless
-the output should be filtered - if so, the transform should return `undefined`.
-
-Additionally the function can reject with `DataStream.filter` - the result will be
-filtered and no other transforms will be run on the chunk.
-
-**Kind**: global typedef  
-**Returns**: <code>\*</code> \| <code>undefined</code> - the result, undefined will be treated as filtered out.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| chunk | <code>Buffer</code> \| <code>String</code> \| <code>\*</code> | the stream chunk |
-| encoding | <code>String</code> | encoding of the chunk |
-
-<a name="ScramjetWriteCallback"></a>
-
-## ScramjetWriteCallback : function
-Write async callback. Await your async write and resolve.
-
-**Kind**: global typedef  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| chunk | <code>Buffer</code> \| <code>String</code> \| <code>\*</code> | the stream chunk |
-| encoding | <code>String</code> | encoding of the chunk |
-
-<a name="ScramjetReadCallback"></a>
-
-## ScramjetReadCallback : Array.<*>
-Read async callback. Simply await your async operations and return the result as array.
-
-**Kind**: global typedef  
-**Returns**: <code>Array.&lt;\*&gt;</code> - the read chunk.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| count | <code>Number</code> | the number of chunks that should be read ("this is more like a set of guideline than actual rules"). |
-
-<a name="DataStreamOptions"></a>
-
-## DataStreamOptions : Object
-Standard options for scramjet streams.
-
-Defines async transforms or read/write methods for a stream.
-
-**Kind**: global typedef  
-**Properties**
-
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| [promiseRead] | [<code>ScramjetReadCallback</code>](#ScramjetReadCallback) | <code></code> | an async function returning the next read item |
-| [promiseWrite] | [<code>ScramjetWriteCallback</code>](#ScramjetWriteCallback) | <code></code> | an async function writing the next written item |
-| [promiseTransform] | [<code>ScramjetTransformCallback</code>](#ScramjetTransformCallback) | <code></code> | an async function returning a transformed chunk |
-| [promiseFlush] | [<code>ScramjetReadCallback</code>](#ScramjetReadCallback) | <code></code> | an async function run before transform stream ends to push last chunks from the buffer |
-| [beforeTransform] | [<code>ScramjetTransformCallback</code>](#ScramjetTransformCallback) | <code></code> | an async function run before the transform |
-| [afterTransform] | [<code>ScramjetTransformCallback</code>](#ScramjetTransformCallback) | <code></code> | an async function run after the transform |
-| maxParallel | <code>Number</code> |  | the number of transforms done in parallel |
-| referrer | [<code>DataStream</code>](#DataStream) |  | a referring stream to point to (if possible the transforms will be pushed to it |
-| [objectMode] | <code>boolean</code> | <code>true</code> | should the object mode be used                                 instead of creating a new stream) |
 

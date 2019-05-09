@@ -9,7 +9,7 @@ A scramjet stream that items point to filesystem items like files, directories e
 This is useful for listing filesystem etc.
 
 **Kind**: global class  
-**Extends**: <code>DataStream</code>  
+**Extends**: [<code>DataStream</code>](data-stream.md#DataStream)  
 **Todo**
 
 - [ ] not yet implemented
