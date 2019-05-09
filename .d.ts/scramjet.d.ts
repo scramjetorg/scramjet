@@ -145,20 +145,8 @@ declare module 'scramjet' {
      */
     class DataStream {
         /**
-         * DataStream is the primary stream type for Scramjet. When you parse your
-         * stream, just pipe it you can then perform calculations on the data objects
-         * streamed through your flow.
-         * 
-         * Use as:
-         * 
-         * ```javascript
-         * const { DataStream } = require('scramjet');
-         * 
-         * await (DataStream.from(aStream) // create a DataStream
-         * .map(findInFiles)           // read some data asynchronously
-         * .map(sendToAPI)             // send the data somewhere
-         * .run());                    // wait until end
-         * ```
+         * Create the DataStream.
+         * @param opts Stream options passed to superclass
          */
         constructor(opts: DataStreamOptions);
 
@@ -477,10 +465,11 @@ declare module 'scramjet' {
         /**
          * Creates a StringStream.
          * 
-         * The passed serializer must return a string.
+         * The passed serializer must return a string. If no serializer is passed chunks
+         * toString method will be used.
          * @param serializer A method that converts chunks to strings
          */
-        stringify(serializer: MapCallback): StringStream;
+        stringify(serializer?: MapCallback): StringStream;
 
         /**
          * Create a DataStream from an Array
@@ -813,150 +802,638 @@ declare module 'scramjet' {
      * StringStream.fromString()
      * ```
      */
-    class StringStream extends DataStream {
+    class StringStream {
         /**
-         * A stream of string objects for further transformation on top of DataStream.
-         * 
-         * Example:
-         * 
-         * ```javascript
-         * StringStream.fromString()
-         * ```
+         * Constructs the stream with the given encoding
+         * @param encoding the encoding to use
          */
         constructor(encoding: String);
 
-
         /**
-         * Shifts given length of chars from the original stream
+         * Transforms stream objects into new ones, just like Array.prototype.map
+         * does.
          * 
-         * Works the same way as {@see DataStream.shift}, but in this case extracts
-         * the given number of characters.
-         * @param bytes The number of characters to shift.
-         * @param func Function that receives a string of shifted chars.
-         */
-        shift(bytes: Number, func: ShiftCallback): StringStream;
-
-        /**
-         * A handy split by line regex to quickly get a line-by-line stream
-         */
-        static SPLIT_LINE: any;
-
-        /**
-         * Splits the string stream by the specified RegExp or string
-         * @param splitter What to split by
-         */
-        split(splitter: RegExp | String): StringStream;
-
-        /**
-         * Finds matches in the string stream and streams the match results
-         * @param matcher A function that will be called for every
-         *        stream chunk.
-         */
-        match(matcher: RegExp): StringStream;
-
-        /**
-         * Transforms the StringStream to BufferStream
+         * Map takes an argument which is the Function function operating on every element
+         * of the stream. If the function returns a Promise or is an AsyncFunction then the
+         * stream will await for the outcome of the operation before pushing the data forwards.
          * 
-         * Creates a buffer stream from the given string stream. Still it returns a
-         * DataStream derivative and isn't the typical node.js stream so you can do
-         * all your transforms when you like.
-         */
-        toBufferStream(): BufferStream;
-
-
-        /**
-         * Parses every string to object
+         * A simple example that turns stream of urls into stream of responses
          * 
-         * The method MUST parse EVERY string into a single object, so the string
-         * stream here should already be split.
-         * @param parser The transform function
+         * ```javascript
+         * stream.map(async url => fetch(url));
+         * ```
+         * 
+         * Multiple subsequent map operations (as well as filter, do, each and other simple ops)
+         * will be merged together into a single operation to improve performance. Such behaviour
+         * can be suppressed by chaining `.tap()` after `.map()`.
+         * @param func The function that creates the new object
+         * @param ClassType The class to be mapped to.
          */
-        parse(parser: ParseCallback): DataStream;
+        map(func: MapCallback, ClassType?: Class): StringStream;
 
         /**
-         * Alias for {@link StringStream#parse}
+         * Filters object based on the function outcome, just like Array.prototype.filter.
+         * 
+         * Filter takes a Function argument which should be a Function or an AsyncFunction that
+         * will be called on each stream item. If the outcome of the operation is `falsy` (`0`, `''`,
+         * `false`, `null` or `undefined`) the item will be filtered from subsequent operations
+         * and will not be pushed to the output of the stream. Otherwise the item will not be affected.
+         * 
+         * A simple example that filters out non-2xx responses from a stream
+         * 
+         * ```javascript
+         * stream.filter(({statusCode}) => !(statusCode >= 200 && statusCode < 300));
+         * ```
+         * @param func The function that filters the object
          */
-        toDataStream(): void;
+        filter(func: FilterCallback): StringStream;
 
         /**
-         * Creates a StringStream and writes a specific string.
-         * @param stream the string to push the your stream
-         * @param encoding optional encoding
+         * Reduces the stream into a given accumulator
+         * 
+         * Works similarly to Array.prototype.reduce, so whatever you return in the
+         * former operation will be the first operand to the latter. The result is a
+         * promise that's resolved with the return value of the last transform executed.
+         * 
+         * A simple example that sums values from a stream
+         * 
+         * ```javascript
+         * stream.reduce((accumulator, {value}) => accumulator + value);
+         * ```
+         * 
+         * This method is serial - meaning that any processing on an entry will
+         * occur only after the previous entry is fully processed. This does mean
+         * it's much slower than parallel functions.
+         * @param func The into object will be passed as the  first argument, the data object from the stream as the second.
+         * @param into Any object passed initially to the transform function
          */
-        static fromString(stream: String, encoding: String): StringStream;
+        reduce(func: ReduceCallback, into: Object): Promise;
 
         /**
-         * Creates a pipeline of streams and returns a scramjet stream.
-         * @see DataStream.pipeline
-         * @param readable the initial readable argument that is streamable by scramjet.from
-         * @param transforms Transform functions (as in {@link DataStream..use}) or Transform streams (any number of these as consecutive arguments)
-         * @returns a new StringStream instance of the resulting pipeline
+         * Perform an asynchronous operation without changing or resuming the stream.
+         * 
+         * In essence the stream will use the call to keep the backpressure, but the resolving value
+         * has no impact on the streamed data (except for possible mutation of the chunk itself)
+         * @param func the async function
          */
-        static pipeline(readable: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, transforms: AsyncFunction | Function | Transform): StringStream;
+        do(func: DoCallback): StringStream;
 
         /**
-         * Create StringStream from anything.
-         * @see DataStream.from
-         * @see module:scramjet.from
-         * @param source argument to be turned into new stream
+         * Processes a number of functions in parallel, returns a stream of arrays of results.
+         * 
+         * This method is to allow running multiple asynchronous operations and receive all the
+         * results at one, just like Promise.all behaves.
+         * 
+         * Keep in mind that if one of your methods rejects, this behaves just like Promise.all
+         * you won't be able to receive partial results.
+         * @param functions list of async functions to run
+         */
+        all(functions: any[]): StringStream;
+
+        /**
+         * Processes a number of functions in parallel, returns the first resolved.
+         * 
+         * This method is to allow running multiple asynchronous operations awaiting just the
+         * result of the quickest to execute, just like Promise.race behaves.
+         * 
+         * Keep in mind that if one of your methods it will only raise an error if that was
+         * the first method to reject.
+         * @param functions list of async functions to run
+         */
+        race(functions: any[]): StringStream;
+
+        /**
+         * Allows processing items without keeping order
+         * 
+         * This method useful if you are not concerned about the order in which the
+         * chunks are being pushed out of the operation. The `maxParallel` option is
+         * still used for keeping a number of simultaneous number of parallel operations
+         * that are currently happening.
+         * @param func the async function that will be unordered
+         */
+        unorder(func: MapCallback): void;
+
+        /**
+         * Allows own implementation of stream chaining.
+         * 
+         * The async Function is called on every chunk and should implement writes in it's own way. The
+         * resolution will be awaited for flow control. The passed `into` argument is passed as the first
+         * argument to every call.
+         * 
+         * It returns the DataStream passed as the second argument.
+         * @param func the method that processes incoming chunks
+         * @param into the DataStream derived class
+         */
+        into(func: IntoCallback, into: DataStream): StringStream;
+
+        /**
+         * Calls the passed method in place with the stream as first argument, returns result.
+         * 
+         * The main intention of this method is to run scramjet modules - transforms that allow complex transforms of
+         * streams. These modules can also be run with [scramjet-cli](https://github.com/signicode/scramjet-cli) directly
+         * from the command line.
+         * @param func if passed, the function will be called on self to add an option to inspect the stream in place, while not breaking the transform chain. Alternatively this can be a relative path to a scramjet-module. Lastly it can be a Transform stream.
+         * @param ...parameters any additional parameters top be passed to the module
+         */
+        use(func: AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, ...parameters?: any): StringStream;
+
+        /**
+         * Consumes all stream items doing nothing. Resolves when the stream is ended.
+         */
+        run(): Promise;
+
+        /**
+         * Stops merging transform Functions at the current place in the command chain.
+         */
+        tap(): void;
+
+        /**
+         * Reads a chunk from the stream and resolves the promise when read.
+         */
+        whenRead(): Promise;
+
+        /**
+         * Writes a chunk to the stream and returns a Promise resolved when more chunks can be written.
+         * @param chunk a chunk to write
+         * @param more more chunks to write
+         */
+        whenWrote(chunk: any, ...more?: any): Promise;
+
+        /**
+         * Resolves when stream ends - rejects on uncaught error
+         */
+        whenEnd(): Promise;
+
+        /**
+         * Returns a promise that resolves when the stream is drained
+         */
+        whenDrained(): Promise;
+
+        /**
+         * Returns a promise that resolves (!) when the stream is errors
+         */
+        whenError(): Promise;
+
+        /**
+         * Allows resetting stream options.
+         * 
+         * It's much easier to use this in chain than constructing new stream:
+         * 
+         * ```javascript
+         * stream.map(myMapper).filter(myFilter).setOptions({maxParallel: 2})
+         * ```
          * @param options
          */
-        static from(source: String | any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | Readable, options: DataStreamOptions | Writable): StringStream;
+        setOptions(options: DataStreamOptions): StringStream;
 
         /**
-         * Alias for {@link BufferStream#stringify}
-         */
-        toStringStream(): void;
-
-
-        /**
-         * Splits the string stream by the specified regexp or string
-         * @param eol End of line string
-         */
-        lines(eol?: String): StringStream;
-
-        /**
-         * Parses each entry as JSON.
-         * Ignores empty lines
-         * @param perLine instructs to split per line
-         */
-        JSONParse(perLine?: Boolean): DataStream;
-
-        /**
-         * Parses CSV to DataString using 'papaparse' module.
-         * @param options options for the papaparse.parse method.
-         */
-        CSVParse(options?: Object): DataStream;
-
-        /**
-         * Appends given argument to all the items.
-         * @param param the argument to append. If function passed then it will be called and resolved and the resolution will be appended.
-         */
-        append(param: Function | String): StringStream;
-
-        /**
-         * Prepends given argument to all the items.
-         * @param param the argument to prepend. If function passed then it will be called and resolved
-         *             and the resolution will be prepended.
-         */
-        prepend(param: Function | String): StringStream;
-
-
-        /**
-         * Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream.
+         * Duplicate the stream
          * 
-         * Pipes the current stream into the sub-processes stdin.
-         * The data is serialized and deserialized as JSON lines by default. You
-         * can provide your own alternative methods in the ExecOptions object.
-         * 
-         * Note: if you're piping both stderr and stdout (options.stream=3) keep in mind that chunks may get mixed up!
-         * @param command command to execute
-         * @param options options to be passed to `spawn` and defining serialization.
-         * @param ...args additional arguments (will overwrite to SpawnOptions args even if not given)
+         * Creates a duplicate stream instance and passes it to the Function.
+         * @param func The duplicate stream will be passed as first argument.
          */
-        exec(command: String, options?: ExecOptions, ...args?: String): void;
+        tee(func: TeeCallback | Writable): StringStream;
+
+        /**
+         * Performs an operation on every chunk, without changing the stream
+         * 
+         * This is a shorthand for ```stream.on("data", func)``` but with flow control.
+         * Warning: this resumes the stream!
+         * @param func a Function called for each chunk.
+         */
+        each(func: MapCallback): StringStream;
+
+        /**
+         * Reads the stream while the function outcome is truthy.
+         * 
+         * Stops reading and emits end as soon as it finds the first chunk that evaluates
+         * to false. If you're processing a file until a certain point or you just need to
+         * confirm existence of some data, you can use it to end the stream before reaching end.
+         * 
+         * Keep in mind that whatever you piped to the stream will still need to be handled.
+         * @param func The condition check
+         */
+        while(func: FilterCallback): StringStream;
+
+        /**
+         * Reads the stream until the function outcome is truthy.
+         * 
+         * Works opposite of while.
+         * @param func The condition check
+         */
+        until(func: FilterCallback): StringStream;
+
+        /**
+         * Provides a way to catch errors in chained streams.
+         * 
+         * The handler will be called as asynchronous
+         * - if it resolves then the error will be muted.
+         * - if it rejects then the error will be passed to the next handler
+         * 
+         * If no handlers will resolve the error, an `error` event will be emitted
+         * @param callback Error handler (async function)
+         */
+        catch(callback: Function): StringStream;
+
+        /**
+         * Executes all error handlers and if none resolves, then emits an error.
+         * 
+         * The returned promise will always be resolved even if there are no successful handlers.
+         * @param err The thrown error
+         */
+        raise(err: Error): Promise;
+
+        /**
+         * Override of node.js Readable pipe.
+         * 
+         * Except for calling overridden method it proxies errors to piped stream.
+         * @param to Writable stream to write to
+         * @param options
+         */
+        pipe(to: Writable, options: WritableOptions): Writable;
+
+        /**
+         * Creates a BufferStream.
+         * 
+         * The passed serializer must return a buffer.
+         * @param serializer A method that converts chunks to buffers
+         */
+        bufferify(serializer: MapCallback): BufferStream;
+
+        /**
+         * Creates a StringStream.
+         * 
+         * The passed serializer must return a string. If no serializer is passed chunks
+         * toString method will be used.
+         * @param serializer A method that converts chunks to strings
+         */
+        stringify(serializer?: MapCallback): StringStream;
+
+        /**
+         * Aggregates the stream into a single Array
+         * 
+         * In fact it's just a shorthand for reducing the stream into an Array.
+         * @param initial Array to begin with (defaults to an empty array).
+         * @returns
+         */
+        toArray(initial?: any[]): any[];
+
+        /**
+         * Returns an async generator
+         * 
+         * Ready for https://github.com/tc39/proposal-async-iteration
+         */
+        toGenerator(): Iterable.<Promise.<*>>;
+
+        /**
+         * Pulls in any readable stream, resolves when the pulled stream ends.
+         * 
+         * You can also pass anything that can be passed to `DataStream.from`.
+         * 
+         * Does not preserve order, does not end this stream.
+         * @param pullable
+         * @param ...args any additional args
+         * @returns resolved when incoming stream ends, rejects on incoming error
+         */
+        pull(pullable: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, ...args?: any): Promise;
+
+        /**
+         * Allows previewing some of the streams data without removing them from the stream.
+         * 
+         * Important: Peek does not resume the flow.
+         * @param count The number of items to view before
+         * @param func Function called before other streams
+         */
+        peek(count: Number, func: ShiftCallback): StringStream;
+
+        /**
+         * Slices out a part of the stream to the passed Function.
+         * 
+         * Returns a stream consisting of an array of items with `0` to `start`
+         * omitted and `length` items after `start` included. Works similarly to
+         * Array.prototype.slice.
+         * 
+         * Takes count from the moment it's called. Any previous items will not be
+         * taken into account.
+         * @param start omit this number of entries.
+         * @param length get this number of entries to the resulting stream
+         */
+        slice(start?: Number, length?: Number): StringStream;
+
+        /**
+         * Transforms stream objects by assigning the properties from the returned
+         * data along with data from original ones.
+         * 
+         * The original objects are unaltered.
+         * @param func The function that returns new object properties or just the new properties
+         */
+        assign(func: MapCallback | Object): StringStream;
+
+        /**
+         * Called only before the stream ends without passing any items
+         * @param callback Function called when stream ends
+         */
+        empty(callback: Function): StringStream;
+
+        /**
+         * Pushes any data at call time (essentially at the beginning of the stream)
+         * 
+         * This is a synchronous only function.
+         * @param item list of items to unshift (you can pass more items)
+         */
+        unshift(item: any): StringStream;
+
+        /**
+         * Pushes any data at end of stream
+         * @param item list of items to push at end
+         */
+        endWith(item: any): StringStream;
+
+        /**
+         * Accumulates data into the object.
+         * 
+         * Works very similarly to reduce, but result of previous operations have
+         * no influence over the accumulator in the next one.
+         * 
+         * Method works in parallel.
+         * @param func The accumulation function
+         * @param into Accumulator object
+         */
+        accumulate(func: AccumulateCallback, into: any): Promise;
+
+        /**
+         * Consumes the stream by running each Function
+         * @deprecated use {@link DataStream#each} instead
+         * @param func the consument
+         */
+        consume(func: Function): Promise;
+
+        /**
+         * Reduces the stream into the given object, returning it immediately.
+         * 
+         * The main difference to reduce is that only the first object will be
+         * returned at once (however the method will be called with the previous
+         * entry).
+         * If the object is an instance of EventEmitter then it will propagate the
+         * error from the previous stream.
+         * 
+         * This method is serial - meaning that any processing on an entry will
+         * occur only after the previous entry is fully processed. This does mean
+         * it's much slower than parallel functions.
+         * @param func The into object will be passed as the first
+         *        argument, the data object from the stream as the second.
+         * @param into Any object passed initially to the transform
+         *        function
+         */
+        reduceNow(func: ReduceCallback, into: any | EventEmitter): any;
+
+        /**
+         * Remaps the stream into a new stream.
+         * 
+         * This means that every item may emit as many other items as we like.
+         * @param func A Function that is called on every chunk
+         * @param TypeClass Optional DataStream subclass to be constructed
+         */
+        remap(func: RemapCallback, TypeClass?: class): StringStream;
+
+        /**
+         * Takes any method that returns any iterable and flattens the result.
+         * 
+         * The passed Function must return an iterable (otherwise an error will be emitted). The resulting stream will
+         * consist of all the items of the returned iterables, one iterable after another.
+         * @param func A Function that is called on every chunk
+         * @param TypeClass Optional DataStream subclass to be constructed
+         */
+        flatMap(func: FlatMapCallback, TypeClass?: class): StringStream;
+
+        /**
+         * A shorthand for streams of arrays or iterables to flatten them.
+         * 
+         * More efficient equivalent of: `.flatmap(i => i);`
+         * Works on streams of async iterables too.
+         */
+        flatten(): StringStream;
+
+        /**
+         * Returns a new stream that will append the passed streams to the callee
+         * @param streams Streams to be passed
+         */
+        concat(streams: any): StringStream;
+
+        /**
+         * Method will put the passed object between items. It can also be a function call or generator / iterator.
+         * 
+         * If a generator or iterator is passed, when the iteration is done no items will be interweaved.
+         * Generator receives
+         * @param item An object that should be interweaved between stream items
+         */
+        join(item: any | AsyncGeneratorFunction | GeneratorFunction | JoinCallback): StringStream;
+
+        /**
+         * Keep a buffer of n-chunks for use with {@see DataStream..rewind}
+         * @param count Number of objects or -1 for all the stream
+         */
+        keep(count: number): StringStream;
+
+        /**
+         * Rewinds the buffered chunks the specified length backwards. Requires a prior call to {@see DataStream..keep}
+         * @param count Number of objects or -1 for all the buffer
+         */
+        rewind(count: number): StringStream;
+
+        /**
+         * Distributes processing into multiple sub-processes or threads if you like.
+         * @todo Currently order is not kept.
+         * @todo Example test breaks travis-ci build
+         * @param affinity A Function that affixes the item to specific output stream which must exist in the object for each chunk, must return a string. A number may be passed to identify how many round-robin threads to start up. Defaults to Round Robin to twice the number of CPU threads.
+         * @param clusterFunc stream transforms similar to {@see DataStream#use method}
+         * @param options Options
+         */
+        distribute(affinity?: AffinityCallback | Number, clusterFunc: ClusterCallback, options?: DataStreamOptions): StringStream;
+
+        /**
+         * Separates stream into a hash of streams. Does not create new streams!
+         * @param streams the object hash of streams. Keys must be the outputs of the affinity function
+         * @param affinity the Function that affixes the item to specific streams which must exist in the object for each chunk.
+         */
+        separateInto(streams: Object<DataStream>, affinity: AffinityCallback): StringStream;
+
+        /**
+         * Separates execution to multiple streams using the hashes returned by the passed Function.
+         * 
+         * Calls the given Function for a hash, then makes sure all items with the same hash are processed within a single
+         * stream. Thanks to that streams can be distributed to multiple threads.
+         * @param affinity the affinity function
+         * @param createOptions options to use to create the separated streams
+         */
+        separate(affinity: AffinityCallback, createOptions: DataStreamOptions): MultiStream;
+
+        /**
+         * Delegates work to a specified worker.
+         * @param delegateFunc A function to be run in the sub-thread.
+         * @param worker
+         * @param plugins
+         */
+        delegate(delegateFunc: DelegateCallback, worker: WorkerStream, plugins?: any[]): StringStream;
+
+        /**
+         * Limit the rate of the stream to a given number of chunks per second or given timeframe.
+         * @param cps Chunks per timeframe, the default timeframe is 1000 ms.
+         * @param options Options for the limiter controlling the timeframe and time source. Both must work on same units.
+         */
+        rate(cps: Number, options?: RateOptions): StringStream;
+
+        /**
+         * Aggregates chunks in arrays given number of number of items long.
+         * 
+         * This can be used for micro-batch processing.
+         * @param count How many items to aggregate
+         */
+        batch(count: Number): StringStream;
+
+        /**
+         * Aggregates chunks to arrays not delaying output by more than the given number of ms.
+         * @param ms Maximum amount of milliseconds
+         * @param count Maximum number of items in batch (otherwise no limit)
+         */
+        timeBatch(ms: Number, count: Number): StringStream;
+
+        /**
+         * Performs the Nagle's algorithm on the data. In essence it waits until we receive some more data and releases them
+         * in bulk.
+         * @todo needs more work, for now it's simply waiting some time, not checking the queues.
+         * @param size maximum number of items to wait for
+         * @param ms milliseconds to wait for more data
+         */
+        nagle(size?: number, ms?: number): StringStream;
+
+        /**
+         * Returns a WindowStream of the specified length
+         * @param length
+         * @returns a stream of array's
+         */
+        window(length: Number): WindowStream;
+
+        /**
+         * Transforms the stream to a streamed JSON array.
+         * @param enclosure Any iterable object of two items (beginning and end)
+         */
+        toJSONArray(enclosure?: Iterable): StringStream;
+
+        /**
+         * Transforms the stream to a streamed JSON object.
+         * @param entryCallback async function returning an entry (array of [key, value])
+         * @param enclosure Any iterable object of two items (beginning and end)
+         */
+        toJSONObject(entryCallback?: MapCallback, enclosure?: Iterable): StringStream;
+
+        /**
+         * Returns a StringStream containing JSON per item with optional end line
+         * @param endline whether to add endlines (boolean or string as delimiter)
+         */
+        JSONStringify(endline?: Boolean | String): StringStream;
+
+        /**
+         * Stringifies CSV to DataString using 'papaparse' module.
+         * @param options options for the papaparse.unparse module.
+         */
+        CSVStringify(options: any): StringStream;
+
+        /**
+         * Injects a ```debugger``` statement when called.
+         * @param func if passed, the function will be called on self to add an option to inspect the stream in place, while not breaking the transform chain
+         */
+        debug(func: Function): StringStream;
 
     }
+
+    /**
+     * 
+     * @param shifted Popped chars
+     */
+    export type ShiftCallback = (shifted: String)=>void;
+
+    /**
+     * Shifts given length of chars from the original stream
+     * 
+     * Works the same way as {@see DataStream.shift}, but in this case extracts
+     * the given number of characters.
+     * @param bytes The number of characters to shift.
+     * @param func Function that receives a string of shifted chars.
+     */
+    function shift(bytes: Number, func: ShiftCallback): StringStream;
+
+    /**
+     * A handy split by line regex to quickly get a line-by-line stream
+     */
+    export var SPLIT_LINE: any;
+
+    /**
+     * Splits the string stream by the specified RegExp or string
+     * @param splitter What to split by
+     */
+    function split(splitter: RegExp | String): StringStream;
+
+    /**
+     * Finds matches in the string stream and streams the match results
+     * @param matcher A function that will be called for every
+     *        stream chunk.
+     */
+    function match(matcher: RegExp): StringStream;
+
+    /**
+     * Transforms the StringStream to BufferStream
+     * 
+     * Creates a buffer stream from the given string stream. Still it returns a
+     * DataStream derivative and isn't the typical node.js stream so you can do
+     * all your transforms when you like.
+     */
+    function toBufferStream(): BufferStream;
+
+    /**
+     * 
+     * @param chunk the transformed chunk
+     */
+    export type ParseCallback = (chunk: String)=>Promise;
+
+    /**
+     * Parses every string to object
+     * 
+     * The method MUST parse EVERY string into a single object, so the string
+     * stream here should already be split.
+     * @param parser The transform function
+     */
+    function parse(parser: ParseCallback): DataStream;
+
+    /**
+     * Alias for {@link StringStream#parse}
+     */
+    function toDataStream(): void;
+
+    /**
+     * Creates a StringStream and writes a specific string.
+     * @param stream the string to push the your stream
+     * @param encoding optional encoding
+     */
+    export function fromString(stream: String, encoding: String): StringStream;
+
+    /**
+     * Creates a pipeline of streams and returns a scramjet stream.
+     * @see DataStream.pipeline
+     * @param readable the initial readable argument that is streamable by scramjet.from
+     * @param transforms Transform functions (as in {@link DataStream..use}) or Transform streams (any number of these as consecutive arguments)
+     * @returns a new StringStream instance of the resulting pipeline
+     */
+    export function pipeline(readable: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, transforms: AsyncFunction | Function | Transform): StringStream;
+
+    /**
+     * Create StringStream from anything.
+     * @see DataStream.from
+     * @see module:scramjet.from
+     * @param source argument to be turned into new stream
+     * @param options
+     */
+    export function from(source: String | any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | Readable, options: DataStreamOptions | Writable): StringStream;
 
     /**
      * A facilitation stream created for easy splitting or parsing buffers.
@@ -977,99 +1454,645 @@ declare module 'scramjet' {
      *      ]);
      * ```
      */
-    class BufferStream extends DataStream {
+    class BufferStream {
         /**
-         * A facilitation stream created for easy splitting or parsing buffers.
-         * 
-         * Useful for working on built-in Node.js streams from files, parsing binary formats etc.
-         * 
-         * A simple use case would be:
-         * 
-         * ```javascript
-         * fs.createReadStream('pixels.rgba')
-         * .pipe(new BufferStream)         // pipe a buffer stream into scramjet
-         * .breakup(4)                     // split into 4 byte fragments
-         * .parse(buffer => [
-         * buffer.readInt8(0),            // the output is a stream of R,G,B and Alpha
-         * buffer.readInt8(1),            // values from 0-255 in an array.
-         * buffer.readInt8(2),
-         * buffer.readInt8(3)
-         * ]);
-         * ```
+         * Creates the BufferStream
+         * @param opts Stream options passed to superclass
          */
         constructor(opts: DataStreamOptions);
 
-
         /**
-         * Shift given number of bytes from the original stream
+         * Transforms stream objects into new ones, just like Array.prototype.map
+         * does.
          * 
-         * Works the same way as {@see DataStream.shift}, but in this case extracts
-         * the given number of bytes.
-         * @param chars The number of bytes to shift
-         * @param func Function that receives a string of shifted bytes
-         */
-        shift(chars: Number, func: ShiftCallback): BufferStream;
-
-        /**
-         * Splits the buffer stream into buffer objects
-         * @param splitter the buffer or string that the stream
-         *        should be split by.
-         */
-        split(splitter: String | Buffer): BufferStream;
-
-        /**
-         * Breaks up a stream apart into chunks of the specified length
-         * @param number the desired chunk length
-         */
-        breakup(number: Number): BufferStream;
-
-        /**
-         * Creates a string stream from the given buffer stream
+         * Map takes an argument which is the Function function operating on every element
+         * of the stream. If the function returns a Promise or is an AsyncFunction then the
+         * stream will await for the outcome of the operation before pushing the data forwards.
          * 
-         * Still it returns a DataStream derivative and isn't the typical node.js
-         * stream so you can do all your transforms when you like.
-         * @param encoding The encoding to be used to convert the buffers
-         *        to streams.
-         */
-        stringify(encoding: String): StringStream;
-
-
-        /**
-         * Parses every buffer to object
+         * A simple example that turns stream of urls into stream of responses
          * 
-         * The method MUST parse EVERY buffer into a single object, so the buffer
-         * stream here should already be split or broken up.
-         * @param parser The transform function
+         * ```javascript
+         * stream.map(async url => fetch(url));
+         * ```
+         * 
+         * Multiple subsequent map operations (as well as filter, do, each and other simple ops)
+         * will be merged together into a single operation to improve performance. Such behaviour
+         * can be suppressed by chaining `.tap()` after `.map()`.
+         * @param func The function that creates the new object
+         * @param ClassType The class to be mapped to.
          */
-        parse(parser: ParseCallback): DataStream;
+        map(func: MapCallback, ClassType?: Class): BufferStream;
 
         /**
-         * Creates a pipeline of streams and returns a scramjet stream.
-         * @see DataStream.pipeline
-         * @param readable the initial readable argument that is streamable by scramjet.from
-         * @param transforms Transform functions (as in {@link DataStream..use}) or Transform streams (any number of these as consecutive arguments)
-         * @returns a new StringStream instance of the resulting pipeline
+         * Filters object based on the function outcome, just like Array.prototype.filter.
+         * 
+         * Filter takes a Function argument which should be a Function or an AsyncFunction that
+         * will be called on each stream item. If the outcome of the operation is `falsy` (`0`, `''`,
+         * `false`, `null` or `undefined`) the item will be filtered from subsequent operations
+         * and will not be pushed to the output of the stream. Otherwise the item will not be affected.
+         * 
+         * A simple example that filters out non-2xx responses from a stream
+         * 
+         * ```javascript
+         * stream.filter(({statusCode}) => !(statusCode >= 200 && statusCode < 300));
+         * ```
+         * @param func The function that filters the object
          */
-        static pipeline(readable: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, transforms: AsyncFunction | Function | Transform): BufferStream;
+        filter(func: FilterCallback): BufferStream;
 
         /**
-         * Create BufferStream from anything.
-         * @see module:scramjet.from
-         * @param stream argument to be turned into new stream
+         * Reduces the stream into a given accumulator
+         * 
+         * Works similarly to Array.prototype.reduce, so whatever you return in the
+         * former operation will be the first operand to the latter. The result is a
+         * promise that's resolved with the return value of the last transform executed.
+         * 
+         * A simple example that sums values from a stream
+         * 
+         * ```javascript
+         * stream.reduce((accumulator, {value}) => accumulator + value);
+         * ```
+         * 
+         * This method is serial - meaning that any processing on an entry will
+         * occur only after the previous entry is fully processed. This does mean
+         * it's much slower than parallel functions.
+         * @param func The into object will be passed as the  first argument, the data object from the stream as the second.
+         * @param into Any object passed initially to the transform function
+         */
+        reduce(func: ReduceCallback, into: Object): Promise;
+
+        /**
+         * Perform an asynchronous operation without changing or resuming the stream.
+         * 
+         * In essence the stream will use the call to keep the backpressure, but the resolving value
+         * has no impact on the streamed data (except for possible mutation of the chunk itself)
+         * @param func the async function
+         */
+        do(func: DoCallback): BufferStream;
+
+        /**
+         * Processes a number of functions in parallel, returns a stream of arrays of results.
+         * 
+         * This method is to allow running multiple asynchronous operations and receive all the
+         * results at one, just like Promise.all behaves.
+         * 
+         * Keep in mind that if one of your methods rejects, this behaves just like Promise.all
+         * you won't be able to receive partial results.
+         * @param functions list of async functions to run
+         */
+        all(functions: any[]): BufferStream;
+
+        /**
+         * Processes a number of functions in parallel, returns the first resolved.
+         * 
+         * This method is to allow running multiple asynchronous operations awaiting just the
+         * result of the quickest to execute, just like Promise.race behaves.
+         * 
+         * Keep in mind that if one of your methods it will only raise an error if that was
+         * the first method to reject.
+         * @param functions list of async functions to run
+         */
+        race(functions: any[]): BufferStream;
+
+        /**
+         * Allows processing items without keeping order
+         * 
+         * This method useful if you are not concerned about the order in which the
+         * chunks are being pushed out of the operation. The `maxParallel` option is
+         * still used for keeping a number of simultaneous number of parallel operations
+         * that are currently happening.
+         * @param func the async function that will be unordered
+         */
+        unorder(func: MapCallback): void;
+
+        /**
+         * Allows own implementation of stream chaining.
+         * 
+         * The async Function is called on every chunk and should implement writes in it's own way. The
+         * resolution will be awaited for flow control. The passed `into` argument is passed as the first
+         * argument to every call.
+         * 
+         * It returns the DataStream passed as the second argument.
+         * @param func the method that processes incoming chunks
+         * @param into the DataStream derived class
+         */
+        into(func: IntoCallback, into: DataStream): BufferStream;
+
+        /**
+         * Calls the passed method in place with the stream as first argument, returns result.
+         * 
+         * The main intention of this method is to run scramjet modules - transforms that allow complex transforms of
+         * streams. These modules can also be run with [scramjet-cli](https://github.com/signicode/scramjet-cli) directly
+         * from the command line.
+         * @param func if passed, the function will be called on self to add an option to inspect the stream in place, while not breaking the transform chain. Alternatively this can be a relative path to a scramjet-module. Lastly it can be a Transform stream.
+         * @param ...parameters any additional parameters top be passed to the module
+         */
+        use(func: AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, ...parameters?: any): BufferStream;
+
+        /**
+         * Consumes all stream items doing nothing. Resolves when the stream is ended.
+         */
+        run(): Promise;
+
+        /**
+         * Stops merging transform Functions at the current place in the command chain.
+         */
+        tap(): void;
+
+        /**
+         * Reads a chunk from the stream and resolves the promise when read.
+         */
+        whenRead(): Promise;
+
+        /**
+         * Writes a chunk to the stream and returns a Promise resolved when more chunks can be written.
+         * @param chunk a chunk to write
+         * @param more more chunks to write
+         */
+        whenWrote(chunk: any, ...more?: any): Promise;
+
+        /**
+         * Resolves when stream ends - rejects on uncaught error
+         */
+        whenEnd(): Promise;
+
+        /**
+         * Returns a promise that resolves when the stream is drained
+         */
+        whenDrained(): Promise;
+
+        /**
+         * Returns a promise that resolves (!) when the stream is errors
+         */
+        whenError(): Promise;
+
+        /**
+         * Allows resetting stream options.
+         * 
+         * It's much easier to use this in chain than constructing new stream:
+         * 
+         * ```javascript
+         * stream.map(myMapper).filter(myFilter).setOptions({maxParallel: 2})
+         * ```
          * @param options
          */
-        static from(stream: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | Readable, options: DataStreamOptions | Writable): BufferStream;
+        setOptions(options: DataStreamOptions): BufferStream;
+
+        /**
+         * Duplicate the stream
+         * 
+         * Creates a duplicate stream instance and passes it to the Function.
+         * @param func The duplicate stream will be passed as first argument.
+         */
+        tee(func: TeeCallback | Writable): BufferStream;
+
+        /**
+         * Performs an operation on every chunk, without changing the stream
+         * 
+         * This is a shorthand for ```stream.on("data", func)``` but with flow control.
+         * Warning: this resumes the stream!
+         * @param func a Function called for each chunk.
+         */
+        each(func: MapCallback): BufferStream;
+
+        /**
+         * Reads the stream while the function outcome is truthy.
+         * 
+         * Stops reading and emits end as soon as it finds the first chunk that evaluates
+         * to false. If you're processing a file until a certain point or you just need to
+         * confirm existence of some data, you can use it to end the stream before reaching end.
+         * 
+         * Keep in mind that whatever you piped to the stream will still need to be handled.
+         * @param func The condition check
+         */
+        while(func: FilterCallback): BufferStream;
+
+        /**
+         * Reads the stream until the function outcome is truthy.
+         * 
+         * Works opposite of while.
+         * @param func The condition check
+         */
+        until(func: FilterCallback): BufferStream;
+
+        /**
+         * Provides a way to catch errors in chained streams.
+         * 
+         * The handler will be called as asynchronous
+         * - if it resolves then the error will be muted.
+         * - if it rejects then the error will be passed to the next handler
+         * 
+         * If no handlers will resolve the error, an `error` event will be emitted
+         * @param callback Error handler (async function)
+         */
+        catch(callback: Function): BufferStream;
+
+        /**
+         * Executes all error handlers and if none resolves, then emits an error.
+         * 
+         * The returned promise will always be resolved even if there are no successful handlers.
+         * @param err The thrown error
+         */
+        raise(err: Error): Promise;
+
+        /**
+         * Override of node.js Readable pipe.
+         * 
+         * Except for calling overridden method it proxies errors to piped stream.
+         * @param to Writable stream to write to
+         * @param options
+         */
+        pipe(to: Writable, options: WritableOptions): Writable;
+
+        /**
+         * Creates a BufferStream.
+         * 
+         * The passed serializer must return a buffer.
+         * @param serializer A method that converts chunks to buffers
+         */
+        bufferify(serializer: MapCallback): BufferStream;
+
+        /**
+         * Aggregates the stream into a single Array
+         * 
+         * In fact it's just a shorthand for reducing the stream into an Array.
+         * @param initial Array to begin with (defaults to an empty array).
+         * @returns
+         */
+        toArray(initial?: any[]): any[];
+
+        /**
+         * Returns an async generator
+         * 
+         * Ready for https://github.com/tc39/proposal-async-iteration
+         */
+        toGenerator(): Iterable.<Promise.<*>>;
+
+        /**
+         * Pulls in any readable stream, resolves when the pulled stream ends.
+         * 
+         * You can also pass anything that can be passed to `DataStream.from`.
+         * 
+         * Does not preserve order, does not end this stream.
+         * @param pullable
+         * @param ...args any additional args
+         * @returns resolved when incoming stream ends, rejects on incoming error
+         */
+        pull(pullable: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, ...args?: any): Promise;
+
+        /**
+         * Allows previewing some of the streams data without removing them from the stream.
+         * 
+         * Important: Peek does not resume the flow.
+         * @param count The number of items to view before
+         * @param func Function called before other streams
+         */
+        peek(count: Number, func: ShiftCallback): BufferStream;
+
+        /**
+         * Slices out a part of the stream to the passed Function.
+         * 
+         * Returns a stream consisting of an array of items with `0` to `start`
+         * omitted and `length` items after `start` included. Works similarly to
+         * Array.prototype.slice.
+         * 
+         * Takes count from the moment it's called. Any previous items will not be
+         * taken into account.
+         * @param start omit this number of entries.
+         * @param length get this number of entries to the resulting stream
+         */
+        slice(start?: Number, length?: Number): BufferStream;
+
+        /**
+         * Transforms stream objects by assigning the properties from the returned
+         * data along with data from original ones.
+         * 
+         * The original objects are unaltered.
+         * @param func The function that returns new object properties or just the new properties
+         */
+        assign(func: MapCallback | Object): BufferStream;
+
+        /**
+         * Called only before the stream ends without passing any items
+         * @param callback Function called when stream ends
+         */
+        empty(callback: Function): BufferStream;
+
+        /**
+         * Pushes any data at call time (essentially at the beginning of the stream)
+         * 
+         * This is a synchronous only function.
+         * @param item list of items to unshift (you can pass more items)
+         */
+        unshift(item: any): BufferStream;
+
+        /**
+         * Pushes any data at end of stream
+         * @param item list of items to push at end
+         */
+        endWith(item: any): BufferStream;
+
+        /**
+         * Accumulates data into the object.
+         * 
+         * Works very similarly to reduce, but result of previous operations have
+         * no influence over the accumulator in the next one.
+         * 
+         * Method works in parallel.
+         * @param func The accumulation function
+         * @param into Accumulator object
+         */
+        accumulate(func: AccumulateCallback, into: any): Promise;
+
+        /**
+         * Consumes the stream by running each Function
+         * @deprecated use {@link DataStream#each} instead
+         * @param func the consument
+         */
+        consume(func: Function): Promise;
+
+        /**
+         * Reduces the stream into the given object, returning it immediately.
+         * 
+         * The main difference to reduce is that only the first object will be
+         * returned at once (however the method will be called with the previous
+         * entry).
+         * If the object is an instance of EventEmitter then it will propagate the
+         * error from the previous stream.
+         * 
+         * This method is serial - meaning that any processing on an entry will
+         * occur only after the previous entry is fully processed. This does mean
+         * it's much slower than parallel functions.
+         * @param func The into object will be passed as the first
+         *        argument, the data object from the stream as the second.
+         * @param into Any object passed initially to the transform
+         *        function
+         */
+        reduceNow(func: ReduceCallback, into: any | EventEmitter): any;
+
+        /**
+         * Remaps the stream into a new stream.
+         * 
+         * This means that every item may emit as many other items as we like.
+         * @param func A Function that is called on every chunk
+         * @param TypeClass Optional DataStream subclass to be constructed
+         */
+        remap(func: RemapCallback, TypeClass?: class): BufferStream;
+
+        /**
+         * Takes any method that returns any iterable and flattens the result.
+         * 
+         * The passed Function must return an iterable (otherwise an error will be emitted). The resulting stream will
+         * consist of all the items of the returned iterables, one iterable after another.
+         * @param func A Function that is called on every chunk
+         * @param TypeClass Optional DataStream subclass to be constructed
+         */
+        flatMap(func: FlatMapCallback, TypeClass?: class): BufferStream;
+
+        /**
+         * A shorthand for streams of arrays or iterables to flatten them.
+         * 
+         * More efficient equivalent of: `.flatmap(i => i);`
+         * Works on streams of async iterables too.
+         */
+        flatten(): BufferStream;
+
+        /**
+         * Returns a new stream that will append the passed streams to the callee
+         * @param streams Streams to be passed
+         */
+        concat(streams: any): BufferStream;
+
+        /**
+         * Method will put the passed object between items. It can also be a function call or generator / iterator.
+         * 
+         * If a generator or iterator is passed, when the iteration is done no items will be interweaved.
+         * Generator receives
+         * @param item An object that should be interweaved between stream items
+         */
+        join(item: any | AsyncGeneratorFunction | GeneratorFunction | JoinCallback): BufferStream;
+
+        /**
+         * Keep a buffer of n-chunks for use with {@see DataStream..rewind}
+         * @param count Number of objects or -1 for all the stream
+         */
+        keep(count: number): BufferStream;
+
+        /**
+         * Rewinds the buffered chunks the specified length backwards. Requires a prior call to {@see DataStream..keep}
+         * @param count Number of objects or -1 for all the buffer
+         */
+        rewind(count: number): BufferStream;
+
+        /**
+         * Distributes processing into multiple sub-processes or threads if you like.
+         * @todo Currently order is not kept.
+         * @todo Example test breaks travis-ci build
+         * @param affinity A Function that affixes the item to specific output stream which must exist in the object for each chunk, must return a string. A number may be passed to identify how many round-robin threads to start up. Defaults to Round Robin to twice the number of CPU threads.
+         * @param clusterFunc stream transforms similar to {@see DataStream#use method}
+         * @param options Options
+         */
+        distribute(affinity?: AffinityCallback | Number, clusterFunc: ClusterCallback, options?: DataStreamOptions): BufferStream;
+
+        /**
+         * Separates stream into a hash of streams. Does not create new streams!
+         * @param streams the object hash of streams. Keys must be the outputs of the affinity function
+         * @param affinity the Function that affixes the item to specific streams which must exist in the object for each chunk.
+         */
+        separateInto(streams: Object<DataStream>, affinity: AffinityCallback): BufferStream;
+
+        /**
+         * Separates execution to multiple streams using the hashes returned by the passed Function.
+         * 
+         * Calls the given Function for a hash, then makes sure all items with the same hash are processed within a single
+         * stream. Thanks to that streams can be distributed to multiple threads.
+         * @param affinity the affinity function
+         * @param createOptions options to use to create the separated streams
+         */
+        separate(affinity: AffinityCallback, createOptions: DataStreamOptions): MultiStream;
+
+        /**
+         * Delegates work to a specified worker.
+         * @param delegateFunc A function to be run in the sub-thread.
+         * @param worker
+         * @param plugins
+         */
+        delegate(delegateFunc: DelegateCallback, worker: WorkerStream, plugins?: any[]): BufferStream;
+
+        /**
+         * Limit the rate of the stream to a given number of chunks per second or given timeframe.
+         * @param cps Chunks per timeframe, the default timeframe is 1000 ms.
+         * @param options Options for the limiter controlling the timeframe and time source. Both must work on same units.
+         */
+        rate(cps: Number, options?: RateOptions): BufferStream;
+
+        /**
+         * Aggregates chunks in arrays given number of number of items long.
+         * 
+         * This can be used for micro-batch processing.
+         * @param count How many items to aggregate
+         */
+        batch(count: Number): BufferStream;
+
+        /**
+         * Aggregates chunks to arrays not delaying output by more than the given number of ms.
+         * @param ms Maximum amount of milliseconds
+         * @param count Maximum number of items in batch (otherwise no limit)
+         */
+        timeBatch(ms: Number, count: Number): BufferStream;
+
+        /**
+         * Performs the Nagle's algorithm on the data. In essence it waits until we receive some more data and releases them
+         * in bulk.
+         * @todo needs more work, for now it's simply waiting some time, not checking the queues.
+         * @param size maximum number of items to wait for
+         * @param ms milliseconds to wait for more data
+         */
+        nagle(size?: number, ms?: number): BufferStream;
+
+        /**
+         * Returns a WindowStream of the specified length
+         * @param length
+         * @returns a stream of array's
+         */
+        window(length: Number): WindowStream;
+
+        /**
+         * Transforms the stream to a streamed JSON array.
+         * @param enclosure Any iterable object of two items (beginning and end)
+         */
+        toJSONArray(enclosure?: Iterable): StringStream;
+
+        /**
+         * Transforms the stream to a streamed JSON object.
+         * @param entryCallback async function returning an entry (array of [key, value])
+         * @param enclosure Any iterable object of two items (beginning and end)
+         */
+        toJSONObject(entryCallback?: MapCallback, enclosure?: Iterable): StringStream;
+
+        /**
+         * Returns a StringStream containing JSON per item with optional end line
+         * @param endline whether to add endlines (boolean or string as delimiter)
+         */
+        JSONStringify(endline?: Boolean | String): StringStream;
+
+        /**
+         * Stringifies CSV to DataString using 'papaparse' module.
+         * @param options options for the papaparse.unparse module.
+         */
+        CSVStringify(options: any): StringStream;
+
+        /**
+         * Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream.
+         * 
+         * Pipes the current stream into the sub-processes stdin.
+         * The data is serialized and deserialized as JSON lines by default. You
+         * can provide your own alternative methods in the ExecOptions object.
+         * 
+         * Note: if you're piping both stderr and stdout (options.stream=3) keep in mind that chunks may get mixed up!
+         * @param command command to execute
+         * @param options options to be passed to `spawn` and defining serialization.
+         * @param args additional arguments (will overwrite to SpawnOptions args even if not given)
+         */
+        exec(command: String, options: ExecDataOptions, args: String): void;
+
+        /**
+         * Injects a ```debugger``` statement when called.
+         * @param func if passed, the function will be called on self to add an option to inspect the stream in place, while not breaking the transform chain
+         */
+        debug(func: Function): BufferStream;
 
     }
 
     /**
+     * Shift Function
+     * @param shifted shifted bytes
+     */
+    export type ShiftCallback = (shifted: Buffer)=>void;
+
+    /**
+     * Shift given number of bytes from the original stream
+     * 
+     * Works the same way as {@see DataStream.shift}, but in this case extracts
+     * the given number of bytes.
+     * @param chars The number of bytes to shift
+     * @param func Function that receives a string of shifted bytes
+     */
+    function shift(chars: Number, func: ShiftCallback): BufferStream;
+
+    /**
+     * Splits the buffer stream into buffer objects
+     * @param splitter the buffer or string that the stream
+     *        should be split by.
+     */
+    function split(splitter: String | Buffer): BufferStream;
+
+    /**
+     * Breaks up a stream apart into chunks of the specified length
+     * @param number the desired chunk length
+     */
+    function breakup(number: Number): BufferStream;
+
+    /**
+     * Creates a string stream from the given buffer stream
+     * 
+     * Still it returns a DataStream derivative and isn't the typical node.js
+     * stream so you can do all your transforms when you like.
+     * @param encoding The encoding to be used to convert the buffers
+     *        to streams.
+     */
+    function stringify(encoding: String): StringStream;
+
+    /**
+     * Alias for {@link BufferStream#stringify}
+     */
+    function toStringStream(): void;
+
+    /**
+     * 
+     * @param chunk the transformed chunk
+     */
+    export type ParseCallback = (chunk: Buffer)=>Promise;
+
+    /**
+     * Parses every buffer to object
+     * 
+     * The method MUST parse EVERY buffer into a single object, so the buffer
+     * stream here should already be split or broken up.
+     * @param parser The transform function
+     */
+    function parse(parser: ParseCallback): DataStream;
+
+    /**
+     * Creates a pipeline of streams and returns a scramjet stream.
+     * @see DataStream.pipeline
+     * @param readable the initial readable argument that is streamable by scramjet.from
+     * @param transforms Transform functions (as in {@link DataStream..use}) or Transform streams (any number of these as consecutive arguments)
+     * @returns a new StringStream instance of the resulting pipeline
+     */
+    export function pipeline(readable: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, transforms: AsyncFunction | Function | Transform): BufferStream;
+
+    /**
+     * Create BufferStream from anything.
+     * @see module:scramjet.from
+     * @param stream argument to be turned into new stream
+     * @param options
+     */
+    export function from(stream: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | Readable, options: DataStreamOptions | Writable): BufferStream;
+
+    /**
      * An object consisting of multiple streams than can be refined or muxed.
+     * 
+     * The idea behind a MultiStream is being able to mux and demux streams when needed.
      */
     class MultiStream {
         /**
-         * An object consisting of multiple streams than can be refined or muxed.
+         * Crates an instance of MultiStream with the specified stream list
+         * @param streams the list of readable streams (other
+         *        objects will be filtered out!)
+         * @param options Optional options for the super object. ;)
          */
-        constructor(streams: any[], options: Object);
+        constructor(streams: any[] | AsyncGenerator<Readable> | Generator<Readable>, options: Object);
 
         /**
          * Array of all streams
@@ -1161,31 +2184,664 @@ declare module 'scramjet' {
 
     }
 
+    interface ExecDataOptions {
+        /**
+         * scramjet module to transform the stream to string or buffer stream
+         */
+        parse?: UseCallback;
+        /**
+         * scramjet module to transform from string or buffer stream to wanted version
+         */
+        stringify?: UseCallback;
+    }
+
+    /**
+     * Splits the string stream by the specified regexp or string
+     * @param eol End of line string
+     */
+    function lines(eol?: String): StringStream;
+
+    /**
+     * Parses each entry as JSON.
+     * Ignores empty lines
+     * @param perLine instructs to split per line
+     */
+    function JSONParse(perLine?: Boolean): DataStream;
+
+    /**
+     * Parses CSV to DataString using 'papaparse' module.
+     * @param options options for the papaparse.parse method.
+     */
+    function CSVParse(options?: Object): DataStream;
+
+    /**
+     * Appends given argument to all the items.
+     * @param param the argument to append. If function passed then it will be called and resolved and the resolution will be appended.
+     */
+    function append(param: Function | String): StringStream;
+
+    /**
+     * Prepends given argument to all the items.
+     * @param param the argument to prepend. If function passed then it will be called and resolved
+     *             and the resolution will be prepended.
+     */
+    function prepend(param: Function | String): StringStream;
+
+    interface ExecOptions {
+        /**
+         * (bitwise) the output stdio number to push out (defaults to stdout = 1)
+         */
+        stream?: number;
+        /**
+         * defaults to nothing, except on windows where "cmd.exe /c" will be spawned by default
+         */
+        interpreter?: string[];
+    }
+
+    /**
+     * Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream.
+     * 
+     * Pipes the current stream into the sub-processes stdin.
+     * The data is serialized and deserialized as JSON lines by default. You
+     * can provide your own alternative methods in the ExecOptions object.
+     * 
+     * Note: if you're piping both stderr and stdout (options.stream=3) keep in mind that chunks may get mixed up!
+     * @param command command to execute
+     * @param options options to be passed to `spawn` and defining serialization.
+     * @param ...args additional arguments (will overwrite to SpawnOptions args even if not given)
+     */
+    function exec(command: String, options?: ExecOptions, ...args?: String): void;
+
+    /**
+     * NumberStream options
+     */
+    interface NumberStreamOptions {
+        /**
+         * value of the data item function.
+         */
+        valueOf?: Function;
+    }
+
     /**
      * Simple scramjet stream that by default contains numbers or other containing with `valueOf` method. The streams
      * provides simple methods like `sum`, `average`. It derives from DataStream so it's still fully supporting all `map`,
      * `reduce` etc.
      */
-    class NumberStream extends DataStream {
+    class NumberStream {
         /**
-         * Simple scramjet stream that by default contains numbers or other containing with `valueOf` method. The streams
-         * provides simple methods like `sum`, `average`. It derives from DataStream so it's still fully supporting all `map`,
-         * `reduce` etc.
+         * Creates an instance of NumberStream.
+         * @param options
          */
         constructor(options: NumberStreamOptions);
 
+        /**
+         * Transforms stream objects into new ones, just like Array.prototype.map
+         * does.
+         * 
+         * Map takes an argument which is the Function function operating on every element
+         * of the stream. If the function returns a Promise or is an AsyncFunction then the
+         * stream will await for the outcome of the operation before pushing the data forwards.
+         * 
+         * A simple example that turns stream of urls into stream of responses
+         * 
+         * ```javascript
+         * stream.map(async url => fetch(url));
+         * ```
+         * 
+         * Multiple subsequent map operations (as well as filter, do, each and other simple ops)
+         * will be merged together into a single operation to improve performance. Such behaviour
+         * can be suppressed by chaining `.tap()` after `.map()`.
+         * @param func The function that creates the new object
+         * @param ClassType The class to be mapped to.
+         */
+        map(func: MapCallback, ClassType?: Class): NumberStream;
 
         /**
-         * Calculates the sum of all items in the stream.
+         * Filters object based on the function outcome, just like Array.prototype.filter.
+         * 
+         * Filter takes a Function argument which should be a Function or an AsyncFunction that
+         * will be called on each stream item. If the outcome of the operation is `falsy` (`0`, `''`,
+         * `false`, `null` or `undefined`) the item will be filtered from subsequent operations
+         * and will not be pushed to the output of the stream. Otherwise the item will not be affected.
+         * 
+         * A simple example that filters out non-2xx responses from a stream
+         * 
+         * ```javascript
+         * stream.filter(({statusCode}) => !(statusCode >= 200 && statusCode < 300));
+         * ```
+         * @param func The function that filters the object
          */
-        sum(): Number;
+        filter(func: FilterCallback): NumberStream;
 
         /**
-         * Calculates the sum of all items in the stream.
+         * Reduces the stream into a given accumulator
+         * 
+         * Works similarly to Array.prototype.reduce, so whatever you return in the
+         * former operation will be the first operand to the latter. The result is a
+         * promise that's resolved with the return value of the last transform executed.
+         * 
+         * A simple example that sums values from a stream
+         * 
+         * ```javascript
+         * stream.reduce((accumulator, {value}) => accumulator + value);
+         * ```
+         * 
+         * This method is serial - meaning that any processing on an entry will
+         * occur only after the previous entry is fully processed. This does mean
+         * it's much slower than parallel functions.
+         * @param func The into object will be passed as the  first argument, the data object from the stream as the second.
+         * @param into Any object passed initially to the transform function
          */
-        avg(): Number;
+        reduce(func: ReduceCallback, into: Object): Promise;
+
+        /**
+         * Perform an asynchronous operation without changing or resuming the stream.
+         * 
+         * In essence the stream will use the call to keep the backpressure, but the resolving value
+         * has no impact on the streamed data (except for possible mutation of the chunk itself)
+         * @param func the async function
+         */
+        do(func: DoCallback): NumberStream;
+
+        /**
+         * Processes a number of functions in parallel, returns a stream of arrays of results.
+         * 
+         * This method is to allow running multiple asynchronous operations and receive all the
+         * results at one, just like Promise.all behaves.
+         * 
+         * Keep in mind that if one of your methods rejects, this behaves just like Promise.all
+         * you won't be able to receive partial results.
+         * @param functions list of async functions to run
+         */
+        all(functions: any[]): NumberStream;
+
+        /**
+         * Processes a number of functions in parallel, returns the first resolved.
+         * 
+         * This method is to allow running multiple asynchronous operations awaiting just the
+         * result of the quickest to execute, just like Promise.race behaves.
+         * 
+         * Keep in mind that if one of your methods it will only raise an error if that was
+         * the first method to reject.
+         * @param functions list of async functions to run
+         */
+        race(functions: any[]): NumberStream;
+
+        /**
+         * Allows processing items without keeping order
+         * 
+         * This method useful if you are not concerned about the order in which the
+         * chunks are being pushed out of the operation. The `maxParallel` option is
+         * still used for keeping a number of simultaneous number of parallel operations
+         * that are currently happening.
+         * @param func the async function that will be unordered
+         */
+        unorder(func: MapCallback): void;
+
+        /**
+         * Allows own implementation of stream chaining.
+         * 
+         * The async Function is called on every chunk and should implement writes in it's own way. The
+         * resolution will be awaited for flow control. The passed `into` argument is passed as the first
+         * argument to every call.
+         * 
+         * It returns the DataStream passed as the second argument.
+         * @param func the method that processes incoming chunks
+         * @param into the DataStream derived class
+         */
+        into(func: IntoCallback, into: DataStream): NumberStream;
+
+        /**
+         * Calls the passed method in place with the stream as first argument, returns result.
+         * 
+         * The main intention of this method is to run scramjet modules - transforms that allow complex transforms of
+         * streams. These modules can also be run with [scramjet-cli](https://github.com/signicode/scramjet-cli) directly
+         * from the command line.
+         * @param func if passed, the function will be called on self to add an option to inspect the stream in place, while not breaking the transform chain. Alternatively this can be a relative path to a scramjet-module. Lastly it can be a Transform stream.
+         * @param ...parameters any additional parameters top be passed to the module
+         */
+        use(func: AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, ...parameters?: any): NumberStream;
+
+        /**
+         * Consumes all stream items doing nothing. Resolves when the stream is ended.
+         */
+        run(): Promise;
+
+        /**
+         * Stops merging transform Functions at the current place in the command chain.
+         */
+        tap(): void;
+
+        /**
+         * Reads a chunk from the stream and resolves the promise when read.
+         */
+        whenRead(): Promise;
+
+        /**
+         * Writes a chunk to the stream and returns a Promise resolved when more chunks can be written.
+         * @param chunk a chunk to write
+         * @param more more chunks to write
+         */
+        whenWrote(chunk: any, ...more?: any): Promise;
+
+        /**
+         * Resolves when stream ends - rejects on uncaught error
+         */
+        whenEnd(): Promise;
+
+        /**
+         * Returns a promise that resolves when the stream is drained
+         */
+        whenDrained(): Promise;
+
+        /**
+         * Returns a promise that resolves (!) when the stream is errors
+         */
+        whenError(): Promise;
+
+        /**
+         * Allows resetting stream options.
+         * 
+         * It's much easier to use this in chain than constructing new stream:
+         * 
+         * ```javascript
+         * stream.map(myMapper).filter(myFilter).setOptions({maxParallel: 2})
+         * ```
+         * @param options
+         */
+        setOptions(options: DataStreamOptions): NumberStream;
+
+        /**
+         * Duplicate the stream
+         * 
+         * Creates a duplicate stream instance and passes it to the Function.
+         * @param func The duplicate stream will be passed as first argument.
+         */
+        tee(func: TeeCallback | Writable): NumberStream;
+
+        /**
+         * Performs an operation on every chunk, without changing the stream
+         * 
+         * This is a shorthand for ```stream.on("data", func)``` but with flow control.
+         * Warning: this resumes the stream!
+         * @param func a Function called for each chunk.
+         */
+        each(func: MapCallback): NumberStream;
+
+        /**
+         * Reads the stream while the function outcome is truthy.
+         * 
+         * Stops reading and emits end as soon as it finds the first chunk that evaluates
+         * to false. If you're processing a file until a certain point or you just need to
+         * confirm existence of some data, you can use it to end the stream before reaching end.
+         * 
+         * Keep in mind that whatever you piped to the stream will still need to be handled.
+         * @param func The condition check
+         */
+        while(func: FilterCallback): NumberStream;
+
+        /**
+         * Reads the stream until the function outcome is truthy.
+         * 
+         * Works opposite of while.
+         * @param func The condition check
+         */
+        until(func: FilterCallback): NumberStream;
+
+        /**
+         * Provides a way to catch errors in chained streams.
+         * 
+         * The handler will be called as asynchronous
+         * - if it resolves then the error will be muted.
+         * - if it rejects then the error will be passed to the next handler
+         * 
+         * If no handlers will resolve the error, an `error` event will be emitted
+         * @param callback Error handler (async function)
+         */
+        catch(callback: Function): NumberStream;
+
+        /**
+         * Executes all error handlers and if none resolves, then emits an error.
+         * 
+         * The returned promise will always be resolved even if there are no successful handlers.
+         * @param err The thrown error
+         */
+        raise(err: Error): Promise;
+
+        /**
+         * Override of node.js Readable pipe.
+         * 
+         * Except for calling overridden method it proxies errors to piped stream.
+         * @param to Writable stream to write to
+         * @param options
+         */
+        pipe(to: Writable, options: WritableOptions): Writable;
+
+        /**
+         * Creates a BufferStream.
+         * 
+         * The passed serializer must return a buffer.
+         * @param serializer A method that converts chunks to buffers
+         */
+        bufferify(serializer: MapCallback): BufferStream;
+
+        /**
+         * Creates a StringStream.
+         * 
+         * The passed serializer must return a string. If no serializer is passed chunks
+         * toString method will be used.
+         * @param serializer A method that converts chunks to strings
+         */
+        stringify(serializer?: MapCallback): StringStream;
+
+        /**
+         * Aggregates the stream into a single Array
+         * 
+         * In fact it's just a shorthand for reducing the stream into an Array.
+         * @param initial Array to begin with (defaults to an empty array).
+         * @returns
+         */
+        toArray(initial?: any[]): any[];
+
+        /**
+         * Returns an async generator
+         * 
+         * Ready for https://github.com/tc39/proposal-async-iteration
+         */
+        toGenerator(): Iterable.<Promise.<*>>;
+
+        /**
+         * Pulls in any readable stream, resolves when the pulled stream ends.
+         * 
+         * You can also pass anything that can be passed to `DataStream.from`.
+         * 
+         * Does not preserve order, does not end this stream.
+         * @param pullable
+         * @param ...args any additional args
+         * @returns resolved when incoming stream ends, rejects on incoming error
+         */
+        pull(pullable: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, ...args?: any): Promise;
+
+        /**
+         * Shifts the first n items from the stream and pushes out the remaining ones.
+         * @param count The number of items to shift.
+         * @param func Function that receives an array of shifted items
+         */
+        shift(count: Number, func: ShiftCallback): NumberStream;
+
+        /**
+         * Allows previewing some of the streams data without removing them from the stream.
+         * 
+         * Important: Peek does not resume the flow.
+         * @param count The number of items to view before
+         * @param func Function called before other streams
+         */
+        peek(count: Number, func: ShiftCallback): NumberStream;
+
+        /**
+         * Slices out a part of the stream to the passed Function.
+         * 
+         * Returns a stream consisting of an array of items with `0` to `start`
+         * omitted and `length` items after `start` included. Works similarly to
+         * Array.prototype.slice.
+         * 
+         * Takes count from the moment it's called. Any previous items will not be
+         * taken into account.
+         * @param start omit this number of entries.
+         * @param length get this number of entries to the resulting stream
+         */
+        slice(start?: Number, length?: Number): NumberStream;
+
+        /**
+         * Transforms stream objects by assigning the properties from the returned
+         * data along with data from original ones.
+         * 
+         * The original objects are unaltered.
+         * @param func The function that returns new object properties or just the new properties
+         */
+        assign(func: MapCallback | Object): NumberStream;
+
+        /**
+         * Called only before the stream ends without passing any items
+         * @param callback Function called when stream ends
+         */
+        empty(callback: Function): NumberStream;
+
+        /**
+         * Pushes any data at call time (essentially at the beginning of the stream)
+         * 
+         * This is a synchronous only function.
+         * @param item list of items to unshift (you can pass more items)
+         */
+        unshift(item: any): NumberStream;
+
+        /**
+         * Pushes any data at end of stream
+         * @param item list of items to push at end
+         */
+        endWith(item: any): NumberStream;
+
+        /**
+         * Accumulates data into the object.
+         * 
+         * Works very similarly to reduce, but result of previous operations have
+         * no influence over the accumulator in the next one.
+         * 
+         * Method works in parallel.
+         * @param func The accumulation function
+         * @param into Accumulator object
+         */
+        accumulate(func: AccumulateCallback, into: any): Promise;
+
+        /**
+         * Consumes the stream by running each Function
+         * @deprecated use {@link DataStream#each} instead
+         * @param func the consument
+         */
+        consume(func: Function): Promise;
+
+        /**
+         * Reduces the stream into the given object, returning it immediately.
+         * 
+         * The main difference to reduce is that only the first object will be
+         * returned at once (however the method will be called with the previous
+         * entry).
+         * If the object is an instance of EventEmitter then it will propagate the
+         * error from the previous stream.
+         * 
+         * This method is serial - meaning that any processing on an entry will
+         * occur only after the previous entry is fully processed. This does mean
+         * it's much slower than parallel functions.
+         * @param func The into object will be passed as the first
+         *        argument, the data object from the stream as the second.
+         * @param into Any object passed initially to the transform
+         *        function
+         */
+        reduceNow(func: ReduceCallback, into: any | EventEmitter): any;
+
+        /**
+         * Remaps the stream into a new stream.
+         * 
+         * This means that every item may emit as many other items as we like.
+         * @param func A Function that is called on every chunk
+         * @param TypeClass Optional DataStream subclass to be constructed
+         */
+        remap(func: RemapCallback, TypeClass?: class): NumberStream;
+
+        /**
+         * Takes any method that returns any iterable and flattens the result.
+         * 
+         * The passed Function must return an iterable (otherwise an error will be emitted). The resulting stream will
+         * consist of all the items of the returned iterables, one iterable after another.
+         * @param func A Function that is called on every chunk
+         * @param TypeClass Optional DataStream subclass to be constructed
+         */
+        flatMap(func: FlatMapCallback, TypeClass?: class): NumberStream;
+
+        /**
+         * A shorthand for streams of arrays or iterables to flatten them.
+         * 
+         * More efficient equivalent of: `.flatmap(i => i);`
+         * Works on streams of async iterables too.
+         */
+        flatten(): NumberStream;
+
+        /**
+         * Returns a new stream that will append the passed streams to the callee
+         * @param streams Streams to be passed
+         */
+        concat(streams: any): NumberStream;
+
+        /**
+         * Method will put the passed object between items. It can also be a function call or generator / iterator.
+         * 
+         * If a generator or iterator is passed, when the iteration is done no items will be interweaved.
+         * Generator receives
+         * @param item An object that should be interweaved between stream items
+         */
+        join(item: any | AsyncGeneratorFunction | GeneratorFunction | JoinCallback): NumberStream;
+
+        /**
+         * Keep a buffer of n-chunks for use with {@see DataStream..rewind}
+         * @param count Number of objects or -1 for all the stream
+         */
+        keep(count: number): NumberStream;
+
+        /**
+         * Rewinds the buffered chunks the specified length backwards. Requires a prior call to {@see DataStream..keep}
+         * @param count Number of objects or -1 for all the buffer
+         */
+        rewind(count: number): NumberStream;
+
+        /**
+         * Distributes processing into multiple sub-processes or threads if you like.
+         * @todo Currently order is not kept.
+         * @todo Example test breaks travis-ci build
+         * @param affinity A Function that affixes the item to specific output stream which must exist in the object for each chunk, must return a string. A number may be passed to identify how many round-robin threads to start up. Defaults to Round Robin to twice the number of CPU threads.
+         * @param clusterFunc stream transforms similar to {@see DataStream#use method}
+         * @param options Options
+         */
+        distribute(affinity?: AffinityCallback | Number, clusterFunc: ClusterCallback, options?: DataStreamOptions): NumberStream;
+
+        /**
+         * Separates stream into a hash of streams. Does not create new streams!
+         * @param streams the object hash of streams. Keys must be the outputs of the affinity function
+         * @param affinity the Function that affixes the item to specific streams which must exist in the object for each chunk.
+         */
+        separateInto(streams: Object<DataStream>, affinity: AffinityCallback): NumberStream;
+
+        /**
+         * Separates execution to multiple streams using the hashes returned by the passed Function.
+         * 
+         * Calls the given Function for a hash, then makes sure all items with the same hash are processed within a single
+         * stream. Thanks to that streams can be distributed to multiple threads.
+         * @param affinity the affinity function
+         * @param createOptions options to use to create the separated streams
+         */
+        separate(affinity: AffinityCallback, createOptions: DataStreamOptions): MultiStream;
+
+        /**
+         * Delegates work to a specified worker.
+         * @param delegateFunc A function to be run in the sub-thread.
+         * @param worker
+         * @param plugins
+         */
+        delegate(delegateFunc: DelegateCallback, worker: WorkerStream, plugins?: any[]): NumberStream;
+
+        /**
+         * Limit the rate of the stream to a given number of chunks per second or given timeframe.
+         * @param cps Chunks per timeframe, the default timeframe is 1000 ms.
+         * @param options Options for the limiter controlling the timeframe and time source. Both must work on same units.
+         */
+        rate(cps: Number, options?: RateOptions): NumberStream;
+
+        /**
+         * Aggregates chunks in arrays given number of number of items long.
+         * 
+         * This can be used for micro-batch processing.
+         * @param count How many items to aggregate
+         */
+        batch(count: Number): NumberStream;
+
+        /**
+         * Aggregates chunks to arrays not delaying output by more than the given number of ms.
+         * @param ms Maximum amount of milliseconds
+         * @param count Maximum number of items in batch (otherwise no limit)
+         */
+        timeBatch(ms: Number, count: Number): NumberStream;
+
+        /**
+         * Performs the Nagle's algorithm on the data. In essence it waits until we receive some more data and releases them
+         * in bulk.
+         * @todo needs more work, for now it's simply waiting some time, not checking the queues.
+         * @param size maximum number of items to wait for
+         * @param ms milliseconds to wait for more data
+         */
+        nagle(size?: number, ms?: number): NumberStream;
+
+        /**
+         * Returns a WindowStream of the specified length
+         * @param length
+         * @returns a stream of array's
+         */
+        window(length: Number): WindowStream;
+
+        /**
+         * Transforms the stream to a streamed JSON array.
+         * @param enclosure Any iterable object of two items (beginning and end)
+         */
+        toJSONArray(enclosure?: Iterable): StringStream;
+
+        /**
+         * Transforms the stream to a streamed JSON object.
+         * @param entryCallback async function returning an entry (array of [key, value])
+         * @param enclosure Any iterable object of two items (beginning and end)
+         */
+        toJSONObject(entryCallback?: MapCallback, enclosure?: Iterable): StringStream;
+
+        /**
+         * Returns a StringStream containing JSON per item with optional end line
+         * @param endline whether to add endlines (boolean or string as delimiter)
+         */
+        JSONStringify(endline?: Boolean | String): StringStream;
+
+        /**
+         * Stringifies CSV to DataString using 'papaparse' module.
+         * @param options options for the papaparse.unparse module.
+         */
+        CSVStringify(options: any): StringStream;
+
+        /**
+         * Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream.
+         * 
+         * Pipes the current stream into the sub-processes stdin.
+         * The data is serialized and deserialized as JSON lines by default. You
+         * can provide your own alternative methods in the ExecOptions object.
+         * 
+         * Note: if you're piping both stderr and stdout (options.stream=3) keep in mind that chunks may get mixed up!
+         * @param command command to execute
+         * @param options options to be passed to `spawn` and defining serialization.
+         * @param args additional arguments (will overwrite to SpawnOptions args even if not given)
+         */
+        exec(command: String, options: ExecDataOptions, args: String): void;
+
+        /**
+         * Injects a ```debugger``` statement when called.
+         * @param func if passed, the function will be called on self to add an option to inspect the stream in place, while not breaking the transform chain
+         */
+        debug(func: Function): NumberStream;
 
     }
+
+    /**
+     * Calculates the sum of all items in the stream.
+     */
+    function sum(): Number;
+
+    /**
+     * Calculates the sum of all items in the stream.
+     */
+    function avg(): Number;
 
     /**
      * A stream for moving window calculation with some simple methods.
@@ -1215,6 +2871,569 @@ declare module 'scramjet' {
         avg(valueOf?: Function): Promise<Number>;
 
     }
+
+    /**
+     * Transforms stream objects into new ones, just like Array.prototype.map
+     * does.
+     * 
+     * Map takes an argument which is the Function function operating on every element
+     * of the stream. If the function returns a Promise or is an AsyncFunction then the
+     * stream will await for the outcome of the operation before pushing the data forwards.
+     * 
+     * A simple example that turns stream of urls into stream of responses
+     * 
+     * ```javascript
+     * stream.map(async url => fetch(url));
+     * ```
+     * 
+     * Multiple subsequent map operations (as well as filter, do, each and other simple ops)
+     * will be merged together into a single operation to improve performance. Such behaviour
+     * can be suppressed by chaining `.tap()` after `.map()`.
+     * @param func The function that creates the new object
+     * @param ClassType The class to be mapped to.
+     */
+    function map(func: MapCallback, ClassType?: Class): WindowStream;
+
+    /**
+     * Filters object based on the function outcome, just like Array.prototype.filter.
+     * 
+     * Filter takes a Function argument which should be a Function or an AsyncFunction that
+     * will be called on each stream item. If the outcome of the operation is `falsy` (`0`, `''`,
+     * `false`, `null` or `undefined`) the item will be filtered from subsequent operations
+     * and will not be pushed to the output of the stream. Otherwise the item will not be affected.
+     * 
+     * A simple example that filters out non-2xx responses from a stream
+     * 
+     * ```javascript
+     * stream.filter(({statusCode}) => !(statusCode >= 200 && statusCode < 300));
+     * ```
+     * @param func The function that filters the object
+     */
+    function filter(func: FilterCallback): WindowStream;
+
+    /**
+     * Reduces the stream into a given accumulator
+     * 
+     * Works similarly to Array.prototype.reduce, so whatever you return in the
+     * former operation will be the first operand to the latter. The result is a
+     * promise that's resolved with the return value of the last transform executed.
+     * 
+     * A simple example that sums values from a stream
+     * 
+     * ```javascript
+     * stream.reduce((accumulator, {value}) => accumulator + value);
+     * ```
+     * 
+     * This method is serial - meaning that any processing on an entry will
+     * occur only after the previous entry is fully processed. This does mean
+     * it's much slower than parallel functions.
+     * @param func The into object will be passed as the  first argument, the data object from the stream as the second.
+     * @param into Any object passed initially to the transform function
+     */
+    function reduce(func: ReduceCallback, into: Object): Promise;
+
+    /**
+     * Perform an asynchronous operation without changing or resuming the stream.
+     * 
+     * In essence the stream will use the call to keep the backpressure, but the resolving value
+     * has no impact on the streamed data (except for possible mutation of the chunk itself)
+     * @param func the async function
+     */
+    /* Illegal function name 'do' can't be used here
+    function do(func: DoCallback): WindowStream;
+    */
+
+    /**
+     * Processes a number of functions in parallel, returns a stream of arrays of results.
+     * 
+     * This method is to allow running multiple asynchronous operations and receive all the
+     * results at one, just like Promise.all behaves.
+     * 
+     * Keep in mind that if one of your methods rejects, this behaves just like Promise.all
+     * you won't be able to receive partial results.
+     * @param functions list of async functions to run
+     */
+    function all(functions: any[]): WindowStream;
+
+    /**
+     * Processes a number of functions in parallel, returns the first resolved.
+     * 
+     * This method is to allow running multiple asynchronous operations awaiting just the
+     * result of the quickest to execute, just like Promise.race behaves.
+     * 
+     * Keep in mind that if one of your methods it will only raise an error if that was
+     * the first method to reject.
+     * @param functions list of async functions to run
+     */
+    function race(functions: any[]): WindowStream;
+
+    /**
+     * Allows processing items without keeping order
+     * 
+     * This method useful if you are not concerned about the order in which the
+     * chunks are being pushed out of the operation. The `maxParallel` option is
+     * still used for keeping a number of simultaneous number of parallel operations
+     * that are currently happening.
+     * @param func the async function that will be unordered
+     */
+    function unorder(func: MapCallback): void;
+
+    /**
+     * Allows own implementation of stream chaining.
+     * 
+     * The async Function is called on every chunk and should implement writes in it's own way. The
+     * resolution will be awaited for flow control. The passed `into` argument is passed as the first
+     * argument to every call.
+     * 
+     * It returns the DataStream passed as the second argument.
+     * @param func the method that processes incoming chunks
+     * @param into the DataStream derived class
+     */
+    function into(func: IntoCallback, into: DataStream): WindowStream;
+
+    /**
+     * Calls the passed method in place with the stream as first argument, returns result.
+     * 
+     * The main intention of this method is to run scramjet modules - transforms that allow complex transforms of
+     * streams. These modules can also be run with [scramjet-cli](https://github.com/signicode/scramjet-cli) directly
+     * from the command line.
+     * @param func if passed, the function will be called on self to add an option to inspect the stream in place, while not breaking the transform chain. Alternatively this can be a relative path to a scramjet-module. Lastly it can be a Transform stream.
+     * @param ...parameters any additional parameters top be passed to the module
+     */
+    function use(func: AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, ...parameters?: any): WindowStream;
+
+    /**
+     * Consumes all stream items doing nothing. Resolves when the stream is ended.
+     */
+    function run(): Promise;
+
+    /**
+     * Stops merging transform Functions at the current place in the command chain.
+     */
+    function tap(): void;
+
+    /**
+     * Reads a chunk from the stream and resolves the promise when read.
+     */
+    function whenRead(): Promise;
+
+    /**
+     * Writes a chunk to the stream and returns a Promise resolved when more chunks can be written.
+     * @param chunk a chunk to write
+     * @param more more chunks to write
+     */
+    function whenWrote(chunk: any, ...more?: any): Promise;
+
+    /**
+     * Resolves when stream ends - rejects on uncaught error
+     */
+    function whenEnd(): Promise;
+
+    /**
+     * Returns a promise that resolves when the stream is drained
+     */
+    function whenDrained(): Promise;
+
+    /**
+     * Returns a promise that resolves (!) when the stream is errors
+     */
+    function whenError(): Promise;
+
+    /**
+     * Allows resetting stream options.
+     * 
+     * It's much easier to use this in chain than constructing new stream:
+     * 
+     * ```javascript
+     * stream.map(myMapper).filter(myFilter).setOptions({maxParallel: 2})
+     * ```
+     * @param options
+     */
+    function setOptions(options: DataStreamOptions): WindowStream;
+
+    /**
+     * Duplicate the stream
+     * 
+     * Creates a duplicate stream instance and passes it to the Function.
+     * @param func The duplicate stream will be passed as first argument.
+     */
+    function tee(func: TeeCallback | Writable): WindowStream;
+
+    /**
+     * Performs an operation on every chunk, without changing the stream
+     * 
+     * This is a shorthand for ```stream.on("data", func)``` but with flow control.
+     * Warning: this resumes the stream!
+     * @param func a Function called for each chunk.
+     */
+    function each(func: MapCallback): WindowStream;
+
+    /**
+     * Reads the stream while the function outcome is truthy.
+     * 
+     * Stops reading and emits end as soon as it finds the first chunk that evaluates
+     * to false. If you're processing a file until a certain point or you just need to
+     * confirm existence of some data, you can use it to end the stream before reaching end.
+     * 
+     * Keep in mind that whatever you piped to the stream will still need to be handled.
+     * @param func The condition check
+     */
+    /* Illegal function name 'while' can't be used here
+    function while(func: FilterCallback): WindowStream;
+    */
+
+    /**
+     * Reads the stream until the function outcome is truthy.
+     * 
+     * Works opposite of while.
+     * @param func The condition check
+     */
+    function until(func: FilterCallback): WindowStream;
+
+    /**
+     * Provides a way to catch errors in chained streams.
+     * 
+     * The handler will be called as asynchronous
+     * - if it resolves then the error will be muted.
+     * - if it rejects then the error will be passed to the next handler
+     * 
+     * If no handlers will resolve the error, an `error` event will be emitted
+     * @param callback Error handler (async function)
+     */
+    /* Illegal function name 'catch' can't be used here
+    function catch(callback: Function): WindowStream;
+    */
+
+    /**
+     * Executes all error handlers and if none resolves, then emits an error.
+     * 
+     * The returned promise will always be resolved even if there are no successful handlers.
+     * @param err The thrown error
+     */
+    function raise(err: Error): Promise;
+
+    /**
+     * Override of node.js Readable pipe.
+     * 
+     * Except for calling overridden method it proxies errors to piped stream.
+     * @param to Writable stream to write to
+     * @param options
+     */
+    function pipe(to: Writable, options: WritableOptions): Writable;
+
+    /**
+     * Creates a BufferStream.
+     * 
+     * The passed serializer must return a buffer.
+     * @param serializer A method that converts chunks to buffers
+     */
+    function bufferify(serializer: MapCallback): BufferStream;
+
+    /**
+     * Creates a StringStream.
+     * 
+     * The passed serializer must return a string. If no serializer is passed chunks
+     * toString method will be used.
+     * @param serializer A method that converts chunks to strings
+     */
+    function stringify(serializer?: MapCallback): StringStream;
+
+    /**
+     * Aggregates the stream into a single Array
+     * 
+     * In fact it's just a shorthand for reducing the stream into an Array.
+     * @param initial Array to begin with (defaults to an empty array).
+     * @returns
+     */
+    function toArray(initial?: any[]): any[];
+
+    /**
+     * Returns an async generator
+     * 
+     * Ready for https://github.com/tc39/proposal-async-iteration
+     */
+    function toGenerator(): Iterable.<Promise.<*>>;
+
+    /**
+     * Pulls in any readable stream, resolves when the pulled stream ends.
+     * 
+     * You can also pass anything that can be passed to `DataStream.from`.
+     * 
+     * Does not preserve order, does not end this stream.
+     * @param pullable
+     * @param ...args any additional args
+     * @returns resolved when incoming stream ends, rejects on incoming error
+     */
+    function pull(pullable: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, ...args?: any): Promise;
+
+    /**
+     * Shifts the first n items from the stream and pushes out the remaining ones.
+     * @param count The number of items to shift.
+     * @param func Function that receives an array of shifted items
+     */
+    function shift(count: Number, func: ShiftCallback): WindowStream;
+
+    /**
+     * Allows previewing some of the streams data without removing them from the stream.
+     * 
+     * Important: Peek does not resume the flow.
+     * @param count The number of items to view before
+     * @param func Function called before other streams
+     */
+    function peek(count: Number, func: ShiftCallback): WindowStream;
+
+    /**
+     * Slices out a part of the stream to the passed Function.
+     * 
+     * Returns a stream consisting of an array of items with `0` to `start`
+     * omitted and `length` items after `start` included. Works similarly to
+     * Array.prototype.slice.
+     * 
+     * Takes count from the moment it's called. Any previous items will not be
+     * taken into account.
+     * @param start omit this number of entries.
+     * @param length get this number of entries to the resulting stream
+     */
+    function slice(start?: Number, length?: Number): WindowStream;
+
+    /**
+     * Transforms stream objects by assigning the properties from the returned
+     * data along with data from original ones.
+     * 
+     * The original objects are unaltered.
+     * @param func The function that returns new object properties or just the new properties
+     */
+    function assign(func: MapCallback | Object): WindowStream;
+
+    /**
+     * Called only before the stream ends without passing any items
+     * @param callback Function called when stream ends
+     */
+    function empty(callback: Function): WindowStream;
+
+    /**
+     * Pushes any data at call time (essentially at the beginning of the stream)
+     * 
+     * This is a synchronous only function.
+     * @param item list of items to unshift (you can pass more items)
+     */
+    function unshift(item: any): WindowStream;
+
+    /**
+     * Pushes any data at end of stream
+     * @param item list of items to push at end
+     */
+    function endWith(item: any): WindowStream;
+
+    /**
+     * Accumulates data into the object.
+     * 
+     * Works very similarly to reduce, but result of previous operations have
+     * no influence over the accumulator in the next one.
+     * 
+     * Method works in parallel.
+     * @param func The accumulation function
+     * @param into Accumulator object
+     */
+    function accumulate(func: AccumulateCallback, into: any): Promise;
+
+    /**
+     * Consumes the stream by running each Function
+     * @deprecated use {@link DataStream#each} instead
+     * @param func the consument
+     */
+    function consume(func: Function): Promise;
+
+    /**
+     * Reduces the stream into the given object, returning it immediately.
+     * 
+     * The main difference to reduce is that only the first object will be
+     * returned at once (however the method will be called with the previous
+     * entry).
+     * If the object is an instance of EventEmitter then it will propagate the
+     * error from the previous stream.
+     * 
+     * This method is serial - meaning that any processing on an entry will
+     * occur only after the previous entry is fully processed. This does mean
+     * it's much slower than parallel functions.
+     * @param func The into object will be passed as the first
+     *        argument, the data object from the stream as the second.
+     * @param into Any object passed initially to the transform
+     *        function
+     */
+    function reduceNow(func: ReduceCallback, into: any | EventEmitter): any;
+
+    /**
+     * Remaps the stream into a new stream.
+     * 
+     * This means that every item may emit as many other items as we like.
+     * @param func A Function that is called on every chunk
+     * @param TypeClass Optional DataStream subclass to be constructed
+     */
+    function remap(func: RemapCallback, TypeClass?: class): WindowStream;
+
+    /**
+     * Takes any method that returns any iterable and flattens the result.
+     * 
+     * The passed Function must return an iterable (otherwise an error will be emitted). The resulting stream will
+     * consist of all the items of the returned iterables, one iterable after another.
+     * @param func A Function that is called on every chunk
+     * @param TypeClass Optional DataStream subclass to be constructed
+     */
+    function flatMap(func: FlatMapCallback, TypeClass?: class): WindowStream;
+
+    /**
+     * A shorthand for streams of arrays or iterables to flatten them.
+     * 
+     * More efficient equivalent of: `.flatmap(i => i);`
+     * Works on streams of async iterables too.
+     */
+    function flatten(): WindowStream;
+
+    /**
+     * Returns a new stream that will append the passed streams to the callee
+     * @param streams Streams to be passed
+     */
+    function concat(streams: any): WindowStream;
+
+    /**
+     * Method will put the passed object between items. It can also be a function call or generator / iterator.
+     * 
+     * If a generator or iterator is passed, when the iteration is done no items will be interweaved.
+     * Generator receives
+     * @param item An object that should be interweaved between stream items
+     */
+    function join(item: any | AsyncGeneratorFunction | GeneratorFunction | JoinCallback): WindowStream;
+
+    /**
+     * Keep a buffer of n-chunks for use with {@see DataStream..rewind}
+     * @param count Number of objects or -1 for all the stream
+     */
+    function keep(count: number): WindowStream;
+
+    /**
+     * Rewinds the buffered chunks the specified length backwards. Requires a prior call to {@see DataStream..keep}
+     * @param count Number of objects or -1 for all the buffer
+     */
+    function rewind(count: number): WindowStream;
+
+    /**
+     * Distributes processing into multiple sub-processes or threads if you like.
+     * @todo Currently order is not kept.
+     * @todo Example test breaks travis-ci build
+     * @param affinity A Function that affixes the item to specific output stream which must exist in the object for each chunk, must return a string. A number may be passed to identify how many round-robin threads to start up. Defaults to Round Robin to twice the number of CPU threads.
+     * @param clusterFunc stream transforms similar to {@see DataStream#use method}
+     * @param options Options
+     */
+    function distribute(affinity?: AffinityCallback | Number, clusterFunc: ClusterCallback, options?: DataStreamOptions): WindowStream;
+
+    /**
+     * Separates stream into a hash of streams. Does not create new streams!
+     * @param streams the object hash of streams. Keys must be the outputs of the affinity function
+     * @param affinity the Function that affixes the item to specific streams which must exist in the object for each chunk.
+     */
+    function separateInto(streams: Object<DataStream>, affinity: AffinityCallback): WindowStream;
+
+    /**
+     * Separates execution to multiple streams using the hashes returned by the passed Function.
+     * 
+     * Calls the given Function for a hash, then makes sure all items with the same hash are processed within a single
+     * stream. Thanks to that streams can be distributed to multiple threads.
+     * @param affinity the affinity function
+     * @param createOptions options to use to create the separated streams
+     */
+    function separate(affinity: AffinityCallback, createOptions: DataStreamOptions): MultiStream;
+
+    /**
+     * Delegates work to a specified worker.
+     * @param delegateFunc A function to be run in the sub-thread.
+     * @param worker
+     * @param plugins
+     */
+    function delegate(delegateFunc: DelegateCallback, worker: WorkerStream, plugins?: any[]): WindowStream;
+
+    /**
+     * Limit the rate of the stream to a given number of chunks per second or given timeframe.
+     * @param cps Chunks per timeframe, the default timeframe is 1000 ms.
+     * @param options Options for the limiter controlling the timeframe and time source. Both must work on same units.
+     */
+    function rate(cps: Number, options?: RateOptions): WindowStream;
+
+    /**
+     * Aggregates chunks in arrays given number of number of items long.
+     * 
+     * This can be used for micro-batch processing.
+     * @param count How many items to aggregate
+     */
+    function batch(count: Number): WindowStream;
+
+    /**
+     * Aggregates chunks to arrays not delaying output by more than the given number of ms.
+     * @param ms Maximum amount of milliseconds
+     * @param count Maximum number of items in batch (otherwise no limit)
+     */
+    function timeBatch(ms: Number, count: Number): WindowStream;
+
+    /**
+     * Performs the Nagle's algorithm on the data. In essence it waits until we receive some more data and releases them
+     * in bulk.
+     * @todo needs more work, for now it's simply waiting some time, not checking the queues.
+     * @param size maximum number of items to wait for
+     * @param ms milliseconds to wait for more data
+     */
+    function nagle(size?: number, ms?: number): WindowStream;
+
+    /**
+     * Returns a WindowStream of the specified length
+     * @param length
+     * @returns a stream of array's
+     */
+    function window(length: Number): WindowStream;
+
+    /**
+     * Transforms the stream to a streamed JSON array.
+     * @param enclosure Any iterable object of two items (beginning and end)
+     */
+    function toJSONArray(enclosure?: Iterable): StringStream;
+
+    /**
+     * Transforms the stream to a streamed JSON object.
+     * @param entryCallback async function returning an entry (array of [key, value])
+     * @param enclosure Any iterable object of two items (beginning and end)
+     */
+    function toJSONObject(entryCallback?: MapCallback, enclosure?: Iterable): StringStream;
+
+    /**
+     * Returns a StringStream containing JSON per item with optional end line
+     * @param endline whether to add endlines (boolean or string as delimiter)
+     */
+    function JSONStringify(endline?: Boolean | String): StringStream;
+
+    /**
+     * Stringifies CSV to DataString using 'papaparse' module.
+     * @param options options for the papaparse.unparse module.
+     */
+    function CSVStringify(options: any): StringStream;
+
+    /**
+     * Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream.
+     * 
+     * Pipes the current stream into the sub-processes stdin.
+     * The data is serialized and deserialized as JSON lines by default. You
+     * can provide your own alternative methods in the ExecOptions object.
+     * 
+     * Note: if you're piping both stderr and stdout (options.stream=3) keep in mind that chunks may get mixed up!
+     * @param command command to execute
+     * @param options options to be passed to `spawn` and defining serialization.
+     * @param args additional arguments (will overwrite to SpawnOptions args even if not given)
+     */
+    function exec(command: String, options: ExecDataOptions, args: String): void;
+
+    /**
+     * Injects a ```debugger``` statement when called.
+     * @param func if passed, the function will be called on self to add an option to inspect the stream in place, while not breaking the transform chain
+     */
+    function debug(func: Function): WindowStream;
 
 }
 

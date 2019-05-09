@@ -5,6 +5,8 @@
 ## MultiStream
 An object consisting of multiple streams than can be refined or muxed.
 
+The idea behind a MultiStream is being able to mux and demux streams when needed.
+
 **Kind**: global class  
 
 * [MultiStream](#MultiStream)
@@ -30,7 +32,7 @@ Crates an instance of MultiStream with the specified stream list
 
 | Param | Type | Description |
 | --- | --- | --- |
-| streams | <code>Array.&lt;stream.Readable&gt;</code> | the list of readable streams (other                                     objects will be filtered out!) |
+| streams | <code>Array.&lt;stream.Readable&gt;</code> \| <code>AsyncGenerator.&lt;Readable&gt;</code> \| <code>Generator.&lt;Readable&gt;</code> | the list of readable streams (other                                     objects will be filtered out!) |
 | options | <code>Object</code> | Optional options for the super object. ;) |
 
 <a name="MultiStream+streams"></a>

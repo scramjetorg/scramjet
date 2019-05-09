@@ -43,7 +43,7 @@ gulp.task("tsd", tsd(FILES.slice(), {
             "allowUnknownTags": true,
             "dictionaries": ["jsdoc","closure"]
         },
-        template: "@otris/jsdoc-tsd/src-out/src/core",
+        template: "./jsdoc2md/tsd-template",
         destination: ".d.ts/scramjet.d.ts"
     }
 }));
