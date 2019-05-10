@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES6",
+    "target": "es2016",
     "lib": [
       "es5",
       "es6",
@@ -8,7 +8,10 @@
       "es7",
       "es2016",
       "es2017",
-      "es2018"
+      "es2018",
+      "es2018.asynciterable",
+      "esnext.asynciterable",
+      "es2015.collection"
     ]
   },
   "exclude": [

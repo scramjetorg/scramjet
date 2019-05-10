@@ -10,7 +10,7 @@ const {promisify} = require("util");
 const fs = require("fs");
 const path = require("path");
 
-module.exports = (source, corepath, options, dest) => {
+module.exports = (source, corepath, options, jsdocOptions, dest) => {
     return async function makeDocs() {
         /// TODO: get all files first
         const sourcesStream = DataStream
@@ -23,12 +23,13 @@ module.exports = (source, corepath, options, dest) => {
                 if (isCoreExtension)
                     files.unshift(corefile);
 
-                const data = await jsdoc.explain({files});
+                const data = await jsdoc.explain({files, ...jsdocOptions});
                 const parsed = await jsdocParse(data);
 
                 return {file, files, data, parsed};
             })
-            .keep();
+            .keep()
+            .resume();
 
         const classes = {};
         const modules = {};
@@ -38,17 +39,23 @@ module.exports = (source, corepath, options, dest) => {
             if (item.kind === "class") src = item.meta.filename;
             else if (item.kind === "module") src = "index.js";
             else if (item.memberof in classes) src = classes[item.memberof].meta.filename;
+            else if (item.memberof in modules && item.scope === "inner") src = "definitions.js";
             else if (item.memberof in modules) src = modules[item.memberof].meta.filename;
 
             return src.replace(/\.[^.]+$/, ".md");
         };
 
         const index = await sourcesStream
+            .rewind()
             .flatMap(({parsed}) => parsed)
             .filter(({ignore, undocumented}) => !ignore && !undocumented)
             .reduce((acc, item) => {
-                if (item.kind === "module") modules[item.name] = modules[item.longname] = item;
-                else if (item.kind === "class") classes[item.name] = classes[item.longname] = item;
+                if (item.kind === "module") {
+                    modules[item.name] = modules[item.longname] = item;
+                } else if (item.kind === "class") {
+                    classes[item.name] = classes[item.longname] = item;
+                    item.memberof = undefined;
+                }
 
                 item.target = target(item);
 
@@ -60,17 +67,16 @@ module.exports = (source, corepath, options, dest) => {
 
         const contents = await sourcesStream
             .rewind()
+            .setOptions({maxParallel: 32})
             .flatMap(async ({parsed}) => {
                 parsed.fullIndex = index;
                 parsed.forEach(item => {
                     item.target = target(item);
                 });
 
-                // TODO: sort!
-
                 return parsed;
             })
-            .filter(({ignore, undocumented}) => !ignore && !undocumented)
+            .filter(({target, ignore, undocumented}) => target && !ignore && !undocumented)
             .accumulate((files, item) => {
                 (files[item.target] = files[item.target] || []).push(item);
             }, {});
@@ -78,8 +84,11 @@ module.exports = (source, corepath, options, dest) => {
         DataStream.from(Object.entries(contents))
             .map(async ([filename, contents]) => {
                 if (filename === "orphans.md") {
-                    log.warn("Orphans found!");
-                    contents.forEach(item => log.warn(item.longname, item.meta && `${item.meta.filename}:${item.meta.lineno}`));
+                    contents.forEach(item => log.warn("Orphaned doclet", item.longname, item.meta && `${item.meta.filename}:${item.meta.lineno}`));
+                    throw new Error("Orphaned documentation found");
+                }
+                if (filename === "definitions.md") {
+                    contents.forEach(item => item.memberof = undefined);
                 }
                 contents.fullIndex = index;
 

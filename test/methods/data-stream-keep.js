@@ -36,6 +36,20 @@ exports.test = {
 
         test.done();
     },
+    async rewindAndFlatmap(test) {
+
+        const stream = DataStream.from([[1,2],[3,4]]).keep();
+
+        test.deepEqual(await Promise.all([
+            stream.rewind().flatMap(async x => x).toArray(),
+            stream.run()
+        ]), [[1,2,3,4], undefined], "Runs initially");
+        test.deepEqual(await stream.rewind().flatMap(async x => x).toArray(), [1,2,3,4], "Runs a number of times");
+        test.deepEqual(await stream.rewind().flatMap(async x => x).toArray(), [1,2,3,4], "Runs a number of times");
+
+        test.done();
+
+    },
     async justRewind(test) {
         test.expect(2);
 

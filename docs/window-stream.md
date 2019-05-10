@@ -1,41 +1,41 @@
 ![Scramjet Logo](https://signicode.com/scramjet-logo-light.svg)
 
-<a name="WindowStream"></a>
+<a name="module_scramjet.WindowStream"></a>
 
-## WindowStream : DataStream
+## :WindowStream : DataStream
 A stream for moving window calculation with some simple methods.
 
 In essence it's a stream of Array's containing a list of items - a window.
 It's best used when created by the `DataStream..window`` method.
 
-**Kind**: global class  
-**Extends**: [<code>DataStream</code>](data-stream.md#DataStream)  
+**Kind**: static class  
+**Extends**: [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)  
 
-* [WindowStream](#WindowStream)  [<code>DataStream</code>](data-stream.md#DataStream)
-    * [windowStream.sum([valueOf])](#WindowStream+sum) ↺ <code>Promise.&lt;Number&gt;</code>
-    * [windowStream.avg([valueOf])](#WindowStream+avg) ↺ <code>Promise.&lt;Number&gt;</code>
+* [:WindowStream](#module_scramjet.WindowStream)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
+    * [windowStream.sum([valueOf])](#module_scramjet.WindowStream+sum) ↺ [<code>NumberStream</code>](number-stream.md#module_scramjet.NumberStream)
+    * [windowStream.avg([valueOf])](#module_scramjet.WindowStream+avg) ↺ [<code>NumberStream</code>](number-stream.md#module_scramjet.NumberStream)
 
-<a name="WindowStream+sum"></a>
+<a name="module_scramjet.WindowStream+sum"></a>
 
-### windowStream.sum([valueOf]) : Promise.<Number> ↺
-Calculates moving sum of items, the output stream will contain the moving sum.
+### windowStream.sum([valueOf]) : NumberStream ↺
+Calculates moving sum of items, the output NumberStream will contain the moving sum.
 
-**Kind**: instance method of [<code>WindowStream</code>](index.md#module_scramjet.WindowStream)  
+**Kind**: instance method of [<code>WindowStream</code>](#module_scramjet.WindowStream)  
 **Chainable**  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [valueOf] | [<code>ValueOfCallback</code>](number-stream.md#NumberStream..ValueOfCallback) | value of method for array items |
+| [valueOf] | [<code>ValueOfCallback</code>](definitions.md#module_scramjet..ValueOfCallback) | value of method for array items |
 
-<a name="WindowStream+avg"></a>
+<a name="module_scramjet.WindowStream+avg"></a>
 
-### windowStream.avg([valueOf]) : Promise.<Number> ↺
-Calculates the moving average of all items in the stream.
+### windowStream.avg([valueOf]) : NumberStream ↺
+Calculates the moving average of the window and returns the NumberStream
 
-**Kind**: instance method of [<code>WindowStream</code>](index.md#module_scramjet.WindowStream)  
+**Kind**: instance method of [<code>WindowStream</code>](#module_scramjet.WindowStream)  
 **Chainable**  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [valueOf] | [<code>ValueOfCallback</code>](number-stream.md#NumberStream..ValueOfCallback) | value of method for array items |
+| [valueOf] | [<code>ValueOfCallback</code>](definitions.md#module_scramjet..ValueOfCallback) | value of method for array items |
 

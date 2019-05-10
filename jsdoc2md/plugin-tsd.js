@@ -13,16 +13,6 @@ const matchLookup = (tag) => Object.keys(tagLookup)
         (lookup) => tag.indexOf(lookup) === 0
     );
 
-const getLookupType = (type) => {
-    return Object.entries(tagLookup)
-        .reduce(
-            (current, [_to, {longname: _from}]) => {
-                return current.replace(_from, _to);
-            },
-            type
-        );
-};
-
 const replaceNames = {};
 
 module.exports.handlers = {
@@ -69,11 +59,19 @@ module.exports.handlers = {
                     }
                 );
         }
-        if (!doclet.returns && isClassMember(doclet)) {
-            if (doclet.async) {
-                doclet.returns = [{type: {names: ["Promise"]}}];
-            } else if (isChainable(doclet)) {
-                doclet.returns = [{type: {names: [getLookupType(doclet.memberof)]}}];
+        if (isClassMember(doclet)) {
+            if (!doclet.returns && doclet.async) {
+                doclet.returns = [{type: {names: ["Promise<any>"]}}];
+            } else if (doclet.returns && doclet.async) {
+                doclet.returns = doclet.returns.map(({type}) => {
+                    return {type: {names: type.names.map(
+                        name => name.startsWith("Promise<")
+                            ? name
+                            : `Promise<${name}>`
+                    )}};
+                });
+            } else if (!doclet.returns && isChainable(doclet)) {
+                doclet.returns = [{type: {names: ["this"]}}];
             }
         }
     },

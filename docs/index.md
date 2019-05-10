@@ -35,86 +35,14 @@ will only operate on a single transform stream that evaluates all three transfor
 **Extends**: <code>Object</code>  
 
 * [scramjet](#module_scramjet)  <code>Object</code>
-    * [~ScramjetTransformCallback](#module_scramjet..ScramjetTransformCallback)  <code>\*</code> \| <code>undefined</code>
-    * [~ScramjetWriteCallback](#module_scramjet..ScramjetWriteCallback)  <code>function</code>
-    * [~ScramjetReadCallback](#module_scramjet..ScramjetReadCallback)  <code>Array.&lt;\*&gt;</code>
-    * [~DataStreamOptions](#module_scramjet..DataStreamOptions)  <code>Object</code>
-    * [:errors](#module_scramjet.errors)  <code>ScramjetErrors</code>
-    * [:StreamWorker](#module_scramjet.StreamWorker)  [<code>StreamWorker</code>](index.md#module_scramjet.StreamWorker)
-    * [:NumberStream](#module_scramjet.NumberStream)  [<code>NumberStream</code>](index.md#module_scramjet.NumberStream)
-    * [:WindowStream](#module_scramjet.WindowStream)
-    * [:from(input, [options])](#module_scramjet.from)  [<code>DataStream</code>](data-stream.md#DataStream)
-    * [:fromArray(args)](#module_scramjet.fromArray)  [<code>DataStream</code>](data-stream.md#DataStream)
-    * [:createTransformModule(transform, options, ...initialArgs)](#module_scramjet.createTransformModule)
-    * [:createReadModule(anything, options, ...initialArgs)](#module_scramjet.createReadModule)
-    * [:plugin(mixin)](#module_scramjet.plugin)  [<code>scramjet</code>](index.md#module_scramjet)
-    * [:API(version)](#module_scramjet.API)  [<code>scramjet</code>](index.md#module_scramjet)
-    * [:ScramjetPlugin](#module_scramjet.ScramjetPlugin)  <code>Object</code>
-    * [~CreateModuleOptions](#module_scramjet..CreateModuleOptions)
-    * [~StreamMixin](#module_scramjet..StreamMixin)  <code>Object</code>
-
-<a name="module_scramjet..ScramjetTransformCallback"></a>
-
-### scramjet~ScramjetTransformCallback : * | undefined
-Transform async callback. The passed transform should return a new chunk, unless
-the output should be filtered - if so, the transform should return `undefined`.
-
-Additionally the function can reject with `DataStream.filter` - the result will be
-filtered and no other transforms will be run on the chunk.
-
-**Kind**: inner typedef of [<code>scramjet</code>](#module_scramjet)  
-**Returns**: <code>\*</code> \| <code>undefined</code> - the result, undefined will be treated as filtered out.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| chunk | <code>Buffer</code> \| <code>String</code> \| <code>\*</code> | the stream chunk |
-| encoding | <code>String</code> | encoding of the chunk |
-
-<a name="module_scramjet..ScramjetWriteCallback"></a>
-
-### scramjet~ScramjetWriteCallback : function
-Write async callback. Await your async write and resolve.
-
-**Kind**: inner typedef of [<code>scramjet</code>](#module_scramjet)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| chunk | <code>Buffer</code> \| <code>String</code> \| <code>\*</code> | the stream chunk |
-| encoding | <code>String</code> | encoding of the chunk |
-
-<a name="module_scramjet..ScramjetReadCallback"></a>
-
-### scramjet~ScramjetReadCallback : Array.<*>
-Read async callback. Simply await your async operations and return the result as array.
-
-**Kind**: inner typedef of [<code>scramjet</code>](#module_scramjet)  
-**Returns**: <code>Array.&lt;\*&gt;</code> - the read chunk.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| count | <code>Number</code> | the number of chunks that should be read ("this is more like a set of guideline than actual rules"). |
-
-<a name="module_scramjet..DataStreamOptions"></a>
-
-### scramjet~DataStreamOptions : Object
-Standard options for scramjet streams.
-
-Defines async transforms or read/write methods for a stream.
-
-**Kind**: inner typedef of [<code>scramjet</code>](#module_scramjet)  
-**Properties**
-
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| [promiseRead] | [<code>ScramjetReadCallback</code>](index.md#module_scramjet..ScramjetReadCallback) | <code></code> | an async function returning the next read item |
-| [promiseWrite] | [<code>ScramjetWriteCallback</code>](index.md#module_scramjet..ScramjetWriteCallback) | <code></code> | an async function writing the next written item |
-| [promiseTransform] | [<code>ScramjetTransformCallback</code>](index.md#module_scramjet..ScramjetTransformCallback) | <code></code> | an async function returning a transformed chunk |
-| [promiseFlush] | [<code>ScramjetReadCallback</code>](index.md#module_scramjet..ScramjetReadCallback) | <code></code> | an async function run before transform stream ends to push last chunks from the buffer |
-| [beforeTransform] | [<code>ScramjetTransformCallback</code>](index.md#module_scramjet..ScramjetTransformCallback) | <code></code> | an async function run before the transform |
-| [afterTransform] | [<code>ScramjetTransformCallback</code>](index.md#module_scramjet..ScramjetTransformCallback) | <code></code> | an async function run after the transform |
-| maxParallel | <code>Number</code> |  | the number of transforms done in parallel |
-| referrer | [<code>DataStream</code>](data-stream.md#DataStream) |  | a referring stream to point to (if possible the transforms will be pushed to it |
-| [objectMode] | <code>boolean</code> | <code>true</code> | should the object mode be used                                 instead of creating a new stream) |
+    * [:errors](#module_scramjet.errors)  [<code>ScramjetErrors</code>](definitions.md#module_scramjet..ScramjetErrors)
+    * [:StreamWorker](#module_scramjet.StreamWorker)  [<code>StreamWorker</code>](stream-worker.md#module_scramjet.StreamWorker)
+    * [:from(input, [options])](#module_scramjet.from)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
+    * [:fromArray(args)](#module_scramjet.fromArray)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
+    * [:createTransformModule(transform, options, ...initialArgs)](#module_scramjet.createTransformModule)  <code>function</code>
+    * [:createReadModule(anything, options, ...initialArgs)](#module_scramjet.createReadModule)  <code>function</code>
+    * [:plugin(mixin)](#module_scramjet.plugin)  [<code>ScramjetPlugin</code>](definitions.md#module_scramjet..ScramjetPlugin)
+    * [:API(version)](#module_scramjet.API)  [<code>ScramjetPlugin</code>](definitions.md#module_scramjet..ScramjetPlugin)
 
 <a name="module_scramjet.errors"></a>
 
@@ -130,22 +58,6 @@ A Stream Worker class
 
 **Kind**: static property of [<code>scramjet</code>](#module_scramjet)  
 **Inject**: StreamWorker  
-<a name="module_scramjet.NumberStream"></a>
-
-### scramjet:NumberStream : NumberStream
-A Number stream class
-
-**Kind**: static property of [<code>scramjet</code>](#module_scramjet)  
-**Inject**: NumberStream  
-**See**: [number-stream.md](number-stream.md)  
-<a name="module_scramjet.WindowStream"></a>
-
-### scramjet:WindowStream
-Window stream class
-
-**Kind**: static property of [<code>scramjet</code>](#module_scramjet)  
-**Inject**: WindowStream  
-**See**: [number-stream.md](number-stream.md)  
 <a name="module_scramjet.from"></a>
 
 ### scramjet:from(input, [options]) : DataStream
@@ -156,7 +68,7 @@ Creates a DataStream that's piped from the passed readable.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | input | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>String</code> \| <code>Readable</code> |  | argument to be turned into new stream |
-| [options] | [<code>DataStreamOptions</code>](index.md#module_scramjet..DataStreamOptions) \| <code>Writable</code> | <code>{}</code> | options for creation of a new stream or the target stream |
+| [options] | [<code>DataStreamOptions</code>](definitions.md#module_scramjet..DataStreamOptions) \| <code>Writable</code> | <code>{}</code> | options for creation of a new stream or the target stream |
 | [...args] | <code>\*</code> |  | additional arguments for the stream - will be passed to the function or generator |
 
 <a name="module_scramjet.fromArray"></a>
@@ -172,45 +84,47 @@ Creates a DataStream from an Array
 
 <a name="module_scramjet.createTransformModule"></a>
 
-### scramjet:createTransformModule(transform, options, ...initialArgs)
+### scramjet:createTransformModule(transform, options, ...initialArgs) : function
 Creates a safe wrapper for scramjet transform module. See [Modules documentation](modules.md) for more info.
 
 **Kind**: static method of [<code>scramjet</code>](#module_scramjet)  
+**Returns**: <code>function</code> - a scramjet module function  
 
 | Param | Type |
 | --- | --- |
-| transform | <code>UseCallback</code> | 
-| options | [<code>CreateModuleOptions</code>](index.md#module_scramjet..CreateModuleOptions) | 
+| transform | [<code>UseCallback</code>](definitions.md#module_scramjet..UseCallback) | 
+| options | [<code>CreateModuleOptions</code>](definitions.md#module_scramjet..CreateModuleOptions) | 
 | ...initialArgs | <code>any</code> | 
 
 <a name="module_scramjet.createReadModule"></a>
 
-### scramjet:createReadModule(anything, options, ...initialArgs)
+### scramjet:createReadModule(anything, options, ...initialArgs) : function
 Creates a safe wrapper for scramjet read module. See [Modules documentation](modules.md) for more info.
 
 **Kind**: static method of [<code>scramjet</code>](#module_scramjet)  
+**Returns**: <code>function</code> - a scramjet module function  
 
 | Param | Type |
 | --- | --- |
 | anything | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>String</code> \| <code>Readable</code> | 
-| options | [<code>CreateModuleOptions</code>](index.md#module_scramjet..CreateModuleOptions) | 
+| options | [<code>CreateModuleOptions</code>](definitions.md#module_scramjet..CreateModuleOptions) | 
 | ...initialArgs | <code>any</code> | 
 
 <a name="module_scramjet.plugin"></a>
 
-### scramjet:plugin(mixin) : scramjet
-ignore
+### scramjet:plugin(mixin) : ScramjetPlugin
+Plugs in methods for any of the classes
 
 **Kind**: static method of [<code>scramjet</code>](#module_scramjet)  
 **Test**: test/methods/scramjet-plugin.js  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| mixin | [<code>ScramjetPlugin</code>](index.md#module_scramjet.ScramjetPlugin) | the plugin object |
+| mixin | [<code>ScramjetPlugin</code>](definitions.md#module_scramjet..ScramjetPlugin) | the plugin object |
 
 <a name="module_scramjet.API"></a>
 
-### scramjet:API(version) : scramjet
+### scramjet:API(version) : ScramjetPlugin
 Gets an API version (this may be important for future use)
 
 **Kind**: static method of [<code>scramjet</code>](#module_scramjet)  
@@ -218,44 +132,4 @@ Gets an API version (this may be important for future use)
 | Param | Type | Description |
 | --- | --- | --- |
 | version | <code>Number</code> | The required version (currently only: 1) |
-
-<a name="module_scramjet.ScramjetPlugin"></a>
-
-### scramjet:ScramjetPlugin : Object
-Definition of a plugin in Scramjet
-
-**Kind**: static typedef of [<code>scramjet</code>](#module_scramjet)  
-**Internal**:   
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| BufferStream | [<code>StreamMixin</code>](index.md#module_scramjet..StreamMixin) | definition of constructor and properties for the BufferStream prototype. |
-| DataStream | [<code>StreamMixin</code>](index.md#module_scramjet..StreamMixin) | definition of constructor and properties for the DataStream prototype. |
-| MultiStream | [<code>StreamMixin</code>](index.md#module_scramjet..StreamMixin) | definition of constructor and properties for the MultiStream prototype. |
-| StringStream | [<code>StreamMixin</code>](index.md#module_scramjet..StreamMixin) | definition of constructor and properties for the StringStream prototype. |
-
-<a name="module_scramjet..CreateModuleOptions"></a>
-
-### scramjet~CreateModuleOptions
-Options for createModule
-
-**Kind**: inner typedef of [<code>scramjet</code>](#module_scramjet)  
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| StreamClass | [<code>DataStream</code>](data-stream.md#DataStream) | defines what class should the module assume |
-
-<a name="module_scramjet..StreamMixin"></a>
-
-### scramjet~StreamMixin : Object
-Definition of a single mixin for a specific Scramjet class. Should contain any number of stream methods.
-
-**Kind**: inner typedef of [<code>scramjet</code>](#module_scramjet)  
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| constructor | <code>function</code> | optional constructor that will be called in the stream constructor (this has to be an own property!) |
 

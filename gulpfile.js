@@ -54,7 +54,13 @@ gulp.task("copy_docs", function() {
         .pipe(gulp.dest("docs/"));
 });
 
-gulp.task("make_docs", full_docs(["lib/*.js"], corepath, {plugin: ["scramjet-core/jsdoc2md/plugin-docs.js"]}, "docs/"));
+gulp.task("make_docs", full_docs(
+    ["lib/*.js"],
+    corepath,
+    {plugin: ["scramjet-core/jsdoc2md/plugin-docs.js"]},
+    {plugin: ["scramjet-core/jsdoc2md/plugin-docs.js"]},
+    "docs/"
+));
 
 gulp.task("docs", gulp.series("tsd", "readme", "copy_docs", "make_docs"));
 gulp.task("test", gulp.series("test_legacy", "test_samples"));
