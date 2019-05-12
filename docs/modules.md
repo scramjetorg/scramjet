@@ -1,5 +1,5 @@
-Scramjet Modules
-==================
+Using Scramjet Modules
+========================
 
 A Scramjet module is a simple module that exposes a single function that performs some operations with the stream. The API is designed so that these modules can be easily used on any stream you like without needing to use scramjet.
 
