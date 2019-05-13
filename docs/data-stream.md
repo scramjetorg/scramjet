@@ -2,7 +2,7 @@
 
 <a name="module_scramjet.DataStream"></a>
 
-## :DataStream : module:stream.PassThrough
+## ~DataStream : module:stream.PassThrough
 DataStream is the primary stream type for Scramjet. When you parse your
 stream, just pipe it you can then perform calculations on the data objects
 streamed through your flow.
@@ -18,10 +18,11 @@ await (DataStream.from(aStream) // create a DataStream
     .run());                    // wait until end
 ```
 
-**Kind**: static class  
+**Kind**: inner class  
 **Extends**: <code>module:stream.PassThrough</code>  
+**Test**: test/methods/data-stream-constructor.js  
 
-* [:DataStream](#module_scramjet.DataStream)  <code>module:stream.PassThrough</code>
+* [~DataStream](#module_scramjet.DataStream)  <code>module:stream.PassThrough</code>
     * [new DataStream(opts)](#new_module_scramjet.DataStream_new)
     * [dataStream.map(func, [ClassType])](#module_scramjet.DataStream+map) ↺
     * [dataStream.filter(func)](#module_scramjet.DataStream+filter) ↺
@@ -84,6 +85,8 @@ await (DataStream.from(aStream) // create a DataStream
     * [dataStream.CSVStringify(options)](#module_scramjet.DataStream+CSVStringify) ↺ [<code>StringStream</code>](string-stream.md#module_scramjet.StringStream)
     * [dataStream.exec(command, options, args)](#module_scramjet.DataStream+exec)
     * [dataStream.debug(func)](#module_scramjet.DataStream+debug) ↺ [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
+    * [dataStream.toBufferStream(serializer)](#module_scramjet.DataStream+toBufferStream) ↺ [<code>BufferStream</code>](buffer-stream.md#module_scramjet.BufferStream)
+    * [dataStream.toStringStream([serializer])](#module_scramjet.DataStream+toStringStream) ↺ [<code>StringStream</code>](string-stream.md#module_scramjet.StringStream)
     * [dataStream.toBufferStream(serializer)](#module_scramjet.DataStream+toBufferStream) ↺ [<code>BufferStream</code>](buffer-stream.md#module_scramjet.BufferStream)
     * [dataStream.toStringStream([serializer])](#module_scramjet.DataStream+toStringStream) ↺ [<code>StringStream</code>](string-stream.md#module_scramjet.StringStream)
     * [DataStream:from(input, [options])](#module_scramjet.DataStream.from)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
@@ -1045,6 +1048,40 @@ Injects a ```debugger``` statement when called.
 | Param | Type | Description |
 | --- | --- | --- |
 | func | <code>function</code> | if passed, the function will be called on self to add an option to inspect the stream in place, while not breaking the transform chain |
+
+<a name="module_scramjet.DataStream+toBufferStream"></a>
+
+### dataStream.toBufferStream(serializer) : BufferStream ↺
+Creates a BufferStream.
+
+The passed serializer must return a buffer.
+
+**Kind**: instance method of [<code>DataStream</code>](#module_scramjet.DataStream)  
+**Chainable**  
+**Returns**: [<code>BufferStream</code>](buffer-stream.md#module_scramjet.BufferStream) - the resulting stream  
+**Meta.noreadme**:   
+**Test**: test/methods/data-stream-tobufferstream.js  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| serializer | [<code>MapCallback</code>](definitions.md#module_scramjet..MapCallback) | A method that converts chunks to buffers |
+
+<a name="module_scramjet.DataStream+toStringStream"></a>
+
+### dataStream.toStringStream([serializer]) : StringStream ↺
+Creates a StringStream.
+
+The passed serializer must return a string. If no serializer is passed chunks
+toString method will be used.
+
+**Kind**: instance method of [<code>DataStream</code>](#module_scramjet.DataStream)  
+**Chainable**  
+**Returns**: [<code>StringStream</code>](string-stream.md#module_scramjet.StringStream) - the resulting stream  
+**Test**: test/methods/data-stream-tostringstream.js  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [serializer] | [<code>MapCallback</code>](definitions.md#module_scramjet..MapCallback) | A method that converts chunks to strings |
 
 <a name="module_scramjet.DataStream+toBufferStream"></a>
 

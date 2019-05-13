@@ -2,7 +2,7 @@
 
 <a name="module_scramjet.StringStream"></a>
 
-## :StringStream : DataStream
+## ~StringStream : DataStream
 A stream of string objects for further transformation on top of DataStream.
 
 Example:
@@ -11,11 +11,11 @@ Example:
 StringStream.fromString()
 ```
 
-**Kind**: static class  
+**Kind**: inner class  
 **Extends**: [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)  
-**Scope**: public  
+**Test**: test/methods/string-stream-constructor.js  
 
-* [:StringStream](#module_scramjet.StringStream)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
+* [~StringStream](#module_scramjet.StringStream)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
     * [new StringStream(encoding)](#new_module_scramjet.StringStream_new)
     * [stringStream.shift(bytes, func)](#module_scramjet.StringStream+shift) ↺
     * [stringStream.split(splitter)](#module_scramjet.StringStream+split) ↺
@@ -39,6 +39,7 @@ StringStream.fromString()
 ### new StringStream(encoding)
 Constructs the stream with the given encoding
 
+**Returns**: [<code>StringStream</code>](string-stream.md#module_scramjet.StringStream) - the created data stream  
 
 | Param | Type | Description |
 | --- | --- | --- |

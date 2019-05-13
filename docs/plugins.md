@@ -1,7 +1,7 @@
 Scramjet Plugins
 ==================
 
-A Scramjet plugin is essentially a set of functions that extend scramjet functionallity by adding new methods to the
+A Scramjet plugin is essentially a set of functions that extend scramjet functionality by adding new methods to the
 prototype.
 
 A plugin is added to scramjet by calling the `scramjet.plugin` method.
