@@ -2,6 +2,18 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
+## Scramjet 4.25.0: More generators and TypeScript definitions
+
+* fa75fc6 - Dependencies update.
+* 3664723 - Consume test
+* 05b481a - Lots of fixes
+* 7431862 - Update definition and docs generation for better TypeScript completion
+* 41a1cf6 - Fix ts.d return types and extends declaration
+* bf23ca6 - Add tests for no serializer in `stringify`
+* a75bfa1 - Documentation update - remove unnecessary samples
+* 290d7e2 - Fix for node.js v8.x
+* 930cbf7 - Add generators support in flatMap, flatten and join
+
 ## Scramjet 4.24.0: More generators and async generators
 
 * `DataStream..strinfigy` now works without arguments.
