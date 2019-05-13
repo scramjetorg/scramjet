@@ -13,7 +13,7 @@
 [![DeepScan grade](https://deepscan.io/api/projects/2632/branches/17801/badge/grade.svg)](https://deepscan.io/dashboard#view=project&pid=2632&bid=17801)
 
 ## What does it do?
-{{/unless~}}
+{{~/unless}}
 
 Scramjet is a fast, simple, functional reactive stream programming framework written on top of node.js object
 streams. The code is written by chaining functions that transform the streamed data, including well known map, filter and
@@ -54,6 +54,12 @@ stream modules. Any number of consecutive arguments will get piped one into anot
 
 ```javascript
 {{{inject 'samples/intro/pipeline.js'}}}
+```
+
+Some methods like `from`, `use`, `flatMap` allow using ES6 generators and ES7 async generators:
+
+```javascript
+{{{inject 'samples/intro/generators.js'}}}
 ```
 
 Most transformations are done by passing a transform function. You can write your function in three ways:
@@ -139,6 +145,8 @@ myStream.use("./path/to/my-module", "arg1");
 ```
 
 If these modules are published you can also simply use `myStream.use("published-module")`.
+
+For more universal modules you can use helper methods `createTransformModule` and `createReadModule` that scramjet exports. See more in about this in this blog post [Scramjet Modules](https://www.scramjet.org/posts/modules).
 
 ## Typescript support
 

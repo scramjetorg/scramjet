@@ -43,7 +43,7 @@ gulp.task("tsd", tsd(FILES.slice(), {
             "allowUnknownTags": true,
             "dictionaries": ["jsdoc","closure"]
         },
-        template: "@otris/jsdoc-tsd/src-out/src/core",
+        template: "./jsdoc2md/tsd-template",
         destination: ".d.ts/scramjet.d.ts"
     }
 }));
@@ -54,7 +54,13 @@ gulp.task("copy_docs", function() {
         .pipe(gulp.dest("docs/"));
 });
 
-gulp.task("make_docs", full_docs(["lib/*.js"], corepath, {plugin: ["scramjet-core/jsdoc2md/plugin-docs.js"]}, "docs/"));
+gulp.task("make_docs", full_docs(
+    ["lib/*.js"],
+    corepath,
+    {plugin: ["scramjet-core/jsdoc2md/plugin-docs.js"]},
+    {plugin: ["scramjet-core/jsdoc2md/plugin-docs.js"]},
+    "docs/"
+));
 
 gulp.task("docs", gulp.series("tsd", "readme", "copy_docs", "make_docs"));
 gulp.task("test", gulp.series("test_legacy", "test_samples"));
