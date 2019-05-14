@@ -6,7 +6,7 @@ exports.log = process.env.TEST_VERBOSE === 1 ? console.log.bind(console) : () =>
 
 const getStream = (iter) => DataStream.fromIterator(iter);
 
-const syncIter = (dat) => (function* () { yield* dat; })(dat);
+const syncIter = (dat) => (function* () { yield* dat; })();
 const asyncIter = (dat) => (function* () {
     for (let item of dat)
         yield new Promise(res => res(item));

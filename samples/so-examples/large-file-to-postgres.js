@@ -24,7 +24,7 @@
             return entry;
         })
         .setOptions({maxParallel: 32})
-        .each(entry => {
+        .each(async entry => {
             try {
                 await pool.query(INSERT_ENTRY, entry)
             } catch(err) {
