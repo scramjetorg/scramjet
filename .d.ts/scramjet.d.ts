@@ -582,7 +582,7 @@ declare module 'scramjet' {
          * @deprecated use {@link DataStream#each} instead
          * @param func the consument
          */
-        consume(func: ConsumeCallback): Promise<any>;
+        consume(func: ConsumeCallback | AsyncGeneratorFunction | GeneratorFunction): Promise<any>;
 
         /**
          * Reduces the stream into the given object, returning it immediately.

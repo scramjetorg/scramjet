@@ -9,7 +9,6 @@
       "es2016",
       "es2017",
       "es2018",
-      "es2018.asynciterable",
       "esnext.asynciterable",
       "es2015.collection"
     ]

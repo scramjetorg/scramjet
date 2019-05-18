@@ -16,5 +16,28 @@ exports.test = {
         );
 
         test.done();
+    },
+    async generator(test) {
+        test.expect(2);
+
+        let agen;
+        try {
+            agen = require("./lib/async-consumer");
+        } catch(e) {
+            test.ok("Async iterators not supported");
+            return test.done();
+        }
+
+        const stream = DataStream
+            .fromArray([77, 23, 34])
+        ;
+
+        const data = {};
+        await stream.consume(agen, data);
+
+        test.equals(data.a, 77, "Should consume items");
+        test.equals(data.b, 23, "Should consume items");
+
+        test.done();
     }
 };
