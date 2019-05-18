@@ -683,7 +683,7 @@ Consumes the stream by running each Function
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | [<code>ConsumeCallback</code>](definitions.md#module_scramjet..ConsumeCallback) | the consument |
+| func | [<code>ConsumeCallback</code>](definitions.md#module_scramjet..ConsumeCallback) \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> | the consument |
 
 <a name="module_scramjet.DataStream+reduceNow"></a>
 
