@@ -77,7 +77,7 @@
     "vinyl": "^2.2.0"
   },
   "dependencies": {
-    "papaparse": "^4.6.3",
+    "papaparse": "^5.0.0",
     "rereadable-stream": "^1.2.0",
     "scramjet-core": "^4.22.1"
   }
