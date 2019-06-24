@@ -1,5 +1,3 @@
-/* eslint-disable no-process-exit, no-console */
-
 module.exports = {
     unhandledRejectionHandler: (reason, p) => {
         console.log("Unacceptable unhandled rejection at:", p);

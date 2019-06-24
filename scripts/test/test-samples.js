@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-/* eslint-disable node/shebang, no-process-exit, no-console */
-
 const scramjet = require("../../");
 const fs = require("fs");
 const path = require("path");

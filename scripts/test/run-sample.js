@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-/* eslint-disable node/shebang, no-process-exit, no-console */
-
 const path = require("path");
 const fs = require("fs");
 const { unhandledRejectionHandler } = require("./handlers");

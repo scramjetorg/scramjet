@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // module: data-stream, method: filter
 
-const {DataStream, StringStream} = require("../../");   // eslint-disable-line
+const {DataStream, StringStream} = require("../../");
 exports.log = process.env.TEST_VERBOSE === 1 ? console.log.bind(console) : () => 0;
 
 exports.test = async (test) => {

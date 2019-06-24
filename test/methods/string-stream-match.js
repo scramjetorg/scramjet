@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // module: string-stream, method: match
 
-const StringStream = require("../../").StringStream;   // eslint-disable-line
+const StringStream = require("../../").StringStream;
 
 const text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et\n" +
     "dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea\n" +

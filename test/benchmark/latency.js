@@ -1,7 +1,5 @@
 const {DataStream} = require("../../");
 
-/* eslint-disable node/no-unsupported-features/node-builtins */
-
 const hrtime = (last) => {
     const cur = process.hrtime();
     return (cur[0] - last[0]) * 1e6 + (cur[1] - last[1]) / 1e3;

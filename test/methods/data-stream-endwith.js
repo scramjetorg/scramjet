@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 // module: data-stream, method: slice
 
-const DataStream = require("../../").DataStream;   // eslint-disable-line
-
+const DataStream = require("../../").DataStream;
 
 exports.test = function(test) {
     test.expect(1);
