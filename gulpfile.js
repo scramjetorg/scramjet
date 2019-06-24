@@ -22,9 +22,10 @@ const FILES = [
     "lib/multi-stream.js"
 ];
 
+process.env.SCRAMJET_TEST_HOME = __dirname;
+
 gulp.task("lint", lint());
 
-process.env.SCRAMJET_TEST_HOME = __dirname;
 gulp.task("test_legacy", test_legacy([path.resolve(corepath, "../test/v1/*.js"), "test/v1/*.js"]));
 
 gulp.task("scm_clean", scm_clean());

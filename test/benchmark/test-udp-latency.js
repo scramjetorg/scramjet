@@ -1,5 +1,4 @@
 const dgram = require("dgram");
-const {BufferStream} = require("../../")
 
 const hrtime = (last) => {
     const cur = process.hrtime();
@@ -8,23 +7,24 @@ const hrtime = (last) => {
 
 
 let send = null;
-const sock = dgram.createSocket('udp4');
+const sock = dgram.createSocket("udp4");
 
-const srv = dgram.createSocket('udp4')
-    .on('message', (msg, rinfo) => {
+const srv = dgram.createSocket("udp4")
+    .on("message", () => {
         console.log(hrtime(send));
         sock.unref().disconnect();
         srv.close();
     })
     .unref()
     .bind(6789, "localhost")
-    .on('listening', () => {
+    .on("listening", () => {
         console.log("send");
         sock.connect(6789, "localhost", () => {
             new Promise(res => setTimeout(() => {
                 sock.send("A");
                 send = process.hrtime();
-            }, 500))
+                res();
+            }, 500));
         });
     })
     ;

@@ -1,5 +1,4 @@
 const net = require("net");
-const {BufferStream} = require("../../")
 
 const hrtime = (last) => {
     const cur = process.hrtime();
@@ -18,16 +17,16 @@ net.createServer(async conn => {
 })
     .listen("/home/michal/test.sock")
     .unref()
-    .on('listening', () => {
+    .on("listening", () => {
         console.log("connecting");
         const conn = net.connect("/home/michal/test.sock", async () => {
             console.log("conneced conn");
             conn.setNoDelay(true);
             conn.once("data", () => conn.end());
-            await new Promise(res => setTimeout(res, 500))
+            await new Promise(res => setTimeout(res, 500));
             conn.write("A");
             send = process.hrtime();
         });
     })
-    ;
+;
 
