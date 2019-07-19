@@ -65,10 +65,10 @@
     "gulp-jsdoc3": "^2.0.0",
     "gulp-rename": "^1.4.0",
     "gulp-shell": "^0.7.1",
-    "jsdoc": "^3.6.2",
-    "jsdoc-api": "^5.0.1",
+    "jsdoc": "^3.6.3",
+    "jsdoc-api": "^5.0.2",
     "jsdoc-parse": "^3.0.1",
-    "nodeunit-tape-compat": "^1.3.23",
+    "nodeunit-tape-compat": "^1.3.24",
     "replace-in-file": "^4.1.1",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
@@ -78,7 +78,7 @@
   },
   "dependencies": {
     "papaparse": "^5.0.0",
-    "rereadable-stream": "^1.3.3",
-    "scramjet-core": "^4.22.4"
+    "rereadable-stream": "^1.3.4",
+    "scramjet-core": "^4.22.5"
   }
 }
