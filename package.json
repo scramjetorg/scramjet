@@ -1,6 +1,6 @@
 {
   "name": "scramjet",
-  "version": "4.25.6",
+  "version": "4.25.7",
   "description": "Lightweight and real-time data functional stream programming framework like event-stream, written in ES6 using async await with multi-threading and typescript support",
   "main": "lib/index.js",
   "directories": {
