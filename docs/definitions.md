@@ -229,7 +229,7 @@ Shift Function
 
 <a name="module_scramjet..RateOptions"></a>
 
-## ~RateOptions
+## ~RateOptions : Object
 **Kind**: inner typedef  
 
 | Param | Type | Default | Description |
@@ -240,7 +240,7 @@ Shift Function
 
 <a name="module_scramjet..ExecDataOptions"></a>
 
-## ~ExecDataOptions : StringStream.ExecOptions
+## ~ExecDataOptions : Object
 **Kind**: inner typedef  
 **Extends**: <code>StringStream.ExecOptions</code>  
 **Properties**
@@ -252,7 +252,7 @@ Shift Function
 
 <a name="module_scramjet..CreateModuleOptions"></a>
 
-## ~CreateModuleOptions
+## ~CreateModuleOptions : Object
 Options for createModule
 
 **Kind**: inner typedef  
@@ -264,7 +264,9 @@ Options for createModule
 
 <a name="module_scramjet..ScramjetErrors"></a>
 
-## ~ScramjetErrors
+## ~ScramjetErrors : Object
+Scramjet Error classes
+
 **Kind**: inner typedef  
 **Properties**
 
@@ -311,7 +313,7 @@ Definition of a plugin in Scramjet
 
 <a name="module_scramjet..DistributeOptions"></a>
 
-## ~DistributeOptions
+## ~DistributeOptions : Object
 Distribute options
 
 **Kind**: inner typedef  
@@ -336,7 +338,7 @@ Distribute options
 
 <a name="module_scramjet..NumberStreamOptions"></a>
 
-## ~NumberStreamOptions : DataStreamOptions
+## ~NumberStreamOptions : Object
 NumberStream options
 
 **Kind**: inner typedef  
@@ -368,7 +370,7 @@ NumberStream options
 
 <a name="module_scramjet..ExecOptions"></a>
 
-## ~ExecOptions : child_process.SpawnOptions
+## ~ExecOptions : Object
 **Kind**: inner typedef  
 **Extends**: <code>child\_process.SpawnOptions</code>  
 **Properties**
