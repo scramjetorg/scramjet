@@ -70,6 +70,9 @@ declare module 'scramjet' {
         StreamClass: DataStream;
     }
 
+    /**
+     * Scramjet Error classes
+     */
     interface ScramjetErrors {
         /**
          * stream error class
