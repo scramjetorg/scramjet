@@ -131,7 +131,7 @@ can be suppressed by chaining `.tap()` after `.map()`.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | func | [<code>MapCallback</code>](definitions.md#module_scramjet..MapCallback) |  | The function that creates the new object |
-| [ClassType] | <code>class</code> | <code>this.constructor</code> | The class to be mapped to. |
+| [ClassType] | <code>function</code> | <code>this.constructor</code> | The class to be mapped to. |
 
 <a name="module_scramjet.DataStream+filter"></a>
 
@@ -295,6 +295,13 @@ from the command line.
 
 ### dataStream.run() ⇄
 Consumes all stream items doing nothing. Resolves when the stream is ended.
+
+This is very convienient if you're looking to use up the stream in operations that work on each entry like `map`. This uncorks the stream
+and allows all preceding operations to be run at any speed.
+
+All the data of the current stream will be discarded.
+
+The function returns a promise that is resolved when the stream ends.
 
 **Kind**: instance method of [<code>DataStream</code>](#module_scramjet.DataStream)  
 <a name="module_scramjet.DataStream+tap"></a>
@@ -726,7 +733,7 @@ This means that every item may emit as many other items as we like.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | func | [<code>RemapCallback</code>](definitions.md#module_scramjet..RemapCallback) |  | A Function that is called on every chunk |
-| [ClassType] | <code>class</code> | <code>this.constructor</code> | Optional DataStream subclass to be constructed |
+| [ClassType] | <code>function</code> | <code>this.constructor</code> | Optional DataStream subclass to be constructed |
 
 <a name="module_scramjet.DataStream+flatMap"></a>
 
@@ -743,7 +750,7 @@ consist of all the items of the returned iterables, one iterable after another.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | func | [<code>FlatMapCallback</code>](definitions.md#module_scramjet..FlatMapCallback) |  | A Function that is called on every chunk |
-| [ClassType] | <code>class</code> | <code>this.constructor</code> | Optional DataStream subclass to be constructed |
+| [ClassType] | <code>function</code> | <code>this.constructor</code> | Optional DataStream subclass to be constructed |
 
 <a name="module_scramjet.DataStream+flatten"></a>
 
@@ -862,7 +869,7 @@ stream. Thanks to that streams can be distributed to multiple threads.
 | --- | --- | --- | --- |
 | affinity | [<code>AffinityCallback</code>](definitions.md#module_scramjet..AffinityCallback) |  | the affinity function |
 | [createOptions] | [<code>DataStreamOptions</code>](definitions.md#module_scramjet..DataStreamOptions) |  | options to use to create the separated streams |
-| [ClassType] | <code>class</code> | <code>this.constructor</code> | options to use to create the separated streams |
+| [ClassType] | <code>function</code> | <code>this.constructor</code> | options to use to create the separated streams |
 
 <a name="module_scramjet.DataStream+delegate"></a>
 

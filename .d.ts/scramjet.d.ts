@@ -209,7 +209,7 @@ declare module 'scramjet' {
          * @param func The function that creates the new object
          * @param ClassType The class to be mapped to.
          */
-        map(func: MapCallback, ClassType?: class): this;
+        map(func: MapCallback, ClassType?: Function): this;
 
         /**
          * Filters object based on the function outcome, just like Array.prototype.filter.
@@ -319,6 +319,13 @@ declare module 'scramjet' {
 
         /**
          * Consumes all stream items doing nothing. Resolves when the stream is ended.
+         * 
+         * This is very convienient if you're looking to use up the stream in operations that work on each entry like `map`. This uncorks the stream
+         * and allows all preceding operations to be run at any speed.
+         * 
+         * All the data of the current stream will be discarded.
+         * 
+         * The function returns a promise that is resolved when the stream ends.
          */
         run(): Promise<any>;
 
@@ -613,7 +620,7 @@ declare module 'scramjet' {
          * @param func A Function that is called on every chunk
          * @param ClassType Optional DataStream subclass to be constructed
          */
-        remap(func: RemapCallback, ClassType?: class): this;
+        remap(func: RemapCallback, ClassType?: Function): this;
 
         /**
          * Takes any method that returns any iterable and flattens the result.
@@ -623,7 +630,7 @@ declare module 'scramjet' {
          * @param func A Function that is called on every chunk
          * @param ClassType Optional DataStream subclass to be constructed
          */
-        flatMap(func: FlatMapCallback, ClassType?: class): this;
+        flatMap(func: FlatMapCallback, ClassType?: Function): this;
 
         /**
          * A shorthand for streams of arrays or iterables to flatten them.
@@ -686,7 +693,7 @@ declare module 'scramjet' {
          * @param createOptions options to use to create the separated streams
          * @param ClassType options to use to create the separated streams
          */
-        separate(affinity: AffinityCallback, createOptions?: DataStreamOptions, ClassType?: class): MultiStream;
+        separate(affinity: AffinityCallback, createOptions?: DataStreamOptions, ClassType?: Function): MultiStream;
 
         /**
          * Delegates work to a specified worker.
@@ -948,8 +955,9 @@ declare module 'scramjet' {
         /**
          * Constructs the stream with the given encoding
          * @param encoding the encoding to use
+         * @param options the encoding to use
          */
-        constructor(encoding: String);
+        constructor(encoding?: String, options?: Object);
 
         /**
          * Shifts given length of chars from the original stream
@@ -1025,7 +1033,7 @@ declare module 'scramjet' {
          * @param source argument to be turned into new stream
          * @param options
          */
-        static from(source: String | any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | Readable, options: DataStreamOptions | Writable): StringStream;
+        static from(source: String | any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | Readable, options?: DataStreamOptions | Writable): StringStream;
 
         /**
          * Splits the string stream by the specified regexp or string
@@ -1223,6 +1231,14 @@ declare module 'scramjet' {
         source: DataStream;
 
         /**
+         * Constructs MultiStream from any number of streams-likes
+         * @param streams the array of input streamlike elements
+         * @param StreamClass
+         * @returns
+         */
+        static from(streams: any[], StreamClass?: Function): MultiStream;
+
+        /**
          * Returns the current stream length
          */
         length: any;
@@ -1263,7 +1279,7 @@ declare module 'scramjet' {
          *        be added in a sorted order.
          * @param ClassType the class to be outputted
          */
-        mux(comparator?: ComparatorFunction, ClassType?: class): DataStream;
+        mux(comparator?: ComparatorFunction, ClassType?: Function): DataStream;
 
         /**
          * Adds a stream to the MultiStream
