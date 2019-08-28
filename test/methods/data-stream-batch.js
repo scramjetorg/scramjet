@@ -47,6 +47,30 @@ exports.test = {
 
         test.done();
     },
+    async shortbatch(test) {
+        const fs = require("fs");
+        const fileStream = fs.createReadStream(__dirname + "/data/test.2.csv");
+
+        const expected = [27];
+        const checks = [];
+
+        return fileStream.pipe(new StringStream("utf-8"))
+            .CSVParse({
+                skipEmptyLines: true,
+                header: true,
+            })
+            .batch(100)
+            .map((items) => {
+                checks.push(items.length);
+                return DataStream.filter;
+            })
+            .catch(e => test.ok(false, e.stack))
+            .run()
+            .then(() => {
+                test.deepEqual(checks, expected, "Should accumulate chunks in order and not omitting any");
+                test.done();
+            });
+    },
     async csvtest(test) {
         const fs = require("fs");
         const fileStream = fs.createReadStream(__dirname + "/data/test.2.csv");
@@ -54,7 +78,7 @@ exports.test = {
         const expected = [5, 5, 5, 5, 5, 2];
         const checks = [];
 
-        fileStream.pipe(new StringStream("utf-8"))
+        return fileStream.pipe(new StringStream("utf-8"))
             .CSVParse({
                 skipEmptyLines: true,
                 header: true,
@@ -64,13 +88,12 @@ exports.test = {
                 checks.push(items.length);
                 return DataStream.filter;
             })
-            .catch(e => console.error(e.stack))
+            .catch(e => test.ok(false, e.stack))
             .run()
             .then(() => {
                 test.deepEqual(checks, expected, "Should accumulate chunks in order and not omitting any");
                 test.done();
             });
-
     }
 };
 

@@ -60,6 +60,9 @@ StringStream.from(                                 // fetch your API to a scramj
 
 ```
 
+Here you can find a most basic guide on how to execute the above example starting from just having access to some command
+line: [Scramjet from Scratch](./docs/scramjet-from-scratch.md)
+
 ## Usage
 
 Scramjet uses functional programming to run transformations on your data streams in a fashion
@@ -370,7 +373,7 @@ StringStream.fromString()
 
 **Most popular methods:**
 
-* `new StringStream(encoding)` - Constructs the stream with the given encoding
+* `new StringStream([encoding], [options])` - Constructs the stream with the given encoding
 * [`stringStream.shift(bytes, func) ↺`](docs/string-stream.md#module_scramjet.StringStream+shift) - Shifts given length of chars from the original stream
 * [`stringStream.split(splitter) ↺`](docs/string-stream.md#module_scramjet.StringStream+split) - Splits the string stream by the specified RegExp or string
 * [`stringStream.match(matcher) ↺`](docs/string-stream.md#module_scramjet.StringStream+match) - Finds matches in the string stream and streams the match results
@@ -386,7 +389,7 @@ StringStream.fromString()
 * [`StringStream:SPLIT_LINE`](docs/string-stream.md#module_scramjet.StringStream.SPLIT_LINE) - A handy split by line regex to quickly get a line-by-line stream
 * [`StringStream:fromString(stream, encoding) : StringStream`](docs/string-stream.md#module_scramjet.StringStream.fromString) - Creates a StringStream and writes a specific string.
 * [`StringStream:pipeline(readable, transforms) : StringStream`](docs/string-stream.md#module_scramjet.StringStream.pipeline) - Creates a pipeline of streams and returns a scramjet stream.
-* [`StringStream:from(source, options) : StringStream`](docs/string-stream.md#module_scramjet.StringStream.from) - Create StringStream from anything.
+* [`StringStream:from(source, [options]) : StringStream`](docs/string-stream.md#module_scramjet.StringStream.from) - Create StringStream from anything.
 
 ### ~BufferStream
 A facilitation stream created for easy splitting or parsing buffers.
@@ -452,6 +455,7 @@ new MultiStream(function*(){ yield* streams; })
 * [`multiStream.route([policy], [count]) : MultiStream`](docs/multi-stream.md#module_scramjet.MultiStream+route) - Re-routes streams to a new MultiStream of specified size
 * [`multiStream.smap(transform) ↺`](docs/multi-stream.md#module_scramjet.MultiStream+smap) - Map stream synchronously
 * [`multiStream.cluster(clusterFunc, [options]) ↺`](docs/multi-stream.md#module_scramjet.MultiStream+cluster) - Distributes processing to multiple forked subprocesses.
+* [`MultiStream:from(streams, [StreamClass]) : MultiStream`](docs/multi-stream.md#module_scramjet.MultiStream.from) - Constructs MultiStream from any number of streams-likes
 
 
 

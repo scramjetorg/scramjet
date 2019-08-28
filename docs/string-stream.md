@@ -16,7 +16,7 @@ StringStream.fromString()
 **Test**: test/methods/string-stream-constructor.js  
 
 * [~StringStream](#module_scramjet.StringStream)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
-    * [new StringStream(encoding)](#new_module_scramjet.StringStream_new)
+    * [new StringStream([encoding], [options])](#new_module_scramjet.StringStream_new)
     * [stringStream.shift(bytes, func)](#module_scramjet.StringStream+shift) ↺
     * [stringStream.split(splitter)](#module_scramjet.StringStream+split) ↺
     * [stringStream.match(matcher)](#module_scramjet.StringStream+match) ↺
@@ -32,18 +32,19 @@ StringStream.fromString()
     * [StringStream:SPLIT_LINE](#module_scramjet.StringStream.SPLIT_LINE)
     * [StringStream:fromString(stream, encoding)](#module_scramjet.StringStream.fromString)  [<code>StringStream</code>](string-stream.md#module_scramjet.StringStream)
     * [StringStream:pipeline(readable, transforms)](#module_scramjet.StringStream.pipeline)  [<code>StringStream</code>](string-stream.md#module_scramjet.StringStream)
-    * [StringStream:from(source, options)](#module_scramjet.StringStream.from)  [<code>StringStream</code>](string-stream.md#module_scramjet.StringStream)
+    * [StringStream:from(source, [options])](#module_scramjet.StringStream.from)  [<code>StringStream</code>](string-stream.md#module_scramjet.StringStream)
 
 <a name="new_module_scramjet.StringStream_new"></a>
 
-### new StringStream(encoding)
+### new StringStream([encoding], [options])
 Constructs the stream with the given encoding
 
 **Returns**: [<code>StringStream</code>](string-stream.md#module_scramjet.StringStream) - the created data stream  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| encoding | <code>String</code> | the encoding to use |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [encoding] | <code>String</code> | <code>&quot;utf-8&quot;</code> | the encoding to use |
+| [options] | <code>Object</code> | <code>{}</code> | the encoding to use |
 
 <a name="module_scramjet.StringStream+shift"></a>
 
@@ -247,7 +248,7 @@ Creates a pipeline of streams and returns a scramjet stream.
 
 <a name="module_scramjet.StringStream.from"></a>
 
-### StringStream:from(source, options) : StringStream
+### StringStream:from(source, [options]) : StringStream
 Create StringStream from anything.
 
 **Kind**: static method of [<code>StringStream</code>](#module_scramjet.StringStream)  
@@ -258,8 +259,8 @@ Create StringStream from anything.
 - module:scramjet.from
 
 
-| Param | Type | Description |
-| --- | --- | --- |
-| source | <code>String</code> \| <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>Readable</code> | argument to be turned into new stream |
-| options | [<code>DataStreamOptions</code>](definitions.md#module_scramjet..DataStreamOptions) \| <code>Writable</code> |  |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| source | <code>String</code> \| <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>Readable</code> |  | argument to be turned into new stream |
+| [options] | [<code>DataStreamOptions</code>](definitions.md#module_scramjet..DataStreamOptions) \| <code>Writable</code> | <code>{}</code> |  |
 

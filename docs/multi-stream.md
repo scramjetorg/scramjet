@@ -34,6 +34,7 @@ new MultiStream(function*(){ yield* streams; })
     * [multiStream.route([policy], [count])](#module_scramjet.MultiStream+route)  [<code>MultiStream</code>](multi-stream.md#module_scramjet.MultiStream)
     * [multiStream.smap(transform)](#module_scramjet.MultiStream+smap) ↺
     * [multiStream.cluster(clusterFunc, [options])](#module_scramjet.MultiStream+cluster) ↺
+    * [MultiStream:from(streams, [StreamClass])](#module_scramjet.MultiStream.from)  [<code>MultiStream</code>](multi-stream.md#module_scramjet.MultiStream)
 
 <a name="new_module_scramjet.MultiStream_new"></a>
 
@@ -131,7 +132,7 @@ Muxes the streams into a single one
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [comparator] | <code>ComparatorFunction</code> |  | Should return -1 0 or 1 depending on the                                  desired order. If passed the chunks will                                  be added in a sorted order. |
-| [ClassType] | <code>class</code> | <code>DataStream</code> | the class to be outputted |
+| [ClassType] | <code>function</code> | <code>DataStream</code> | the class to be outputted |
 
 <a name="module_scramjet.MultiStream+add"></a>
 
@@ -208,4 +209,16 @@ Distributes processing to multiple forked subprocesses.
 | --- | --- | --- | --- |
 | clusterFunc | <code>function</code> \| <code>String</code> |  | a cluster callback with all operations working similarly to DataStream::use |
 | [options] | [<code>DistributeOptions</code>](definitions.md#module_scramjet..DistributeOptions) | <code>{}</code> |  |
+
+<a name="module_scramjet.MultiStream.from"></a>
+
+### MultiStream:from(streams, [StreamClass]) : MultiStream
+Constructs MultiStream from any number of streams-likes
+
+**Kind**: static method of [<code>MultiStream</code>](#module_scramjet.MultiStream)  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| streams | <code>Array.&lt;(Array\|Iterable\|AsyncGeneratorFunction\|GeneratorFunction\|AsyncFunction\|function()\|String\|Readable)&gt;</code> |  | the array of input streamlike elements |
+| [StreamClass] | <code>function</code> | <code>DataStream</code> |  |
 
