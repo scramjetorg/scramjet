@@ -67,7 +67,7 @@
     "gulp-shell": "^0.7.1",
     "jsdoc": "^3.6.3",
     "jsdoc-api": "^5.0.2",
-    "jsdoc-parse": "^3.0.1",
+    "jsdoc-parse": "^4.0.0",
     "nodeunit-tape-compat": "^1.3.27",
     "replace-in-file": "^4.1.3",
     "request": "^2.88.0",
