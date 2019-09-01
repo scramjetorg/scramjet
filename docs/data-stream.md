@@ -23,7 +23,7 @@ await (DataStream.from(aStream) // create a DataStream
 **Test**: test/methods/data-stream-constructor.js  
 
 * [~DataStream](#module_scramjet.DataStream)  <code>module:stream.PassThrough</code>
-    * [new DataStream(opts)](#new_module_scramjet.DataStream_new)
+    * [new DataStream([opts])](#new_module_scramjet.DataStream_new)
     * [dataStream.map(func, [ClassType])](#module_scramjet.DataStream+map) ↺
     * [dataStream.filter(func)](#module_scramjet.DataStream+filter) ↺
     * [dataStream.reduce(func, into)](#module_scramjet.DataStream+reduce)
@@ -34,7 +34,7 @@ await (DataStream.from(aStream) // create a DataStream
     * [dataStream.into(func, into)](#module_scramjet.DataStream+into) ↺
     * [dataStream.use(func)](#module_scramjet.DataStream+use) ↺
     * [dataStream.run()](#module_scramjet.DataStream+run)
-    * [dataStream.tap()](#module_scramjet.DataStream+tap)
+    * [dataStream.tap()](#module_scramjet.DataStream+tap) ↺
     * [dataStream.whenRead()](#module_scramjet.DataStream+whenRead)
     * [dataStream.whenWrote(chunk, [...more])](#module_scramjet.DataStream+whenWrote)
     * [dataStream.whenEnd()](#module_scramjet.DataStream+whenEnd)
@@ -47,7 +47,7 @@ await (DataStream.from(aStream) // create a DataStream
     * [dataStream.until(func)](#module_scramjet.DataStream+until) ↺
     * [dataStream.catch(callback)](#module_scramjet.DataStream+catch) ↺
     * [dataStream.raise(err)](#module_scramjet.DataStream+raise)
-    * [dataStream.pipe(to, options)](#module_scramjet.DataStream+pipe) ↺ <code>Writable</code>
+    * [dataStream.pipe(to, [options])](#module_scramjet.DataStream+pipe) ↺ <code>Writable</code>
     * [dataStream.bufferify(serializer)](#module_scramjet.DataStream+bufferify) ↺ [<code>BufferStream</code>](buffer-stream.md#module_scramjet.BufferStream)
     * [dataStream.stringify([serializer])](#module_scramjet.DataStream+stringify) ↺ [<code>StringStream</code>](string-stream.md#module_scramjet.StringStream)
     * [dataStream.toArray([initial])](#module_scramjet.DataStream+toArray) ⇄ <code>Array.&lt;any&gt;</code>
@@ -58,7 +58,7 @@ await (DataStream.from(aStream) // create a DataStream
     * [dataStream.slice([start], [length])](#module_scramjet.DataStream+slice) ↺
     * [dataStream.assign(func)](#module_scramjet.DataStream+assign) ↺
     * [dataStream.empty(callback)](#module_scramjet.DataStream+empty) ↺
-    * [dataStream.unshift(item)](#module_scramjet.DataStream+unshift) ↺
+    * [dataStream.unshift()](#module_scramjet.DataStream+unshift) ↺
     * [dataStream.endWith(item)](#module_scramjet.DataStream+endWith) ↺
     * [dataStream.accumulate(func, into)](#module_scramjet.DataStream+accumulate) ⇄ <code>Promise</code>
     * ~~[dataStream.consume(func)](#module_scramjet.DataStream+consume)~~
@@ -66,43 +66,43 @@ await (DataStream.from(aStream) // create a DataStream
     * [dataStream.remap(func, [ClassType])](#module_scramjet.DataStream+remap) ↺
     * [dataStream.flatMap(func, [ClassType])](#module_scramjet.DataStream+flatMap) ↺
     * [dataStream.flatten()](#module_scramjet.DataStream+flatten) ↺ [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
-    * [dataStream.concat(streams)](#module_scramjet.DataStream+concat) ↺
+    * [dataStream.concat()](#module_scramjet.DataStream+concat) ↺
     * [dataStream.join(item)](#module_scramjet.DataStream+join) ↺
-    * [dataStream.keep(count)](#module_scramjet.DataStream+keep) ↺
-    * [dataStream.rewind(count)](#module_scramjet.DataStream+rewind) ↺
+    * [dataStream.keep([count])](#module_scramjet.DataStream+keep) ↺
+    * [dataStream.rewind([count])](#module_scramjet.DataStream+rewind) ↺
     * [dataStream.distribute([affinity], clusterFunc, [options])](#module_scramjet.DataStream+distribute) ↺
     * [dataStream.separateInto(streams, affinity)](#module_scramjet.DataStream+separateInto) ↺
     * [dataStream.separate(affinity, [createOptions], [ClassType])](#module_scramjet.DataStream+separate) ↺ [<code>MultiStream</code>](multi-stream.md#module_scramjet.MultiStream)
     * [dataStream.delegate(delegateFunc, worker, [plugins])](#module_scramjet.DataStream+delegate) ↺
     * [dataStream.rate(cps, [options])](#module_scramjet.DataStream+rate) ↺
     * [dataStream.batch(count)](#module_scramjet.DataStream+batch) ↺
-    * [dataStream.timeBatch(ms, count)](#module_scramjet.DataStream+timeBatch) ↺
+    * [dataStream.timeBatch(ms, [count])](#module_scramjet.DataStream+timeBatch) ↺
     * [dataStream.nagle([size], [ms])](#module_scramjet.DataStream+nagle) ↺
     * [dataStream.window(length)](#module_scramjet.DataStream+window) ↺ [<code>WindowStream</code>](window-stream.md#module_scramjet.WindowStream)
     * [dataStream.toJSONArray([enclosure])](#module_scramjet.DataStream+toJSONArray) ↺ [<code>StringStream</code>](string-stream.md#module_scramjet.StringStream)
     * [dataStream.toJSONObject([entryCallback], [enclosure])](#module_scramjet.DataStream+toJSONObject) ↺ [<code>StringStream</code>](string-stream.md#module_scramjet.StringStream)
     * [dataStream.JSONStringify([endline])](#module_scramjet.DataStream+JSONStringify) ↺ [<code>StringStream</code>](string-stream.md#module_scramjet.StringStream)
-    * [dataStream.CSVStringify(options)](#module_scramjet.DataStream+CSVStringify) ↺ [<code>StringStream</code>](string-stream.md#module_scramjet.StringStream)
-    * [dataStream.exec(command, options, args)](#module_scramjet.DataStream+exec)
+    * [dataStream.CSVStringify([options])](#module_scramjet.DataStream+CSVStringify) ↺ [<code>StringStream</code>](string-stream.md#module_scramjet.StringStream)
+    * [dataStream.exec(command, [options], args)](#module_scramjet.DataStream+exec)
     * [dataStream.debug(func)](#module_scramjet.DataStream+debug) ↺ [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
     * [dataStream.toBufferStream(serializer)](#module_scramjet.DataStream+toBufferStream) ↺ [<code>BufferStream</code>](buffer-stream.md#module_scramjet.BufferStream)
     * [dataStream.toStringStream([serializer])](#module_scramjet.DataStream+toStringStream) ↺ [<code>StringStream</code>](string-stream.md#module_scramjet.StringStream)
     * [dataStream.toBufferStream(serializer)](#module_scramjet.DataStream+toBufferStream) ↺ [<code>BufferStream</code>](buffer-stream.md#module_scramjet.BufferStream)
     * [dataStream.toStringStream([serializer])](#module_scramjet.DataStream+toStringStream) ↺ [<code>StringStream</code>](string-stream.md#module_scramjet.StringStream)
     * [DataStream:from(input, [options])](#module_scramjet.DataStream.from)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
-    * [DataStream:pipeline(readable, ...transforms)](#module_scramjet.DataStream.pipeline)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
+    * [DataStream:pipeline(readable)](#module_scramjet.DataStream.pipeline)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
     * [DataStream:fromArray(array, [options])](#module_scramjet.DataStream.fromArray)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
     * [DataStream:fromIterator(iterator, [options])](#module_scramjet.DataStream.fromIterator)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
 
 <a name="new_module_scramjet.DataStream_new"></a>
 
-### new DataStream(opts)
+### new DataStream([opts])
 Create the DataStream.
 
 
-| Param | Type | Description |
-| --- | --- | --- |
-| opts | [<code>DataStreamOptions</code>](definitions.md#module_scramjet..DataStreamOptions) | Stream options passed to superclass |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [opts] | [<code>DataStreamOptions</code>](definitions.md#module_scramjet..DataStreamOptions) | <code>{}</code> | Stream options passed to superclass |
 
 <a name="module_scramjet.DataStream+map"></a>
 
@@ -289,7 +289,7 @@ from the command line.
 | Param | Type | Description |
 | --- | --- | --- |
 | func | <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>UseCallback.&lt;this&gt;</code> \| <code>String</code> \| <code>Readable</code> | if passed, the function will be called on self to add an option to inspect the stream in place, while not breaking the transform chain. Alternatively this can be a relative path to a scramjet-module. Lastly it can be a Transform stream. |
-| [...parameters] | <code>\*</code> | any additional parameters top be passed to the module |
+| ...parameters | <code>\*</code> | any additional parameters top be passed to the module |
 
 <a name="module_scramjet.DataStream+run"></a>
 
@@ -306,10 +306,11 @@ The function returns a promise that is resolved when the stream ends.
 **Kind**: instance method of [<code>DataStream</code>](#module_scramjet.DataStream)  
 <a name="module_scramjet.DataStream+tap"></a>
 
-### dataStream.tap()
+### dataStream.tap() ↺
 Stops merging transform Functions at the current place in the command chain.
 
 **Kind**: instance method of [<code>DataStream</code>](#module_scramjet.DataStream)  
+**Chainable**  
 **Test**: test/methods/data-stream-tap.js  
 <a name="module_scramjet.DataStream+whenRead"></a>
 
@@ -465,7 +466,7 @@ The returned promise will always be resolved even if there are no successful han
 
 <a name="module_scramjet.DataStream+pipe"></a>
 
-### dataStream.pipe(to, options) : Writable ↺
+### dataStream.pipe(to, [options]) : Writable ↺
 Override of node.js Readable pipe.
 
 Except for calling overridden method it proxies errors to piped stream.
@@ -474,10 +475,10 @@ Except for calling overridden method it proxies errors to piped stream.
 **Chainable**  
 **Returns**: <code>Writable</code> - the `to` stream  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| to | <code>Writable</code> | Writable stream to write to |
-| options | <code>WritableOptions</code> |  |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| to | <code>Writable</code> |  | Writable stream to write to |
+| [options] | <code>WritableOptions</code> | <code>{}</code> |  |
 
 <a name="module_scramjet.DataStream+bufferify"></a>
 
@@ -549,7 +550,7 @@ Does not preserve order, does not end this stream.
 | Param | Type | Description |
 | --- | --- | --- |
 | pullable | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>String</code> \| <code>Readable</code> |  |
-| [...args] | <code>\*</code> | any additional args |
+| ...args | <code>\*</code> | any additional args |
 
 <a name="module_scramjet.DataStream+shift"></a>
 
@@ -632,7 +633,7 @@ Called only before the stream ends without passing any items
 
 <a name="module_scramjet.DataStream+unshift"></a>
 
-### dataStream.unshift(item) ↺
+### dataStream.unshift() ↺
 Pushes any data at call time (essentially at the beginning of the stream)
 
 This is a synchronous only function.
@@ -642,7 +643,7 @@ This is a synchronous only function.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| item | <code>\*</code> | list of items to unshift (you can pass more items) |
+| ...item | <code>\*</code> | list of items to unshift (you can pass more items) |
 
 <a name="module_scramjet.DataStream+endWith"></a>
 
@@ -691,6 +692,7 @@ Consumes the stream by running each Function
 | Param | Type | Description |
 | --- | --- | --- |
 | func | [<code>ConsumeCallback</code>](definitions.md#module_scramjet..ConsumeCallback) \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> | the consument |
+| ...args | <code>\*</code> | additional args will be passed to generators |
 
 <a name="module_scramjet.DataStream+reduceNow"></a>
 
@@ -716,7 +718,7 @@ it's much slower than parallel functions.
 | Param | Type | Description |
 | --- | --- | --- |
 | func | [<code>ReduceCallback</code>](definitions.md#module_scramjet..ReduceCallback) | The into object will be passed as the first argument, the data object from the stream as the second. |
-| into | <code>\*</code> \| <code>EventEmitter</code> | Any object passed initially to the transform function |
+| into | <code>\*</code> \| <code>EventEmitter</code> | Any object passed initially to the transform  function |
 
 <a name="module_scramjet.DataStream+remap"></a>
 
@@ -765,7 +767,7 @@ Works on streams of async iterables too.
 **Test**: test/methods/data-stream-flatten.js  
 <a name="module_scramjet.DataStream+concat"></a>
 
-### dataStream.concat(streams) ↺
+### dataStream.concat() ↺
 Returns a new stream that will append the passed streams to the callee
 
 **Kind**: instance method of [<code>DataStream</code>](#module_scramjet.DataStream)  
@@ -774,7 +776,7 @@ Returns a new stream that will append the passed streams to the callee
 
 | Param | Type | Description |
 | --- | --- | --- |
-| streams | <code>\*</code> | Streams to be passed |
+| ...streams | <code>stream.Readable</code> | Streams to be injected into the current stream |
 
 <a name="module_scramjet.DataStream+join"></a>
 
@@ -794,28 +796,28 @@ Generator receives
 
 <a name="module_scramjet.DataStream+keep"></a>
 
-### dataStream.keep(count) ↺
+### dataStream.keep([count]) ↺
 Keep a buffer of n-chunks for use with {@see DataStream..rewind}
 
 **Kind**: instance method of [<code>DataStream</code>](#module_scramjet.DataStream)  
 **Chainable**  
 **Test**: test/methods/data-stream-keep.js  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| count | <code>number</code> | Number of objects or -1 for all the stream |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [count] | <code>number</code> | <code>Infinity</code> | Number of objects or -1 for all the stream |
 
 <a name="module_scramjet.DataStream+rewind"></a>
 
-### dataStream.rewind(count) ↺
+### dataStream.rewind([count]) ↺
 Rewinds the buffered chunks the specified length backwards. Requires a prior call to {@see DataStream..keep}
 
 **Kind**: instance method of [<code>DataStream</code>](#module_scramjet.DataStream)  
 **Chainable**  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| count | <code>number</code> | Number of objects or -1 for all the buffer |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [count] | <code>number</code> | <code>Infinity</code> | Number of objects or -1 for all the buffer |
 
 <a name="module_scramjet.DataStream+distribute"></a>
 
@@ -917,7 +919,7 @@ This can be used for micro-batch processing.
 
 <a name="module_scramjet.DataStream+timeBatch"></a>
 
-### dataStream.timeBatch(ms, count) ↺
+### dataStream.timeBatch(ms, [count]) ↺
 Aggregates chunks to arrays not delaying output by more than the given number of ms.
 
 **Kind**: instance method of [<code>DataStream</code>](#module_scramjet.DataStream)  
@@ -928,7 +930,7 @@ Aggregates chunks to arrays not delaying output by more than the given number of
 | Param | Type | Description |
 | --- | --- | --- |
 | ms | <code>Number</code> | Maximum amount of milliseconds |
-| count | <code>Number</code> | Maximum number of items in batch (otherwise no limit) |
+| [count] | <code>Number</code> | Maximum number of items in batch (otherwise no limit) |
 
 <a name="module_scramjet.DataStream+nagle"></a>
 
@@ -1009,7 +1011,7 @@ Returns a StringStream containing JSON per item with optional end line
 
 <a name="module_scramjet.DataStream+CSVStringify"></a>
 
-### dataStream.CSVStringify(options) : StringStream ↺
+### dataStream.CSVStringify([options]) : StringStream ↺
 Stringifies CSV to DataString using 'papaparse' module.
 
 **Kind**: instance method of [<code>DataStream</code>](#module_scramjet.DataStream)  
@@ -1017,13 +1019,13 @@ Stringifies CSV to DataString using 'papaparse' module.
 **Returns**: [<code>StringStream</code>](string-stream.md#module_scramjet.StringStream) - stream of parsed items  
 **Test**: test/methods/data-stream-csv.js  
 
-| Param | Description |
-| --- | --- |
-| options | options for the papaparse.unparse module. |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [options] | <code>Object</code> | <code>{}</code> | options for the papaparse.unparse module. |
 
 <a name="module_scramjet.DataStream+exec"></a>
 
-### dataStream.exec(command, options, args)
+### dataStream.exec(command, [options], args)
 Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream.
 
 Pipes the current stream into the sub-processes stdin.
@@ -1035,11 +1037,11 @@ Note: if you're piping both stderr and stdout (options.stream=3) keep in mind th
 **Kind**: instance method of [<code>DataStream</code>](#module_scramjet.DataStream)  
 **Test**: test/methods/data-stream-exec.js  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| command | <code>String</code> | command to execute |
-| options | [<code>ExecDataOptions</code>](definitions.md#module_scramjet..ExecDataOptions) | options to be passed to `spawn` and defining serialization. |
-| args | <code>String</code> | additional arguments (will overwrite to SpawnOptions args even if not given) |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| command | <code>String</code> |  | command to execute |
+| [options] | [<code>ExecDataOptions</code>](definitions.md#module_scramjet..ExecDataOptions) | <code>{}</code> | options to be passed to `spawn` and defining serialization. |
+| args | <code>String</code> |  | additional arguments (will overwrite to SpawnOptions args even if not given) |
 
 <a name="module_scramjet.DataStream+debug"></a>
 
@@ -1164,11 +1166,11 @@ DataStream
 | --- | --- | --- | --- |
 | input | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>String</code> \| <code>Readable</code> |  | argument to be turned into new stream |
 | [options] | [<code>DataStreamOptions</code>](definitions.md#module_scramjet..DataStreamOptions) \| <code>Writable</code> | <code>{}</code> | options for creation of a new stream or the target stream |
-| [...args] | <code>\*</code> |  | additional arguments for the stream - will be passed to the function or generator |
+| ...args | <code>\*</code> |  | additional arguments for the stream - will be passed to the function or generator |
 
 <a name="module_scramjet.DataStream.pipeline"></a>
 
-### DataStream:pipeline(readable, ...transforms) : DataStream
+### DataStream:pipeline(readable) : DataStream
 Creates a pipeline of streams and returns a scramjet stream.
 
 This is similar to node.js stream pipeline method, but also takes scramjet modules
@@ -1199,7 +1201,7 @@ Create a DataStream from an Array
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| array | <code>Array</code> |  | list of chunks |
+| array | <code>Array.&lt;\*&gt;</code> |  | list of chunks |
 | [options] | <code>ScramjetOptions</code> | <code>{}</code> | the read stream options |
 
 <a name="module_scramjet.DataStream.fromIterator"></a>

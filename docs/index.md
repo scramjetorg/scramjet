@@ -38,9 +38,9 @@ will only operate on a single transform stream that evaluates all three transfor
     * [:errors](#module_scramjet.errors)  [<code>ScramjetErrors</code>](definitions.md#module_scramjet..ScramjetErrors)
     * [:StreamWorker](#module_scramjet.StreamWorker)  [<code>StreamWorker</code>](stream-worker.md#module_scramjet.StreamWorker)
     * [:from(input, [options])](#module_scramjet.from)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
-    * [:fromArray(args)](#module_scramjet.fromArray)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
-    * [:createTransformModule(transform, options, ...initialArgs)](#module_scramjet.createTransformModule)  <code>function</code>
-    * [:createReadModule(anything, options, ...initialArgs)](#module_scramjet.createReadModule)  <code>function</code>
+    * [:fromArray(array, [options])](#module_scramjet.fromArray)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
+    * [:createTransformModule(transform, [options])](#module_scramjet.createTransformModule)  <code>function</code>
+    * [:createReadModule(anything, [options])](#module_scramjet.createReadModule)  <code>function</code>
     * [:plugin(mixin)](#module_scramjet.plugin)  [<code>ScramjetPlugin</code>](definitions.md#module_scramjet..ScramjetPlugin)
     * [:API(version)](#module_scramjet.API)  [<code>ScramjetPlugin</code>](definitions.md#module_scramjet..ScramjetPlugin)
 
@@ -69,46 +69,47 @@ Creates a DataStream that's piped from the passed readable.
 | --- | --- | --- | --- |
 | input | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>String</code> \| <code>Readable</code> |  | argument to be turned into new stream |
 | [options] | [<code>DataStreamOptions</code>](definitions.md#module_scramjet..DataStreamOptions) \| <code>Writable</code> | <code>{}</code> | options for creation of a new stream or the target stream |
-| [...args] | <code>\*</code> |  | additional arguments for the stream - will be passed to the function or generator |
+| ...args | <code>\*</code> |  | additional arguments for the stream - will be passed to the function or generator |
 
 <a name="module_scramjet.fromArray"></a>
 
-### scramjet:fromArray(args) : DataStream
+### scramjet:fromArray(array, [options]) : DataStream
 Creates a DataStream from an Array
 
 **Kind**: static method of [<code>scramjet</code>](#module_scramjet)  
 
-| Param | Type |
-| --- | --- |
-| args | <code>Array.&lt;\*&gt;</code> | 
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| array | <code>Array</code> |  | list of chunks |
+| [options] | <code>ScramjetOptions</code> | <code>{}</code> | the read stream options |
 
 <a name="module_scramjet.createTransformModule"></a>
 
-### scramjet:createTransformModule(transform, options, ...initialArgs) : function
+### scramjet:createTransformModule(transform, [options]) : function
 Creates a safe wrapper for scramjet transform module. See [Modules documentation](modules.md) for more info.
 
 **Kind**: static method of [<code>scramjet</code>](#module_scramjet)  
 **Returns**: <code>function</code> - a scramjet module function  
 
-| Param | Type |
-| --- | --- |
-| transform | [<code>UseCallback</code>](definitions.md#module_scramjet..UseCallback) | 
-| options | [<code>CreateModuleOptions</code>](definitions.md#module_scramjet..CreateModuleOptions) | 
-| ...initialArgs | <code>any</code> | 
+| Param | Type | Default |
+| --- | --- | --- |
+| transform | [<code>UseCallback</code>](definitions.md#module_scramjet..UseCallback) |  | 
+| [options] | [<code>CreateModuleOptions</code>](definitions.md#module_scramjet..CreateModuleOptions) | <code>{}</code> | 
+| ...initialArgs | <code>any</code> |  | 
 
 <a name="module_scramjet.createReadModule"></a>
 
-### scramjet:createReadModule(anything, options, ...initialArgs) : function
+### scramjet:createReadModule(anything, [options]) : function
 Creates a safe wrapper for scramjet read module. See [Modules documentation](modules.md) for more info.
 
 **Kind**: static method of [<code>scramjet</code>](#module_scramjet)  
 **Returns**: <code>function</code> - a scramjet module function  
 
-| Param | Type |
-| --- | --- |
-| anything | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>String</code> \| <code>Readable</code> | 
-| options | [<code>CreateModuleOptions</code>](definitions.md#module_scramjet..CreateModuleOptions) | 
-| ...initialArgs | <code>any</code> | 
+| Param | Type | Default |
+| --- | --- | --- |
+| anything | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>String</code> \| <code>Readable</code> |  | 
+| [options] | [<code>CreateModuleOptions</code>](definitions.md#module_scramjet..CreateModuleOptions) | <code>{}</code> | 
+| ...initialArgs | <code>any</code> |  | 
 
 <a name="module_scramjet.plugin"></a>
 

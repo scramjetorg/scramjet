@@ -289,7 +289,7 @@ await (DataStream.from(aStream) // create a DataStream
 
 **Most popular methods:**
 
-* `new DataStream(opts)` - Create the DataStream.
+* `new DataStream([opts])` - Create the DataStream.
 * [`dataStream.map(func, [ClassType]) ↺`](docs/data-stream.md#module_scramjet.DataStream+map) - Transforms stream objects into new ones, just like Array.prototype.map
 * [`dataStream.filter(func) ↺`](docs/data-stream.md#module_scramjet.DataStream+filter) - Filters object based on the function outcome, just like Array.prototype.filter.
 * [`dataStream.reduce(func, into) ⇄`](docs/data-stream.md#module_scramjet.DataStream+reduce) - Reduces the stream into a given accumulator
@@ -300,7 +300,7 @@ await (DataStream.from(aStream) // create a DataStream
 * [`dataStream.into(func, into) ↺`](docs/data-stream.md#module_scramjet.DataStream+into) - Allows own implementation of stream chaining.
 * [`dataStream.use(func) ↺`](docs/data-stream.md#module_scramjet.DataStream+use) - Calls the passed method in place with the stream as first argument, returns result.
 * [`dataStream.run() ⇄`](docs/data-stream.md#module_scramjet.DataStream+run) - Consumes all stream items doing nothing. Resolves when the stream is ended.
-* [`dataStream.tap()`](docs/data-stream.md#module_scramjet.DataStream+tap) - Stops merging transform Functions at the current place in the command chain.
+* [`dataStream.tap() ↺`](docs/data-stream.md#module_scramjet.DataStream+tap) - Stops merging transform Functions at the current place in the command chain.
 * [`dataStream.whenRead() ⇄`](docs/data-stream.md#module_scramjet.DataStream+whenRead) - Reads a chunk from the stream and resolves the promise when read.
 * [`dataStream.whenWrote(chunk, [...more]) ⇄`](docs/data-stream.md#module_scramjet.DataStream+whenWrote) - Writes a chunk to the stream and returns a Promise resolved when more chunks can be written.
 * [`dataStream.whenEnd() ⇄`](docs/data-stream.md#module_scramjet.DataStream+whenEnd) - Resolves when stream ends - rejects on uncaught error
@@ -313,7 +313,7 @@ await (DataStream.from(aStream) // create a DataStream
 * [`dataStream.until(func) ↺`](docs/data-stream.md#module_scramjet.DataStream+until) - Reads the stream until the function outcome is truthy.
 * [`dataStream.catch(callback) ↺`](docs/data-stream.md#module_scramjet.DataStream+catch) - Provides a way to catch errors in chained streams.
 * [`dataStream.raise(err) ⇄`](docs/data-stream.md#module_scramjet.DataStream+raise) - Executes all error handlers and if none resolves, then emits an error.
-* [`dataStream.pipe(to, options) : Writable ↺`](docs/data-stream.md#module_scramjet.DataStream+pipe) - Override of node.js Readable pipe.
+* [`dataStream.pipe(to, [options]) : Writable ↺`](docs/data-stream.md#module_scramjet.DataStream+pipe) - Override of node.js Readable pipe.
 * [`dataStream.bufferify(serializer) : BufferStream ↺`](docs/data-stream.md#module_scramjet.DataStream+bufferify) - Creates a BufferStream.
 * [`dataStream.stringify([serializer]) : StringStream ↺`](docs/data-stream.md#module_scramjet.DataStream+stringify) - Creates a StringStream.
 * [`dataStream.toArray([initial]) : Array.<any> ⇄`](docs/data-stream.md#module_scramjet.DataStream+toArray) - Aggregates the stream into a single Array
@@ -324,7 +324,7 @@ await (DataStream.from(aStream) // create a DataStream
 * [`dataStream.slice([start], [length]) ↺`](docs/data-stream.md#module_scramjet.DataStream+slice) - Slices out a part of the stream to the passed Function.
 * [`dataStream.assign(func) ↺`](docs/data-stream.md#module_scramjet.DataStream+assign) - Transforms stream objects by assigning the properties from the returned
 * [`dataStream.empty(callback) ↺`](docs/data-stream.md#module_scramjet.DataStream+empty) - Called only before the stream ends without passing any items
-* [`dataStream.unshift(item) ↺`](docs/data-stream.md#module_scramjet.DataStream+unshift) - Pushes any data at call time (essentially at the beginning of the stream)
+* [`dataStream.unshift() ↺`](docs/data-stream.md#module_scramjet.DataStream+unshift) - Pushes any data at call time (essentially at the beginning of the stream)
 * [`dataStream.endWith(item) ↺`](docs/data-stream.md#module_scramjet.DataStream+endWith) - Pushes any data at end of stream
 * [`dataStream.accumulate(func, into) : Promise ⇄`](docs/data-stream.md#module_scramjet.DataStream+accumulate) - Accumulates data into the object.
 * [`~~dataStream.consume(func) ⇄~~`](docs/data-stream.md#module_scramjet.DataStream+consume) - Consumes the stream by running each Function
@@ -332,31 +332,31 @@ await (DataStream.from(aStream) // create a DataStream
 * [`dataStream.remap(func, [ClassType]) ↺`](docs/data-stream.md#module_scramjet.DataStream+remap) - Remaps the stream into a new stream.
 * [`dataStream.flatMap(func, [ClassType]) ↺`](docs/data-stream.md#module_scramjet.DataStream+flatMap) - Takes any method that returns any iterable and flattens the result.
 * [`dataStream.flatten() : DataStream ↺`](docs/data-stream.md#module_scramjet.DataStream+flatten) - A shorthand for streams of arrays or iterables to flatten them.
-* [`dataStream.concat(streams) ↺`](docs/data-stream.md#module_scramjet.DataStream+concat) - Returns a new stream that will append the passed streams to the callee
+* [`dataStream.concat() ↺`](docs/data-stream.md#module_scramjet.DataStream+concat) - Returns a new stream that will append the passed streams to the callee
 * [`dataStream.join(item) ↺`](docs/data-stream.md#module_scramjet.DataStream+join) - Method will put the passed object between items. It can also be a function call or generator / iterator.
-* [`dataStream.keep(count) ↺`](docs/data-stream.md#module_scramjet.DataStream+keep) - Keep a buffer of n-chunks for use with {@see DataStream..rewind}
-* [`dataStream.rewind(count) ↺`](docs/data-stream.md#module_scramjet.DataStream+rewind) - Rewinds the buffered chunks the specified length backwards. Requires a prior call to {@see DataStream..keep}
+* [`dataStream.keep([count]) ↺`](docs/data-stream.md#module_scramjet.DataStream+keep) - Keep a buffer of n-chunks for use with {@see DataStream..rewind}
+* [`dataStream.rewind([count]) ↺`](docs/data-stream.md#module_scramjet.DataStream+rewind) - Rewinds the buffered chunks the specified length backwards. Requires a prior call to {@see DataStream..keep}
 * [`dataStream.distribute([affinity], clusterFunc, [options]) ↺`](docs/data-stream.md#module_scramjet.DataStream+distribute) - Distributes processing into multiple sub-processes or threads if you like.
 * [`dataStream.separateInto(streams, affinity) ↺`](docs/data-stream.md#module_scramjet.DataStream+separateInto) - Separates stream into a hash of streams. Does not create new streams!
 * [`dataStream.separate(affinity, [createOptions], [ClassType]) : MultiStream ↺`](docs/data-stream.md#module_scramjet.DataStream+separate) - Separates execution to multiple streams using the hashes returned by the passed Function.
 * [`dataStream.delegate(delegateFunc, worker, [plugins]) ↺`](docs/data-stream.md#module_scramjet.DataStream+delegate) - Delegates work to a specified worker.
 * [`dataStream.rate(cps, [options]) ↺`](docs/data-stream.md#module_scramjet.DataStream+rate) - Limit the rate of the stream to a given number of chunks per second or given timeframe.
 * [`dataStream.batch(count) ↺`](docs/data-stream.md#module_scramjet.DataStream+batch) - Aggregates chunks in arrays given number of number of items long.
-* [`dataStream.timeBatch(ms, count) ↺`](docs/data-stream.md#module_scramjet.DataStream+timeBatch) - Aggregates chunks to arrays not delaying output by more than the given number of ms.
+* [`dataStream.timeBatch(ms, [count]) ↺`](docs/data-stream.md#module_scramjet.DataStream+timeBatch) - Aggregates chunks to arrays not delaying output by more than the given number of ms.
 * [`dataStream.nagle([size], [ms]) ↺`](docs/data-stream.md#module_scramjet.DataStream+nagle) - Performs the Nagle's algorithm on the data. In essence it waits until we receive some more data and releases them
 * [`dataStream.window(length) : WindowStream ↺`](docs/data-stream.md#module_scramjet.DataStream+window) - Returns a WindowStream of the specified length
 * [`dataStream.toJSONArray([enclosure]) : StringStream ↺`](docs/data-stream.md#module_scramjet.DataStream+toJSONArray) - Transforms the stream to a streamed JSON array.
 * [`dataStream.toJSONObject([entryCallback], [enclosure]) : StringStream ↺`](docs/data-stream.md#module_scramjet.DataStream+toJSONObject) - Transforms the stream to a streamed JSON object.
 * [`dataStream.JSONStringify([endline]) : StringStream ↺`](docs/data-stream.md#module_scramjet.DataStream+JSONStringify) - Returns a StringStream containing JSON per item with optional end line
-* [`dataStream.CSVStringify(options) : StringStream ↺`](docs/data-stream.md#module_scramjet.DataStream+CSVStringify) - Stringifies CSV to DataString using 'papaparse' module.
-* [`dataStream.exec(command, options, args)`](docs/data-stream.md#module_scramjet.DataStream+exec) - Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream.
+* [`dataStream.CSVStringify([options]) : StringStream ↺`](docs/data-stream.md#module_scramjet.DataStream+CSVStringify) - Stringifies CSV to DataString using 'papaparse' module.
+* [`dataStream.exec(command, [options], args)`](docs/data-stream.md#module_scramjet.DataStream+exec) - Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream.
 * [`dataStream.debug(func) : DataStream ↺`](docs/data-stream.md#module_scramjet.DataStream+debug) - Injects a ```debugger``` statement when called.
 * [`dataStream.toBufferStream(serializer) : BufferStream ↺`](docs/data-stream.md#module_scramjet.DataStream+toBufferStream) - Creates a BufferStream.
 * [`dataStream.toStringStream([serializer]) : StringStream ↺`](docs/data-stream.md#module_scramjet.DataStream+toStringStream) - Creates a StringStream.
 * [`dataStream.toBufferStream(serializer) : BufferStream ↺`](docs/data-stream.md#module_scramjet.DataStream+toBufferStream) - Creates a BufferStream.
 * [`dataStream.toStringStream([serializer]) : StringStream ↺`](docs/data-stream.md#module_scramjet.DataStream+toStringStream) - Creates a StringStream.
 * [`DataStream:from(input, [options]) : DataStream`](docs/data-stream.md#module_scramjet.DataStream.from) - Returns a DataStream from pretty much anything sensibly possible.
-* [`DataStream:pipeline(readable, ...transforms) : DataStream`](docs/data-stream.md#module_scramjet.DataStream.pipeline) - Creates a pipeline of streams and returns a scramjet stream.
+* [`DataStream:pipeline(readable) : DataStream`](docs/data-stream.md#module_scramjet.DataStream.pipeline) - Creates a pipeline of streams and returns a scramjet stream.
 * [`DataStream:fromArray(array, [options]) : DataStream`](docs/data-stream.md#module_scramjet.DataStream.fromArray) - Create a DataStream from an Array
 * [`DataStream:fromIterator(iterator, [options]) : DataStream`](docs/data-stream.md#module_scramjet.DataStream.fromIterator) - Create a DataStream from an Iterator
 
@@ -378,7 +378,7 @@ StringStream.fromString()
 * [`stringStream.split(splitter) ↺`](docs/string-stream.md#module_scramjet.StringStream+split) - Splits the string stream by the specified RegExp or string
 * [`stringStream.match(matcher) ↺`](docs/string-stream.md#module_scramjet.StringStream+match) - Finds matches in the string stream and streams the match results
 * [`stringStream.toBufferStream() : BufferStream ↺`](docs/string-stream.md#module_scramjet.StringStream+toBufferStream) - Transforms the StringStream to BufferStream
-* [`stringStream.parse(parser) : DataStream ↺`](docs/string-stream.md#module_scramjet.StringStream+parse) - Parses every string to object
+* [`stringStream.parse(parser, StreamClass) : DataStream ↺`](docs/string-stream.md#module_scramjet.StringStream+parse) - Parses every string to object
 * [`stringStream.toDataStream()`](docs/string-stream.md#module_scramjet.StringStream+toDataStream) - Alias for {@link StringStream#parse}
 * [`stringStream.lines([eol]) ↺`](docs/string-stream.md#module_scramjet.StringStream+lines) - Splits the string stream by the specified regexp or string
 * [`stringStream.JSONParse([perLine]) : DataStream ↺`](docs/string-stream.md#module_scramjet.StringStream+JSONParse) - Parses each entry as JSON.
@@ -414,13 +414,13 @@ A simple use case would be:
 
 **Most popular methods:**
 
-* `new BufferStream(opts)` - Creates the BufferStream
+* `new BufferStream([opts])` - Creates the BufferStream
 * [`bufferStream.shift(chars, func) : BufferStream ↺`](docs/buffer-stream.md#module_scramjet.BufferStream+shift) - Shift given number of bytes from the original stream
 * [`bufferStream.split(splitter) : BufferStream ↺`](docs/buffer-stream.md#module_scramjet.BufferStream+split) - Splits the buffer stream into buffer objects
 * [`bufferStream.breakup(number) : BufferStream ↺`](docs/buffer-stream.md#module_scramjet.BufferStream+breakup) - Breaks up a stream apart into chunks of the specified length
-* [`bufferStream.stringify(encoding) : StringStream`](docs/buffer-stream.md#module_scramjet.BufferStream+stringify) - Creates a string stream from the given buffer stream
+* [`bufferStream.stringify([encoding]) : StringStream`](docs/buffer-stream.md#module_scramjet.BufferStream+stringify) - Creates a string stream from the given buffer stream
 * [`bufferStream.parse(parser) : DataStream`](docs/buffer-stream.md#module_scramjet.BufferStream+parse) - Parses every buffer to object
-* [`BufferStream:pipeline(readable, transforms) : BufferStream`](docs/buffer-stream.md#module_scramjet.BufferStream.pipeline) - Creates a pipeline of streams and returns a scramjet stream.
+* [`BufferStream:pipeline(readable) : BufferStream`](docs/buffer-stream.md#module_scramjet.BufferStream.pipeline) - Creates a pipeline of streams and returns a scramjet stream.
 * [`BufferStream:from(stream, options) : BufferStream`](docs/buffer-stream.md#module_scramjet.BufferStream.from) - Create BufferStream from anything.
 
 ### ~MultiStream
@@ -442,7 +442,7 @@ new MultiStream(function*(){ yield* streams; })
 
 **Most popular methods:**
 
-* `new MultiStream(streams, options)` - Crates an instance of MultiStream with the specified stream list
+* `new MultiStream(streams, [options])` - Crates an instance of MultiStream with the specified stream list
 * [`multiStream.streams : Array`](docs/multi-stream.md#module_scramjet.MultiStream+streams) - Array of all streams
 * [`multiStream.source : DataStream`](docs/multi-stream.md#module_scramjet.MultiStream+source) - Source of the MultiStream.
 * [`multiStream.length : number`](docs/multi-stream.md#module_scramjet.MultiStream+length) - Returns the current stream length

@@ -26,24 +26,24 @@ A simple use case would be:
 **Test**: test/methods/buffer-stream-constructor.js  
 
 * [~BufferStream](#module_scramjet.BufferStream)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
-    * [new BufferStream(opts)](#new_module_scramjet.BufferStream_new)
+    * [new BufferStream([opts])](#new_module_scramjet.BufferStream_new)
     * [bufferStream.shift(chars, func)](#module_scramjet.BufferStream+shift) ↺ [<code>BufferStream</code>](buffer-stream.md#module_scramjet.BufferStream)
     * [bufferStream.split(splitter)](#module_scramjet.BufferStream+split) ↺ [<code>BufferStream</code>](buffer-stream.md#module_scramjet.BufferStream)
     * [bufferStream.breakup(number)](#module_scramjet.BufferStream+breakup) ↺ [<code>BufferStream</code>](buffer-stream.md#module_scramjet.BufferStream)
-    * [bufferStream.stringify(encoding)](#module_scramjet.BufferStream+stringify)  [<code>StringStream</code>](string-stream.md#module_scramjet.StringStream)
+    * [bufferStream.stringify([encoding])](#module_scramjet.BufferStream+stringify)  [<code>StringStream</code>](string-stream.md#module_scramjet.StringStream)
     * [bufferStream.parse(parser)](#module_scramjet.BufferStream+parse)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
-    * [BufferStream:pipeline(readable, transforms)](#module_scramjet.BufferStream.pipeline)  [<code>BufferStream</code>](buffer-stream.md#module_scramjet.BufferStream)
+    * [BufferStream:pipeline(readable)](#module_scramjet.BufferStream.pipeline)  [<code>BufferStream</code>](buffer-stream.md#module_scramjet.BufferStream)
     * [BufferStream:from(stream, options)](#module_scramjet.BufferStream.from)  [<code>BufferStream</code>](buffer-stream.md#module_scramjet.BufferStream)
 
 <a name="new_module_scramjet.BufferStream_new"></a>
 
-### new BufferStream(opts)
+### new BufferStream([opts])
 Creates the BufferStream
 
 
-| Param | Type | Description |
-| --- | --- | --- |
-| opts | [<code>DataStreamOptions</code>](definitions.md#module_scramjet..DataStreamOptions) | Stream options passed to superclass |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [opts] | [<code>DataStreamOptions</code>](definitions.md#module_scramjet..DataStreamOptions) | <code>{}</code> | Stream options passed to superclass |
 
 <a name="module_scramjet.BufferStream+shift"></a>
 
@@ -93,7 +93,7 @@ Breaks up a stream apart into chunks of the specified length
 
 <a name="module_scramjet.BufferStream+stringify"></a>
 
-### bufferStream.stringify(encoding) : StringStream
+### bufferStream.stringify([encoding]) : StringStream
 Creates a string stream from the given buffer stream
 
 Still it returns a DataStream derivative and isn't the typical node.js
@@ -103,9 +103,9 @@ stream so you can do all your transforms when you like.
 **Returns**: [<code>StringStream</code>](string-stream.md#module_scramjet.StringStream) - The converted stream.  
 **Test**: test/methods/buffer-stream-tostringstream.js  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| encoding | <code>String</code> | The encoding to be used to convert the buffers                           to streams. |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [encoding] | <code>String</code> | <code>&quot;utf-8&quot;</code> | The encoding to be used to convert the buffers                           to streams. |
 
 <a name="module_scramjet.BufferStream+parse"></a>
 
@@ -125,7 +125,7 @@ stream here should already be split or broken up.
 
 <a name="module_scramjet.BufferStream.pipeline"></a>
 
-### BufferStream:pipeline(readable, transforms) : BufferStream
+### BufferStream:pipeline(readable) : BufferStream
 Creates a pipeline of streams and returns a scramjet stream.
 
 **Kind**: static method of [<code>BufferStream</code>](#module_scramjet.BufferStream)  
@@ -135,7 +135,7 @@ Creates a pipeline of streams and returns a scramjet stream.
 | Param | Type | Description |
 | --- | --- | --- |
 | readable | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>String</code> \| <code>Readable</code> | the initial readable argument that is streamable by scramjet.from |
-| transforms | <code>AsyncFunction</code> \| <code>function</code> \| <code>Transform</code> | Transform functions (as in [DataStream..use](DataStream..use)) or Transform streams (any number of these as consecutive arguments) |
+| ...transforms | <code>AsyncFunction</code> \| <code>function</code> \| <code>Transform</code> | Transform functions (as in [DataStream..use](DataStream..use)) or Transform streams (any number of these as consecutive arguments) |
 
 <a name="module_scramjet.BufferStream.from"></a>
 
