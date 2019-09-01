@@ -21,7 +21,7 @@ new MultiStream(function*(){ yield* streams; })
 **Test**: test/methods/multi-stream-constructor.js  
 
 * [~MultiStream](#module_scramjet.MultiStream)
-    * [new MultiStream(streams, options)](#new_module_scramjet.MultiStream_new)
+    * [new MultiStream(streams, [options])](#new_module_scramjet.MultiStream_new)
     * [multiStream.streams](#module_scramjet.MultiStream+streams)  <code>Array</code>
     * [multiStream.source](#module_scramjet.MultiStream+source)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
     * [multiStream.length](#module_scramjet.MultiStream+length)  <code>number</code>
@@ -38,14 +38,14 @@ new MultiStream(function*(){ yield* streams; })
 
 <a name="new_module_scramjet.MultiStream_new"></a>
 
-### new MultiStream(streams, options)
+### new MultiStream(streams, [options])
 Crates an instance of MultiStream with the specified stream list
 
 
-| Param | Type | Description |
-| --- | --- | --- |
-| streams | <code>Array.&lt;stream.Readable&gt;</code> \| <code>AsyncGenerator.&lt;Readable&gt;</code> \| <code>Generator.&lt;Readable&gt;</code> | the list of readable streams (other                                     objects will be filtered out!) |
-| options | <code>Object</code> | Optional options for the super object. ;) |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| streams | <code>Array.&lt;stream.Readable&gt;</code> \| <code>AsyncGenerator.&lt;Readable&gt;</code> \| <code>Generator.&lt;Readable&gt;</code> |  | the list of readable streams (other                                     objects will be filtered out!) |
+| [options] | <code>Object</code> | <code>{}</code> | Optional options for the super object. ;) |
 
 <a name="module_scramjet.MultiStream+streams"></a>
 

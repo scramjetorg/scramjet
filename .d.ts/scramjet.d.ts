@@ -35,30 +35,30 @@ declare module 'scramjet' {
      * @param options options for creation of a new stream or the target stream
      * @param ...args additional arguments for the stream - will be passed to the function or generator
      */
-    export function from(input: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, options?: DataStreamOptions | Writable, ...args?: any): DataStream;
+    export function from(input: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, options?: DataStreamOptions | Writable, ...args: any): DataStream;
 
     /**
      * Creates a DataStream from an Array
-     * @param args
-     * @returns
+     * @param array list of chunks
+     * @param options the read stream options
      */
-    export function fromArray(args: any[]): DataStream;
+    export function fromArray(array: any[], options?: ScramjetOptions): DataStream;
 
     /**
      * Creates a safe wrapper for scramjet transform module. See [Modules documentation](modules.md) for more info.
      * @param transform
      * @param options
-     * @param initialArgs
+     * @param ...initialArgs
      */
-    export function createTransformModule(transform: UseCallback, options: CreateModuleOptions, ...initialArgs: any): Function;
+    export function createTransformModule(transform: UseCallback, options?: CreateModuleOptions, ...initialArgs: any): Function;
 
     /**
      * Creates a safe wrapper for scramjet read module. See [Modules documentation](modules.md) for more info.
      * @param anything
      * @param options
-     * @param initialArgs
+     * @param ...initialArgs
      */
-    export function createReadModule(anything: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, options: CreateModuleOptions, ...initialArgs: any): Function;
+    export function createReadModule(anything: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, options?: CreateModuleOptions, ...initialArgs: any): Function;
 
     /**
      * Options for createModule
@@ -150,7 +150,7 @@ declare module 'scramjet' {
          * Create the DataStream.
          * @param opts Stream options passed to superclass
          */
-        constructor(opts: DataStreamOptions);
+        constructor(opts?: DataStreamOptions);
 
         /**
          * Returns a DataStream from pretty much anything sensibly possible.
@@ -187,7 +187,7 @@ declare module 'scramjet' {
          * @param options options for creation of a new stream or the target stream
          * @param ...args additional arguments for the stream - will be passed to the function or generator
          */
-        static from(input: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, options?: DataStreamOptions | Writable, ...args?: any): DataStream;
+        static from(input: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, options?: DataStreamOptions | Writable, ...args: any): DataStream;
 
         /**
          * Transforms stream objects into new ones, just like Array.prototype.map
@@ -315,7 +315,7 @@ declare module 'scramjet' {
          * @param func if passed, the function will be called on self to add an option to inspect the stream in place, while not breaking the transform chain. Alternatively this can be a relative path to a scramjet-module. Lastly it can be a Transform stream.
          * @param ...parameters any additional parameters top be passed to the module
          */
-        use(func: AsyncGeneratorFunction | GeneratorFunction | UseCallback<this> | String | Readable, ...parameters?: any): this;
+        use(func: AsyncGeneratorFunction | GeneratorFunction | UseCallback<this> | String | Readable, ...parameters: any): this;
 
         /**
          * Consumes all stream items doing nothing. Resolves when the stream is ended.
@@ -342,7 +342,7 @@ declare module 'scramjet' {
          * * AsyncFunction or Function - will be executed by {@link DataStream..use}
          * * A transform stream that will be piped to the preceding stream
          * @param readable the initial readable argument that is streamable by scramjet.from
-         * @param transforms Transform functions (as in {@link DataStream..use}) or Transform streams (any number of these as consecutive arguments)
+         * @param ...transforms Transform functions (as in {@link DataStream..use}) or Transform streams (any number of these as consecutive arguments)
          * @returns a new DataStream instance of the resulting pipeline
          */
         static pipeline(readable: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, ...transforms: AsyncFunction | Function | Transform): DataStream;
@@ -350,7 +350,7 @@ declare module 'scramjet' {
         /**
          * Stops merging transform Functions at the current place in the command chain.
          */
-        tap(): void;
+        tap(): this;
 
         /**
          * Reads a chunk from the stream and resolves the promise when read.
@@ -455,7 +455,7 @@ declare module 'scramjet' {
          * @param to Writable stream to write to
          * @param options
          */
-        pipe(to: Writable, options: WritableOptions): Writable;
+        pipe(to: Writable, options?: WritableOptions): Writable;
 
         /**
          * Creates a BufferStream.
@@ -514,7 +514,7 @@ declare module 'scramjet' {
          * @param ...args any additional args
          * @returns resolved when incoming stream ends, rejects on incoming error
          */
-        pull(pullable: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, ...args?: any): Promise<Promise>;
+        pull(pullable: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, ...args: any): Promise<Promise>;
 
         /**
          * Shifts the first n items from the stream and pushes out the remaining ones.
@@ -565,9 +565,9 @@ declare module 'scramjet' {
          * Pushes any data at call time (essentially at the beginning of the stream)
          * 
          * This is a synchronous only function.
-         * @param item list of items to unshift (you can pass more items)
+         * @param ...item list of items to unshift (you can pass more items)
          */
-        unshift(item: any): this;
+        unshift(...item: any): this;
 
         /**
          * Pushes any data at end of stream
@@ -591,8 +591,9 @@ declare module 'scramjet' {
          * Consumes the stream by running each Function
          * @deprecated use {@link DataStream#each} instead
          * @param func the consument
+         * @param ...args additional args will be passed to generators
          */
-        consume(func: ConsumeCallback | AsyncGeneratorFunction | GeneratorFunction): Promise<any>;
+        consume(func: ConsumeCallback | AsyncGeneratorFunction | GeneratorFunction, ...args: any): Promise<any>;
 
         /**
          * Reduces the stream into the given object, returning it immediately.
@@ -606,10 +607,8 @@ declare module 'scramjet' {
          * This method is serial - meaning that any processing on an entry will
          * occur only after the previous entry is fully processed. This does mean
          * it's much slower than parallel functions.
-         * @param func The into object will be passed as the first
-         *        argument, the data object from the stream as the second.
-         * @param into Any object passed initially to the transform
-         *        function
+         * @param func The into object will be passed as the first argument, the data object from the stream as the second.
+         * @param into Any object passed initially to the transform  function
          */
         reduceNow(func: ReduceCallback, into: any | EventEmitter): any;
 
@@ -642,9 +641,9 @@ declare module 'scramjet' {
 
         /**
          * Returns a new stream that will append the passed streams to the callee
-         * @param streams Streams to be passed
+         * @param ...streams Streams to be injected into the current stream
          */
-        concat(streams: any): this;
+        concat(...streams: stream.Readable): this;
 
         /**
          * Method will put the passed object between items. It can also be a function call or generator / iterator.
@@ -659,13 +658,13 @@ declare module 'scramjet' {
          * Keep a buffer of n-chunks for use with {@see DataStream..rewind}
          * @param count Number of objects or -1 for all the stream
          */
-        keep(count: number): this;
+        keep(count?: number): this;
 
         /**
          * Rewinds the buffered chunks the specified length backwards. Requires a prior call to {@see DataStream..keep}
          * @param count Number of objects or -1 for all the buffer
          */
-        rewind(count: number): this;
+        rewind(count?: number): this;
 
         /**
          * Distributes processing into multiple sub-processes or threads if you like.
@@ -723,7 +722,7 @@ declare module 'scramjet' {
          * @param ms Maximum amount of milliseconds
          * @param count Maximum number of items in batch (otherwise no limit)
          */
-        timeBatch(ms: Number, count: Number): this;
+        timeBatch(ms: Number, count?: Number): this;
 
         /**
          * Performs the Nagle's algorithm on the data. In essence it waits until we receive some more data and releases them
@@ -764,7 +763,7 @@ declare module 'scramjet' {
          * Stringifies CSV to DataString using 'papaparse' module.
          * @param options options for the papaparse.unparse module.
          */
-        CSVStringify(options: any): StringStream;
+        CSVStringify(options?: Object): StringStream;
 
         /**
          * Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream.
@@ -778,7 +777,7 @@ declare module 'scramjet' {
          * @param options options to be passed to `spawn` and defining serialization.
          * @param args additional arguments (will overwrite to SpawnOptions args even if not given)
          */
-        exec(command: String, options: ExecDataOptions, args: String): void;
+        exec(command: String, options?: ExecDataOptions, args: String): void;
 
         /**
          * Injects a ```debugger``` statement when called.
@@ -860,7 +859,7 @@ declare module 'scramjet' {
     /**
      * 
      * @param stream
-     * @param parameters
+     * @param ...parameters
      * @returns
      */
     type UseCallback = (stream: DataStream, ...parameters: any)=>DataStream;
@@ -1002,8 +1001,9 @@ declare module 'scramjet' {
          * The method MUST parse EVERY string into a single object, so the string
          * stream here should already be split.
          * @param parser The transform function
+         * @param StreamClass the output stream class to return
          */
-        parse(parser: ParseCallback): DataStream;
+        parse(parser: ParseCallback, StreamClass: Function): DataStream;
 
         /**
          * Alias for {@link StringStream#parse}
@@ -1037,7 +1037,7 @@ declare module 'scramjet' {
 
         /**
          * Splits the string stream by the specified regexp or string
-         * @param eol End of line string
+         * @param eol End of line string or regex
          */
         lines(eol?: String): this;
 
@@ -1079,7 +1079,7 @@ declare module 'scramjet' {
          * @param options options to be passed to `spawn` and defining serialization.
          * @param ...args additional arguments (will overwrite to SpawnOptions args even if not given)
          */
-        exec(command: String, options?: ExecOptions, ...args?: String): void;
+        exec(command: String, options?: ExecOptions, ...args: String): void;
 
     }
 
@@ -1125,7 +1125,7 @@ declare module 'scramjet' {
          * Creates the BufferStream
          * @param opts Stream options passed to superclass
          */
-        constructor(opts: DataStreamOptions);
+        constructor(opts?: DataStreamOptions);
 
         /**
          * Shift given number of bytes from the original stream
@@ -1158,7 +1158,7 @@ declare module 'scramjet' {
          * @param encoding The encoding to be used to convert the buffers
          *        to streams.
          */
-        stringify(encoding: String): StringStream;
+        stringify(encoding?: String): StringStream;
 
         /**
          * Parses every buffer to object
@@ -1173,10 +1173,10 @@ declare module 'scramjet' {
          * Creates a pipeline of streams and returns a scramjet stream.
          * @see DataStream.pipeline
          * @param readable the initial readable argument that is streamable by scramjet.from
-         * @param transforms Transform functions (as in {@link DataStream..use}) or Transform streams (any number of these as consecutive arguments)
+         * @param ...transforms Transform functions (as in {@link DataStream..use}) or Transform streams (any number of these as consecutive arguments)
          * @returns a new StringStream instance of the resulting pipeline
          */
-        static pipeline(readable: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, transforms: AsyncFunction | Function | Transform): BufferStream;
+        static pipeline(readable: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, ...transforms: AsyncFunction | Function | Transform): BufferStream;
 
         /**
          * Create BufferStream from anything.
@@ -1216,7 +1216,7 @@ declare module 'scramjet' {
          *        objects will be filtered out!)
          * @param options Optional options for the super object. ;)
          */
-        constructor(streams: any[] | AsyncGenerator<Readable> | Generator<Readable>, options: Object);
+        constructor(streams: any[] | AsyncGenerator<Readable> | Generator<Readable>, options?: Object);
 
         /**
          * Array of all streams

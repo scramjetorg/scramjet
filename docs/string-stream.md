@@ -21,7 +21,7 @@ StringStream.fromString()
     * [stringStream.split(splitter)](#module_scramjet.StringStream+split) ↺
     * [stringStream.match(matcher)](#module_scramjet.StringStream+match) ↺
     * [stringStream.toBufferStream()](#module_scramjet.StringStream+toBufferStream) ↺ [<code>BufferStream</code>](buffer-stream.md#module_scramjet.BufferStream)
-    * [stringStream.parse(parser)](#module_scramjet.StringStream+parse) ↺ [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
+    * [stringStream.parse(parser, StreamClass)](#module_scramjet.StringStream+parse) ↺ [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
     * [stringStream.toDataStream()](#module_scramjet.StringStream+toDataStream)
     * [stringStream.lines([eol])](#module_scramjet.StringStream+lines) ↺
     * [stringStream.JSONParse([perLine])](#module_scramjet.StringStream+JSONParse) ↺ [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
@@ -105,7 +105,7 @@ all your transforms when you like.
 **Test**: test/methods/string-stream-tobufferstream.js  
 <a name="module_scramjet.StringStream+parse"></a>
 
-### stringStream.parse(parser) : DataStream ↺
+### stringStream.parse(parser, StreamClass) : DataStream ↺
 Parses every string to object
 
 The method MUST parse EVERY string into a single object, so the string
@@ -119,6 +119,7 @@ stream here should already be split.
 | Param | Type | Description |
 | --- | --- | --- |
 | parser | [<code>ParseCallback</code>](definitions.md#module_scramjet..ParseCallback) | The transform function |
+| StreamClass | <code>function</code> | the output stream class to return |
 
 <a name="module_scramjet.StringStream+toDataStream"></a>
 
@@ -137,7 +138,7 @@ Splits the string stream by the specified regexp or string
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [eol] | <code>String</code> | <code>/\r?\n/</code> | End of line string |
+| [eol] | <code>String</code> | <code>/\r?\n/</code> | End of line string or regex |
 
 <a name="module_scramjet.StringStream+JSONParse"></a>
 
@@ -211,7 +212,7 @@ Note: if you're piping both stderr and stdout (options.stream=3) keep in mind th
 | --- | --- | --- | --- |
 | command | <code>String</code> |  | command to execute |
 | [options] | [<code>ExecOptions</code>](definitions.md#module_scramjet..ExecOptions) | <code>{}</code> | options to be passed to `spawn` and defining serialization. |
-| [...args] | <code>String</code> |  | additional arguments (will overwrite to SpawnOptions args even if not given) |
+| ...args | <code>String</code> |  | additional arguments (will overwrite to SpawnOptions args even if not given) |
 
 <a name="module_scramjet.StringStream.SPLIT_LINE"></a>
 

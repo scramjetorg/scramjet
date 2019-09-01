@@ -80,7 +80,7 @@ Shift Function
 | Param | Type |
 | --- | --- |
 | stream | [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream) | 
-| ...parameters | <code>any</code> | 
+| ...parameters | <code>\*</code> | 
 
 <a name="module_scramjet..TeeCallback"></a>
 
