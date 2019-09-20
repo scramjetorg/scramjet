@@ -43,11 +43,11 @@ module.exports.handlers = {
                     lookup => (replaced++, augmented.replace(lookup, tagLookup[lookup].longname))
                 )
             );
-            if (replaced && doclet.kind === "class") {
-                const oldName = doclet.name;
-                doclet.name = `${oldName} extends ${oldAugments[0]}`;
-                replaceNames[oldName] = doclet.name;
-            }
+            // if (replaced && doclet.kind === "class") {
+            //     const oldName = doclet.name;
+            //     doclet.name = `${oldName} extends ${oldAugments[0]}`;
+            //     replaceNames[oldName] = doclet.name;
+            // }
         }
 
         if (doclet.memberof) {
