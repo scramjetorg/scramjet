@@ -1,5 +1,5 @@
 // eslint-disable-next-line node/no-unpublished-require
-const {publish} = require("@otris/jsdoc-tsd/src-out/src/core/publish");
+const {publish} = require("@otris/jsdoc-tsd/src-out/publish");
 
 module.exports = {
     publish(data, opts) {
