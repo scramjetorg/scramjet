@@ -70,6 +70,7 @@ await (DataStream.from(aStream) // create a DataStream
     * [dataStream.join(item)](#module_scramjet.DataStream+join) ↺
     * [dataStream.keep([count])](#module_scramjet.DataStream+keep) ↺
     * [dataStream.rewind([count])](#module_scramjet.DataStream+rewind) ↺
+    * [dataStream.stack([count], [drop])](#module_scramjet.DataStream+stack) ↺
     * [dataStream.distribute([affinity], clusterFunc, [options])](#module_scramjet.DataStream+distribute) ↺
     * [dataStream.separateInto(streams, affinity)](#module_scramjet.DataStream+separateInto) ↺
     * [dataStream.separate(affinity, [createOptions], [ClassType])](#module_scramjet.DataStream+separate) ↺ [<code>MultiStream</code>](multi-stream.md#module_scramjet.MultiStream)
@@ -818,6 +819,26 @@ Rewinds the buffered chunks the specified length backwards. Requires a prior cal
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [count] | <code>number</code> | <code>Infinity</code> | Number of objects or -1 for all the buffer |
+
+<a name="module_scramjet.DataStream+stack"></a>
+
+### dataStream.stack([count], [drop]) ↺
+Returns a stream that stacks up incoming items always feeding out the newest items first.
+It returns the older items when read
+
+When the stack length exceeds the given `count` the given `drop` function is awaited
+and used for flow control.
+
+By default the drop function ignores and quietly disposes of items not read before overflow.
+
+**Kind**: instance method of [<code>DataStream</code>](#module_scramjet.DataStream)  
+**Chainable**  
+**Test**: test/methods/data-stream-stack.js  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [count] | <code>number</code> | <code>1000</code> | 
+| [drop] | <code>function</code> |  | 
 
 <a name="module_scramjet.DataStream+distribute"></a>
 
