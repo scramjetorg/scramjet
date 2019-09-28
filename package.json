@@ -57,7 +57,7 @@
   "devDependencies": {
     "@otris/jsdoc-tsd": "^2.0.0",
     "decache": "^4.5.1",
-    "dmd": "^4.0.3",
+    "dmd": "^4.0.4",
     "eslint": "^6.4.0",
     "eslint-config-scramjet": "^2.0.1",
     "fancy-log": "^1.3.3",
@@ -77,8 +77,8 @@
     "vinyl": "^2.2.0"
   },
   "dependencies": {
-    "papaparse": "^5.0.2",
+    "papaparse": "^5.1.0",
     "rereadable-stream": "^1.3.10",
-    "scramjet-core": "^4.23.2"
+    "scramjet-core": "^4.23.3"
   }
 }
