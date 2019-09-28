@@ -35,14 +35,14 @@ declare module 'scramjet' {
      * @param options options for creation of a new stream or the target stream
      * @param ...args additional arguments for the stream - will be passed to the function or generator
      */
-    export function from(input: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, options?: DataStreamOptions | Writable, ...args: any): DataStream;
+    function from(input: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, options?: DataStreamOptions | Writable, ...args: any): DataStream;
 
     /**
      * Creates a DataStream from an Array
      * @param array list of chunks
      * @param options the read stream options
      */
-    export function fromArray(array: any[], options?: ScramjetOptions): DataStream;
+    function fromArray(array: any[], options?: ScramjetOptions): DataStream;
 
     /**
      * Creates a safe wrapper for scramjet transform module. See [Modules documentation](modules.md) for more info.
@@ -50,7 +50,7 @@ declare module 'scramjet' {
      * @param options
      * @param ...initialArgs
      */
-    export function createTransformModule(transform: UseCallback, options?: CreateModuleOptions, ...initialArgs: any): Function;
+    function createTransformModule(transform: UseCallback, options?: CreateModuleOptions, ...initialArgs: any): Function;
 
     /**
      * Creates a safe wrapper for scramjet read module. See [Modules documentation](modules.md) for more info.
@@ -58,7 +58,7 @@ declare module 'scramjet' {
      * @param options
      * @param ...initialArgs
      */
-    export function createReadModule(anything: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, options?: CreateModuleOptions, ...initialArgs: any): Function;
+    function createReadModule(anything: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | String | Readable, options?: CreateModuleOptions, ...initialArgs: any): Function;
 
     /**
      * Options for createModule
@@ -83,7 +83,7 @@ declare module 'scramjet' {
     /**
      * Exposes error classes (undocumented)
      */
-    export var errors: ScramjetErrors;
+    var errors: ScramjetErrors;
 
     /**
      * Definition of a single mixin for a specific Scramjet class. Should contain any number of stream methods.
@@ -121,13 +121,13 @@ declare module 'scramjet' {
      * Plugs in methods for any of the classes
      * @param mixin the plugin object
      */
-    export function plugin(mixin: ScramjetPlugin): ScramjetPlugin;
+    function plugin(mixin: ScramjetPlugin): ScramjetPlugin;
 
     /**
      * Gets an API version (this may be important for future use)
      * @param version The required version (currently only: 1)
      */
-    export function API(version: Number): ScramjetPlugin;
+    function API(version: Number): ScramjetPlugin;
 
     /**
      * DataStream is the primary stream type for Scramjet. When you parse your
