@@ -667,6 +667,19 @@ declare module 'scramjet' {
         rewind(count?: number): this;
 
         /**
+         * Returns a stream that stacks up incoming items always feeding out the newest items first.
+         * It returns the older items when read
+         * 
+         * When the stack length exceeds the given `count` the given `drop` function is awaited
+         * and used for flow control.
+         * 
+         * By default the drop function ignores and quietly disposes of items not read before overflow.
+         * @param count
+         * @param drop
+         */
+        stack(count?: number, drop?: Function): this;
+
+        /**
          * Distributes processing into multiple sub-processes or threads if you like.
          * @todo Currently order is not kept.
          * @todo Example test breaks travis-ci build

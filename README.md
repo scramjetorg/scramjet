@@ -336,6 +336,7 @@ await (DataStream.from(aStream) // create a DataStream
 * [`dataStream.join(item) ↺`](docs/data-stream.md#module_scramjet.DataStream+join) - Method will put the passed object between items. It can also be a function call or generator / iterator.
 * [`dataStream.keep([count]) ↺`](docs/data-stream.md#module_scramjet.DataStream+keep) - Keep a buffer of n-chunks for use with {@see DataStream..rewind}
 * [`dataStream.rewind([count]) ↺`](docs/data-stream.md#module_scramjet.DataStream+rewind) - Rewinds the buffered chunks the specified length backwards. Requires a prior call to {@see DataStream..keep}
+* [`dataStream.stack([count], [drop]) ↺`](docs/data-stream.md#module_scramjet.DataStream+stack) - Returns a stream that stacks up incoming items always feeding out the newest items first.
 * [`dataStream.distribute([affinity], clusterFunc, [options]) ↺`](docs/data-stream.md#module_scramjet.DataStream+distribute) - Distributes processing into multiple sub-processes or threads if you like.
 * [`dataStream.separateInto(streams, affinity) ↺`](docs/data-stream.md#module_scramjet.DataStream+separateInto) - Separates stream into a hash of streams. Does not create new streams!
 * [`dataStream.separate(affinity, [createOptions], [ClassType]) : MultiStream ↺`](docs/data-stream.md#module_scramjet.DataStream+separate) - Separates execution to multiple streams using the hashes returned by the passed Function.
