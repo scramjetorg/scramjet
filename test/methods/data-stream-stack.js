@@ -10,7 +10,7 @@ exports.stream = (cnt = 1010) => DataStream.from(function*() {
 
 // ------- END EXAMPLE --------
 
-const timeout = Symbol('timeout')
+const timeout = Symbol("timeout");
 exports.test = {
     async defaultArgs(test) {
         test.expect(6);
