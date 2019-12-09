@@ -57,7 +57,7 @@
   "devDependencies": {
     "@otris/jsdoc-tsd": "^2.0.0",
     "decache": "^4.5.1",
-    "dmd": "^4.0.5",
+    "dmd": "^5.0.0",
     "eslint": "^6.7.2",
     "eslint-config-scramjet": "^2.0.1",
     "fancy-log": "^1.3.3",
@@ -68,7 +68,7 @@
     "jsdoc": "^3.6.3",
     "jsdoc-api": "^5.0.4",
     "jsdoc-parse": "^4.0.1",
-    "nodeunit-tape-compat": "^1.3.33",
+    "nodeunit-tape-compat": "^1.3.34",
     "replace-in-file": "^4.2.0",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.8",
@@ -78,7 +78,7 @@
   },
   "dependencies": {
     "papaparse": "^5.1.0",
-    "rereadable-stream": "^1.3.14",
-    "scramjet-core": "^4.23.6"
+    "rereadable-stream": "^1.3.15",
+    "scramjet-core": "^4.23.7"
   }
 }
