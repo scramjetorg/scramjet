@@ -1,0 +1,10 @@
+/.*
+!.d.ts
+/_config.yml
+/greenkeeper.json
+/gulpfile.js
+/jsconfig.json
+/test
+/jsdoc2md
+/scripts
+/samples
