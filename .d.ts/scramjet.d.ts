@@ -1197,7 +1197,7 @@ declare module 'scramjet' {
          * @param stream argument to be turned into new stream
          * @param options
          */
-        static from(stream: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | Readable, options: DataStreamOptions | Writable): BufferStream;
+        static from(stream: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | Readable, options?: DataStreamOptions | Writable): BufferStream;
 
     }
 
