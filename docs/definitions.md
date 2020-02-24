@@ -325,6 +325,7 @@ Distribute options
 | [StreamClass] | <code>String</code> | <code>DataStream</code> | the class to deserialize the stream to. |
 | [threads] | <code>Number</code> | <code>os.cpus().length * 2</code> | maximum threads to use - defaults to number of processor threads in os, but it may be sensible to go over this value if you'd intend to run synchronous code. |
 | [createOptions] | [<code>DataStreamOptions</code>](definitions.md#module_scramjet..DataStreamOptions) | <code>{}</code> | maximum threads to use - defaults to number of processor threads in os, but it may be sensible to go over this value if you'd intend to run synchronous code. |
+| [StreamWorker] | [<code>StreamWorker</code>](stream-worker.md#module_scramjet.StreamWorker) | <code>scramjet.StreamWorker</code> | worker implementation. |
 
 <a name="module_scramjet..ValueOfCallback"></a>
 

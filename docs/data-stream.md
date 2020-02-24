@@ -1223,7 +1223,7 @@ Create a DataStream from an Array
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | array | <code>Array.&lt;\*&gt;</code> |  | list of chunks |
-| [options] | <code>ScramjetOptions</code> | <code>{}</code> | the read stream options |
+| [options] | [<code>DataStreamOptions</code>](definitions.md#module_scramjet..DataStreamOptions) | <code>{}</code> | the read stream options |
 
 <a name="module_scramjet.DataStream.fromIterator"></a>
 
@@ -1238,5 +1238,5 @@ Doesn't end the stream until it reaches end of the iterator.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | iterator | <code>Iterator</code> |  | the iterator object |
-| [options] | <code>ScramjetOptions</code> | <code>{}</code> | the read stream options |
+| [options] | [<code>DataStreamOptions</code>](definitions.md#module_scramjet..DataStreamOptions) | <code>{}</code> | the read stream options |
 

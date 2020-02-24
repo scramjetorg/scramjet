@@ -33,7 +33,7 @@ A simple use case would be:
     * [bufferStream.stringify([encoding])](#module_scramjet.BufferStream+stringify)  [<code>StringStream</code>](string-stream.md#module_scramjet.StringStream)
     * [bufferStream.parse(parser)](#module_scramjet.BufferStream+parse)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
     * [BufferStream:pipeline(readable)](#module_scramjet.BufferStream.pipeline)  [<code>BufferStream</code>](buffer-stream.md#module_scramjet.BufferStream)
-    * [BufferStream:from(stream, options)](#module_scramjet.BufferStream.from)  [<code>BufferStream</code>](buffer-stream.md#module_scramjet.BufferStream)
+    * [BufferStream:from(stream, [options])](#module_scramjet.BufferStream.from)  [<code>BufferStream</code>](buffer-stream.md#module_scramjet.BufferStream)
 
 <a name="new_module_scramjet.BufferStream_new"></a>
 
@@ -139,15 +139,15 @@ Creates a pipeline of streams and returns a scramjet stream.
 
 <a name="module_scramjet.BufferStream.from"></a>
 
-### BufferStream:from(stream, options) : BufferStream
+### BufferStream:from(stream, [options]) : BufferStream
 Create BufferStream from anything.
 
 **Kind**: static method of [<code>BufferStream</code>](#module_scramjet.BufferStream)  
 **Returns**: [<code>BufferStream</code>](buffer-stream.md#module_scramjet.BufferStream) - new StringStream.  
 **See**: module:scramjet.from  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| stream | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>Readable</code> | argument to be turned into new stream |
-| options | [<code>DataStreamOptions</code>](definitions.md#module_scramjet..DataStreamOptions) \| <code>Writable</code> |  |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| stream | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>Readable</code> |  | argument to be turned into new stream |
+| [options] | [<code>DataStreamOptions</code>](definitions.md#module_scramjet..DataStreamOptions) \| <code>Writable</code> | <code>{}</code> | options passed to the new stream if created |
 
