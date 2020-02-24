@@ -44,7 +44,7 @@ Constructs the stream with the given encoding
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [encoding] | <code>String</code> | <code>&quot;utf-8&quot;</code> | the encoding to use |
-| [options] | <code>Object</code> | <code>{}</code> | the encoding to use |
+| [options] | [<code>DataStreamOptions</code>](definitions.md#module_scramjet..DataStreamOptions) | <code>{}</code> | the encoding to use |
 
 <a name="module_scramjet.StringStream+shift"></a>
 

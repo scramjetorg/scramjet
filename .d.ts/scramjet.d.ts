@@ -479,7 +479,7 @@ declare module 'scramjet' {
          * @param array list of chunks
          * @param options the read stream options
          */
-        static fromArray(array: any[], options?: ScramjetOptions): DataStream;
+        static fromArray(array: any[], options?: DataStreamOptions): DataStream;
 
         /**
          * Create a DataStream from an Iterator
@@ -488,7 +488,7 @@ declare module 'scramjet' {
          * @param iterator the iterator object
          * @param options the read stream options
          */
-        static fromIterator(iterator: Iterator, options?: ScramjetOptions): DataStream;
+        static fromIterator(iterator: Iterator, options?: DataStreamOptions): DataStream;
 
         /**
          * Aggregates the stream into a single Array
@@ -969,7 +969,7 @@ declare module 'scramjet' {
          * @param encoding the encoding to use
          * @param options the encoding to use
          */
-        constructor(encoding?: String, options?: Object);
+        constructor(encoding?: String, options?: DataStreamOptions);
 
         /**
          * Shifts given length of chars from the original stream
@@ -1195,9 +1195,9 @@ declare module 'scramjet' {
          * Create BufferStream from anything.
          * @see module:scramjet.from
          * @param stream argument to be turned into new stream
-         * @param options
+         * @param options options passed to the new stream if created
          */
-        static from(stream: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | Readable, options: DataStreamOptions | Writable): BufferStream;
+        static from(stream: any[] | Iterable | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | Readable, options?: DataStreamOptions | Writable): BufferStream;
 
     }
 
