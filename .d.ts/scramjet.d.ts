@@ -1513,6 +1513,10 @@ declare module 'scramjet' {
          * maximum threads to use - defaults to number of processor threads in os, but it may be sensible to go over this value if you'd intend to run synchronous code.
          */
         createOptions?: DataStreamOptions;
+        /**
+         * worker implementation.
+         */
+        StreamWorker?: StreamWorker;
     }
 
 }
