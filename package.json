@@ -68,11 +68,11 @@
     "jsdoc": "^3.6.3",
     "jsdoc-api": "^5.0.4",
     "jsdoc-parse": "^4.0.1",
-    "nodeunit-tape-compat": "^1.3.37",
+    "nodeunit-tape-compat": "^1.3.39",
     "replace-in-file": "^5.0.2",
     "request": "^2.88.2",
     "request-promise-native": "^1.0.8",
-    "tape": "^4.13.0",
+    "tape": "^4.13.2",
     "through2": "^3.0.1",
     "vinyl": "^2.2.0"
   },
