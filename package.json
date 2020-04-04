@@ -62,13 +62,13 @@
     "eslint-config-scramjet": "^2.0.1",
     "fancy-log": "^1.3.3",
     "gulp": "^4.0.2",
-    "gulp-jsdoc3": "^2.0.0",
+    "gulp-jsdoc3": "^3.0.0",
     "gulp-rename": "^2.0.0",
     "gulp-shell": "^0.8.0",
     "jsdoc": "^3.6.3",
     "jsdoc-api": "^5.0.4",
     "jsdoc-parse": "^4.0.1",
-    "nodeunit-tape-compat": "^1.3.41",
+    "nodeunit-tape-compat": "^1.3.42",
     "replace-in-file": "^5.0.2",
     "request": "^2.88.2",
     "request-promise-native": "^1.0.8",
@@ -78,7 +78,7 @@
   },
   "dependencies": {
     "papaparse": "^5.2.0",
-    "rereadable-stream": "^1.3.23",
+    "rereadable-stream": "^1.3.24",
     "scramjet-core": "^4.24.2"
   }
 }
