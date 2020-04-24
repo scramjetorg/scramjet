@@ -72,7 +72,7 @@
     "replace-in-file": "^5.0.2",
     "request": "^2.88.2",
     "request-promise-native": "^1.0.8",
-    "tape": "^4.13.2",
+    "tape": "^5.0.0",
     "through2": "^3.0.1",
     "vinyl": "^2.2.0"
   },
