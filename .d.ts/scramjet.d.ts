@@ -392,6 +392,15 @@ declare module 'scramjet' {
         setOptions(options: DataStreamOptions): this;
 
         /**
+         * Returns a copy of the stream
+         * 
+         * Creates a new stream and pushes all the data from the current one to the new one.
+         * This can be called serveral times.
+         * @param func The duplicate stream will be passed as first argument.
+         */
+        copy(func: TeeCallback | Writable): this;
+
+        /**
          * Duplicate the stream
          * 
          * Creates a duplicate stream instance and passes it to the Function.
