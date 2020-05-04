@@ -41,6 +41,7 @@ await (DataStream.from(aStream) // create a DataStream
     * [dataStream.whenDrained()](#module_scramjet.DataStream+whenDrained)
     * [dataStream.whenError()](#module_scramjet.DataStream+whenError)
     * [dataStream.setOptions(options)](#module_scramjet.DataStream+setOptions) ↺
+    * [dataStream.copy(func)](#module_scramjet.DataStream+copy) ↺
     * [dataStream.tee(func)](#module_scramjet.DataStream+tee) ↺
     * [dataStream.each(func)](#module_scramjet.DataStream+each) ↺
     * [dataStream.while(func)](#module_scramjet.DataStream+while) ↺
@@ -367,6 +368,21 @@ It's much easier to use this in chain than constructing new stream:
 | Param | Type |
 | --- | --- |
 | options | [<code>DataStreamOptions</code>](definitions.md#module_scramjet..DataStreamOptions) | 
+
+<a name="module_scramjet.DataStream+copy"></a>
+
+### dataStream.copy(func) ↺
+Returns a copy of the stream
+
+Creates a new stream and pushes all the data from the current one to the new one.
+This can be called serveral times.
+
+**Kind**: instance method of [<code>DataStream</code>](#module_scramjet.DataStream)  
+**Chainable**  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| func | [<code>TeeCallback</code>](definitions.md#module_scramjet..TeeCallback) \| <code>Writable</code> | The duplicate stream will be passed as first argument. |
 
 <a name="module_scramjet.DataStream+tee"></a>
 

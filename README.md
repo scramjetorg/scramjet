@@ -307,6 +307,7 @@ await (DataStream.from(aStream) // create a DataStream
 * [`dataStream.whenDrained() ⇄`](docs/data-stream.md#module_scramjet.DataStream+whenDrained) - Returns a promise that resolves when the stream is drained
 * [`dataStream.whenError() ⇄`](docs/data-stream.md#module_scramjet.DataStream+whenError) - Returns a promise that resolves (!) when the stream is errors
 * [`dataStream.setOptions(options) ↺`](docs/data-stream.md#module_scramjet.DataStream+setOptions) - Allows resetting stream options.
+* [`dataStream.copy(func) ↺`](docs/data-stream.md#module_scramjet.DataStream+copy) - Returns a copy of the stream
 * [`dataStream.tee(func) ↺`](docs/data-stream.md#module_scramjet.DataStream+tee) - Duplicate the stream
 * [`dataStream.each(func) ↺`](docs/data-stream.md#module_scramjet.DataStream+each) - Performs an operation on every chunk, without changing the stream
 * [`dataStream.while(func) ↺`](docs/data-stream.md#module_scramjet.DataStream+while) - Reads the stream while the function outcome is truthy.
