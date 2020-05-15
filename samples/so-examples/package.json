@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Signicode <opensource@signicode.com>",
+  "author": "Scramjet <opensource@scramjet.org>",
   "license": "MIT",
   "dependencies": {
     "html-to-text": "*",
