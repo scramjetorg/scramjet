@@ -52,7 +52,7 @@
     "node": ">=8.6.0"
   },
   "types": "./.d.ts/scramjet.d.ts",
-  "author": "Signicode / Michał Czapracki <cz@signicode.com>",
+  "author": "Scramjet Sp z o.o. / Michał Czapracki <cz@scramjet.org>",
   "license": "MIT",
   "devDependencies": {
     "@otris/jsdoc-tsd": "^2.0.0",
