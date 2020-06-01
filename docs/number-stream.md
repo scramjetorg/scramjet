@@ -12,8 +12,8 @@ provides simple methods like `sum`, `average`. It derives from DataStream so it'
 
 * [:NumberStream](#module_scramjet.NumberStream)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
     * [new NumberStream(options)](#new_module_scramjet.NumberStream_new)
-    * [numberStream.sum()](#module_scramjet.NumberStream+sum) ⇄ <code>Number</code>
-    * [numberStream.avg()](#module_scramjet.NumberStream+avg) ⇄ <code>Number</code>
+    * [numberStream.sum()](#module_scramjet.NumberStream+sum) ⇄ <code>Promise.&lt;number&gt;</code> \| <code>any</code>
+    * [numberStream.avg()](#module_scramjet.NumberStream+avg) ⇄ <code>Promise.&lt;number&gt;</code> \| <code>any</code>
 
 <a name="new_module_scramjet.NumberStream_new"></a>
 
@@ -27,13 +27,13 @@ Creates an instance of NumberStream.
 
 <a name="module_scramjet.NumberStream+sum"></a>
 
-### numberStream.sum() : Number ⇄
+### numberStream.sum() : Promise.<number> | any ⇄
 Calculates the sum of all items in the stream.
 
 **Kind**: instance method of [<code>NumberStream</code>](#module_scramjet.NumberStream)  
 <a name="module_scramjet.NumberStream+avg"></a>
 
-### numberStream.avg() : Number ⇄
+### numberStream.avg() : Promise.<number> | any ⇄
 Calculates the sum of all items in the stream.
 
 **Kind**: instance method of [<code>NumberStream</code>](#module_scramjet.NumberStream)  

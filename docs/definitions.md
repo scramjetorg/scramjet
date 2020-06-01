@@ -9,13 +9,13 @@ Shift Function
 
 | Param | Type | Description |
 | --- | --- | --- |
-| shifted | <code>Buffer</code> | shifted bytes |
+| shifted | <code>Buffer</code> \| <code>any</code> | shifted bytes |
 
-<a name="module_scramjet..ParseCallback"></a>
+<a name="module_scramjet..BufferParseCallback"></a>
 
-## ~ParseCallback : Promise
+## ~BufferParseCallback : Promise.<any>
 **Kind**: inner typedef  
-**Returns**: <code>Promise</code> - the promise should be resolved with the parsed object  
+**Returns**: <code>Promise.&lt;any&gt;</code> - the promise should be resolved with the parsed object  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -23,9 +23,9 @@ Shift Function
 
 <a name="module_scramjet..MapCallback"></a>
 
-## ~MapCallback : Promise | *
+## ~MapCallback : Promise.<any> | *
 **Kind**: inner typedef  
-**Returns**: <code>Promise</code> \| <code>\*</code> - the mapped object  
+**Returns**: <code>Promise.&lt;any&gt;</code> \| <code>\*</code> - the mapped object  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -43,14 +43,14 @@ Shift Function
 
 <a name="module_scramjet..ReduceCallback"></a>
 
-## ~ReduceCallback : Promise | *
+## ~ReduceCallback : Promise.<*> | *
 **Kind**: inner typedef  
-**Returns**: <code>Promise</code> \| <code>\*</code> - accumulator for the next pass  
+**Returns**: <code>Promise.&lt;\*&gt;</code> \| <code>\*</code> - accumulator for the next pass  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | accumulator | <code>\*</code> | the accumulator - the object initially passed or returned                by the previous reduce operation |
-| chunk | <code>Object</code> | the stream chunk. |
+| chunk | <code>object</code> | the stream chunk. |
 
 <a name="module_scramjet..DoCallback"></a>
 
@@ -59,7 +59,7 @@ Shift Function
 
 | Param | Type | Description |
 | --- | --- | --- |
-| chunk | <code>Object</code> | source stream chunk |
+| chunk | <code>object</code> | source stream chunk |
 
 <a name="module_scramjet..IntoCallback"></a>
 
@@ -70,7 +70,7 @@ Shift Function
 | Param | Type | Description |
 | --- | --- | --- |
 | into | <code>\*</code> | stream passed to the into method |
-| chunk | <code>Object</code> | source stream chunk |
+| chunk | <code>object</code> | source stream chunk |
 
 <a name="module_scramjet..UseCallback"></a>
 
@@ -80,7 +80,7 @@ Shift Function
 | Param | Type |
 | --- | --- |
 | stream | [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream) | 
-| ...parameters | <code>\*</code> | 
+| ...parameters | <code>Array.&lt;any&gt;</code> | 
 
 <a name="module_scramjet..TeeCallback"></a>
 
@@ -105,8 +105,8 @@ filtered and no other transforms will be run on the chunk.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| chunk | <code>Buffer</code> \| <code>String</code> \| <code>\*</code> | the stream chunk |
-| encoding | <code>String</code> | encoding of the chunk |
+| chunk | <code>Buffer</code> \| <code>string</code> \| <code>\*</code> | the stream chunk |
+| encoding | <code>string</code> | encoding of the chunk |
 
 <a name="module_scramjet..ScramjetWriteCallback"></a>
 
@@ -117,8 +117,8 @@ Write async callback. Await your async write and resolve.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| chunk | <code>Buffer</code> \| <code>String</code> \| <code>\*</code> | the stream chunk |
-| encoding | <code>String</code> | encoding of the chunk |
+| chunk | <code>Buffer</code> \| <code>string</code> \| <code>\*</code> | the stream chunk |
+| encoding | <code>string</code> | encoding of the chunk |
 
 <a name="module_scramjet..ScramjetReadCallback"></a>
 
@@ -130,11 +130,11 @@ Read async callback. Simply await your async operations and return the result as
 
 | Param | Type | Description |
 | --- | --- | --- |
-| count | <code>Number</code> | the number of chunks that should be read ("this is more like a set of guideline than actual rules"). |
+| count | <code>number</code> | the number of chunks that should be read ("this is more like a set of guideline than actual rules"). |
 
 <a name="module_scramjet..DataStreamOptions"></a>
 
-## ~DataStreamOptions : Object
+## ~DataStreamOptions : object
 Standard options for scramjet streams.
 
 Defines async transforms or read/write methods for a stream.
@@ -150,7 +150,7 @@ Defines async transforms or read/write methods for a stream.
 | [promiseFlush] | [<code>ScramjetReadCallback</code>](definitions.md#module_scramjet..ScramjetReadCallback) | <code></code> | an async function run before transform stream ends to push last chunks from the buffer |
 | [beforeTransform] | [<code>ScramjetTransformCallback</code>](definitions.md#module_scramjet..ScramjetTransformCallback) | <code></code> | an async function run before the transform |
 | [afterTransform] | [<code>ScramjetTransformCallback</code>](definitions.md#module_scramjet..ScramjetTransformCallback) | <code></code> | an async function run after the transform |
-| [maxParallel] | <code>Number</code> | <code>os.cpus.length*2</code> | the number of transforms done in parallel |
+| [maxParallel] | <code>number</code> | <code>os.cpus.length*2</code> | the number of transforms done in parallel |
 | [referrer] | [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream) | <code></code> | a referring stream to point to (if possible the transforms will be pushed to it |
 | [objectMode] | <code>boolean</code> | <code>true</code> | should the object mode be used                                 instead of creating a new stream) |
 
@@ -163,13 +163,13 @@ Shift Function
 
 | Param | Type | Description |
 | --- | --- | --- |
-| shifted | <code>Array.&lt;Object&gt;</code> | an array of shifted chunks |
+| shifted | <code>Array.&lt;object&gt;</code> \| <code>any</code> | an array of shifted chunks |
 
 <a name="module_scramjet..AccumulateCallback"></a>
 
-## ~AccumulateCallback : Promise | *
+## ~AccumulateCallback : Promise.<any> | *
 **Kind**: inner typedef  
-**Returns**: <code>Promise</code> \| <code>\*</code> - resolved when all operations are completed  
+**Returns**: <code>Promise.&lt;any&gt;</code> \| <code>\*</code> - resolved when all operations are completed  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -178,9 +178,9 @@ Shift Function
 
 <a name="module_scramjet..ConsumeCallback"></a>
 
-## ~ConsumeCallback : Promise | *
+## ~ConsumeCallback : Promise.<any> | *
 **Kind**: inner typedef  
-**Returns**: <code>Promise</code> \| <code>\*</code> - resolved when all operations are completed  
+**Returns**: <code>Promise.&lt;any&gt;</code> \| <code>\*</code> - resolved when all operations are completed  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -188,9 +188,9 @@ Shift Function
 
 <a name="module_scramjet..RemapCallback"></a>
 
-## ~RemapCallback : Promise | *
+## ~RemapCallback : Promise.<any> | *
 **Kind**: inner typedef  
-**Returns**: <code>Promise</code> \| <code>\*</code> - promise to be resolved when chunk has been processed  
+**Returns**: <code>Promise.&lt;any&gt;</code> \| <code>\*</code> - promise to be resolved when chunk has been processed  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -199,9 +199,9 @@ Shift Function
 
 <a name="module_scramjet..FlatMapCallback"></a>
 
-## ~FlatMapCallback : Promise.<Iterable> | Iterable
+## ~FlatMapCallback : Promise.<Iterable.<any>> | Iterable.<any>
 **Kind**: inner typedef  
-**Returns**: <code>Promise.&lt;Iterable&gt;</code> \| <code>Iterable</code> - promise to be resolved when chunk has been processed  
+**Returns**: <code>Promise.&lt;Iterable.&lt;any&gt;&gt;</code> \| <code>Iterable.&lt;any&gt;</code> - promise to be resolved when chunk has been processed  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -220,27 +220,31 @@ Shift Function
 
 <a name="module_scramjet..AffinityCallback"></a>
 
-## ~AffinityCallback : Symbol | String
+## ~AffinityCallback : Symbol | string
 **Kind**: inner typedef  
 
 | Param | Type |
 | --- | --- |
 | chunk | <code>\*</code> | 
 
+<a name="module_scramjet..DelegateCallback"></a>
+
+## ~DelegateCallback : function
+**Kind**: inner typedef  
 <a name="module_scramjet..RateOptions"></a>
 
-## ~RateOptions : Object
+## ~RateOptions : object
 **Kind**: inner typedef  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [timeFrame] | <code>Number</code> | <code>1000</code> | The size of the window to look for streams. |
+| [timeFrame] | <code>number</code> | <code>1000</code> | The size of the window to look for streams. |
 | [getTime] | <code>function</code> | <code>Date.now</code> | Time source - anything that returns time. |
 | [setTimeout] | <code>function</code> | <code>setTimeout</code> | Timing function that works identically to setTimeout. |
 
 <a name="module_scramjet..ExecDataOptions"></a>
 
-## ~ExecDataOptions : Object
+## ~ExecDataOptions : object
 **Kind**: inner typedef  
 **Extends**: <code>StringStream.ExecOptions</code>  
 **Properties**
@@ -252,7 +256,7 @@ Shift Function
 
 <a name="module_scramjet..CreateModuleOptions"></a>
 
-## ~CreateModuleOptions : Object
+## ~CreateModuleOptions : object
 Options for createModule
 
 **Kind**: inner typedef  
@@ -264,7 +268,7 @@ Options for createModule
 
 <a name="module_scramjet..ScramjetErrors"></a>
 
-## ~ScramjetErrors : Object
+## ~ScramjetErrors : object
 Scramjet Error classes
 
 **Kind**: inner typedef  
@@ -276,7 +280,7 @@ Scramjet Error classes
 
 <a name="module_scramjet..StreamMixin"></a>
 
-## ~StreamMixin : Object
+## ~StreamMixin : object
 Definition of a single mixin for a specific Scramjet class. Should contain any number of stream methods.
 
 **Kind**: inner typedef  
@@ -288,7 +292,7 @@ Definition of a single mixin for a specific Scramjet class. Should contain any n
 
 <a name="module_scramjet..ScramjetPlugin"></a>
 
-## ~ScramjetPlugin : Object
+## ~ScramjetPlugin : object
 Definition of a plugin in Scramjet
 
 **Kind**: inner typedef  
@@ -313,7 +317,7 @@ Definition of a plugin in Scramjet
 
 <a name="module_scramjet..DistributeOptions"></a>
 
-## ~DistributeOptions : Object
+## ~DistributeOptions : object
 Distribute options
 
 **Kind**: inner typedef  
@@ -322,16 +326,16 @@ Distribute options
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | [plugins] | <code>Array</code> | <code>[]</code> | a list of scramjet plugins to load (if omitted, will use just the ones in scramjet itself) |
-| [StreamClass] | <code>String</code> | <code>DataStream</code> | the class to deserialize the stream to. |
-| [threads] | <code>Number</code> | <code>os.cpus().length * 2</code> | maximum threads to use - defaults to number of processor threads in os, but it may be sensible to go over this value if you'd intend to run synchronous code. |
+| [StreamClass] | <code>string</code> | <code>&quot;DataStream&quot;</code> | the class to deserialize the stream to. |
+| [threads] | <code>number</code> | <code>os.cpus().length * 2</code> | maximum threads to use - defaults to number of processor threads in os, but it may be sensible to go over this value if you'd intend to run synchronous code. |
 | [createOptions] | [<code>DataStreamOptions</code>](definitions.md#module_scramjet..DataStreamOptions) | <code>{}</code> | maximum threads to use - defaults to number of processor threads in os, but it may be sensible to go over this value if you'd intend to run synchronous code. |
 | [StreamWorker] | [<code>StreamWorker</code>](stream-worker.md#module_scramjet.StreamWorker) | <code>scramjet.StreamWorker</code> | worker implementation. |
 
 <a name="module_scramjet..ValueOfCallback"></a>
 
-## ~ValueOfCallback : Number
+## ~ValueOfCallback : Promise.<number>
 **Kind**: inner typedef  
-**Returns**: <code>Number</code> - value of the object  
+**Returns**: <code>Promise.&lt;number&gt;</code> - value of the object  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -339,7 +343,7 @@ Distribute options
 
 <a name="module_scramjet..NumberStreamOptions"></a>
 
-## ~NumberStreamOptions : Object
+## ~NumberStreamOptions : object
 NumberStream options
 
 **Kind**: inner typedef  
@@ -357,21 +361,21 @@ NumberStream options
 
 | Param | Type | Description |
 | --- | --- | --- |
-| shifted | <code>String</code> | Popped chars |
+| shifted | <code>string</code> \| <code>any</code> | Shifted chars |
 
 <a name="module_scramjet..ParseCallback"></a>
 
-## ~ParseCallback : Promise
+## ~ParseCallback : Promise.<any>
 **Kind**: inner typedef  
-**Returns**: <code>Promise</code> - the promise should be resolved with the parsed object  
+**Returns**: <code>Promise.&lt;any&gt;</code> - the promise should be resolved with the parsed object  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| chunk | <code>String</code> | the transformed chunk |
+| chunk | <code>string</code> | the transformed chunk |
 
 <a name="module_scramjet..ExecOptions"></a>
 
-## ~ExecOptions : Object
+## ~ExecOptions : object
 **Kind**: inner typedef  
 **Extends**: <code>child\_process.SpawnOptions</code>  
 **Properties**

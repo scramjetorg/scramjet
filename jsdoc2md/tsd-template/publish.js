@@ -13,8 +13,6 @@ const helper = require("jsdoc/lib/jsdoc/util/templateHelper");
  * @param {*} opts - Options passed into jsdoc.
  */
 function publish(data, opts) {
-    data({ name: "ScramjetOptions" }).each(console.log);
-
     data({ undocumented: true }).remove();
 
     data({ inherited: true }).update(function () {
@@ -76,7 +74,7 @@ function publish(data, opts) {
         }
     }
 
-    const typedefs = parser.generateTypeDefinition();
+    const typedefs = parser.generateTypeDefinition().replace(/\.</g, "<");
 
     try {
         fs.writeFileSync(

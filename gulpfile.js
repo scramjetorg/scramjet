@@ -47,7 +47,7 @@ gulp.task("tsd", tsd(FILES.slice(), {
         },
         prepend: "./jsdoc2md/tsd-template/prepend.d.ts",
         template: "./jsdoc2md/tsd-template",
-        destination: ".d.ts/scramjet.d.ts"
+        destination: ".d.ts/index.d.ts"
     }
 }));
 

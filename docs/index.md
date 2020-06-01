@@ -2,7 +2,7 @@
 
 <a name="module_scramjet"></a>
 
-## scramjet : Object
+## scramjet
 Scramjet main exports expose all the stream classes and a number of methods.
 
 All scramjet streams allow writing, reading or transform modes - currently
@@ -32,9 +32,8 @@ What's worth mentioning - scramjet tries to limit the number of created transfor
 one after another into the same stream class therefore a code `stream.map(transform1).map(transform2).filter(transform3)`
 will only operate on a single transform stream that evaluates all three transforms one after another.
 
-**Extends**: <code>Object</code>  
 
-* [scramjet](#module_scramjet)  <code>Object</code>
+* [scramjet](#module_scramjet)
     * [:errors](#module_scramjet.errors)  [<code>ScramjetErrors</code>](definitions.md#module_scramjet..ScramjetErrors)
     * [:StreamWorker](#module_scramjet.StreamWorker)  [<code>StreamWorker</code>](stream-worker.md#module_scramjet.StreamWorker)
     * [:from(input, [options])](#module_scramjet.from)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
@@ -67,9 +66,9 @@ Creates a DataStream that's piped from the passed readable.
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| input | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>String</code> \| <code>Readable</code> |  | argument to be turned into new stream |
+| input | <code>Array</code> \| <code>Iterable.&lt;any&gt;</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>string</code> \| <code>Readable</code> |  | argument to be turned into new stream |
 | [options] | [<code>DataStreamOptions</code>](definitions.md#module_scramjet..DataStreamOptions) \| <code>Writable</code> | <code>{}</code> | options for creation of a new stream or the target stream |
-| ...args | <code>\*</code> |  | additional arguments for the stream - will be passed to the function or generator |
+| ...args | <code>Array.&lt;any&gt;</code> |  | additional arguments for the stream - will be passed to the function or generator |
 
 <a name="module_scramjet.fromArray"></a>
 
@@ -81,7 +80,7 @@ Creates a DataStream from an Array
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | array | <code>Array</code> |  | list of chunks |
-| [options] | <code>ScramjetOptions</code> | <code>{}</code> | the read stream options |
+| [options] | [<code>DataStreamOptions</code>](definitions.md#module_scramjet..DataStreamOptions) | <code>{}</code> | the read stream options |
 
 <a name="module_scramjet.createTransformModule"></a>
 
@@ -95,7 +94,7 @@ Creates a safe wrapper for scramjet transform module. See [Modules documentation
 | --- | --- | --- |
 | transform | [<code>UseCallback</code>](definitions.md#module_scramjet..UseCallback) |  | 
 | [options] | [<code>CreateModuleOptions</code>](definitions.md#module_scramjet..CreateModuleOptions) | <code>{}</code> | 
-| ...initialArgs | <code>any</code> |  | 
+| ...initialArgs | <code>Array.&lt;any&gt;</code> |  | 
 
 <a name="module_scramjet.createReadModule"></a>
 
@@ -107,9 +106,9 @@ Creates a safe wrapper for scramjet read module. See [Modules documentation](mod
 
 | Param | Type | Default |
 | --- | --- | --- |
-| anything | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>String</code> \| <code>Readable</code> |  | 
+| anything | <code>Array</code> \| <code>Iterable.&lt;any&gt;</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>string</code> \| <code>Readable</code> |  | 
 | [options] | [<code>CreateModuleOptions</code>](definitions.md#module_scramjet..CreateModuleOptions) | <code>{}</code> | 
-| ...initialArgs | <code>any</code> |  | 
+| ...initialArgs | <code>Array.&lt;any&gt;</code> |  | 
 
 <a name="module_scramjet.plugin"></a>
 
@@ -132,5 +131,5 @@ Gets an API version (this may be important for future use)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| version | <code>Number</code> | The required version (currently only: 1) |
+| version | <code>number</code> | The required version (currently only: 1) |
 
