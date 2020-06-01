@@ -25,8 +25,8 @@ new MultiStream(function*(){ yield* streams; })
     * [multiStream.streams](#module_scramjet.MultiStream+streams)  <code>Array</code>
     * [multiStream.source](#module_scramjet.MultiStream+source)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
     * [multiStream.length](#module_scramjet.MultiStream+length)  <code>number</code>
-    * [multiStream.map(aFunc, rFunc)](#module_scramjet.MultiStream+map) ↺ [<code>MultiStream</code>](multi-stream.md#module_scramjet.MultiStream)
-    * [multiStream.find(...args)](#module_scramjet.MultiStream+find)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
+    * [multiStream.map(aFunc, rFunc)](#module_scramjet.MultiStream+map) ↺ <code>Promise.&lt;MultiStream&gt;</code>
+    * [multiStream.find()](#module_scramjet.MultiStream+find)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
     * [multiStream.filter(func)](#module_scramjet.MultiStream+filter) ↺ [<code>MultiStream</code>](multi-stream.md#module_scramjet.MultiStream)
     * [multiStream.mux([comparator], [ClassType])](#module_scramjet.MultiStream+mux)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
     * [multiStream.add(stream)](#module_scramjet.MultiStream+add)
@@ -45,7 +45,7 @@ Crates an instance of MultiStream with the specified stream list
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | streams | <code>Array.&lt;stream.Readable&gt;</code> \| <code>AsyncGenerator.&lt;Readable&gt;</code> \| <code>Generator.&lt;Readable&gt;</code> |  | the list of readable streams (other                                     objects will be filtered out!) |
-| [options] | <code>Object</code> | <code>{}</code> | Optional options for the super object. ;) |
+| [options] | <code>object</code> | <code>{}</code> | Optional options for the super object. ;) |
 
 <a name="module_scramjet.MultiStream+streams"></a>
 
@@ -69,7 +69,7 @@ Returns the current stream length
 **Kind**: instance property of [<code>MultiStream</code>](#module_scramjet.MultiStream)  
 <a name="module_scramjet.MultiStream+map"></a>
 
-### multiStream.map(aFunc, rFunc) : MultiStream ↺
+### multiStream.map(aFunc, rFunc) : Promise.<MultiStream> ↺
 Returns new MultiStream with the streams returned by the transform.
 
 Runs a callback for every stream, returns a new MultiStream of mapped
@@ -78,7 +78,7 @@ by the Function.
 
 **Kind**: instance method of [<code>MultiStream</code>](#module_scramjet.MultiStream)  
 **Chainable**  
-**Returns**: [<code>MultiStream</code>](multi-stream.md#module_scramjet.MultiStream) - the mapped instance  
+**Returns**: <code>Promise.&lt;MultiStream&gt;</code> - the mapped instance  
 **Test**: test/methods/multi-stream-map.js  
 
 | Param | Type | Description |
@@ -88,7 +88,7 @@ by the Function.
 
 <a name="module_scramjet.MultiStream+find"></a>
 
-### multiStream.find(...args) : DataStream
+### multiStream.find() : DataStream
 Calls Array.prototype.find on the streams
 
 **Kind**: instance method of [<code>MultiStream</code>](#module_scramjet.MultiStream)  
@@ -96,7 +96,7 @@ Calls Array.prototype.find on the streams
 
 | Param | Type | Description |
 | --- | --- | --- |
-| ...args | <code>Arguments</code> | arguments for |
+| ...args | <code>Array.&lt;any&gt;</code> | arguments for |
 
 <a name="module_scramjet.MultiStream+filter"></a>
 
@@ -111,7 +111,7 @@ streams for which the Function returned true
 
 | Param | Type | Description |
 | --- | --- | --- |
-| func | <code>TransformFunction</code> | Filter ran in Promise::then (so you can                                  return a promise or a boolean) |
+| func | <code>function</code> | Filter ran in Promise::then (so you can                                  return a promise or a boolean) |
 
 <a name="module_scramjet.MultiStream+mux"></a>
 
@@ -131,7 +131,7 @@ Muxes the streams into a single one
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [comparator] | <code>ComparatorFunction</code> |  | Should return -1 0 or 1 depending on the                                  desired order. If passed the chunks will                                  be added in a sorted order. |
+| [comparator] | <code>function</code> |  | Should return -1 0 or 1 depending on the                                  desired order. If passed the chunks will                                  be added in a sorted order. |
 | [ClassType] | <code>function</code> | <code>DataStream</code> | the class to be outputted |
 
 <a name="module_scramjet.MultiStream+add"></a>
@@ -148,7 +148,7 @@ same transforms and conditions as if it was added in constructor.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| stream | <code>stream.Readable</code> | [description] |
+| stream | <code>Readable</code> | [description] |
 
 <a name="module_scramjet.MultiStream+remove"></a>
 
@@ -164,7 +164,7 @@ streams.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| stream | <code>stream.Readable</code> | [description] |
+| stream | <code>Readable</code> | [description] |
 
 <a name="module_scramjet.MultiStream+route"></a>
 
@@ -207,7 +207,7 @@ Distributes processing to multiple forked subprocesses.
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| clusterFunc | <code>function</code> \| <code>String</code> |  | a cluster callback with all operations working similarly to DataStream::use |
+| clusterFunc | <code>function</code> \| <code>string</code> |  | a cluster callback with all operations working similarly to DataStream::use |
 | [options] | [<code>DistributeOptions</code>](definitions.md#module_scramjet..DistributeOptions) | <code>{}</code> |  |
 
 <a name="module_scramjet.MultiStream.from"></a>
@@ -219,6 +219,6 @@ Constructs MultiStream from any number of streams-likes
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| streams | <code>Array.&lt;(Array\|Iterable\|AsyncGeneratorFunction\|GeneratorFunction\|AsyncFunction\|function()\|String\|Readable)&gt;</code> |  | the array of input streamlike elements |
+| streams | <code>Array.&lt;(Array\|Iterable.&lt;any&gt;\|AsyncGeneratorFunction\|GeneratorFunction\|AsyncFunction\|function()\|string\|Readable)&gt;</code> |  | the array of input streamlike elements |
 | [StreamClass] | <code>function</code> | <code>DataStream</code> |  |
 

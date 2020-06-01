@@ -43,7 +43,7 @@ Constructs the stream with the given encoding
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [encoding] | <code>String</code> | <code>&quot;utf-8&quot;</code> | the encoding to use |
+| [encoding] | <code>string</code> | <code>&quot;\&quot;utf-8\&quot;&quot;</code> | the encoding to use |
 | [options] | [<code>DataStreamOptions</code>](definitions.md#module_scramjet..DataStreamOptions) | <code>{}</code> | the encoding to use |
 
 <a name="module_scramjet.StringStream+shift"></a>
@@ -60,7 +60,7 @@ the given number of characters.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| bytes | <code>Number</code> | The number of characters to shift. |
+| bytes | <code>number</code> | The number of characters to shift. |
 | func | [<code>ShiftStringCallback</code>](definitions.md#module_scramjet..ShiftStringCallback) | Function that receives a string of shifted chars. |
 
 <a name="module_scramjet.StringStream+split"></a>
@@ -74,7 +74,7 @@ Splits the string stream by the specified RegExp or string
 
 | Param | Type | Description |
 | --- | --- | --- |
-| splitter | <code>RegExp</code> \| <code>String</code> | What to split by |
+| splitter | <code>RegExp</code> \| <code>string</code> | What to split by |
 
 <a name="module_scramjet.StringStream+match"></a>
 
@@ -138,7 +138,7 @@ Splits the string stream by the specified regexp or string
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [eol] | <code>String</code> | <code>/\r?\n/</code> | End of line string or regex |
+| [eol] | <code>string</code> | <code>&quot;/\\r?\\n/&quot;</code> | End of line string or regex |
 
 <a name="module_scramjet.StringStream+JSONParse"></a>
 
@@ -166,7 +166,7 @@ Parses CSV to DataString using 'papaparse' module.
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [options] | <code>Object</code> | <code>{}</code> | options for the papaparse.parse method. |
+| [options] | <code>object</code> | <code>{}</code> | options for the papaparse.parse method. |
 
 <a name="module_scramjet.StringStream+append"></a>
 
@@ -179,7 +179,7 @@ Appends given argument to all the items.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| param | <code>function</code> \| <code>String</code> | the argument to append. If function passed then it will be called and resolved and the resolution will be appended. |
+| param | <code>function</code> \| <code>string</code> | the argument to append. If function passed then it will be called and resolved and the resolution will be appended. |
 
 <a name="module_scramjet.StringStream+prepend"></a>
 
@@ -192,7 +192,7 @@ Prepends given argument to all the items.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| param | <code>function</code> \| <code>String</code> | the argument to prepend. If function passed then it will be called and resolved                              and the resolution will be prepended. |
+| param | <code>function</code> \| <code>string</code> | the argument to prepend. If function passed then it will be called and resolved                              and the resolution will be prepended. |
 
 <a name="module_scramjet.StringStream+exec"></a>
 
@@ -210,9 +210,9 @@ Note: if you're piping both stderr and stdout (options.stream=3) keep in mind th
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| command | <code>String</code> |  | command to execute |
-| [options] | [<code>ExecOptions</code>](definitions.md#module_scramjet..ExecOptions) | <code>{}</code> | options to be passed to `spawn` and defining serialization. |
-| ...args | <code>String</code> |  | additional arguments (will overwrite to SpawnOptions args even if not given) |
+| command | <code>string</code> |  | command to execute |
+| [options] | [<code>ExecOptions</code>](definitions.md#module_scramjet..ExecOptions) \| <code>any</code> | <code>{}</code> | options to be passed to `spawn` and defining serialization. |
+| ...args | <code>Array.&lt;string&gt;</code> |  | additional arguments (will overwrite to SpawnOptions args even if not given) |
 
 <a name="module_scramjet.StringStream.SPLIT_LINE"></a>
 
@@ -230,8 +230,8 @@ Creates a StringStream and writes a specific string.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| stream | <code>String</code> | the string to push the your stream |
-| encoding | <code>String</code> | optional encoding |
+| stream | <code>string</code> | the string to push the your stream |
+| encoding | <code>string</code> | optional encoding |
 
 <a name="module_scramjet.StringStream.pipeline"></a>
 
@@ -244,7 +244,7 @@ Creates a pipeline of streams and returns a scramjet stream.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| readable | <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>String</code> \| <code>Readable</code> | the initial readable argument that is streamable by scramjet.from |
+| readable | <code>Array</code> \| <code>Iterable.&lt;any&gt;</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>string</code> \| <code>Readable</code> | the initial readable argument that is streamable by scramjet.from |
 | transforms | <code>AsyncFunction</code> \| <code>function</code> \| <code>Transform</code> | Transform functions (as in [DataStream..use](DataStream..use)) or Transform streams (any number of these as consecutive arguments) |
 
 <a name="module_scramjet.StringStream.from"></a>
@@ -262,6 +262,6 @@ Create StringStream from anything.
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| source | <code>String</code> \| <code>Array</code> \| <code>Iterable</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>Readable</code> |  | argument to be turned into new stream |
+| source | <code>string</code> \| <code>Array</code> \| <code>Iterable.&lt;any&gt;</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>Readable</code> |  | argument to be turned into new stream |
 | [options] | [<code>DataStreamOptions</code>](definitions.md#module_scramjet..DataStreamOptions) \| <code>Writable</code> | <code>{}</code> |  |
 
