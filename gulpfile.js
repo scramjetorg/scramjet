@@ -19,6 +19,7 @@ const FILES = [
     "lib/buffer-stream.js",
     "lib/number-stream.js",
     "lib/window-stream.js",
+    "lib/stream-worker.js",
     "lib/multi-stream.js"
 ];
 
@@ -44,6 +45,7 @@ gulp.task("tsd", tsd(FILES.slice(), {
             "allowUnknownTags": true,
             "dictionaries": ["jsdoc","closure"]
         },
+        prepend: "./jsdoc2md/tsd-template/prepend.d.ts",
         template: "./jsdoc2md/tsd-template",
         destination: ".d.ts/scramjet.d.ts"
     }
