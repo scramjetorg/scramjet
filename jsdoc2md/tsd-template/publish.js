@@ -27,9 +27,6 @@ function publish(data, opts) {
         if (this.longname && this.longname.startsWith("module:scramjet")) {
             this.longname = this.longname.substr(16);
         }
-        if (this.longname === "StringStream") {
-            console.log("aaaa", this);
-        }
         return this;
     });
 

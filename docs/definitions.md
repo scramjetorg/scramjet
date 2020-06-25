@@ -266,18 +266,6 @@ Options for createModule
 | --- | --- | --- |
 | StreamClass | [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream) | defines what class should the module assume |
 
-<a name="module_scramjet..ScramjetErrors"></a>
-
-## ~ScramjetErrors : object
-Scramjet Error classes
-
-**Kind**: inner typedef  
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| StreamError | <code>function</code> | stream error class |
-
 <a name="module_scramjet..StreamMixin"></a>
 
 ## ~StreamMixin : object
