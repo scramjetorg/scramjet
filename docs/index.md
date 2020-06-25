@@ -34,7 +34,6 @@ will only operate on a single transform stream that evaluates all three transfor
 
 
 * [scramjet](#module_scramjet)
-    * [:errors](#module_scramjet.errors)  [<code>ScramjetErrors</code>](definitions.md#module_scramjet..ScramjetErrors)
     * [:StreamWorker](#module_scramjet.StreamWorker)  [<code>StreamWorker</code>](stream-worker.md#module_scramjet.StreamWorker)
     * [:from(input, [options])](#module_scramjet.from)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
     * [:fromArray(array, [options])](#module_scramjet.fromArray)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
@@ -43,13 +42,6 @@ will only operate on a single transform stream that evaluates all three transfor
     * [:plugin(mixin)](#module_scramjet.plugin)  [<code>ScramjetPlugin</code>](definitions.md#module_scramjet..ScramjetPlugin)
     * [:API(version)](#module_scramjet.API)  [<code>ScramjetPlugin</code>](definitions.md#module_scramjet..ScramjetPlugin)
 
-<a name="module_scramjet.errors"></a>
-
-### scramjet:errors : ScramjetErrors
-Exposes error classes (undocumented)
-
-**Kind**: static property of [<code>scramjet</code>](#module_scramjet)  
-**Read only**: true  
 <a name="module_scramjet.StreamWorker"></a>
 
 ### scramjet:StreamWorker : StreamWorker
