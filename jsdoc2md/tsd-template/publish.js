@@ -14,28 +14,29 @@ const helper = require("jsdoc/lib/jsdoc/util/templateHelper");
  */
 function publish(data, opts) {
     data({ undocumented: true }).remove();
+    data({ ignore: true }).remove();
+    data({ longname: "module:scramjet" }).remove();
 
-    data({ inherited: true }).update(function () {
-        if (this.tags && this.tags.find(({ title }) => title === "chainable")) {
-            const wouldReturn = this.inherits.substring(
-                this.inherits.indexOf(".") + 1,
-                this.inherits.length - this.name.length - 1
-            );
-            const shouldReturn = this.memberof.substring(
-                this.memberof.indexOf(".") + 1
-            );
-            this.returns.forEach(
-                value => value.type && value.type.names && (value.type.names = value.type.names.map(
-                    name => name === wouldReturn ? shouldReturn : name
-                ))
-            );
+    data().update(function () {
+        if (this.memberof && this.memberof === "module:scramjet") {
+            this.memberof = "";
+        } else if (this.memberof && this.memberof.startsWith("module:scramjet")) {
+            this.memberof = this.memberof.substr(16);
+            if (!this.memberof) this.memberof = "";
         }
+        if (this.longname && this.longname.startsWith("module:scramjet")) {
+            this.longname = this.longname.substr(16);
+        }
+        if (this.longname === "StringStream") {
+            console.log("aaaa", this);
+        }
+        return this;
     });
 
     let prepend = "";
     if (opts.prepend) {
         try {
-            prepend = fs.readFileSync(path.resolve(opts.prepend), {encoding: "utf-8"});
+            prepend = fs.readFileSync(path.resolve(opts.prepend), { encoding: "utf-8" });
         } catch (err) {
             throw new Error("Can't read prepend file '" + opts.prepend + "': " + err);
         }
@@ -74,7 +75,9 @@ function publish(data, opts) {
         }
     }
 
-    const typedefs = parser.generateTypeDefinition().replace(/\.</g, "<");
+    const typedefs = parser.generateTypeDefinition()
+        .replace(/\.</g, "<")
+        .replace("declare class DataStream {", "declare class DataStream extends PromiseTransform {");
 
     try {
         fs.writeFileSync(
