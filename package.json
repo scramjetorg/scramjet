@@ -4,11 +4,21 @@
   "description": "Lightweight and real-time data functional stream programming framework like event-stream, written in ES6 using async await with multi-threading and typescript support",
   "main": "lib/index.js",
   "directories": {
-    "bin": "bin",
     "lib": "lib",
     "doc": "docs",
-    "example": "samples"
+    "example": "samples",
+    "test": "test",
+    "types": ".d.ts"
   },
+  "files": [
+    "LICENSE",
+    "CHANGELOG.md",
+    "README.md",
+    "index.js",
+    ".d.ts",
+    "lib",
+    "docs"
+  ],
   "keywords": [
     "stream",
     "es6",
