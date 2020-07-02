@@ -2,6 +2,82 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
+## Scramjet 4.33.3: Fix npmignore and depdendencies update
+
+* a18b2c5 - Fix npmignore
+* 04a40d5 - Dependencies update
+* 8d6c64d - Fix package.json
+
+## Scramjet 4.33.0: Typescript definitions rewrite
+
+* 2f3602b - Fix package.json
+
+## Scramjet 4.32.0: Typescript definitions rewrite
+
+* d2d4fb4 - Fix docs, remove console.log
+* 8fff4b0 - Dependencies update.
+* 5217af7 - Fix typescript definitions
+* 80b067a - Fix unneeded declaration
+* 5086518 - Massive typings fix
+* 5e515ae - Update deps, fix ts definitions?
+
+## Scramjet 4.29.1: Dependencies update
+
+* 9ec97bb - Add readme
+* d570dbb - Dependencies update.
+* b9bf120 - Dependencies update.
+* 20a8b9a - Scramjet is now a startup!
+* d3cabdb - Dependencies update.
+* 340b8f6 - New copy method
+* d5fcff8 - Dependencies update.
+
+## Scramjet 4.28.7: Dependency update
+
+* 87349e9 - Dependencies update.
+
+## Scramjet 4.28.1: Cleanup and npmignore
+
+* 3438855 - Remove github pages config
+* 05a5720 - chore: add .npmignore
+
+## Scramjet 4.28.0: Fix optional arguments, allow custom workers
+
+* 5d61614 - Allow using custom stream workers
+* 30ed5ba - Fix documentation of optional arguments
+
+## Scramjet 4.27.7: Dependencies update
+
+* aab3d3c - Dependencies update.
+* c65af5c - fix(package): update yargs to version 15.0.1
+
+## Scramjet 4.27.0: New method: stack
+
+* 985b405 - Fix eslint
+* 287ea94 - Update documentation
+* 7fcd996 - The stack method
+
+## Scramjet 4.26.2: Dependencies update, tsdoc fixes
+
+* 1ecd473 - Issues in tsd
+* 3789cbe - Dependencies update.
+* 6656865 - Better documentation
+
+## Scramjet 4.26.0: MultiStream.from, security fixes, docs updates
+
+* 635bbf6 - Add new test case for batch, update deps, update docs
+* e6f6dd9 - fix(package): update yargs to version 14.0.0
+
+## Scramjet 4.25.8: Dependencies update
+
+* 84ad438 - Fix mode
+* a21b3b6 - Dependencies update.
+* 1af30e5 - TypeScript documentation fixes
+* 57cc9a9 - Change mode for docs/data-stream.md
+* aef60c3 - Bump lodash.template from 4.4.0 to 4.5.0
+* cf7441a - Eslint fixes
+* 5d21bc1 - Fix eslint config
+* 7ac5584 - Some benchmarks
+
 ## Scramjet 4.25.0: More generators and TypeScript definitions
 
 * fa75fc6 - Dependencies update.
