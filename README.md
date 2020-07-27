@@ -314,7 +314,6 @@ await (DataStream.from(aStream) // create a DataStream
 * [`dataStream.until(func) ↺`](docs/data-stream.md#module_scramjet.DataStream+until) - Reads the stream until the function outcome is truthy.
 * [`dataStream.catch(callback) ↺`](docs/data-stream.md#module_scramjet.DataStream+catch) - Provides a way to catch errors in chained streams.
 * [`dataStream.raise(err) ⇄`](docs/data-stream.md#module_scramjet.DataStream+raise) - Executes all error handlers and if none resolves, then emits an error.
-* [`dataStream.pipe(to, [options]) : Writable ↺`](docs/data-stream.md#module_scramjet.DataStream+pipe) - Override of node.js Readable pipe.
 * [`dataStream.bufferify(serializer) : BufferStream ↺`](docs/data-stream.md#module_scramjet.DataStream+bufferify) - Creates a BufferStream.
 * [`dataStream.stringify([serializer]) : StringStream ↺`](docs/data-stream.md#module_scramjet.DataStream+stringify) - Creates a StringStream.
 * [`dataStream.toArray([initial]) : Array.<any> ⇄`](docs/data-stream.md#module_scramjet.DataStream+toArray) - Aggregates the stream into a single Array
