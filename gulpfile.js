@@ -33,6 +33,8 @@ gulp.task("scm_clean", scm_clean());
 
 gulp.task("test_samples", shell.task("node scripts/test/test-samples"));
 
+gulp.task("test_dts", shell.task("npx check-dts", {cwd: "./.d.ts"}));
+
 gulp.task("readme", readme({
     files: FILES.slice(),
     plugin: ["scramjet-core/jsdoc2md/plugin.js", "jsdoc2md/plugin.js",]
@@ -66,7 +68,7 @@ gulp.task("make_docs", full_docs(
 ));
 
 gulp.task("docs", gulp.series("tsd", "readme", "copy_docs", "make_docs"));
-gulp.task("test", gulp.series("test_legacy", "test_samples"));
+gulp.task("test", gulp.series("test_legacy", "test_samples", "test_dts"));
 gulp.task("fulltest", gulp.series("lint", "test"));
 gulp.task("default", gulp.series("readme", "docs", "test", "lint"));
 gulp.task("prerelease", gulp.series("default", "scm_clean"));
