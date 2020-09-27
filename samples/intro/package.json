@@ -1,8 +1,0 @@
-{
-  "devDependencies": {
-    "fetch": "*",
-    "request": "*",
-    "request-promise-native": "*",
-    "scramjet": "*"
-  }
-}

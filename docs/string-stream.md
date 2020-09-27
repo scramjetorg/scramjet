@@ -2,26 +2,29 @@
 
 <a name="module_scramjet.StringStream"></a>
 
-## ~StringStream : DataStream
+## :StringStream : DataStream
 A stream of string objects for further transformation on top of DataStream.
 
 Example:
 
-```javascript
-StringStream.fromString()
+```js
+StringStream.from(async () => (await fetch('https://example.com/data/article.txt')).text())
+    .lines()
+    .append("\r\n")
+    .pipe(fs.createWriteStream('./path/to/file.txt'))
 ```
 
-**Kind**: inner class  
+**Kind**: static class  
 **Extends**: [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)  
-**Test**: test/methods/string-stream-constructor.js  
+**Scope**: public  
 
-* [~StringStream](#module_scramjet.StringStream)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
+* [:StringStream](#module_scramjet.StringStream)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
     * [new StringStream([encoding], [options])](#new_module_scramjet.StringStream_new)
     * [stringStream.shift(bytes, func)](#module_scramjet.StringStream+shift) ↺
     * [stringStream.split(splitter)](#module_scramjet.StringStream+split) ↺
     * [stringStream.match(matcher)](#module_scramjet.StringStream+match) ↺
     * [stringStream.toBufferStream()](#module_scramjet.StringStream+toBufferStream) ↺ [<code>BufferStream</code>](buffer-stream.md#module_scramjet.BufferStream)
-    * [stringStream.parse(parser, StreamClass)](#module_scramjet.StringStream+parse) ↺ [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
+    * [stringStream.parse(parser, [StreamClass])](#module_scramjet.StringStream+parse) ↺ [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
     * [stringStream.toDataStream()](#module_scramjet.StringStream+toDataStream)
     * [stringStream.lines([eol])](#module_scramjet.StringStream+lines) ↺
     * [stringStream.JSONParse([perLine])](#module_scramjet.StringStream+JSONParse) ↺ [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
@@ -105,7 +108,7 @@ all your transforms when you like.
 **Test**: test/methods/string-stream-tobufferstream.js  
 <a name="module_scramjet.StringStream+parse"></a>
 
-### stringStream.parse(parser, StreamClass) : DataStream ↺
+### stringStream.parse(parser, [StreamClass]) : DataStream ↺
 Parses every string to object
 
 The method MUST parse EVERY string into a single object, so the string
@@ -119,7 +122,7 @@ stream here should already be split.
 | Param | Type | Description |
 | --- | --- | --- |
 | parser | [<code>ParseCallback</code>](definitions.md#module_scramjet..ParseCallback) | The transform function |
-| StreamClass | <code>function</code> | the output stream class to return |
+| [StreamClass] | <code>function</code> | the output stream class to return |
 
 <a name="module_scramjet.StringStream+toDataStream"></a>
 
@@ -138,7 +141,7 @@ Splits the string stream by the specified regexp or string
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [eol] | <code>string</code> | <code>&quot;/\\r?\\n/&quot;</code> | End of line string or regex |
+| [eol] | <code>string</code> \| <code>RegExp</code> | <code>&quot;/\\r?\\n/&quot;</code> | End of line string or regex |
 
 <a name="module_scramjet.StringStream+JSONParse"></a>
 
@@ -179,7 +182,7 @@ Appends given argument to all the items.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| param | <code>function</code> \| <code>string</code> | the argument to append. If function passed then it will be called and resolved and the resolution will be appended. |
+| param | <code>ThenFunction</code> \| <code>string</code> | the argument to append. If function passed then it will be called and resolved and the resolution will be appended. |
 
 <a name="module_scramjet.StringStream+prepend"></a>
 
@@ -192,7 +195,7 @@ Prepends given argument to all the items.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| param | <code>function</code> \| <code>string</code> | the argument to prepend. If function passed then it will be called and resolved                              and the resolution will be prepended. |
+| param | <code>ThenFunction</code> \| <code>string</code> | the argument to prepend. If function passed then it will be called and resolved                              and the resolution will be prepended. |
 
 <a name="module_scramjet.StringStream+exec"></a>
 

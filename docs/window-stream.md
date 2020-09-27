@@ -2,16 +2,16 @@
 
 <a name="module_scramjet.WindowStream"></a>
 
-## :WindowStream : DataStream
+## :WindowStream : NumberStream
 A stream for moving window calculation with some simple methods.
 
 In essence it's a stream of Array's containing a list of items - a window.
 It's best used when created by the `DataStream..window`` method.
 
 **Kind**: static class  
-**Extends**: [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)  
+**Extends**: [<code>NumberStream</code>](number-stream.md#module_scramjet.NumberStream)  
 
-* [:WindowStream](#module_scramjet.WindowStream)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
+* [:WindowStream](#module_scramjet.WindowStream)  [<code>NumberStream</code>](number-stream.md#module_scramjet.NumberStream)
     * [windowStream.sum([valueOf])](#module_scramjet.WindowStream+sum) ↺ [<code>NumberStream</code>](number-stream.md#module_scramjet.NumberStream)
     * [windowStream.avg([valueOf])](#module_scramjet.WindowStream+avg) ↺ [<code>NumberStream</code>](number-stream.md#module_scramjet.NumberStream)
 

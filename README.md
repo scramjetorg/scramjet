@@ -30,25 +30,20 @@ How about a full API to API migration, reading a long list of items from one API
 pushing them to another API? With simultaneous request control? And outputting the log of the conversion? Easy!
 
 ```javascript
-const request = require("request");
-const rp = require("request-promise-native");
+const fetch = require("node-fetch");
+const get = async (url, options = {}) => (await fetch(url, options)).json;
 const { StringStream } = require("scramjet");
 
 StringStream.from(                                 // fetch your API to a scramjet stream
-    request("https://api.example.org/v1/shows/list")
+    () => get("https://api.example.org/v1/shows/list")
 )
     .setOptions({maxParallel: 4})                  // set your options
     .lines()                                       // split the stream by line
-    .parse(theirShow => {                          // parse strings to data
-        return {
-            id: theirShow.id,
-            title: theirShow.name,
-            url: theirShow.url
-        };
+    .parse(line => {                               // parse strings to data
+        const [id, title, url] = line.split(",");
+        return { id, title, url };
     })
-    .map(async myShow => rp({                      // use asynchronous mapping (for example send requests)
-        method: "POST",
-        simple: true,
+    .map(async myShow => get({                      // use asynchronous mapping (for example send requests)
         uri: `http://api.local/set/${myShow.id}`,
         body: JSON.stringify(myShow)
     }))
@@ -243,33 +238,7 @@ Check out the command line interface for simplified scramjet usage with [scramje
 
 ## Quick reference of some methods
 
-### :NumberStream
-Simple scramjet stream that by default contains numbers or other containing with `valueOf` method. The streams
-provides simple methods like `sum`, `average`. It derives from DataStream so it's still fully supporting all `map`,
-`reduce` etc.
-
-[Detailed :NumberStream docs here](docs/number-stream.md)
-
-**Most popular methods:**
-
-* `new NumberStream(options)` - Creates an instance of NumberStream.
-* [`numberStream.sum() : Promise.<number> | any ⇄`](docs/number-stream.md#module_scramjet.NumberStream+sum) - Calculates the sum of all items in the stream.
-* [`numberStream.avg() : Promise.<number> | any ⇄`](docs/number-stream.md#module_scramjet.NumberStream+avg) - Calculates the sum of all items in the stream.
-
-### :WindowStream
-A stream for moving window calculation with some simple methods.
-
-In essence it's a stream of Array's containing a list of items - a window.
-It's best used when created by the `DataStream..window`` method.
-
-[Detailed :WindowStream docs here](docs/window-stream.md)
-
-**Most popular methods:**
-
-* [`windowStream.sum([valueOf]) : NumberStream ↺`](docs/window-stream.md#module_scramjet.WindowStream+sum) - Calculates moving sum of items, the output NumberStream will contain the moving sum.
-* [`windowStream.avg([valueOf]) : NumberStream ↺`](docs/window-stream.md#module_scramjet.WindowStream+avg) - Calculates the moving average of the window and returns the NumberStream
-
-### ~DataStream
+### :DataStream
 DataStream is the primary stream type for Scramjet. When you parse your
 stream, just pipe it you can then perform calculations on the data objects
 streamed through your flow.
@@ -285,7 +254,7 @@ await (DataStream.from(aStream) // create a DataStream
     .run());                    // wait until end
 ```
 
-[Detailed ~DataStream docs here](docs/data-stream.md)
+[Detailed :DataStream docs here](docs/data-stream.md)
 
 **Most popular methods:**
 
@@ -361,16 +330,19 @@ await (DataStream.from(aStream) // create a DataStream
 * [`DataStream:fromArray(array, [options]) : DataStream`](docs/data-stream.md#module_scramjet.DataStream.fromArray) - Create a DataStream from an Array
 * [`DataStream:fromIterator(iterator, [options]) : DataStream`](docs/data-stream.md#module_scramjet.DataStream.fromIterator) - Create a DataStream from an Iterator
 
-### ~StringStream
+### :StringStream
 A stream of string objects for further transformation on top of DataStream.
 
 Example:
 
-```javascript
-StringStream.fromString()
+```js
+StringStream.from(async () => (await fetch('https://example.com/data/article.txt')).text())
+    .lines()
+    .append("\r\n")
+    .pipe(fs.createWriteStream('./path/to/file.txt'))
 ```
 
-[Detailed ~StringStream docs here](docs/string-stream.md)
+[Detailed :StringStream docs here](docs/string-stream.md)
 
 **Most popular methods:**
 
@@ -379,7 +351,7 @@ StringStream.fromString()
 * [`stringStream.split(splitter) ↺`](docs/string-stream.md#module_scramjet.StringStream+split) - Splits the string stream by the specified RegExp or string
 * [`stringStream.match(matcher) ↺`](docs/string-stream.md#module_scramjet.StringStream+match) - Finds matches in the string stream and streams the match results
 * [`stringStream.toBufferStream() : BufferStream ↺`](docs/string-stream.md#module_scramjet.StringStream+toBufferStream) - Transforms the StringStream to BufferStream
-* [`stringStream.parse(parser, StreamClass) : DataStream ↺`](docs/string-stream.md#module_scramjet.StringStream+parse) - Parses every string to object
+* [`stringStream.parse(parser, [StreamClass]) : DataStream ↺`](docs/string-stream.md#module_scramjet.StringStream+parse) - Parses every string to object
 * [`stringStream.toDataStream()`](docs/string-stream.md#module_scramjet.StringStream+toDataStream) - Alias for {@link StringStream#parse}
 * [`stringStream.lines([eol]) ↺`](docs/string-stream.md#module_scramjet.StringStream+lines) - Splits the string stream by the specified regexp or string
 * [`stringStream.JSONParse([perLine]) : DataStream ↺`](docs/string-stream.md#module_scramjet.StringStream+JSONParse) - Parses each entry as JSON.
@@ -392,7 +364,7 @@ StringStream.fromString()
 * [`StringStream:pipeline(readable, transforms) : StringStream`](docs/string-stream.md#module_scramjet.StringStream.pipeline) - Creates a pipeline of streams and returns a scramjet stream.
 * [`StringStream:from(source, [options]) : StringStream`](docs/string-stream.md#module_scramjet.StringStream.from) - Create StringStream from anything.
 
-### ~BufferStream
+### :BufferStream
 A facilitation stream created for easy splitting or parsing buffers.
 
 Useful for working on built-in Node.js streams from files, parsing binary formats etc.
@@ -411,7 +383,7 @@ A simple use case would be:
      ]);
 ```
 
-[Detailed ~BufferStream docs here](docs/buffer-stream.md)
+[Detailed :BufferStream docs here](docs/buffer-stream.md)
 
 **Most popular methods:**
 
@@ -424,7 +396,7 @@ A simple use case would be:
 * [`BufferStream:pipeline(readable) : BufferStream`](docs/buffer-stream.md#module_scramjet.BufferStream.pipeline) - Creates a pipeline of streams and returns a scramjet stream.
 * [`BufferStream:from(stream, [options]) : BufferStream`](docs/buffer-stream.md#module_scramjet.BufferStream.from) - Create BufferStream from anything.
 
-### ~MultiStream
+### :MultiStream
 An object consisting of multiple streams than can be refined or muxed.
 
 The idea behind a MultiStream is being able to mux and demux streams when needed.
@@ -439,7 +411,7 @@ new MultiStream(function*(){ yield* streams; })
  .mux();
 ```
 
-[Detailed ~MultiStream docs here](docs/multi-stream.md)
+[Detailed :MultiStream docs here](docs/multi-stream.md)
 
 **Most popular methods:**
 
@@ -458,7 +430,33 @@ new MultiStream(function*(){ yield* streams; })
 * [`multiStream.cluster(clusterFunc, [options]) ↺`](docs/multi-stream.md#module_scramjet.MultiStream+cluster) - Distributes processing to multiple forked subprocesses.
 * [`MultiStream:from(streams, [StreamClass]) : MultiStream`](docs/multi-stream.md#module_scramjet.MultiStream.from) - Constructs MultiStream from any number of streams-likes
 
-### ~StreamWorker
+### :NumberStream
+Simple scramjet stream that by default contains numbers or other containing with `valueOf` method. The streams
+provides simple methods like `sum`, `average`. It derives from DataStream so it's still fully supporting all `map`,
+`reduce` etc.
+
+[Detailed :NumberStream docs here](docs/number-stream.md)
+
+**Most popular methods:**
+
+* `new NumberStream(options)` - Creates an instance of NumberStream.
+* [`numberStream.sum() : Promise.<number> | any ⇄`](docs/number-stream.md#module_scramjet.NumberStream+sum) - Calculates the sum of all items in the stream.
+* [`numberStream.avg() : Promise.<number> | any ⇄`](docs/number-stream.md#module_scramjet.NumberStream+avg) - Calculates the sum of all items in the stream.
+
+### :WindowStream
+A stream for moving window calculation with some simple methods.
+
+In essence it's a stream of Array's containing a list of items - a window.
+It's best used when created by the `DataStream..window`` method.
+
+[Detailed :WindowStream docs here](docs/window-stream.md)
+
+**Most popular methods:**
+
+* [`windowStream.sum([valueOf]) : NumberStream ↺`](docs/window-stream.md#module_scramjet.WindowStream+sum) - Calculates moving sum of items, the output NumberStream will contain the moving sum.
+* [`windowStream.avg([valueOf]) : NumberStream ↺`](docs/window-stream.md#module_scramjet.WindowStream+avg) - Calculates the moving average of the window and returns the NumberStream
+
+### :StreamWorker
 StreamWorker class - intended for internal use
 
 This class provides control over the subprocesses, including:
@@ -466,7 +464,7 @@ This class provides control over the subprocesses, including:
  - communicating
  - delivering streams
 
-[Detailed ~StreamWorker docs here](docs/stream-worker.md)
+[Detailed :StreamWorker docs here](docs/stream-worker.md)
 
 **Most popular methods:**
 

@@ -2,7 +2,7 @@
 
 <a name="module_scramjet.DataStream"></a>
 
-## ~DataStream : import("stream").PassThrough
+## :DataStream : import("stream").PassThrough
 DataStream is the primary stream type for Scramjet. When you parse your
 stream, just pipe it you can then perform calculations on the data objects
 streamed through your flow.
@@ -18,11 +18,11 @@ await (DataStream.from(aStream) // create a DataStream
     .run());                    // wait until end
 ```
 
-**Kind**: inner class  
+**Kind**: static class  
 **Extends**: <code>import(&quot;stream&quot;).PassThrough</code>  
 **Test**: test/methods/data-stream-constructor.js  
 
-* [~DataStream](#module_scramjet.DataStream)  <code>import(&quot;stream&quot;).PassThrough</code>
+* [:DataStream](#module_scramjet.DataStream)  <code>import(&quot;stream&quot;).PassThrough</code>
     * [new DataStream([opts])](#new_module_scramjet.DataStream_new)
     * [dataStream.map(func, [ClassType])](#module_scramjet.DataStream+map) ↺
     * [dataStream.filter(func)](#module_scramjet.DataStream+filter) ↺
@@ -1174,19 +1174,20 @@ A simple example from a generator:
 ```javascript
 DataStream
   .from(function* () {
-     while(x < 100) yield x++;
+     while(x < 100) yield {x: x++};
   })
   .each(console.log)
-  // 0
-  // 1...
-  // 99
+  // {x: 0}
+  // {x: 1}
+  // ...
+  // {x: 99}
 ```
 
 **Kind**: static method of [<code>DataStream</code>](#module_scramjet.DataStream)  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| input | <code>Array</code> \| <code>Iterable.&lt;any&gt;</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>function</code> \| <code>string</code> \| <code>Readable</code> |  | argument to be turned into new stream |
+| input | <code>Array</code> \| <code>Iterable.&lt;any&gt;</code> \| <code>AsyncGeneratorFunction</code> \| <code>GeneratorFunction</code> \| <code>AsyncFunction</code> \| <code>Promise.&lt;any&gt;</code> \| <code>function</code> \| <code>string</code> \| <code>Readable</code> |  | argument to be turned into new stream |
 | [options] | [<code>DataStreamOptions</code>](definitions.md#module_scramjet..DataStreamOptions) \| <code>Writable</code> | <code>{}</code> | options for creation of a new stream or the target stream |
 | ...args | <code>Array.&lt;any&gt;</code> |  | additional arguments for the stream - will be passed to the function or generator |
 

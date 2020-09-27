@@ -2,7 +2,7 @@
 
 <a name="module_scramjet.MultiStream"></a>
 
-## ~MultiStream
+## :MultiStream
 An object consisting of multiple streams than can be refined or muxed.
 
 The idea behind a MultiStream is being able to mux and demux streams when needed.
@@ -17,10 +17,10 @@ new MultiStream(function*(){ yield* streams; })
  .mux();
 ```
 
-**Kind**: inner class  
+**Kind**: static class  
 **Test**: test/methods/multi-stream-constructor.js  
 
-* [~MultiStream](#module_scramjet.MultiStream)
+* [:MultiStream](#module_scramjet.MultiStream)
     * [new MultiStream(streams, [options])](#new_module_scramjet.MultiStream_new)
     * [multiStream.streams](#module_scramjet.MultiStream+streams)  <code>Array</code>
     * [multiStream.source](#module_scramjet.MultiStream+source)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
@@ -44,7 +44,7 @@ Crates an instance of MultiStream with the specified stream list
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| streams | <code>Array.&lt;stream.Readable&gt;</code> \| <code>AsyncGenerator.&lt;Readable&gt;</code> \| <code>Generator.&lt;Readable&gt;</code> |  | the list of readable streams (other                                     objects will be filtered out!) |
+| streams | <code>Array.&lt;stream.Readable&gt;</code> \| <code>AsyncGenerator.&lt;Readable&gt;</code> \| <code>Generator.&lt;Readable&gt;</code> |  | the list of readable streams (other objects will be filtered out!) |
 | [options] | <code>object</code> | <code>{}</code> | Optional options for the super object. ;) |
 
 <a name="module_scramjet.MultiStream+streams"></a>

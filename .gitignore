@@ -60,4 +60,5 @@ typings/
 CHANGELOG.md.orig
 
 samples/generated-data
+samples/package-lock.json
 test/**/*.did
