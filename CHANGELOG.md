@@ -2,7 +2,29 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
-## Scramjet 4.33.3: Fix npmignore and depdendencies update
+## Scramjet 4.35.0: Fix circular depencency issue
+
+* ce9d3ad - Lots of definition fixes on optional parameters
+* 8638e70 - Depencencies update
+
+## Scramjet 4.34.7: Fix circular depencency issue
+
+* f08c98e - Dependencies update.
+* 984f814 - Move unneeded dependency to dev
+* 54db2cd - Dependencies update.
+* 299b76f - Remove circular dependency
+
+## Scramjet 4.34.4: Dependencies update & ts checking
+
+* 9bff421 - Dependencies update.
+* 02c6b21 - Add ts checks
+
+## Scramjet 4.34.0: TS Compat: remove pipe from docs and definitions
+
+* 6c3d516 - Fix docs
+* 8451990 - TS Compat: Remove pipe from docs and ts.d
+
+## Scramjet 4.33.5: Fix npmignore, package and depdendencies update
 
 * a18b2c5 - Fix npmignore
 * 04a40d5 - Dependencies update
