@@ -9,14 +9,14 @@ const defer = (ms) => ms
 DataStream
     .from(async function *() {
         let x = 0;
-        while (x++ < 2000) {
+        while (x++ < 10000) {
             await defer(100/x);
             yield ({
                 x, i: process.hrtime()
             });
         }
     })
-    .separate(({x}) => "____" + x % 12)
+    .separate(({x}) => "____" + (x % 24))
     .cluster(stream => {
         const hrtime = (last) => {
             const cur = process.hrtime();
@@ -29,8 +29,7 @@ DataStream
         ;
     })
     .mux()
-    .filter(({x}) => x > 100)
-    .each(console.log)
+    .filter(({x}) => x > 1000)
     .reduce(([initSum, sum, cnt], {latency, init}) => ([
         initSum + init,
         sum + latency,

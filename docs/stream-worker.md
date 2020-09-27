@@ -2,7 +2,7 @@
 
 <a name="module_scramjet.StreamWorker"></a>
 
-## ~StreamWorker
+## :StreamWorker
 StreamWorker class - intended for internal use
 
 This class provides control over the subprocesses, including:
@@ -10,10 +10,10 @@ This class provides control over the subprocesses, including:
  - communicating
  - delivering streams
 
-**Kind**: inner class  
+**Kind**: static class  
 **Internal**:   
 
-* [~StreamWorker](#module_scramjet.StreamWorker)
+* [:StreamWorker](#module_scramjet.StreamWorker)
     * [new StreamWorker()](#new_module_scramjet.StreamWorker_new)
     * [streamWorker.spawn()](#module_scramjet.StreamWorker+spawn) ⇄ [<code>StreamWorker</code>](stream-worker.md#module_scramjet.StreamWorker)
     * [streamWorker.delegate(input, delegateFunc, [plugins])](#module_scramjet.StreamWorker+delegate)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)

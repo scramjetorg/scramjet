@@ -2,7 +2,7 @@
 
 <a name="module_scramjet.BufferStream"></a>
 
-## ~BufferStream : DataStream
+## :BufferStream : DataStream
 A facilitation stream created for easy splitting or parsing buffers.
 
 Useful for working on built-in Node.js streams from files, parsing binary formats etc.
@@ -21,11 +21,11 @@ A simple use case would be:
      ]);
 ```
 
-**Kind**: inner class  
+**Kind**: static class  
 **Extends**: [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)  
 **Test**: test/methods/buffer-stream-constructor.js  
 
-* [~BufferStream](#module_scramjet.BufferStream)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
+* [:BufferStream](#module_scramjet.BufferStream)  [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream)
     * [new BufferStream([opts])](#new_module_scramjet.BufferStream_new)
     * [bufferStream.shift(chars, func)](#module_scramjet.BufferStream+shift) ↺
     * [bufferStream.split(splitter)](#module_scramjet.BufferStream+split) ↺ [<code>BufferStream</code>](buffer-stream.md#module_scramjet.BufferStream)

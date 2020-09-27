@@ -1,9 +1,10 @@
-import {Readable, Writable, Transform, WritableOptions} from "stream";
+import {Readable, Writable, Transform} from "stream";
 
 import {EventEmitter} from "events";
 
 type AsyncGeneratorFunction<T=any> = (...args: any[]) => {[Symbol.asyncIterator]: {next(): Promise<{value: T, done: boolean}>}}
 type AsyncFunction = (...args: any[]) => Promise<any>;
+type ThenFunction = (arg: any) => any;
 
 declare class PromiseTransform implements NodeJS.ReadableStream, NodeJS.WritableStream {
     readable: boolean;

@@ -13,9 +13,9 @@ Shift Function
 
 <a name="module_scramjet..BufferParseCallback"></a>
 
-## ~BufferParseCallback : Promise.<any>
+## ~BufferParseCallback : Promise.<any> | any
 **Kind**: inner typedef  
-**Returns**: <code>Promise.&lt;any&gt;</code> - the promise should be resolved with the parsed object  
+**Returns**: <code>Promise.&lt;any&gt;</code> \| <code>any</code> - the promise should be resolved with the parsed object  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -23,13 +23,13 @@ Shift Function
 
 <a name="module_scramjet..MapCallback"></a>
 
-## ~MapCallback : Promise.<any> | *
+## ~MapCallback : Promise.<any> | any
 **Kind**: inner typedef  
-**Returns**: <code>Promise.&lt;any&gt;</code> \| <code>\*</code> - the mapped object  
+**Returns**: <code>Promise.&lt;any&gt;</code> \| <code>any</code> - the mapped object  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| chunk | <code>\*</code> | the chunk to be mapped |
+| chunk | <code>any</code> | the chunk to be mapped |
 
 <a name="module_scramjet..FilterCallback"></a>
 
@@ -39,23 +39,24 @@ Shift Function
 
 | Param | Type | Description |
 | --- | --- | --- |
-| chunk | <code>\*</code> | the chunk to be filtered or not |
+| chunk | <code>any</code> | the chunk to be filtered or not |
 
 <a name="module_scramjet..ReduceCallback"></a>
 
-## ~ReduceCallback : Promise.<*> | *
+## ~ReduceCallback : Promise.<any> | any
 **Kind**: inner typedef  
-**Returns**: <code>Promise.&lt;\*&gt;</code> \| <code>\*</code> - accumulator for the next pass  
+**Returns**: <code>Promise.&lt;any&gt;</code> \| <code>any</code> - accumulator for the next pass  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| accumulator | <code>\*</code> | the accumulator - the object initially passed or returned                by the previous reduce operation |
+| accumulator | <code>any</code> | the accumulator - the object initially passed or returned by the previous reduce operation |
 | chunk | <code>object</code> | the stream chunk. |
 
 <a name="module_scramjet..DoCallback"></a>
 
-## ~DoCallback : function ⇄
+## ~DoCallback : Promise.<any> | any ⇄
 **Kind**: inner typedef  
+**Returns**: <code>Promise.&lt;any&gt;</code> \| <code>any</code> - the outcome is discarded  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -63,14 +64,14 @@ Shift Function
 
 <a name="module_scramjet..IntoCallback"></a>
 
-## ~IntoCallback : * ⇄
+## ~IntoCallback : Promise.<any> | any ⇄
 **Kind**: inner typedef  
-**Returns**: <code>\*</code> - resolution for the old stream (for flow control only)  
+**Returns**: <code>Promise.&lt;any&gt;</code> \| <code>any</code> - resolution for the old stream (for flow control only)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | into | <code>\*</code> | stream passed to the into method |
-| chunk | <code>object</code> | source stream chunk |
+| chunk | <code>any</code> | source stream chunk |
 
 <a name="module_scramjet..UseCallback"></a>
 
@@ -93,7 +94,7 @@ Shift Function
 
 <a name="module_scramjet..ScramjetTransformCallback"></a>
 
-## ~ScramjetTransformCallback : * | undefined
+## ~ScramjetTransformCallback : Promise.<(any|undefined)> | any | undefined
 Transform async callback. The passed transform should return a new chunk, unless
 the output should be filtered - if so, the transform should return `undefined`.
 
@@ -101,32 +102,33 @@ Additionally the function can reject with `DataStream.filter` - the result will 
 filtered and no other transforms will be run on the chunk.
 
 **Kind**: inner typedef  
-**Returns**: <code>\*</code> \| <code>undefined</code> - the result, undefined will be treated as filtered out.  
+**Returns**: <code>Promise.&lt;(any\|undefined)&gt;</code> \| <code>any</code> \| <code>undefined</code> - the result, undefined will be treated as filtered out.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| chunk | <code>Buffer</code> \| <code>string</code> \| <code>\*</code> | the stream chunk |
+| chunk | <code>Buffer</code> \| <code>string</code> \| <code>any</code> | the stream chunk |
 | encoding | <code>string</code> | encoding of the chunk |
 
 <a name="module_scramjet..ScramjetWriteCallback"></a>
 
-## ~ScramjetWriteCallback : function
+## ~ScramjetWriteCallback : Promise.<void> | void
 Write async callback. Await your async write and resolve.
 
 **Kind**: inner typedef  
+**Returns**: <code>Promise.&lt;void&gt;</code> \| <code>void</code> - should resolve when the write ends  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| chunk | <code>Buffer</code> \| <code>string</code> \| <code>\*</code> | the stream chunk |
+| chunk | <code>Buffer</code> \| <code>string</code> \| <code>any</code> | the stream chunk |
 | encoding | <code>string</code> | encoding of the chunk |
 
 <a name="module_scramjet..ScramjetReadCallback"></a>
 
-## ~ScramjetReadCallback : Array.<*>
+## ~ScramjetReadCallback : Array.<any> | Promise.<Array.<any>>
 Read async callback. Simply await your async operations and return the result as array.
 
 **Kind**: inner typedef  
-**Returns**: <code>Array.&lt;\*&gt;</code> - the read chunk.  
+**Returns**: <code>Array.&lt;any&gt;</code> \| <code>Promise.&lt;Array.&lt;any&gt;&gt;</code> - the read chunk.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -199,9 +201,9 @@ Shift Function
 
 <a name="module_scramjet..FlatMapCallback"></a>
 
-## ~FlatMapCallback : Promise.<Iterable.<any>> | Iterable.<any>
+## ~FlatMapCallback : AsyncGenerator.<any, void, any> | Promise.<Iterable.<any>> | Iterable.<any>
 **Kind**: inner typedef  
-**Returns**: <code>Promise.&lt;Iterable.&lt;any&gt;&gt;</code> \| <code>Iterable.&lt;any&gt;</code> - promise to be resolved when chunk has been processed  
+**Returns**: <code>AsyncGenerator.&lt;any, void, any&gt;</code> \| <code>Promise.&lt;Iterable.&lt;any&gt;&gt;</code> \| <code>Iterable.&lt;any&gt;</code> - promise to be resolved when chunk has been processed  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -321,9 +323,9 @@ Distribute options
 
 <a name="module_scramjet..ValueOfCallback"></a>
 
-## ~ValueOfCallback : Promise.<number>
+## ~ValueOfCallback : Promise.<number> | number
 **Kind**: inner typedef  
-**Returns**: <code>Promise.&lt;number&gt;</code> - value of the object  
+**Returns**: <code>Promise.&lt;number&gt;</code> \| <code>number</code> - value of the object  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -353,9 +355,9 @@ NumberStream options
 
 <a name="module_scramjet..ParseCallback"></a>
 
-## ~ParseCallback : Promise.<any>
+## ~ParseCallback : Promise.<any> | any
 **Kind**: inner typedef  
-**Returns**: <code>Promise.&lt;any&gt;</code> - the promise should be resolved with the parsed object  
+**Returns**: <code>Promise.&lt;any&gt;</code> \| <code>any</code> - the promise should be resolved with the parsed object  
 
 | Param | Type | Description |
 | --- | --- | --- |

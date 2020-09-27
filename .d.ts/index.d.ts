@@ -1,9 +1,10 @@
-import {Readable, Writable, Transform, WritableOptions} from "stream";
+import {Readable, Writable, Transform} from "stream";
 
 import {EventEmitter} from "events";
 
 type AsyncGeneratorFunction<T=any> = (...args: any[]) => {[Symbol.asyncIterator]: {next(): Promise<{value: T, done: boolean}>}}
 type AsyncFunction = (...args: any[]) => Promise<any>;
+type ThenFunction = (arg: any) => any;
 
 declare class PromiseTransform implements NodeJS.ReadableStream, NodeJS.WritableStream {
     readable: boolean;
@@ -157,8 +158,20 @@ declare function API(version: number): ScramjetPlugin;
  */
 declare class DataStream extends PromiseTransform {
     /**
-     * Create the DataStream.
-     * @param opts Stream options passed to superclass
+     * DataStream is the primary stream type for Scramjet. When you parse your
+     * stream, just pipe it you can then perform calculations on the data objects
+     * streamed through your flow.
+     * 
+     * Use as:
+     * 
+     * ```javascript
+     * const { DataStream } = require('scramjet');
+     * 
+     * await (DataStream.from(aStream) // create a DataStream
+     * .map(findInFiles)           // read some data asynchronously
+     * .map(sendToAPI)             // send the data somewhere
+     * .run());                    // wait until end
+     * ```
      */
     constructor(opts?: DataStreamOptions);
 
@@ -186,18 +199,19 @@ declare class DataStream extends PromiseTransform {
      * ```javascript
      * DataStream
      * .from(function* () {
-     * while(x < 100) yield x++;
+     * while(x < 100) yield {x: x++};
      * })
      * .each(console.log)
-     * // 0
-     * // 1...
-     * // 99
+     * // {x: 0}
+     * // {x: 1}
+     * // ...
+     * // {x: 99}
      * ```
      * @param input argument to be turned into new stream
      * @param options options for creation of a new stream or the target stream
      * @param ...args additional arguments for the stream - will be passed to the function or generator
      */
-    static from(input: any[] | Iterable<any> | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Function | string | Readable, options?: DataStreamOptions | Writable, ...args: any[]): DataStream;
+    static from(input: any[] | Iterable<any> | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Promise<any> | Function | string | Readable, options?: DataStreamOptions | Writable, ...args: any[]): DataStream;
 
     /**
      * Transforms stream objects into new ones, just like Array.prototype.map
@@ -862,8 +876,7 @@ declare type FilterCallback = (chunk: any)=>Promise<Boolean> | Boolean;
 
 /**
  * 
- * @param accumulator the accumulator - the object initially passed or returned
- *        by the previous reduce operation
+ * @param accumulator the accumulator - the object initially passed or returned by the previous reduce operation
  * @param chunk the stream chunk.
  */
 declare type ReduceCallback = (accumulator: any, chunk: object)=>Promise<any> | any;
@@ -871,15 +884,16 @@ declare type ReduceCallback = (accumulator: any, chunk: object)=>Promise<any> | 
 /**
  * 
  * @param chunk source stream chunk
+ * @returns the outcome is discarded
  */
-declare type DoCallback = (chunk: object)=>void;
+declare type DoCallback = (chunk: object)=>Promise<any> | any;
 
 /**
  * 
  * @param into stream passed to the into method
  * @param chunk source stream chunk
  */
-declare type IntoCallback = (into: any, chunk: object)=>any;
+declare type IntoCallback = (into: any, chunk: any)=>Promise<any> | any;
 
 /**
  * 
@@ -905,21 +919,22 @@ declare type TeeCallback = (teed: DataStream)=>void;
  * @param encoding encoding of the chunk
  * @returns the result, undefined will be treated as filtered out.
  */
-declare type ScramjetTransformCallback = (chunk: Buffer | string | any, encoding: string)=>any | undefined;
+declare type ScramjetTransformCallback = (chunk: Buffer | string | any, encoding: string)=>Promise<any | undefined> | any | undefined;
 
 /**
  * Write async callback. Await your async write and resolve.
  * @param chunk the stream chunk
  * @param encoding encoding of the chunk
+ * @returns should resolve when the write ends
  */
-declare type ScramjetWriteCallback = (chunk: Buffer | string | any, encoding: string)=>void;
+declare type ScramjetWriteCallback = (chunk: Buffer | string | any, encoding: string)=>Promise<void> | void;
 
 /**
  * Read async callback. Simply await your async operations and return the result as array.
  * @param count the number of chunks that should be read ("this is more like a set of guideline than actual rules").
  * @returns the read chunk.
  */
-declare type ScramjetReadCallback = (count: number)=>any[];
+declare type ScramjetReadCallback = (count: number)=>any[] | Promise<Array<any>>;
 
 /**
  * Standard options for scramjet streams.
@@ -971,15 +986,25 @@ declare interface DataStreamOptions {
  * 
  * Example:
  * 
- * ```javascript
- * StringStream.fromString()
+ * ```js
+ * StringStream.from(async () => (await fetch('https://example.com/data/article.txt')).text())
+ *     .lines()
+ *     .append("\r\n")
+ *     .pipe(fs.createWriteStream('./path/to/file.txt'))
  * ```
  */
 declare class StringStream extends DataStream {
     /**
-     * Constructs the stream with the given encoding
-     * @param encoding the encoding to use
-     * @param options the encoding to use
+     * A stream of string objects for further transformation on top of DataStream.
+     * 
+     * Example:
+     * 
+     * ```js
+     * StringStream.from(async () => (await fetch('https://example.com/data/article.txt')).text())
+     * .lines()
+     * .append("\r\n")
+     * .pipe(fs.createWriteStream('./path/to/file.txt'))
+     * ```
      */
     constructor(encoding?: string, options?: DataStreamOptions);
 
@@ -1028,7 +1053,7 @@ declare class StringStream extends DataStream {
      * @param parser The transform function
      * @param StreamClass the output stream class to return
      */
-    parse(parser: ParseCallback, StreamClass: Function): DataStream;
+    parse(parser: ParseCallback, StreamClass?: Function): DataStream;
 
     /**
      * Alias for {@link StringStream#parse}
@@ -1064,7 +1089,7 @@ declare class StringStream extends DataStream {
      * Splits the string stream by the specified regexp or string
      * @param eol End of line string or regex
      */
-    lines(eol?: string): this;
+    lines(eol?: string | RegExp): this;
 
     /**
      * Parses each entry as JSON.
@@ -1083,14 +1108,14 @@ declare class StringStream extends DataStream {
      * Appends given argument to all the items.
      * @param param the argument to append. If function passed then it will be called and resolved and the resolution will be appended.
      */
-    append(param: Function | string): this;
+    append(param: ThenFunction | string): this;
 
     /**
      * Prepends given argument to all the items.
      * @param param the argument to prepend. If function passed then it will be called and resolved
      *             and the resolution will be prepended.
      */
-    prepend(param: Function | string): this;
+    prepend(param: ThenFunction | string): this;
 
     /**
      * Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream.
@@ -1118,7 +1143,7 @@ declare type ShiftStringCallback = (shifted: string | any)=>void;
  * 
  * @param chunk the transformed chunk
  */
-declare type ParseCallback = (chunk: string)=>Promise<any>;
+declare type ParseCallback = (chunk: string)=>Promise<any> | any;
 
 /**
  * A facilitation stream created for easy splitting or parsing buffers.
@@ -1141,8 +1166,23 @@ declare type ParseCallback = (chunk: string)=>Promise<any>;
  */
 declare class BufferStream extends DataStream {
     /**
-     * Creates the BufferStream
-     * @param opts Stream options passed to superclass
+     * A facilitation stream created for easy splitting or parsing buffers.
+     * 
+     * Useful for working on built-in Node.js streams from files, parsing binary formats etc.
+     * 
+     * A simple use case would be:
+     * 
+     * ```javascript
+     * fs.createReadStream('pixels.rgba')
+     * .pipe(new BufferStream)         // pipe a buffer stream into scramjet
+     * .breakup(4)                     // split into 4 byte fragments
+     * .parse(buffer => [
+     * buffer.readInt8(0),            // the output is a stream of R,G,B and Alpha
+     * buffer.readInt8(1),            // values from 0-255 in an array.
+     * buffer.readInt8(2),
+     * buffer.readInt8(3)
+     * ]);
+     * ```
      */
     constructor(opts?: DataStreamOptions);
 
@@ -1217,7 +1257,7 @@ declare type ShiftBufferCallback = (shifted: Buffer | any)=>void;
  * 
  * @param chunk the transformed chunk
  */
-declare type BufferParseCallback = (chunk: Buffer)=>Promise<any>;
+declare type BufferParseCallback = (chunk: Buffer)=>Promise<any> | any;
 
 /**
  * An object consisting of multiple streams than can be refined or muxed.
@@ -1236,10 +1276,19 @@ declare type BufferParseCallback = (chunk: Buffer)=>Promise<any>;
  */
 declare class MultiStream {
     /**
-     * Crates an instance of MultiStream with the specified stream list
-     * @param streams the list of readable streams (other
-     *        objects will be filtered out!)
-     * @param options Optional options for the super object. ;)
+     * An object consisting of multiple streams than can be refined or muxed.
+     * 
+     * The idea behind a MultiStream is being able to mux and demux streams when needed.
+     * 
+     * Usage:
+     * ```javascript
+     * new MultiStream([...streams])
+     * .mux();
+     * 
+     * new MultiStream(function*(){ yield* streams; })
+     * .map(stream => stream.filter(myFilter))
+     * .mux();
+     * ```
      */
     constructor(streams: any[] | AsyncGenerator<Readable> | Generator<Readable>, options?: object);
 
@@ -1387,7 +1436,7 @@ declare type RemapCallback = (emit: Function, chunk: any)=>Promise<any> | any;
  * @param chunk the chunk from the original stream
  * @returns promise to be resolved when chunk has been processed
  */
-declare type FlatMapCallback = (chunk: any)=>Promise<Iterable<any>> | Iterable<any>;
+declare type FlatMapCallback = (chunk: any)=>AsyncGenerator<any, void, any> | Promise<Iterable<any>> | Iterable<any>;
 
 /**
  * 
@@ -1442,7 +1491,7 @@ declare interface ExecOptions {
  * @param chunk stream object
  * @returns value of the object
  */
-declare type ValueOfCallback = (chunk: any)=>Promise<number>;
+declare type ValueOfCallback = (chunk: any)=>Promise<number> | number;
 
 /**
  * NumberStream options
@@ -1461,8 +1510,9 @@ declare interface NumberStreamOptions {
  */
 declare class NumberStream extends DataStream {
     /**
-     * Creates an instance of NumberStream.
-     * @param options
+     * Simple scramjet stream that by default contains numbers or other containing with `valueOf` method. The streams
+     * provides simple methods like `sum`, `average`. It derives from DataStream so it's still fully supporting all `map`,
+     * `reduce` etc.
      */
     constructor(options: NumberStreamOptions);
 
@@ -1517,7 +1567,12 @@ declare class WindowStream extends NumberStream {
  */
 declare class StreamWorker {
     /**
-     * Private constructor
+     * StreamWorker class - intended for internal use
+     * 
+     * This class provides control over the subprocesses, including:
+     * - spawning
+     * - communicating
+     * - delivering streams
      */
     constructor();
 

@@ -1,9 +1,10 @@
 const scramjet = require("../..");
-const rp = require("request-promise-native");
+const fetch = require("node-fetch");
+const get = (url, options = {}) => new Promise(resolve => fetch(url, options, resolve)).then(res => res.json());
 
 let seq = 0;
 
-module.exports = (source, maxParallel, addr1, addr2, addr3, addr4) => {
+module.exports = (source, maxParallel_, addr1, addr2, addr3, addr4) => {
     return source.pipe(
         new scramjet.StringStream()
     ).split(
@@ -14,6 +15,8 @@ module.exports = (source, maxParallel, addr1, addr2, addr3, addr4) => {
         (i) => {
             return i.length > 0;
         }
+    ).do(
+        (x) => console.log(x)
     ).parse(
         (i) => {
             const ret = JSON.parse(i);
@@ -24,17 +27,17 @@ module.exports = (source, maxParallel, addr1, addr2, addr3, addr4) => {
         (item) => item.value % 4 === 0
     ).on(
         "error", (e) => console.log("Error", e && e.stack)
-    ).assign(
-        (item) => rp.get("http://" + addr1 + "/" + item.id)
+    ).map(
+        (item) => get("http://" + addr1 + "/" + item.id)
             .then((res) => Object.assign({}, item, {hash: res}))
-    ).assign(
-        (item) => rp.get("http://" + addr2 + "/" + item.hash + "/" + item.id)
+    ).map(
+        (item) => get("http://" + addr2 + "/" + item.hash + "/" + item.id)
             .then((res) => Object.assign({}, item, {hash: res}))
-    ).assign(
-        (item) => rp.get("http://" + addr3 + "/" + item.hash + "/" + item.id)
+    ).map(
+        (item) => get("http://" + addr3 + "/" + item.hash + "/" + item.id)
             .then((res) => Object.assign({}, item, {hash: res}))
-    ).assign(
-        (item) => rp.get("http://" + addr4 + "/" + item.hash + "/" + item.id)
+    ).map(
+        (item) => get("http://" + addr4 + "/" + item.hash + "/" + item.id)
             .then((res) => Object.assign({}, item, {hash: res}))
     ).accumulate(
         (acc, res) => acc[res.hash.substr(0,2)] = (acc[res.hash.substr(0,2)] || 0) + 1,

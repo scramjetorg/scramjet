@@ -1,13 +1,13 @@
-const request = require("request");
 const StringStream = require("../../").StringStream;
-
-const hourglass = "-\\|/-";
+const {get: get_} = require("http");
+const get = (url, options = {}) => new Promise(resolve => get_(url, options, resolve));
 let i = 0;
 
 let columns = null;
 
-const res = request.get("http://www.wroclaw.pl/open-data/opendata/its/parkingi/parkingi.csv")
-    .pipe(new StringStream())
+const res = 
+    
+StringStream.from(get("http://www.wroclaw.pl/open-data/opendata/its/parkingi/parkingi.csv"))
     .split("\n")
     .parse((line) => line.split(";"))
     .pop(1, (data) => {
