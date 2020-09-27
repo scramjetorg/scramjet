@@ -2,7 +2,7 @@
 
 Scramjet 4 brings a stable interface, multi-threading, CSV parsing, asynchronous data augmentation and on...
 
-## Scramjet 4.35.0: Fix circular depencency issue
+## Scramjet 4.35.0: Definition fixes on optional parameters
 
 * ce9d3ad - Lots of definition fixes on optional parameters
 * 8638e70 - Depencencies update
