@@ -66,7 +66,7 @@
   "license": "MIT",
   "devDependencies": {
     "@otris/jsdoc-tsd": "^2.0.0",
-    "@types/node": "^14.11.2",
+    "@types/node": "^14.11.5",
     "check-dts": "^0.3.3",
     "decache": "^4.6.0",
     "dmd": "^5.0.2",
@@ -81,7 +81,7 @@
     "jsdoc-api": "^6.0.0",
     "jsdoc-parse": "^5.0.0",
     "node-fetch": "^2.6.1",
-    "nodeunit-tape-compat": "^1.3.59",
+    "nodeunit-tape-compat": "^1.3.60",
     "replace-in-file": "^6.1.0",
     "shelljs": "^0.8.4",
     "tape": "^5.0.1",
