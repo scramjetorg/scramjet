@@ -66,14 +66,15 @@
   "license": "MIT",
   "devDependencies": {
     "@otris/jsdoc-tsd": "^2.0.0",
-    "@types/node": "^14.11.2",
+    "@types/node": "^14.14.5",
     "check-dts": "^0.3.3",
     "decache": "^4.6.0",
     "dmd": "^5.0.2",
-    "eslint": "^7.10.0",
+    "eslint": "^7.12.1",
     "eslint-config-scramjet": "^3.0.0",
     "fancy-log": "^1.3.3",
     "gulp": "^4.0.2",
+    "gulp-cli": "^2.3.0",
     "gulp-jsdoc3": "^3.0.0",
     "gulp-rename": "^2.0.0",
     "gulp-shell": "^0.8.0",
@@ -81,7 +82,7 @@
     "jsdoc-api": "^6.0.0",
     "jsdoc-parse": "^5.0.0",
     "node-fetch": "^2.6.1",
-    "nodeunit-tape-compat": "^1.3.59",
+    "nodeunit-tape-compat": "^1.3.64",
     "replace-in-file": "^6.1.0",
     "shelljs": "^0.8.4",
     "tape": "^5.0.1",
@@ -91,6 +92,6 @@
   "dependencies": {
     "papaparse": "^5.3.0",
     "rereadable-stream": "^1.4.1",
-    "scramjet-core": "^4.31.0"
+    "scramjet-core": "^4.31.2"
   }
 }

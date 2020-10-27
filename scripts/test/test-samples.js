@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// @ts-nocheck
 
 const scramjet = require("../../");
 const fs = require("fs");
@@ -23,6 +24,8 @@ delete require.cache["scramjet"];
 delete require.cache["scramjet-core"];
 
 process.on("unhandledRejection", unhandledRejectionHandler);
+process.on("uncaughtExceptionMonitor", unhandledRejectionHandler);
+
 module.exports = scramjet.fromArray(
     matrix.map(
         (item) => ({
@@ -41,24 +44,17 @@ module.exports = scramjet.fromArray(
     )
 )
     .flatMap(
-        async (item) => {
-            const arr = await (
-                fs.createReadStream(item.srcpath)
-                    .pipe(new scramjet.StringStream())
-                    .match(/@test (.+)/gi)
-                    .map(match => {
-                        const file = path.resolve(__dirname, "../../", match);
-                        const method = file.match(/([^-]+).js/)[1];
+        async (item) => fs.createReadStream(item.srcpath)
+            .pipe(new scramjet.StringStream())
+            .match(/@test (.+)/gi)
+            .map(match => {
+                const file = path.resolve(__dirname, "../../", match);
+                const method = file.match(/([^-]+).js/)[1];
 
-                        const prefix = item.cls + "-stream";
+                const prefix = item.cls + "-stream";
 
-                        return Object.assign({}, item, {file, prefix, method});
-                    })
-                    .toArray()
-            );
-
-            return arr;
-        }
+                return Object.assign({}, item, {file, prefix, method});
+            })
     )
     .assign(async (test) => {
         const {file, prefix, method} = test;
@@ -97,6 +93,7 @@ module.exports = scramjet.fromArray(
     .assign(
         flattenTests
     )
+    .do(x => unhandledRejectionHandler.lastAction = x.file)
     .assign(
         runTests
     )
