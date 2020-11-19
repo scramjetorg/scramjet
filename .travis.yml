@@ -4,7 +4,10 @@ node_js:
   - "14"
   - "12"
   - "10"
-script: npm test
+before_script:
+  - npm install -g gulp-cli
+script: 
+  - npm test
 cache:
   apt: true
   directories:
