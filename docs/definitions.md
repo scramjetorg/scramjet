@@ -154,7 +154,15 @@ Defines async transforms or read/write methods for a stream.
 | [afterTransform] | [<code>ScramjetTransformCallback</code>](definitions.md#module_scramjet..ScramjetTransformCallback) | <code></code> | an async function run after the transform |
 | [maxParallel] | <code>number</code> | <code>os.cpus.length*2</code> | the number of transforms done in parallel |
 | [referrer] | [<code>DataStream</code>](data-stream.md#module_scramjet.DataStream) | <code></code> | a referring stream to point to (if possible the transforms will be pushed to it |
-| [objectMode] | <code>boolean</code> | <code>true</code> | should the object mode be used                                 instead of creating a new stream) |
+| [objectMode] | <code>boolean</code> | <code>true</code> | should the object mode be used instead of creating a new stream) |
+| [highWaterMark] | <code>number</code> |  | The maximum number of bytes to store in the internal buffer before ceasing to read from the underlying resource. Default: 16384 (16KB), or 16 for objectMode streams. |
+| [encoding] | <code>string</code> |  | If specified, then buffers will be decoded to strings using the specified encoding. Default: null. |
+| [objectMode] | <code>boolean</code> |  | Whether this stream should behave as a stream of objects. Meaning that stream.read(n) returns a single value instead of a Buffer of size n. Default: false. |
+| [emitClose] | <code>boolean</code> |  | Whether or not the stream should emit 'close' after it has been destroyed. Default: true. |
+| [read] | <code>function</code> |  | Implementation for the stream._read() method. |
+| [destroy] | <code>function</code> |  | Implementation for the stream._destroy() method. |
+| [construct] | <code>function</code> |  | Implementation for the stream._construct() method. |
+| [autoDestroy] | <code>boolean</code> |  | Whether this stream should automatically call .destroy() on itself after ending. Default: true. |
 
 <a name="module_scramjet..ShiftCallback"></a>
 

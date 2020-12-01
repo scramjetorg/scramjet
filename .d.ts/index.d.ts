@@ -975,10 +975,41 @@ declare interface DataStreamOptions {
      */
     referrer?: DataStream;
     /**
-     * should the object mode be used
-     *                                 instead of creating a new stream)
+     * should the object mode be used instead of creating a new stream)
      */
     objectMode?: boolean;
+    /**
+     * The maximum number of bytes to store in the internal buffer before ceasing to read from the underlying resource. Default: 16384 (16KB), or 16 for objectMode streams.
+     */
+    highWaterMark?: number;
+    /**
+     * If specified, then buffers will be decoded to strings using the specified encoding. Default: null.
+     */
+    encoding?: string;
+    /**
+     * Whether this stream should behave as a stream of objects. Meaning that stream.read(n) returns a single value instead of a Buffer of size n. Default: false.
+     */
+    objectMode?: boolean;
+    /**
+     * Whether or not the stream should emit 'close' after it has been destroyed. Default: true.
+     */
+    emitClose?: boolean;
+    /**
+     * Implementation for the stream._read() method.
+     */
+    read?: Function;
+    /**
+     * Implementation for the stream._destroy() method.
+     */
+    destroy?: Function;
+    /**
+     * Implementation for the stream._construct() method.
+     */
+    construct?: Function;
+    /**
+     * Whether this stream should automatically call .destroy() on itself after ending. Default: true.
+     */
+    autoDestroy?: boolean;
 }
 
 /**
