@@ -987,10 +987,6 @@ declare interface DataStreamOptions {
      */
     encoding?: string;
     /**
-     * Whether this stream should behave as a stream of objects. Meaning that stream.read(n) returns a single value instead of a Buffer of size n. Default: false.
-     */
-    objectMode?: boolean;
-    /**
      * Whether or not the stream should emit 'close' after it has been destroyed. Default: true.
      */
     emitClose?: boolean;
