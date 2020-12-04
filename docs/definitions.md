@@ -157,7 +157,6 @@ Defines async transforms or read/write methods for a stream.
 | [objectMode] | <code>boolean</code> | <code>true</code> | should the object mode be used instead of creating a new stream) |
 | [highWaterMark] | <code>number</code> |  | The maximum number of bytes to store in the internal buffer before ceasing to read from the underlying resource. Default: 16384 (16KB), or 16 for objectMode streams. |
 | [encoding] | <code>string</code> |  | If specified, then buffers will be decoded to strings using the specified encoding. Default: null. |
-| [objectMode] | <code>boolean</code> |  | Whether this stream should behave as a stream of objects. Meaning that stream.read(n) returns a single value instead of a Buffer of size n. Default: false. |
 | [emitClose] | <code>boolean</code> |  | Whether or not the stream should emit 'close' after it has been destroyed. Default: true. |
 | [read] | <code>function</code> |  | Implementation for the stream._read() method. |
 | [destroy] | <code>function</code> |  | Implementation for the stream._destroy() method. |
