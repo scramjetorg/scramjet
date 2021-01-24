@@ -46,6 +46,19 @@ exports.test = {
         test.deepEqual(arr, [1,2,2,3], "Should flatten asynchronous generator");
         test.done();
     },
+    async is_finite(test) {
+        test.expect(1);
+        const array = Array.from(new Array(50).keys());
+        let i = 0;
+        DataStream.from(array)
+            .flatMap(x => [x, x])
+            .each(x => i+=x)
+            .on("end", () => {
+                test.strictEqual(1000, i);
+                test.done();
+            })
+        ;
+    },
     async async_generator(test) {
         test.expect(1);
         try {
