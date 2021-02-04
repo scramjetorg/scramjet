@@ -56,7 +56,7 @@
   "homepage": "https://www.scramjet.org/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/signicode/scramjet.git"
+    "url": "https://github.com/scramjetorg/scramjet.git"
   },
   "engines": {
     "node": ">=10.0.0"
