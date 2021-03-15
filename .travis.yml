@@ -4,9 +4,11 @@ node_js:
   - "14"
   - "12"
   - "10"
+before_install:
+  - npm i -g npm
 before_script:
   - npm install -g gulp-cli
-script: 
+script:
   - npm test
 cache:
   apt: true

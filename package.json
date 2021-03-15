@@ -56,7 +56,7 @@
   "homepage": "https://www.scramjet.org/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/signicode/scramjet.git"
+    "url": "https://github.com/scramjetorg/scramjet.git"
   },
   "engines": {
     "node": ">=10.0.0"
@@ -66,11 +66,11 @@
   "license": "MIT",
   "devDependencies": {
     "@otris/jsdoc-tsd": "^2.0.0",
-    "@types/node": "^14.14.22",
+    "@types/node": "^14.14.35",
     "check-dts": "^0.4.1",
     "decache": "^4.6.0",
-    "dmd": "^5.0.2",
-    "eslint": "^7.18.0",
+    "dmd": "^6.0.0",
+    "eslint": "^7.22.0",
     "eslint-config-scramjet": "^3.0.0",
     "fancy-log": "^1.3.3",
     "gulp": "^4.0.2",
@@ -79,19 +79,19 @@
     "gulp-rename": "^2.0.0",
     "gulp-shell": "^0.8.0",
     "jsdoc": "^3.6.6",
-    "jsdoc-api": "^6.0.0",
-    "jsdoc-parse": "^5.0.0",
+    "jsdoc-api": "^7.0.0",
+    "jsdoc-parse": "^6.0.0",
     "node-fetch": "^2.6.1",
-    "nodeunit-tape-compat": "^1.3.68",
+    "nodeunit-tape-compat": "^1.3.69",
     "replace-in-file": "^6.1.0",
     "shelljs": "^0.8.4",
-    "tape": "^5.1.1",
+    "tape": "^5.2.2",
     "through2": "^4.0.2",
     "vinyl": "^2.2.1"
   },
   "dependencies": {
     "papaparse": "^5.3.0",
-    "rereadable-stream": "^1.4.5",
-    "scramjet-core": "^4.31.12"
+    "rereadable-stream": "^1.4.6",
+    "scramjet-core": "^4.31.14"
   }
 }
