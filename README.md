@@ -494,6 +494,6 @@ The project need's your help! There's lots of work to do - transforming and muxi
 If you want to help and be part of the Scramjet team, please reach out to us, [on slack](https://join.slack.com/t/scramjetframework/shared_invite/zt-bb16pluv-XlICrq5Khuhbq5beenP2Fg) or email us: [opensource@scramjet.org](opensource@scramjet.org)
 
 ## Donate us
-Do you like this project? It helped you reduce time spent on delivering your solution. You are welcome to buy us a coffee :)
+Do you like this project? It helped you reduce time spent on delivering your solution? You are welcome to buy us a coffee :)
 
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7F7V65C43EBMW)
