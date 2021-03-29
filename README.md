@@ -1,15 +1,16 @@
-![Scramjet Logo](https://signicode.com/scramjet-logo-light.svg)
+![Scramjet Logo](https://scramjet.org/logos/scramjet-logo-light.svg)
 
 **Version 4**
 
-[![Master Build Status](https://travis-ci.org/signicode/scramjet.svg?branch=master)](https://travis-ci.org/signicode/scramjet)
-[![Develop Build Status](https://travis-ci.org/signicode/scramjet.svg?branch=develop)](https://travis-ci.org/signicode/scramjet)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsignicode%2Fscramjet.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsignicode%2Fscramjet?ref=badge_shield)
-[![Known Vulnerabilities](https://snyk.io/test/github/signicode/scramjet/badge.svg)](https://snyk.io/test/github/signicode/scramjet)
+[![Master Build Status](https://travis-ci.org/scramjetorg/scramjet.svg?branch=master)](https://travis-ci.org/scramjetorg/scramjet)
+[![Develop Build Status](https://travis-ci.org/scramjetorg/scramjet.svg?branch=develop)](https://travis-ci.org/scramjetorg/scramjet)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fscramjetorg%2Fscramjet.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fscramjetorg%2Fscramjet?ref=badge_shield)
+[![Known Vulnerabilities](https://snyk.io/test/github/scramjetorg/scramjet/badge.svg)](https://snyk.io/test/github/scramjetorg/scramjet)
 [![DeepScan grade](https://deepscan.io/api/projects/2632/branches/17801/badge/grade.svg)](https://deepscan.io/dashboard#view=project&pid=2632&bid=17801)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7F7V65C43EBMW)
 
 ## What does it do?
+
 Scramjet is a fast, simple, functional reactive stream programming framework written on top of node.js object
 streams. The code is written by chaining functions that transform the streamed data, including well known map, filter and
 reduce and fully compatible with ES7 async/await. Thanks to it some built in optimizations scramjet is much faster and much
@@ -20,7 +21,7 @@ perform the transformations both synchronously and asynchronously by using the s
 stream from whatever source and call any number of API's consecutively. And if you're after some heavy maths
 there's an option of running your stream as multi-threaded!
 
-The benchmarks are published in the [scramjet-benchmark repo](https://github.com/signicode/scramjet-benchmark).
+The benchmarks are published in the [scramjet-benchmark repo](https://github.com/scramjetorg/scramjet-benchmark).
 
 ## Example
 
@@ -485,15 +486,10 @@ Only the most vital methods there, but the library is dependency free.
 
 As of version 2.0 Scramjet is MIT Licensed.
 
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsignicode%2Fscramjet-core.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsignicode%2Fscramjet-core?ref=badge_large)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fscramjetorg%2Fscramjet-core.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fscramjetorg%2Fscramjet-core?ref=badge_large)
 
 ## Help wanted
 
 The project need's your help! There's lots of work to do - transforming and muxing, joining and splitting, browserifying, modularizing, documenting and issuing those issues.
 
-If you want to help and be part of the Scramjet team, please reach out to us, [on slack](https://join.slack.com/t/scramjetframework/shared_invite/zt-bb16pluv-XlICrq5Khuhbq5beenP2Fg) or email us: [opensource@scramjet.org](opensource@scramjet.org)
-
-## Donate us
-Do you like this project? It helped you reduce time spent on delivering your solution? You are welcome to buy us a coffee :)
-
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7F7V65C43EBMW)
+If you want to help and be part of the Scramjet team, please reach out to us, [on slack](https://join.slack.com/t/scramjetframework/shared_invite/zt-bb16pluv-XlICrq5Khuhbq5beenP2Fg) or email us: [opensource@scramjet.org](opensource@scramjet.org).

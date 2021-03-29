@@ -29,7 +29,7 @@ var argv = require('yargs')
     })
     .help('h')
     .alias('h', 'help')
-    .epilog('Copyright 2016 Signicode')
+    .epilog('Copyright 2016 Scramjet')
     .argv;
 
 const fs = require("fs");
