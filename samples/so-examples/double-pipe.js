@@ -10,7 +10,7 @@ source.pipe(new DataStream())
     .CSVStringify()
     .pipe(process.stderr);
 
-// ✔ /signicode/scramjet
+// ✔ /scramjetorg/scramjet
 // 13:43 $ node samples/so-examples/double-pipe.js
 // 1
 // 2

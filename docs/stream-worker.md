@@ -1,4 +1,4 @@
-![Scramjet Logo](https://signicode.com/scramjet-logo-light.svg)
+![Scramjet Logo](https://scramjet.org/logos/scramjet-logo-light.svg)
 
 <a name="module_scramjet.StreamWorker"></a>
 
