@@ -495,4 +495,5 @@ If you want to help and be part of the Scramjet team, please reach out to us, [o
 
 ## Donate us
 Do you like this project? It helped you reduce time spent on delivering your solution. You are welcome to buy us a coffee :)
+
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7F7V65C43EBMW)
