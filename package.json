@@ -10,6 +10,12 @@
     "test": "test",
     "types": ".d.ts"
   },
+  "funding": [
+    {
+      "type" : "individual",
+      "url" : "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7F7V65C43EBMW"
+    }
+  ],
   "files": [
     "LICENSE",
     "CHANGELOG.md",
