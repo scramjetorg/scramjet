@@ -6,7 +6,30 @@ type AsyncGeneratorFunction<T=any> = (...args: any[]) => {[Symbol.asyncIterator]
 type AsyncFunction = (...args: any[]) => Promise<any>;
 type ThenFunction = (arg: any) => any;
 
-declare class PromiseTransform implements NodeJS.ReadableStream, NodeJS.WritableStream {
+declare class PromiseTransform implements Readable, Writable {
+    writableEnded: boolean;
+    writableFinished: boolean;
+    writableHighWaterMark: number;
+    writableLength: number;
+    writableObjectMode: boolean;
+    writableCorked: number;
+    _write(chunk: any, encoding: BufferEncoding, callback: (error?: Error) => void): void;
+    _writev?(chunks: { chunk: any; encoding: BufferEncoding; }[], callback: (error?: Error) => void): void;
+    _final(callback: (error?: Error) => void): void;
+    setDefaultEncoding(encoding: BufferEncoding): this;
+    cork(): void;
+    uncork(): void;
+    readableEncoding: BufferEncoding;
+    readableEnded: boolean;
+    readableFlowing: boolean;
+    readableHighWaterMark: number;
+    readableLength: number;
+    readableObjectMode: boolean;
+    destroyed: boolean;
+    _read(size: number): void;
+    push(chunk: any, encoding?: BufferEncoding): boolean;
+    _destroy(error: Error, callback: (error?: Error) => void): void;
+    destroy(error?: Error): void;
     readable: boolean;
     read(size?: number | undefined): string | Buffer;
     setEncoding(encoding: string): this;
