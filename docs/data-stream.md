@@ -1026,6 +1026,7 @@ Returns a StringStream containing JSON per item with optional end line
 **Chainable**  
 **Returns**: [<code>StringStream</code>](string-stream.md#module_scramjet.StringStream) - output stream  
 **Meta.noreadme**:   
+**Test**: test/methods/data-stream-jsonstringify.js  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
