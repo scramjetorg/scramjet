@@ -74,13 +74,18 @@ module.exports = scramjet.fromArray(
             Object.keys(require.cache).forEach(mod => decache(mod));
 
             const out = require(file);
-            const tests = out.test ? {[method]: out.test} : {[method]: (test) => {
-                test.ok(true, "Sample exists but there's no test.");
-                test.done();
-            }};
+            if (!out) return scramjet.DataStream.filter();
+
             out.log = () => 0;
 
-            return {prefix, tests};
+            if (out.test) {
+                return { prefix, tests: out.test };
+            }
+
+            return {prefix, tests: {[method]: (test) => {
+                test.ok(true, "Sample exists but there's no test.");
+                test.done();
+            }}};
         } catch(err) {
             return {prefix, conf: {timeout: 1000}, tests: {
                 [method](test) {
@@ -94,14 +99,15 @@ module.exports = scramjet.fromArray(
         flattenTests
     )
     .do(x => unhandledRejectionHandler.lastAction = x.file)
+    .setOptions({maxParallel: 1})
     .assign(
         runTests
     )
-    .setOptions({maxParallel: 1})
     .tap()
     .catch(
         (e) => {
-            console.error("ERRROR", e && e.stack);
+            console.error("ERROR", e && e.stack);
+            if (e && e.chunk) console.error("CHUNK", e.chunk);
             process.exit(103);
         }
     )

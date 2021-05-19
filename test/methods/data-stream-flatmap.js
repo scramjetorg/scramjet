@@ -14,7 +14,7 @@ exports.test = {
         test.done();
     },
     async empty_responses(test) {
-        const data = await DataStream.fromArray([0, 1, 2, 3])
+        const data = await DataStream.fromArray([1, 0, 2, 3])
             .flatMap(a => new Array(a).fill(a))
             .toArray();
 
@@ -49,12 +49,15 @@ exports.test = {
     async is_finite(test) {
         test.expect(1);
         const array = Array.from(new Array(50).keys());
+
+        const expect = array.reduce((sum, num) => sum + num*2, 0);
+
         let i = 0;
         DataStream.from(array)
             .flatMap(x => [x, x])
             .each(x => i+=x)
             .on("end", () => {
-                test.strictEqual(1000, i);
+                test.strictEqual(i, expect);
                 test.done();
             })
         ;
