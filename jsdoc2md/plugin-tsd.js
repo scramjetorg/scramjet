@@ -36,11 +36,10 @@ module.exports.handlers = {
         }
 
         if (doclet.augments) {
-            let replaced = 0;
             const oldAugments = doclet.augments;
             doclet.augments = oldAugments.map(
                 augmented => matchLookup(augmented).map(
-                    lookup => (replaced++, augmented.replace(lookup, tagLookup[lookup].longname))
+                    lookup => augmented.replace(lookup, tagLookup[lookup].longname)
                 )
             );
             // if (replaced && doclet.kind === "class") {
