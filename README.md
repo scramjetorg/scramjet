@@ -57,6 +57,23 @@ StringStream.from(                                 // fetch your API to a scramj
 Here you can find a most basic guide on how to execute the above example starting from just having access to some command
 line: [Scramjet from Scratch](./docs/scramjet-from-scratch.md)
 
+## Execution and deployment
+
+You can now run stream processing programs with our Scramjet Transform Hub. It will allow you to deploy and execute programs 
+on local and remote environments of your choice and it's as easy as:
+
+```sh
+npm i -g @scramjet/sth @scramjet/cli
+scramjet-transform-hub &
+si run <path-to-your-program-dir>
+```
+
+See more info:
+
+* onour website [scramjet.org](https://scramjet.org),
+* the documentation repo [scramjetorg/scramjet-cloud-docs](https://github.com/scramjetorg/scramjet-cloud-docs)
+* the source code and development guide [scramjetorg/transform-hub](https://github.com/scramjetorg/transform-hub)
+
 ## Usage
 
 Scramjet uses functional programming to run transformations on your data streams in a fashion
