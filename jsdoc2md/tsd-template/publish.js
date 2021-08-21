@@ -1,8 +1,8 @@
 
 
 const shelljs = require("shelljs");
-const Configuration = require("@otris/jsdoc-tsd/src-out/Configuration");
-const Parser = require("@otris/jsdoc-tsd/src-out/jsdoc-tsd-parser");
+const Configuration = require("@otris/jsdoc-tsd/Configuration");
+const Parser = require("@otris/jsdoc-tsd/jsdoc-tsd-parser");
 const path = require("path");
 const fs = require("fs");
 const helper = require("jsdoc/lib/jsdoc/util/templateHelper");

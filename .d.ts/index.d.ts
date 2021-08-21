@@ -181,55 +181,12 @@ declare function API(version: number): ScramjetPlugin;
  */
 declare class DataStream extends PromiseTransform {
     /**
-     * DataStream is the primary stream type for Scramjet. When you parse your
-     * stream, just pipe it you can then perform calculations on the data objects
-     * streamed through your flow.
-     * 
-     * Use as:
-     * 
-     * ```javascript
-     * const { DataStream } = require('scramjet');
-     * 
-     * await (DataStream.from(aStream) // create a DataStream
-     * .map(findInFiles)           // read some data asynchronously
-     * .map(sendToAPI)             // send the data somewhere
-     * .run());                    // wait until end
-     * ```
+     * DataStream is the primary stream type for Scramjet. When you parse your stream, just pipe it you can then perform calculations on the data objects streamed through your flow. Use as: ```javascript const { DataStream } = require('scramjet'); await (DataStream.from(aStream) // create a DataStream .map(findInFiles)           // read some data asynchronously .map(sendToAPI)             // send the data somewhere .run());                    // wait until end ```
      */
     constructor(opts?: DataStreamOptions);
 
     /**
-     * Returns a DataStream from pretty much anything sensibly possible.
-     * 
-     * Depending on type:
-     * * `self` will return self immediately
-     * * `Readable` stream will get piped to the current stream with errors forwarded
-     * * `Array` will get iterated and all items will be pushed to the returned stream.
-     * The stream will also be ended in such case.
-     * * `GeneratorFunction` will get executed to return the iterator which will be used as source for items
-     * * `AsyncGeneratorFunction` will also work as above (including generators) in node v10.
-     * * `Iterable`s iterator will be used as a source for streams
-     * 
-     * You can also pass a `Function` or `AsyncFunction` that will be executed and it's outcome will be
-     * passed again to `from` and piped to the initially returned stream. Any additional arguments will be
-     * passed as arguments to the function.
-     * 
-     * If a `String` is passed, scramjet will attempt to resolve it as a module and use the outcome
-     * as an argument to `from` as in the Function case described above. For more information see {@link modules.md}
-     * 
-     * A simple example from a generator:
-     * 
-     * ```javascript
-     * DataStream
-     * .from(function* () {
-     * while(x < 100) yield {x: x++};
-     * })
-     * .each(console.log)
-     * // {x: 0}
-     * // {x: 1}
-     * // ...
-     * // {x: 99}
-     * ```
+     * Returns a DataStream from pretty much anything sensibly possible. Depending on type: * `self` will return self immediately * `Readable` stream will get piped to the current stream with errors forwarded * `Array` will get iterated and all items will be pushed to the returned stream. The stream will also be ended in such case. * `GeneratorFunction` will get executed to return the iterator which will be used as source for items * `AsyncGeneratorFunction` will also work as above (including generators) in node v10. * `Iterable`s iterator will be used as a source for streams You can also pass a `Function` or `AsyncFunction` that will be executed and it's outcome will be passed again to `from` and piped to the initially returned stream. Any additional arguments will be passed as arguments to the function. If a `String` is passed, scramjet will attempt to resolve it as a module and use the outcome as an argument to `from` as in the Function case described above. For more information see {@link modules.md} A simple example from a generator: ```javascript DataStream .from(function* () { while(x < 100) yield {x: x++}; }) .each(console.log) // {x: 0} // {x: 1} // ... // {x: 99} ```
      * @param input argument to be turned into new stream
      * @param options options for creation of a new stream or the target stream
      * @param ...args additional arguments for the stream - will be passed to the function or generator
@@ -237,157 +194,70 @@ declare class DataStream extends PromiseTransform {
     static from(input: any[] | Iterable<any> | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Promise<any> | Function | string | Readable, options?: DataStreamOptions | Writable, ...args: any[]): DataStream;
 
     /**
-     * Transforms stream objects into new ones, just like Array.prototype.map
-     * does.
-     * 
-     * Map takes an argument which is the Function function operating on every element
-     * of the stream. If the function returns a Promise or is an AsyncFunction then the
-     * stream will await for the outcome of the operation before pushing the data forwards.
-     * 
-     * A simple example that turns stream of urls into stream of responses
-     * 
-     * ```javascript
-     * stream.map(async url => fetch(url));
-     * ```
-     * 
-     * Multiple subsequent map operations (as well as filter, do, each and other simple ops)
-     * will be merged together into a single operation to improve performance. Such behaviour
-     * can be suppressed by chaining `.tap()` after `.map()`.
+     * Transforms stream objects into new ones, just like Array.prototype.map does. Map takes an argument which is the Function function operating on every element of the stream. If the function returns a Promise or is an AsyncFunction then the stream will await for the outcome of the operation before pushing the data forwards. A simple example that turns stream of urls into stream of responses ```javascript stream.map(async url => fetch(url)); ``` Multiple subsequent map operations (as well as filter, do, each and other simple ops) will be merged together into a single operation to improve performance. Such behaviour can be suppressed by chaining `.tap()` after `.map()`.
      * @param func The function that creates the new object
      * @param ClassType The class to be mapped to.
      */
     map(func: MapCallback, ClassType?: Function): this;
 
     /**
-     * Filters object based on the function outcome, just like Array.prototype.filter.
-     * 
-     * Filter takes a Function argument which should be a Function or an AsyncFunction that
-     * will be called on each stream item. If the outcome of the operation is `falsy` (`0`, `''`,
-     * `false`, `null` or `undefined`) the item will be filtered from subsequent operations
-     * and will not be pushed to the output of the stream. Otherwise the item will not be affected.
-     * 
-     * A simple example that filters out non-2xx responses from a stream
-     * 
-     * ```javascript
-     * stream.filter(({statusCode}) => !(statusCode >= 200 && statusCode < 300));
-     * ```
+     * Filters object based on the function outcome, just like Array.prototype.filter. Filter takes a Function argument which should be a Function or an AsyncFunction that will be called on each stream item. If the outcome of the operation is `falsy` (`0`, `''`, `false`, `null` or `undefined`) the item will be filtered from subsequent operations and will not be pushed to the output of the stream. Otherwise the item will not be affected. A simple example that filters out non-2xx responses from a stream ```javascript stream.filter(({statusCode}) => !(statusCode >= 200 && statusCode < 300)); ```
      * @param func The function that filters the object
      */
     filter(func: FilterCallback): this;
 
     /**
-     * Reduces the stream into a given accumulator
-     * 
-     * Works similarly to Array.prototype.reduce, so whatever you return in the
-     * former operation will be the first operand to the latter. The result is a
-     * promise that's resolved with the return value of the last transform executed.
-     * 
-     * A simple example that sums values from a stream
-     * 
-     * ```javascript
-     * stream.reduce((accumulator, {value}) => accumulator + value);
-     * ```
-     * 
-     * This method is serial - meaning that any processing on an entry will
-     * occur only after the previous entry is fully processed. This does mean
-     * it's much slower than parallel functions.
+     * Reduces the stream into a given accumulator Works similarly to Array.prototype.reduce, so whatever you return in the former operation will be the first operand to the latter. The result is a promise that's resolved with the return value of the last transform executed. A simple example that sums values from a stream ```javascript stream.reduce((accumulator, {value}) => accumulator + value); ``` This method is serial - meaning that any processing on an entry will occur only after the previous entry is fully processed. This does mean it's much slower than parallel functions.
      * @param func The into object will be passed as the  first argument, the data object from the stream as the second.
      * @param into Any object passed initially to the transform function
      */
     reduce(func: ReduceCallback, into: object): Promise<any>;
 
     /**
-     * Perform an asynchronous operation without changing or resuming the stream.
-     * 
-     * In essence the stream will use the call to keep the backpressure, but the resolving value
-     * has no impact on the streamed data (except for possible mutation of the chunk itself)
+     * Perform an asynchronous operation without changing or resuming the stream. In essence the stream will use the call to keep the backpressure, but the resolving value has no impact on the streamed data (except for possible mutation of the chunk itself)
      * @param func the async function
      */
     do(func: DoCallback): this;
 
     /**
-     * Processes a number of functions in parallel, returns a stream of arrays of results.
-     * 
-     * This method is to allow running multiple asynchronous operations and receive all the
-     * results at one, just like Promise.all behaves.
-     * 
-     * Keep in mind that if one of your methods rejects, this behaves just like Promise.all
-     * you won't be able to receive partial results.
+     * Processes a number of functions in parallel, returns a stream of arrays of results. This method is to allow running multiple asynchronous operations and receive all the results at one, just like Promise.all behaves. Keep in mind that if one of your methods rejects, this behaves just like Promise.all you won't be able to receive partial results.
      * @param functions list of async functions to run
      */
     all(functions: any[]): this;
 
     /**
-     * Processes a number of functions in parallel, returns the first resolved.
-     * 
-     * This method is to allow running multiple asynchronous operations awaiting just the
-     * result of the quickest to execute, just like Promise.race behaves.
-     * 
-     * Keep in mind that if one of your methods it will only raise an error if that was
-     * the first method to reject.
+     * Processes a number of functions in parallel, returns the first resolved. This method is to allow running multiple asynchronous operations awaiting just the result of the quickest to execute, just like Promise.race behaves. Keep in mind that if one of your methods it will only raise an error if that was the first method to reject.
      * @param functions list of async functions to run
      */
     race(functions: any[]): this;
 
     /**
-     * Allows processing items without keeping order
-     * 
-     * This method useful if you are not concerned about the order in which the
-     * chunks are being pushed out of the operation. The `maxParallel` option is
-     * still used for keeping a number of simultaneous number of parallel operations
-     * that are currently happening.
+     * Allows processing items without keeping order This method useful if you are not concerned about the order in which the chunks are being pushed out of the operation. The `maxParallel` option is still used for keeping a number of simultaneous number of parallel operations that are currently happening.
      * @param func the async function that will be unordered
      */
     unorder(func: MapCallback): void;
 
     /**
-     * Allows own implementation of stream chaining.
-     * 
-     * The async Function is called on every chunk and should implement writes in it's own way. The
-     * resolution will be awaited for flow control. The passed `into` argument is passed as the first
-     * argument to every call.
-     * 
-     * It returns the DataStream passed as the second argument.
+     * Allows own implementation of stream chaining. The async Function is called on every chunk and should implement writes in it's own way. The resolution will be awaited for flow control. The passed `into` argument is passed as the first argument to every call. It returns the DataStream passed as the second argument.
      * @param func the method that processes incoming chunks
      * @param into the DataStream derived class
      */
     into(func: IntoCallback, into: DataStream): this;
 
     /**
-     * Calls the passed method in place with the stream as first argument, returns result.
-     * 
-     * The main intention of this method is to run scramjet modules - transforms that allow complex transforms of
-     * streams. These modules can also be run with [scramjet-cli](https://github.com/signicode/scramjet-cli) directly
-     * from the command line.
+     * Calls the passed method in place with the stream as first argument, returns result. The main intention of this method is to run scramjet modules - transforms that allow complex transforms of streams. These modules can also be run with [scramjet-cli](https://github.com/signicode/scramjet-cli) directly from the command line.
      * @param func if passed, the function will be called on self to add an option to inspect the stream in place, while not breaking the transform chain. Alternatively this can be a relative path to a scramjet-module. Lastly it can be a Transform stream.
      * @param ...parameters any additional parameters top be passed to the module
      */
     use(func: AsyncGeneratorFunction | GeneratorFunction | UseCallback | string | Readable, ...parameters: any[]): this;
 
     /**
-     * Consumes all stream items doing nothing. Resolves when the stream is ended.
-     * 
-     * This is very convienient if you're looking to use up the stream in operations that work on each entry like `map`. This uncorks the stream
-     * and allows all preceding operations to be run at any speed.
-     * 
-     * All the data of the current stream will be discarded.
-     * 
-     * The function returns a promise that is resolved when the stream ends.
+     * Consumes all stream items doing nothing. Resolves when the stream is ended. This is very convienient if you're looking to use up the stream in operations that work on each entry like `map`. This uncorks the stream and allows all preceding operations to be run at any speed. All the data of the current stream will be discarded. The function returns a promise that is resolved when the stream ends.
      */
     run(): Promise<any>;
 
     /**
-     * Creates a pipeline of streams and returns a scramjet stream.
-     * 
-     * This is similar to node.js stream pipeline method, but also takes scramjet modules
-     * as possibilities in an array of transforms. It may be used to run a series of non-scramjet
-     * transform streams.
-     * 
-     * The first argument is anything streamable and will be sanitized by {@link DataStream..from}.
-     * 
-     * Each following argument will be understood as a transform and can be any of:
-     * * AsyncFunction or Function - will be executed by {@link DataStream..use}
-     * * A transform stream that will be piped to the preceding stream
+     * Creates a pipeline of streams and returns a scramjet stream. This is similar to node.js stream pipeline method, but also takes scramjet modules as possibilities in an array of transforms. It may be used to run a series of non-scramjet transform streams. The first argument is anything streamable and will be sanitized by {@link DataStream..from}. Each following argument will be understood as a transform and can be any of: * AsyncFunction or Function - will be executed by {@link DataStream..use} * A transform stream that will be piped to the preceding stream
      * @param readable the initial readable argument that is streamable by scramjet.from
      * @param ...transforms Transform functions (as in {@link DataStream..use}) or Transform streams (any number of these as consecutive arguments)
      * @returns a new DataStream instance of the resulting pipeline
@@ -427,96 +297,61 @@ declare class DataStream extends PromiseTransform {
     whenError(): Promise<any>;
 
     /**
-     * Allows resetting stream options.
-     * 
-     * It's much easier to use this in chain than constructing new stream:
-     * 
-     * ```javascript
-     * stream.map(myMapper).filter(myFilter).setOptions({maxParallel: 2})
-     * ```
+     * Allows resetting stream options. It's much easier to use this in chain than constructing new stream: ```javascript stream.map(myMapper).filter(myFilter).setOptions({maxParallel: 2}) ```
      * @param options
      */
     setOptions(options: DataStreamOptions): this;
 
     /**
-     * Returns a copy of the stream
-     * 
-     * Creates a new stream and pushes all the data from the current one to the new one.
-     * This can be called serveral times.
+     * Returns a copy of the stream Creates a new stream and pushes all the data from the current one to the new one. This can be called serveral times.
      * @param func The duplicate stream will be passed as first argument.
      */
     copy(func: TeeCallback | Writable): this;
 
     /**
-     * Duplicate the stream
-     * 
-     * Creates a duplicate stream instance and passes it to the Function.
+     * Duplicate the stream Creates a duplicate stream instance and passes it to the Function.
      * @param func The duplicate stream will be passed as first argument.
      */
     tee(func: TeeCallback | Writable): this;
 
     /**
-     * Performs an operation on every chunk, without changing the stream
-     * 
-     * This is a shorthand for ```stream.on("data", func)``` but with flow control.
-     * Warning: this resumes the stream!
+     * Performs an operation on every chunk, without changing the stream This is a shorthand for ```stream.on("data", func)``` but with flow control. Warning: this resumes the stream!
      * @param func a Function called for each chunk.
      */
     each(func: MapCallback): this;
 
     /**
-     * Reads the stream while the function outcome is truthy.
-     * 
-     * Stops reading and emits end as soon as it finds the first chunk that evaluates
-     * to false. If you're processing a file until a certain point or you just need to
-     * confirm existence of some data, you can use it to end the stream before reaching end.
-     * 
-     * Keep in mind that whatever you piped to the stream will still need to be handled.
+     * Reads the stream while the function outcome is truthy. Stops reading and emits end as soon as it finds the first chunk that evaluates to false. If you're processing a file until a certain point or you just need to confirm existence of some data, you can use it to end the stream before reaching end. Keep in mind that whatever you piped to the stream will still need to be handled.
      * @param func The condition check
      */
     while(func: FilterCallback): this;
 
     /**
-     * Reads the stream until the function outcome is truthy.
-     * 
-     * Works opposite of while.
+     * Reads the stream until the function outcome is truthy. Works opposite of while.
      * @param func The condition check
      */
     until(func: FilterCallback): this;
 
     /**
-     * Provides a way to catch errors in chained streams.
-     * 
-     * The handler will be called as asynchronous
-     * - if it resolves then the error will be muted.
-     * - if it rejects then the error will be passed to the next handler
-     * 
-     * If no handlers will resolve the error, an `error` event will be emitted
+     * Provides a way to catch errors in chained streams. The handler will be called as asynchronous - if it resolves then the error will be muted. - if it rejects then the error will be passed to the next handler If no handlers will resolve the error, an `error` event will be emitted
      * @param callback Error handler (async function)
      */
     catch(callback: Function): this;
 
     /**
-     * Executes all error handlers and if none resolves, then emits an error.
-     * 
-     * The returned promise will always be resolved even if there are no successful handlers.
+     * Executes all error handlers and if none resolves, then emits an error. The returned promise will always be resolved even if there are no successful handlers.
      * @param err The thrown error
      */
     raise(err: Error): Promise<any>;
 
     /**
-     * Creates a BufferStream.
-     * 
-     * The passed serializer must return a buffer.
+     * Creates a BufferStream. The passed serializer must return a buffer.
      * @param serializer A method that converts chunks to buffers
      */
     bufferify(serializer: MapCallback): BufferStream;
 
     /**
-     * Creates a StringStream.
-     * 
-     * The passed serializer must return a string. If no serializer is passed chunks
-     * toString method will be used.
+     * Creates a StringStream. The passed serializer must return a string. If no serializer is passed chunks toString method will be used.
      * @param serializer A method that converts chunks to strings
      */
     stringify(serializer?: MapCallback | never): StringStream;
@@ -529,18 +364,14 @@ declare class DataStream extends PromiseTransform {
     static fromArray(array: any[], options?: DataStreamOptions): DataStream;
 
     /**
-     * Create a DataStream from an Iterator
-     * 
-     * Doesn't end the stream until it reaches end of the iterator.
+     * Create a DataStream from an Iterator Doesn't end the stream until it reaches end of the iterator.
      * @param iterator the iterator object
      * @param options the read stream options
      */
     static fromIterator(iterator: Iterator<any>, options?: DataStreamOptions): DataStream;
 
     /**
-     * Aggregates the stream into a single Array
-     * 
-     * In fact it's just a shorthand for reducing the stream into an Array.
+     * Aggregates the stream into a single Array In fact it's just a shorthand for reducing the stream into an Array.
      * @param initial Array to begin with (defaults to an empty array).
      * @returns
      */
@@ -552,11 +383,7 @@ declare class DataStream extends PromiseTransform {
     toGenerator(): Generator<Promise<any>>;
 
     /**
-     * Pulls in any readable stream, resolves when the pulled stream ends.
-     * 
-     * You can also pass anything that can be passed to `DataStream.from`.
-     * 
-     * Does not preserve order, does not end this stream.
+     * Pulls in any readable stream, resolves when the pulled stream ends. You can also pass anything that can be passed to `DataStream.from`. Does not preserve order, does not end this stream.
      * @param pullable
      * @param ...args any additional args
      * @returns resolved when incoming stream ends, rejects on incoming error
@@ -571,33 +398,21 @@ declare class DataStream extends PromiseTransform {
     shift(count: number, func: ShiftCallback): this;
 
     /**
-     * Allows previewing some of the streams data without removing them from the stream.
-     * 
-     * Important: Peek does not resume the flow.
+     * Allows previewing some of the streams data without removing them from the stream. Important: Peek does not resume the flow.
      * @param count The number of items to view before
      * @param func Function called before other streams
      */
     peek(count: number, func: ShiftCallback): this;
 
     /**
-     * Slices out a part of the stream to the passed Function.
-     * 
-     * Returns a stream consisting of an array of items with `0` to `start`
-     * omitted and `length` items after `start` included. Works similarly to
-     * Array.prototype.slice.
-     * 
-     * Takes count from the moment it's called. Any previous items will not be
-     * taken into account.
+     * Slices out a part of the stream to the passed Function. Returns a stream consisting of an array of items with `0` to `start` omitted and `length` items after `start` included. Works similarly to Array.prototype.slice. Takes count from the moment it's called. Any previous items will not be taken into account.
      * @param start omit this number of entries.
      * @param length get this number of entries to the resulting stream
      */
     slice(start?: number, length?: number): this;
 
     /**
-     * Transforms stream objects by assigning the properties from the returned
-     * data along with data from original ones.
-     * 
-     * The original objects are unaltered.
+     * Transforms stream objects by assigning the properties from the returned data along with data from original ones. The original objects are unaltered.
      * @param func The function that returns new object properties or just the new properties
      */
     assign(func: MapCallback | object): this;
@@ -609,9 +424,7 @@ declare class DataStream extends PromiseTransform {
     empty(callback: Function): this;
 
     /**
-     * Pushes any data at call time (essentially at the beginning of the stream)
-     * 
-     * This is a synchronous only function.
+     * Pushes any data at call time (essentially at the beginning of the stream) This is a synchronous only function.
      * @param ...item list of items to unshift (you can pass more items)
      */
     unshift(...item: any[]): this;
@@ -623,12 +436,7 @@ declare class DataStream extends PromiseTransform {
     endWith(item: any): this;
 
     /**
-     * Accumulates data into the object.
-     * 
-     * Works very similarly to reduce, but result of previous operations have
-     * no influence over the accumulator in the next one.
-     * 
-     * Method works in parallel.
+     * Accumulates data into the object. Works very similarly to reduce, but result of previous operations have no influence over the accumulator in the next one. Method works in parallel.
      * @param func The accumulation function
      * @param into Accumulator object
      */
@@ -643,36 +451,21 @@ declare class DataStream extends PromiseTransform {
     consume(func: ConsumeCallback | AsyncGeneratorFunction | GeneratorFunction, ...args: any[]): Promise<any>;
 
     /**
-     * Reduces the stream into the given object, returning it immediately.
-     * 
-     * The main difference to reduce is that only the first object will be
-     * returned at once (however the method will be called with the previous
-     * entry).
-     * If the object is an instance of EventEmitter then it will propagate the
-     * error from the previous stream.
-     * 
-     * This method is serial - meaning that any processing on an entry will
-     * occur only after the previous entry is fully processed. This does mean
-     * it's much slower than parallel functions.
+     * Reduces the stream into the given object, returning it immediately. The main difference to reduce is that only the first object will be returned at once (however the method will be called with the previous entry). If the object is an instance of EventEmitter then it will propagate the error from the previous stream. This method is serial - meaning that any processing on an entry will occur only after the previous entry is fully processed. This does mean it's much slower than parallel functions.
      * @param func The into object will be passed as the first argument, the data object from the stream as the second.
      * @param into Any object passed initially to the transform  function
      */
     reduceNow(func: ReduceCallback, into: any | EventEmitter): any;
 
     /**
-     * Remaps the stream into a new stream.
-     * 
-     * This means that every item may emit as many other items as we like.
+     * Remaps the stream into a new stream. This means that every item may emit as many other items as we like.
      * @param func A Function that is called on every chunk
      * @param ClassType Optional DataStream subclass to be constructed
      */
     remap(func: RemapCallback, ClassType?: Function): this;
 
     /**
-     * Takes any method that returns any iterable and flattens the result.
-     * 
-     * The passed Function must return an iterable (otherwise an error will be emitted). The resulting stream will
-     * consist of all the items of the returned iterables, one iterable after another.
+     * Takes any method that returns any iterable and flattens the result. The passed Function must return an iterable (otherwise an error will be emitted). The resulting stream will consist of all the items of the returned iterables, one iterable after another.
      * @param func A Function that is called on every chunk
      * @param ClassType Optional DataStream subclass to be constructed
      * @param ...args additional args will be passed to generators
@@ -680,10 +473,7 @@ declare class DataStream extends PromiseTransform {
     flatMap(func: FlatMapCallback, ClassType?: Function, ...args: any[]): this;
 
     /**
-     * A shorthand for streams of arrays or iterables to flatten them.
-     * 
-     * More efficient equivalent of: `.flatmap(i => i);`
-     * Works on streams of async iterables too.
+     * A shorthand for streams of arrays or iterables to flatten them. More efficient equivalent of: `.flatmap(i => i);` Works on streams of async iterables too.
      */
     flatten(): DataStream;
 
@@ -694,10 +484,7 @@ declare class DataStream extends PromiseTransform {
     concat(...streams: Readable[]): this;
 
     /**
-     * Method will put the passed object between items. It can also be a function call or generator / iterator.
-     * 
-     * If a generator or iterator is passed, when the iteration is done no items will be interweaved.
-     * Generator receives
+     * Method will put the passed object between items. It can also be a function call or generator / iterator. If a generator or iterator is passed, when the iteration is done no items will be interweaved. Generator receives
      * @param item An object that should be interweaved between stream items
      * @param ...args additional args will be passed to generators
      */
@@ -716,13 +503,7 @@ declare class DataStream extends PromiseTransform {
     rewind(count?: number): this;
 
     /**
-     * Returns a stream that stacks up incoming items always feeding out the newest items first.
-     * It returns the older items when read
-     * 
-     * When the stack length exceeds the given `count` the given `drop` function is awaited
-     * and used for flow control.
-     * 
-     * By default the drop function ignores and quietly disposes of items not read before overflow.
+     * Returns a stream that stacks up incoming items always feeding out the newest items first. It returns the older items when read When the stack length exceeds the given `count` the given `drop` function is awaited and used for flow control. By default the drop function ignores and quietly disposes of items not read before overflow.
      * @param count
      * @param drop
      */
@@ -746,10 +527,7 @@ declare class DataStream extends PromiseTransform {
     separateInto(streams: object, affinity: AffinityCallback): this;
 
     /**
-     * Separates execution to multiple streams using the hashes returned by the passed Function.
-     * 
-     * Calls the given Function for a hash, then makes sure all items with the same hash are processed within a single
-     * stream. Thanks to that streams can be distributed to multiple threads.
+     * Separates execution to multiple streams using the hashes returned by the passed Function. Calls the given Function for a hash, then makes sure all items with the same hash are processed within a single stream. Thanks to that streams can be distributed to multiple threads.
      * @param affinity the affinity function
      * @param createOptions options to use to create the separated streams
      * @param ClassType options to use to create the separated streams
@@ -772,9 +550,7 @@ declare class DataStream extends PromiseTransform {
     rate(cps: number, options?: RateOptions): this;
 
     /**
-     * Aggregates chunks in arrays given number of number of items long.
-     * 
-     * This can be used for micro-batch processing.
+     * Aggregates chunks in arrays given number of number of items long. This can be used for micro-batch processing.
      * @param count How many items to aggregate
      */
     batch(count: number): this;
@@ -787,8 +563,7 @@ declare class DataStream extends PromiseTransform {
     timeBatch(ms: number, count?: number): this;
 
     /**
-     * Performs the Nagle's algorithm on the data. In essence it waits until we receive some more data and releases them
-     * in bulk.
+     * Performs the Nagle's algorithm on the data. In essence it waits until we receive some more data and releases them in bulk.
      * @todo needs more work, for now it's simply waiting some time, not checking the queues.
      * @param size maximum number of items to wait for
      * @param ms milliseconds to wait for more data
@@ -828,13 +603,7 @@ declare class DataStream extends PromiseTransform {
     CSVStringify(options?: object): StringStream;
 
     /**
-     * Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream.
-     * 
-     * Pipes the current stream into the sub-processes stdin.
-     * The data is serialized and deserialized as JSON lines by default. You
-     * can provide your own alternative methods in the ExecOptions object.
-     * 
-     * Note: if you're piping both stderr and stdout (options.stream=3) keep in mind that chunks may get mixed up!
+     * Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream. Pipes the current stream into the sub-processes stdin. The data is serialized and deserialized as JSON lines by default. You can provide your own alternative methods in the ExecOptions object. Note: if you're piping both stderr and stdout (options.stream=3) keep in mind that chunks may get mixed up!
      * @param command command to execute
      * @param options options to be passed to `spawn` and defining serialization.
      * @param ...args additional args will be passed to function
@@ -848,35 +617,25 @@ declare class DataStream extends PromiseTransform {
     debug(func: Function): DataStream;
 
     /**
-     * Creates a BufferStream.
-     * 
-     * The passed serializer must return a buffer.
+     * Creates a BufferStream. The passed serializer must return a buffer.
      * @param serializer A method that converts chunks to buffers
      */
     toBufferStream(serializer: MapCallback): BufferStream;
 
     /**
-     * Creates a BufferStream.
-     * 
-     * The passed serializer must return a buffer.
+     * Creates a BufferStream. The passed serializer must return a buffer.
      * @param serializer A method that converts chunks to buffers
      */
     toBufferStream(serializer: MapCallback): BufferStream;
 
     /**
-     * Creates a StringStream.
-     * 
-     * The passed serializer must return a string. If no serializer is passed chunks
-     * toString method will be used.
+     * Creates a StringStream. The passed serializer must return a string. If no serializer is passed chunks toString method will be used.
      * @param serializer A method that converts chunks to strings
      */
     toStringStream(serializer?: MapCallback | never): StringStream;
 
     /**
-     * Creates a StringStream.
-     * 
-     * The passed serializer must return a string. If no serializer is passed chunks
-     * toString method will be used.
+     * Creates a StringStream. The passed serializer must return a string. If no serializer is passed chunks toString method will be used.
      * @param serializer A method that converts chunks to strings
      */
     toStringStream(serializer?: MapCallback | never): StringStream;
@@ -933,11 +692,7 @@ declare type UseCallback = (stream: DataStream, ...parameters: any[])=>DataStrea
 declare type TeeCallback = (teed: DataStream)=>void;
 
 /**
- * Transform async callback. The passed transform should return a new chunk, unless
- * the output should be filtered - if so, the transform should return `undefined`.
- * 
- * Additionally the function can reject with `DataStream.filter` - the result will be
- * filtered and no other transforms will be run on the chunk.
+ * Transform async callback. The passed transform should return a new chunk, unless the output should be filtered - if so, the transform should return `undefined`. Additionally the function can reject with `DataStream.filter` - the result will be filtered and no other transforms will be run on the chunk.
  * @param chunk the stream chunk
  * @param encoding encoding of the chunk
  * @returns the result, undefined will be treated as filtered out.
@@ -960,9 +715,7 @@ declare type ScramjetWriteCallback = (chunk: Buffer | string | any, encoding: st
 declare type ScramjetReadCallback = (count: number)=>any[] | Promise<Array<any>>;
 
 /**
- * Standard options for scramjet streams.
- * 
- * Defines async transforms or read/write methods for a stream.
+ * Standard options for scramjet streams. Defines async transforms or read/write methods for a stream.
  */
 declare interface DataStreamOptions {
     /**
@@ -1045,24 +798,12 @@ declare interface DataStreamOptions {
  */
 declare class StringStream extends DataStream {
     /**
-     * A stream of string objects for further transformation on top of DataStream.
-     * 
-     * Example:
-     * 
-     * ```js
-     * StringStream.from(async () => (await fetch('https://example.com/data/article.txt')).text())
-     * .lines()
-     * .append("\r\n")
-     * .pipe(fs.createWriteStream('./path/to/file.txt'))
-     * ```
+     * A stream of string objects for further transformation on top of DataStream. Example: ```js StringStream.from(async () => (await fetch('https://example.com/data/article.txt')).text()) .lines() .append("\r\n") .pipe(fs.createWriteStream('./path/to/file.txt')) ```
      */
     constructor(encoding?: string, options?: DataStreamOptions);
 
     /**
-     * Shifts given length of chars from the original stream
-     * 
-     * Works the same way as {@see DataStream.shift}, but in this case extracts
-     * the given number of characters.
+     * Shifts given length of chars from the original stream Works the same way as {@see DataStream.shift}, but in this case extracts the given number of characters.
      * @param bytes The number of characters to shift.
      * @param func Function that receives a string of shifted chars.
      */
@@ -1081,25 +822,17 @@ declare class StringStream extends DataStream {
 
     /**
      * Finds matches in the string stream and streams the match results
-     * @param matcher A function that will be called for every
-     *        stream chunk.
+     * @param matcher A function that will be called for every stream chunk.
      */
     match(matcher: RegExp): this;
 
     /**
-     * Transforms the StringStream to BufferStream
-     * 
-     * Creates a buffer stream from the given string stream. Still it returns a
-     * DataStream derivative and isn't the typical node.js stream so you can do
-     * all your transforms when you like.
+     * Transforms the StringStream to BufferStream Creates a buffer stream from the given string stream. Still it returns a DataStream derivative and isn't the typical node.js stream so you can do all your transforms when you like.
      */
     toBufferStream(): BufferStream;
 
     /**
-     * Parses every string to object
-     * 
-     * The method MUST parse EVERY string into a single object, so the string
-     * stream here should already be split.
+     * Parses every string to object The method MUST parse EVERY string into a single object, so the string stream here should already be split.
      * @param parser The transform function
      * @param StreamClass the output stream class to return
      */
@@ -1142,8 +875,7 @@ declare class StringStream extends DataStream {
     lines(eol?: string | RegExp): this;
 
     /**
-     * Parses each entry as JSON.
-     * Ignores empty lines
+     * Parses each entry as JSON. Ignores empty lines
      * @param perLine instructs to split per line
      */
     JSONParse(perLine?: Boolean): DataStream;
@@ -1162,19 +894,12 @@ declare class StringStream extends DataStream {
 
     /**
      * Prepends given argument to all the items.
-     * @param param the argument to prepend. If function passed then it will be called and resolved
-     *             and the resolution will be prepended.
+     * @param param the argument to prepend. If function passed then it will be called and resolved and the resolution will be prepended.
      */
     prepend(param: ThenFunction | string): this;
 
     /**
-     * Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream.
-     * 
-     * Pipes the current stream into the sub-processes stdin.
-     * The data is serialized and deserialized as JSON lines by default. You
-     * can provide your own alternative methods in the ExecOptions object.
-     * 
-     * Note: if you're piping both stderr and stdout (options.stream=3) keep in mind that chunks may get mixed up!
+     * Executes a given sub-process with arguments and pipes the current stream into it while returning the output as another DataStream. Pipes the current stream into the sub-processes stdin. The data is serialized and deserialized as JSON lines by default. You can provide your own alternative methods in the ExecOptions object. Note: if you're piping both stderr and stdout (options.stream=3) keep in mind that chunks may get mixed up!
      * @param command command to execute
      * @param options options to be passed to `spawn` and defining serialization.
      * @param ...args additional arguments (will overwrite to SpawnOptions args even if not given)
@@ -1216,31 +941,12 @@ declare type ParseCallback = (chunk: string)=>Promise<any> | any;
  */
 declare class BufferStream extends DataStream {
     /**
-     * A facilitation stream created for easy splitting or parsing buffers.
-     * 
-     * Useful for working on built-in Node.js streams from files, parsing binary formats etc.
-     * 
-     * A simple use case would be:
-     * 
-     * ```javascript
-     * fs.createReadStream('pixels.rgba')
-     * .pipe(new BufferStream)         // pipe a buffer stream into scramjet
-     * .breakup(4)                     // split into 4 byte fragments
-     * .parse(buffer => [
-     * buffer.readInt8(0),            // the output is a stream of R,G,B and Alpha
-     * buffer.readInt8(1),            // values from 0-255 in an array.
-     * buffer.readInt8(2),
-     * buffer.readInt8(3)
-     * ]);
-     * ```
+     * A facilitation stream created for easy splitting or parsing buffers. Useful for working on built-in Node.js streams from files, parsing binary formats etc. A simple use case would be: ```javascript fs.createReadStream('pixels.rgba') .pipe(new BufferStream)         // pipe a buffer stream into scramjet .breakup(4)                     // split into 4 byte fragments .parse(buffer => [ buffer.readInt8(0),            // the output is a stream of R,G,B and Alpha buffer.readInt8(1),            // values from 0-255 in an array. buffer.readInt8(2), buffer.readInt8(3) ]); ```
      */
     constructor(opts?: DataStreamOptions);
 
     /**
-     * Shift given number of bytes from the original stream
-     * 
-     * Works the same way as {@see DataStream.shift}, but in this case extracts
-     * the given number of bytes.
+     * Shift given number of bytes from the original stream Works the same way as {@see DataStream.shift}, but in this case extracts the given number of bytes.
      * @param chars The number of bytes to shift
      * @param func Function that receives a string of shifted bytes
      */
@@ -1248,8 +954,7 @@ declare class BufferStream extends DataStream {
 
     /**
      * Splits the buffer stream into buffer objects
-     * @param splitter the buffer or string that the stream
-     *        should be split by.
+     * @param splitter the buffer or string that the stream should be split by.
      */
     split(splitter: string | Buffer): BufferStream;
 
@@ -1260,20 +965,13 @@ declare class BufferStream extends DataStream {
     breakup(number: number): BufferStream;
 
     /**
-     * Creates a string stream from the given buffer stream
-     * 
-     * Still it returns a DataStream derivative and isn't the typical node.js
-     * stream so you can do all your transforms when you like.
-     * @param encoding The encoding to be used to convert the buffers
-     *        to streams.
+     * Creates a string stream from the given buffer stream Still it returns a DataStream derivative and isn't the typical node.js stream so you can do all your transforms when you like.
+     * @param encoding The encoding to be used to convert the buffers to streams.
      */
     stringify(encoding?: string | any): StringStream;
 
     /**
-     * Parses every buffer to object
-     * 
-     * The method MUST parse EVERY buffer into a single object, so the buffer
-     * stream here should already be split or broken up.
+     * Parses every buffer to object The method MUST parse EVERY buffer into a single object, so the buffer stream here should already be split or broken up.
      * @param parser The transform function
      */
     parse(parser: BufferParseCallback): DataStream;
@@ -1326,19 +1024,7 @@ declare type BufferParseCallback = (chunk: Buffer)=>Promise<any> | any;
  */
 declare class MultiStream {
     /**
-     * An object consisting of multiple streams than can be refined or muxed.
-     * 
-     * The idea behind a MultiStream is being able to mux and demux streams when needed.
-     * 
-     * Usage:
-     * ```javascript
-     * new MultiStream([...streams])
-     * .mux();
-     * 
-     * new MultiStream(function*(){ yield* streams; })
-     * .map(stream => stream.filter(myFilter))
-     * .mux();
-     * ```
+     * An object consisting of multiple streams than can be refined or muxed. The idea behind a MultiStream is being able to mux and demux streams when needed. Usage: ```javascript new MultiStream([...streams]) .mux(); new MultiStream(function*(){ yield* streams; }) .map(stream => stream.filter(myFilter)) .mux(); ```
      */
     constructor(streams: any[] | AsyncGenerator<Readable> | Generator<Readable>, options?: object);
 
@@ -1348,9 +1034,7 @@ declare class MultiStream {
     streams: any[];
 
     /**
-     * Source of the MultiStream.
-     * 
-     * This is nulled when the stream ends and is used to control the
+     * Source of the MultiStream. This is nulled when the stream ends and is used to control the
      */
     source: DataStream;
 
@@ -1368,11 +1052,7 @@ declare class MultiStream {
     length: any;
 
     /**
-     * Returns new MultiStream with the streams returned by the transform.
-     * 
-     * Runs a callback for every stream, returns a new MultiStream of mapped
-     * streams and creates a new MultiStream consisting of streams returned
-     * by the Function.
+     * Returns new MultiStream with the streams returned by the transform. Runs a callback for every stream, returns a new MultiStream of mapped streams and creates a new MultiStream consisting of streams returned by the Function.
      * @param aFunc Add callback (normally you need only this)
      * @param rFunc Remove callback, called when the stream is removed
      */
@@ -1385,40 +1065,28 @@ declare class MultiStream {
     find(...args: any[]): DataStream;
 
     /**
-     * Filters the stream list and returns a new MultiStream with only the
-     * streams for which the Function returned true
-     * @param func Filter ran in Promise::then (so you can
-     *        return a promise or a boolean)
+     * Filters the stream list and returns a new MultiStream with only the streams for which the Function returned true
+     * @param func Filter ran in Promise::then (so you can return a promise or a boolean)
      */
     filter(func: Function): MultiStream;
 
     /**
      * Muxes the streams into a single one
      * @todo For now using comparator will not affect the mergesort.
-     * @todo Sorting requires all the streams to be constantly flowing, any
-     *       single one drain results in draining the muxed too even if there
-     *       were possible data on other streams.
-     * @param comparator Should return -1 0 or 1 depending on the
-     *        desired order. If passed the chunks will
-     *        be added in a sorted order.
+     * @todo Sorting requires all the streams to be constantly flowing, any single one drain results in draining the muxed too even if there were possible data on other streams.
+     * @param comparator Should return -1 0 or 1 depending on the desired order. If passed the chunks will be added in a sorted order.
      * @param ClassType the class to be outputted
      */
     mux(comparator?: Function, ClassType?: Function): DataStream;
 
     /**
-     * Adds a stream to the MultiStream
-     * 
-     * If the stream was muxed, filtered or mapped, this stream will undergo the
-     * same transforms and conditions as if it was added in constructor.
+     * Adds a stream to the MultiStream If the stream was muxed, filtered or mapped, this stream will undergo the same transforms and conditions as if it was added in constructor.
      * @param stream [description]
      */
     add(stream: Readable): void;
 
     /**
-     * Removes a stream from the MultiStream
-     * 
-     * If the stream was muxed, filtered or mapped, it will be removed from same
-     * streams.
+     * Removes a stream from the MultiStream If the stream was muxed, filtered or mapped, it will be removed from same streams.
      * @param stream [description]
      */
     remove(stream: Readable): void;
@@ -1560,9 +1228,7 @@ declare interface NumberStreamOptions {
  */
 declare class NumberStream extends DataStream {
     /**
-     * Simple scramjet stream that by default contains numbers or other containing with `valueOf` method. The streams
-     * provides simple methods like `sum`, `average`. It derives from DataStream so it's still fully supporting all `map`,
-     * `reduce` etc.
+     * Simple scramjet stream that by default contains numbers or other containing with `valueOf` method. The streams provides simple methods like `sum`, `average`. It derives from DataStream so it's still fully supporting all `map`, `reduce` etc.
      */
     constructor(options: NumberStreamOptions);
 
@@ -1586,10 +1252,7 @@ declare class NumberStream extends DataStream {
  */
 declare class WindowStream extends NumberStream {
     /**
-     * A stream for moving window calculation with some simple methods.
-     * 
-     * In essence it's a stream of Array's containing a list of items - a window.
-     * It's best used when created by the `DataStream..window`` method.
+     * A stream for moving window calculation with some simple methods. In essence it's a stream of Array's containing a list of items - a window. It's best used when created by the `DataStream..window`` method.
      */
     constructor();
 
@@ -1617,12 +1280,7 @@ declare class WindowStream extends NumberStream {
  */
 declare class StreamWorker {
     /**
-     * StreamWorker class - intended for internal use
-     * 
-     * This class provides control over the subprocesses, including:
-     * - spawning
-     * - communicating
-     * - delivering streams
+     * StreamWorker class - intended for internal use This class provides control over the subprocesses, including: - spawning - communicating - delivering streams
      */
     constructor();
 
@@ -1632,11 +1290,7 @@ declare class StreamWorker {
     spawn(): Promise<StreamWorker>;
 
     /**
-     * Delegates a stream to the child using tcp socket.
-     * 
-     * The stream gets serialized using JSON and passed on to the sub-process.
-     * The sub-process then performs transforms on the stream and pushes them back to the main process.
-     * The stream gets deserialized and outputted to the returned DataStream.
+     * Delegates a stream to the child using tcp socket. The stream gets serialized using JSON and passed on to the sub-process. The sub-process then performs transforms on the stream and pushes them back to the main process. The stream gets deserialized and outputted to the returned DataStream.
      * @param input stream to be delegated
      * @param delegateFunc Array of transforms or arrays describing ['module', 'method']
      * @param plugins List of plugins to load in the child
