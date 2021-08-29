@@ -76,7 +76,7 @@
   "license": "MIT",
   "devDependencies": {
     "@otris/jsdoc-tsd": "^2.0.3",
-    "@types/node": "^16.7.1",
+    "@types/node": "^16.7.6",
     "check-dts": "^0.5.5",
     "decache": "^4.6.0",
     "dmd": "^6.0.0",
