@@ -11,7 +11,7 @@ Our current GitHub repositories here are related to two main products:
 
 Data processing engine which allows you to deploy and run multiple data processing apps called sequences. It can be treated both as data execution platform for multiple sequences running on the same platform and performing various data processing tasks. You will be able to start programs in the background or connect to them and see their output directly on your terminal. You will be able to pipe your local data to the program as if it was running from your terminal. You can start your server in AWS, Google Cloud or Azure, start it on your local machine, install it on a Rasperry Pi or wherever else you'd like.
 
-Main repository for Scramjet Transform Hub is [scramjetorg/transform-hub](scramjetorg/transform-hub). 
+Main repository for Scramjet Transform Hub is [scramjetorg/transform-hub](https://github.com/scramjetorg/transform-hub). 
 
 We have also repository with simple intoductory Readme and code samples here [scramjetorg/scramjet-cloud-docs](https://github.com/scramjetorg/scramjet-cloud-docs)
 
