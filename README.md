@@ -104,7 +104,7 @@ StringStream
         gzip.unzip()                        // all errors here will get forwarded
     )
     .lines()                                // split the stream by line
-    .use("./your-file")                     // use some trasforms from another file
+    .use("./your-file")                     // use some transforms from another file
 ;
 
 ```
