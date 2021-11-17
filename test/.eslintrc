@@ -4,5 +4,6 @@
         "no-console": 0,
         "node/no-unpublished-require": 0,
         "no-process-exit": 0
-    }
+    },
+    "ignorePatterns": "ts-test/**/*"
 }
