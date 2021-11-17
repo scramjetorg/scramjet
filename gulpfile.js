@@ -44,6 +44,17 @@ gulp.task("test_dts", async () => {
     }
 });
 
+gulp.task("test_tsd", async () => {
+    try {
+        await shell.task("npm test", {cwd: "./test/ts-test"})();
+    } catch(e) {
+        if (process.version.split(".")[0] !== "v15") {
+            throw e;
+        }
+    }
+});
+
+
 gulp.task("readme", readme({
     files: FILES.slice(),
     plugin: ["scramjet-core/jsdoc2md/plugin.js", "jsdoc2md/plugin.js",]
@@ -77,7 +88,7 @@ gulp.task("make_docs", full_docs(
 ));
 
 gulp.task("docs", gulp.series("tsd", "readme", "copy_docs", "make_docs"));
-gulp.task("test", gulp.series("test_legacy", "test_samples", "test_dts"));
+gulp.task("test", gulp.series("test_legacy", "test_samples", "test_dts", "test_tsd"));
 gulp.task("fulltest", gulp.series("lint", "test"));
 gulp.task("default", gulp.series("readme", "docs", "test", "lint"));
 gulp.task("prerelease", gulp.series("default", "scm_clean"));

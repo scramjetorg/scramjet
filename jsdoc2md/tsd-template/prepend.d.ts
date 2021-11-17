@@ -7,6 +7,10 @@ type AsyncFunction = (...args: any[]) => Promise<any>;
 type ThenFunction = (arg: any) => any;
 
 declare class PromiseTransform implements Readable, Writable {
+    readableAborted: boolean;
+    readableDidRead: boolean;
+    _construct?(callback: (error?: Error) => void): void;
+    [Symbol.asyncIterator](): AsyncIterableIterator<any>;
     writableEnded: boolean;
     writableFinished: boolean;
     writableHighWaterMark: number;
