@@ -2,5 +2,5 @@
 StringStream
     .from(fs.createReadStream("./log.txt"))     // get from any readable stream
     .lines()                                 // split the stream by line
-    .use("./your-file")                      // use some trasforms from another file
+    .use("./your-file")                      // use some transforms from another file
 ;
