@@ -64,7 +64,7 @@ const {createWriteStream} = require('https');
 // here's a simple wrapper to fetch stream from any server - you can use this or axios, request or node-fetch.
 const get = (url, options = {}) => new Promise(resolve => get(url, options, resolve));
 
-StringStream.from(async () => get('https://www.some.server.net/some.file.txt')))
+StringStream.from(async () => get('https://www.some.server.net/some.file.txt'))
     .lines()
     .parse(x => x.split('\t'))
     .map(async ([url, data, name]) => [await get(`${url}?${data}`), name])
