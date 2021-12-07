@@ -23,6 +23,8 @@ there's an option of running your stream as multi-threaded!
 
 The benchmarks are published in the [scramjet-benchmark repo](https://github.com/scramjetorg/scramjet-benchmark).
 
+**We are working on the next version of Scramjet Framework and are very eager for your feedback! You can see and test `pre-v5` JavaScript/TypeScript version in [scramjeorg/framework-js](https://github.com/scramjetorg/framework-js) repository and a brand new Python version in [scramjeorg/framework-python](https://github.com/scramjetorg/framework-python)!**
+
 ## Example
 
 How about a full API to API migration, reading a long list of items from one API and checking them one after another,
@@ -59,7 +61,7 @@ line: [Scramjet from Scratch](./docs/scramjet-from-scratch.md)
 
 ## Execution and deployment
 
-You can now run stream processing programs with our Scramjet Transform Hub. It will allow you to deploy and execute programs 
+You can now run stream processing programs with our Scramjet Transform Hub. It will allow you to deploy and execute programs
 on local and remote environments of your choice and it's as easy as:
 
 ```sh
