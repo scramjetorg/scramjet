@@ -21,9 +21,10 @@ perform the transformations both synchronously and asynchronously by using the s
 stream from whatever source and call any number of API's consecutively. And if you're after some heavy maths
 there's an option of running your stream as multi-threaded!
 
-The benchmarks are published in the [scramjet-benchmark repo](https://github.com/scramjetorg/scramjet-benchmark).
+**We are working on the next version of Scramjet Framework and are very eager for your feedback! You can see and test `pre-v5`**: 
 
-**We are working on the next version of Scramjet Framework and are very eager for your feedback! You can see and test `pre-v5` JavaScript/TypeScript version in [scramjeorg/framework-js](https://github.com/scramjetorg/framework-js) repository and a brand new Python version in [scramjeorg/framework-python](https://github.com/scramjetorg/framework-python)!**
+* JavaScript/TypeScript version in [scramjeorg/framework-js](https://github.com/scramjetorg/framework-js) repository and 
+* a brand new Python version in [scramjeorg/framework-python](https://github.com/scramjetorg/framework-python)!
 
 ## Example
 
