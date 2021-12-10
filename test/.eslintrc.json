@@ -3,6 +3,7 @@
         "node/shebang": 0,
         "no-console": 0,
         "node/no-unpublished-require": 0,
+        "node/no-unsupported-features/es-syntax": 0,
         "no-process-exit": 0
     },
     "ignorePatterns": "ts-test/**/*"
