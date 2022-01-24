@@ -1,7 +1,5 @@
 const {DataStream} = require("../..");
 
-/* eslint-disable node/no-unsupported-features/es-syntax */
-
 const defer = (ms) => ms
     ? new Promise(res => setTimeout(res, ms))
     : new Promise(res => process.nextTick(res));

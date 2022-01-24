@@ -3,3 +3,4 @@ samples/fantasies/
 samples/so-examples/
 samples/tests/
 node_modules/
+gulpfile.js

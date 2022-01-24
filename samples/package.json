@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "node-fetch": "*",
+    "node-fetch": "<3",
     "scramjet": "../"
   }
 }
