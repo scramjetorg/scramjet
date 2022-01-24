@@ -64,8 +64,8 @@ declare class PromiseTransform implements Readable, Writable {
     write(buffer: string | Uint8Array, cb?: ((err?: Error | null | undefined) => void) | undefined): boolean;
     write(str: string, encoding?: string | undefined, cb?: ((err?: Error | null | undefined) => void) | undefined): boolean;
     end(cb?: () => void): this;
-    end(chunk: any, cb?: () => void): this;
-    end(chunk: any, encoding?: BufferEncoding, cb?: () => void): this;
+    end(data: string | Uint8Array, cb?: () => void): this;
+    end(str: string, encoding?: string | undefined, cb?: () => void): this;
     addListener(event: string | symbol, listener: (...args: any[]) => void): this;
     on(event: string | symbol, listener: (...args: any[]) => void): this;
     once(event: string | symbol, listener: (...args: any[]) => void): this;
