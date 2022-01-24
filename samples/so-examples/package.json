@@ -10,7 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "html-to-text": "*",
-    "node-fetch": "*",
+    "node-fetch": "<3",
     "scramjet": "file:../../",
     "wordcount": "*"
   }
