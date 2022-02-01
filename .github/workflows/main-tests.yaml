@@ -1,0 +1,47 @@
+name: Lint and tests
+
+on:
+  push:
+    branches: [ "develop", "master" ]
+    tags: [ "*" ]
+  pull_request:
+    branches: [ "develop", "master" ]
+
+env:
+  TRAVIS: true
+  SCRAMJET_NO_FORKS: true
+
+jobs:
+  test:
+    name: Run tests
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: true
+      matrix:
+        node-version: [14.x, 16.x]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Nodejs ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Run basic test
+        run: npm run quicktest
+
+      - name: Run documentation build
+        run: npm run docs
+
+      - name: Check scm clean
+        run: npm run scm_clean
+
