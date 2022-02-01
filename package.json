@@ -61,6 +61,7 @@
     "quicktest": "gulp test",
     "docs": "gulp docs",
     "lint": "gulp lint",
+    "scm_clean": "gulp scm_clean",
     "preversion": "gulp prerelease"
   },
   "homepage": "https://www.scramjet.org/",
