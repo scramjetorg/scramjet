@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "npm i && npx tsc"
+    "test": "npm i --no-save && npx tsc"
   },
   "author": "Scramjet <opensource@scramjet.org>",
   "license": "ISC",
