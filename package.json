@@ -104,6 +104,6 @@
   "dependencies": {
     "papaparse": "^5.3.1",
     "rereadable-stream": "^1.4.13",
-    "scramjet-core": "^4.32.4"
+    "scramjet-core": "^4.32.5"
   }
 }
