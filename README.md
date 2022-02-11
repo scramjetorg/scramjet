@@ -7,7 +7,7 @@
 [![last commit](https://img.shields.io/github/last-commit/scramjetorg/scramjet)](https://github.com/scramjetorg/scramjet)
 [![Build status](https://img.shields.io/github/checks-status/scramjetorg/scramjet/master?label=build)](https://github.com/scramjetorg/scramjet)
 [![Known Vulnerabilities](https://snyk.io/test/github/scramjetorg/scramjet/badge.svg)](https://snyk.io/test/github/scramjetorg/scramjet)
-[![Discord](https://img.shields.io/discord/925384545342201896?label=discord)](https://discord.gg/4EX3jHBe)
+[![Discord](https://img.shields.io/discord/925384545342201896?label=discord)](https://discord.gg/52USU8q7AX)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7F7V65C43EBMW)
 
 ## What does it do?
@@ -513,7 +513,7 @@ As of version 2.0 Scramjet is MIT Licensed.
 
 The project need's your help! There's lots of work to do - transforming and muxing, joining and splitting, browserifying, modularizing, documenting and issuing those issues.
 
-If you want to help and be part of the Scramjet team, please reach out to us, [on discord](https://discord.gg/4EX3jHBe) or email us: [opensource@scramjet.org](opensource@scramjet.org).
+If you want to help and be part of the Scramjet team, please reach out to us, [on discord](https://discord.gg/52USU8q7AX) or email us: [opensource@scramjet.org](opensource@scramjet.org).
 
 ## Donation
 
