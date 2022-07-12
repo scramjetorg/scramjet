@@ -5,6 +5,7 @@ import {EventEmitter} from "events";
 type AsyncGeneratorFunction<T=any> = (...args: any[]) => {[Symbol.asyncIterator]: {next(): Promise<{value: T, done: boolean}>}}
 type AsyncFunction = (...args: any[]) => Promise<any>;
 type ThenFunction = (arg: any) => any;
+type Options = DataStreamOptions;
 
 declare class PromiseTransform implements Readable, Writable {
     readableAborted: boolean;

@@ -5,6 +5,7 @@ import {EventEmitter} from "events";
 type AsyncGeneratorFunction<T=any> = (...args: any[]) => {[Symbol.asyncIterator]: {next(): Promise<{value: T, done: boolean}>}}
 type AsyncFunction = (...args: any[]) => Promise<any>;
 type ThenFunction = (arg: any) => any;
+type Options = DataStreamOptions;
 
 declare class PromiseTransform implements Readable, Writable {
     readableAborted: boolean;
@@ -195,7 +196,7 @@ declare class DataStream extends PromiseTransform {
      * @param options options for creation of a new stream or the target stream
      * @param ...args additional arguments for the stream - will be passed to the function or generator
      */
-    static from(input: any[] | Iterable<any> | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Promise<any> | Function | string | Readable, options?: DataStreamOptions | Writable, ...args: any[]): DataStream;
+    static from(input: any[] | Iterable<any> | AsyncGeneratorFunction | GeneratorFunction | AsyncFunction | Promise<any> | Function | string | Readable, options?: Options | Writable, ...args: any[]): DataStream;
 
     /**
      * Transforms stream objects into new ones, just like Array.prototype.map does. Map takes an argument which is the Function function operating on every element of the stream. If the function returns a Promise or is an AsyncFunction then the stream will await for the outcome of the operation before pushing the data forwards. A simple example that turns stream of urls into stream of responses ```javascript stream.map(async url => fetch(url)); ``` Multiple subsequent map operations (as well as filter, do, each and other simple ops) will be merged together into a single operation to improve performance. Such behaviour can be suppressed by chaining `.tap()` after `.map()`.
@@ -304,7 +305,7 @@ declare class DataStream extends PromiseTransform {
      * Allows resetting stream options. It's much easier to use this in chain than constructing new stream: ```javascript stream.map(myMapper).filter(myFilter).setOptions({maxParallel: 2}) ```
      * @param options
      */
-    setOptions(options: DataStreamOptions): this;
+    setOptions(options: Options): this;
 
     /**
      * Returns a copy of the stream Creates a new stream and pushes all the data from the current one to the new one. This can be called serveral times.
@@ -365,14 +366,14 @@ declare class DataStream extends PromiseTransform {
      * @param array list of chunks
      * @param options the read stream options
      */
-    static fromArray(array: any[], options?: DataStreamOptions): DataStream;
+    static fromArray(array: any[], options?: Options): DataStream;
 
     /**
      * Create a DataStream from an Iterator Doesn't end the stream until it reaches end of the iterator.
      * @param iterator the iterator object
      * @param options the read stream options
      */
-    static fromIterator(iterator: Iterator<any>, options?: DataStreamOptions): DataStream;
+    static fromIterator(iterator: Iterator<any>, options?: Options): DataStream;
 
     /**
      * Aggregates the stream into a single Array In fact it's just a shorthand for reducing the stream into an Array.
@@ -521,7 +522,7 @@ declare class DataStream extends PromiseTransform {
      * @param clusterFunc stream transforms similar to {@see DataStream#use method}
      * @param options Options
      */
-    distribute(affinity?: AffinityCallback | Function | number, clusterFunc?: Function | DataStreamOptions, options?: DataStreamOptions): this;
+    distribute(affinity?: AffinityCallback | Function | number, clusterFunc?: Function | Options, options?: Options): this;
 
     /**
      * Separates stream into a hash of streams. Does not create new streams!
@@ -536,7 +537,7 @@ declare class DataStream extends PromiseTransform {
      * @param createOptions options to use to create the separated streams
      * @param ClassType options to use to create the separated streams
      */
-    separate(affinity: AffinityCallback, createOptions?: DataStreamOptions, ClassType?: Function): MultiStream;
+    separate(affinity: AffinityCallback, createOptions?: Options, ClassType?: Function): MultiStream;
 
     /**
      * Delegates work to a specified worker.
