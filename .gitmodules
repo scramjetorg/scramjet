@@ -1,0 +1,15 @@
+[submodule "transform-hub"]
+	path = transform-hub
+	url = git@github.com:scramjetorg/transform-hub.git
+[submodule "framework-python"]
+	path = framework-python
+	url = git@github.com:scramjetorg/framework-python.git
+[submodule "framework-v4"]
+	path = framework-v4
+	url = git@github.com:scramjetorg/framework-v4.git
+[submodule "platform-samples"]
+	path = platform-samples
+	url = git@github.com:scramjetorg/platform-samples.git
+[submodule "platform"]
+	path = platform
+	url = git@github.com:scramjetorg/platform-docs.git
