@@ -30,7 +30,9 @@ Scramjet Cloud Platform can become handy in any use case involving streaming dat
 
 Samples:
 
-We have several ready-to-use samples prepared in Python, JavaScript and TypeScript - you can check them all out in our documentation here: https://docs.scramjet.org/platform/samples.
+We have several ready-to-use samples prepared in Python, JavaScript and TypeScript - you can check them all out in our documentation here: https://docs.scramjet.org/platform/samples.  
+### Register and get 30-days trial:
+[![Register](https://user-images.githubusercontent.com/63969229/208955381-676702f3-2af1-4f50-bd0c-f6b3660c26f0.png)](https://scramjet.org/)
 
 # Scramjet Transform Hub
 
